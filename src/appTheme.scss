@@ -1,0 +1,42 @@
+
+@use '@angular/material' as mat;
+@use './color-palette.scss' as colors;
+
+$black: #353535;
+// $white: #FFFCFF;
+$white: #FAFAFA;
+$appOrange: #F26430;
+$appYellow: #FFC107; //Bootstrap Wanring
+$appRed:  #F71735; // Bootstrap Danger
+$appLightBlue: #3777FF;
+$appDarkBlue: #1B3B6F;
+$appGreen: #0C8346;
+$appGray: #424651;
+$appPurple: #5b1144;
+
+$primary: $appDarkBlue;
+$accent: $appOrange;
+$warn: $appRed;
+
+$app-theme-primary: mat.define-palette(colors.$darkBlue, 500);
+$app-theme-accent: mat.define-palette(colors.$orange, 500);
+$app-theme-warn: mat.define-palette(mat.$red-palette, 500);
+$app-theme: mat.define-light-theme((
+  color:(
+    primary: $app-theme-primary,
+    accent: $app-theme-accent,
+    warn: $app-theme-warn,
+  )
+));
+
+.primary{
+  background-color: $primary;
+}
+
+.accent{
+  background-color: $accent;
+}
+
+.warn{
+  background-color: $warn;
+}

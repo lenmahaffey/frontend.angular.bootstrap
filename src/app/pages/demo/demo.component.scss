@@ -1,0 +1,62 @@
+#container{
+  display: flex;
+  flex-direction: column;
+}
+
+#components{
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  margin-right: 2%;
+  margin-left: 2%;
+}
+
+#colors{
+  flex: 1;
+  margin: auto;
+}
+
+.componentContainer{
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: row;
+  margin-right: 2%;
+}
+
+mat-card{
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-divider{
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+h1{
+  margin-top: 2%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#dismissRow{
+  display: flex;
+}
+
+button{
+  margin: 1%;
+}
+
+#dialogContainer{
+  display: flex;
+  flex-direction: column;
+}
+
+.demoContainer{
+  padding: 5%;
+}
+
+

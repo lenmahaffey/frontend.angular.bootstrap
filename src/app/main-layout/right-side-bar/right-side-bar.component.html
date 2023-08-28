@@ -1,0 +1,5 @@
+<div id="container" class="{{ animation }}">
+  <div id="toggleButton" (click)="toggleVisibility()" class="btn btn-primary">&lt;</div>
+  <div id="rightSideBar" class="border border-1 border-dark border-end-0">
+    <ng-container [ngTemplateOutlet]="sideBarTemplate"></ng-container>
+</div>

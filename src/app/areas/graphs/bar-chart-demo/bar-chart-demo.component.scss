@@ -1,0 +1,65 @@
+@use '../../../../appTheme.scss' as *;
+.barContainer{
+  height: 50%;
+  width: 50%;
+}
+
+#barDemo svg{
+  border: 2px solid black;
+}
+
+#barDemo .bar{
+  fill: $primary;
+  stroke: black;
+  stroke-width: 2px;
+  stroke-linejoin: round;
+}
+
+#barDemo #xAxis .tick text{
+  text-anchor: end;
+  font-size: 16px;
+}
+
+#barDemo #yAxis .tick text{
+  text-anchor: end;
+  font-size: 16px;
+}
+
+#barDemo .tick line{
+  stroke-opacity: .5;
+}
+
+#barDemo .bar + text {
+  fill: black;
+  font-size: x-large;
+}
+
+#barDemo1 svg{
+  border: 2px solid black;
+}
+
+#barDemo1 .bar{
+  fill: $accent;
+  stroke: black;
+  stroke-width: 2px;
+  stroke-linejoin: round;
+}
+
+#barDemo1 #xAxis .tick text{
+  text-anchor: end;
+  font-size: 16px;
+}
+
+#barDemo1 #yAxis .tick text{
+  text-anchor: end;
+  font-size: 16px;
+}
+
+#barDemo1 .tick line{
+  stroke-opacity: .5;
+}
+
+#barDemo1 .bar + text {
+  fill: black;
+  font-size: x-large;
+}

@@ -1,0 +1,84 @@
+@use "../../../appTheme.scss" as *;
+mat-expansion-panel{
+  background-color: $primary;
+  box-shadow: none !important;
+}
+
+mat-expansion-panel-header:hover{
+  background-color: $accent !important;
+}
+
+#container{
+  margin-top: 20%;
+}
+
+a{
+  text-decoration: none;
+}
+
+.link{
+  color: $white !important;
+}
+
+.subLink{
+  color: $white !important;
+}
+
+.link:hover{
+  color: $appGray;
+}
+
+.subLink:hover{
+  color: $appGray;
+}
+
+
+//
+// @use "../../../appTheme.scss" as *;
+
+// #container{
+//   width: 100%;
+//   height: 100%;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// }
+
+// #leftSideBar{
+//   height: 100%;
+//   width: 85%;
+//   height: 75%;
+//   display: flex;
+//   margin: auto;
+//   background-color: $primary;
+// }
+
+// li{
+//   list-style-type: none;
+// }
+
+// .link{
+//   font-size: x-large;
+//   // color: $light;
+// }
+
+// .subLink{
+//   font-size: large;
+//   // color: $light;
+// }
+
+// .link:hover{
+//   // color: $gray-500
+// }
+
+// .subLink:hover{
+//   // color: $gray-500
+// }
+
+// .link:focus{
+//   // color: $light;
+// }
+
+// .subLink:focus{
+//   // color: $light;
+// }

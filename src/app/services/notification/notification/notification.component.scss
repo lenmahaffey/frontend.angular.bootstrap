@@ -1,0 +1,25 @@
+@use '../../../../appTheme.scss' as *;
+
+#notification{
+  box-shadow: 5px 10px 25px black;
+}
+#container{
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  margin: 1%;
+  margin-right: 2%;
+  // background-color: blueviolet;
+}
+
+.errorBorder {
+  border-color: $appRed;
+}
+
+.successBorder {
+  border-color: $appGreen;
+}
+
+.warningBorder {
+  border-color: $appYellow;
+}

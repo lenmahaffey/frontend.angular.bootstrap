@@ -1,0 +1,14 @@
+// @use '../../../../appTheme.scss' as *;
+
+.tip{
+  position: absolute;
+  z-index: 100;
+  padding: 10px;
+  max-width: 250px;
+  max-height: 100px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 4px;
+  color: #fff;
+  // background-color: $appBlack;
+  overflow: hidden;
+}

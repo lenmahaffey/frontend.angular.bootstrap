@@ -1,0 +1,18 @@
+<div id="container">
+  <div
+  [@visible]="isVisible"
+  (@visible.done)="onDismissedAnimationEnd($event)"
+  id="notification"
+  class="toast show">
+    <div class="toast-header {{ getBorderClass() }}">
+      <i class="{{ getIconClass() }}"></i>
+      <strong class="me-auto">{{message.title}}</strong>
+      <small>{{ message.time | toShortTimeString }}</small>
+      <button type="button" class="btn-close" (click)="dismissNotification()" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      {{ message.text }}
+    </div>
+  </div>
+</div>
+

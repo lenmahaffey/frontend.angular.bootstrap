@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@use "./appTheme.scss" as *;
+@import "@angular/material/theming";
+@include mat.core();
+@include mat.all-component-themes($app-theme);
+html, body {
+  height: 100%;
+  // font-family: "Roboto";
+  background-color: $white;
+  overflow: hidden;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: $white
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(black, 0.4);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $black;
+}
