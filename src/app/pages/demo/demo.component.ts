@@ -9,8 +9,6 @@ import { NotificationService } from 'src/app/services/notification/notification.
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { LeftSideBarNavLinks } from './left-side-bar-nav-links';
-import { ToolTipService } from 'src/app/services/tooltip/tooltip.service';
-import { ToolTipPosition } from 'src/app/services/tooltip/tooltip-position';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
@@ -31,8 +29,7 @@ export class DemoComponent implements OnDestroy{
     private alertService:AlertService,
     private notificationService: NotificationService,
     private _dialog: MatDialog,
-    private appStateService: AppStateService,
-    private toolTipService: ToolTipService)
+    private appStateService: AppStateService)
   {
     this.appStateService.setLeftSideMenuItems(new LeftSideBarNavLinks())
     this.appStateService.setLeftSideMenuItems(this.links);
@@ -128,25 +125,6 @@ export class DemoComponent implements OnDestroy{
       this.confirmationResponseMessage = this.confirmationResponseMessage = "You clicked no"
     }
   }
-
-  toggleToolTipVisibility(event: Event)
-  {
-    this.toolTipService.toggleVisibility()
-  }
-
-  setToolTipText(text: string)
-  {
-    this.toolTipService.sendText(text)
-  }
-
-  setToolTipPosition(event: MouseEvent)
-  {
-    let position = new ToolTipPosition()
-    position.x = event.clientX
-    position.y = event.clientY
-    this.toolTipService.setPosition(position)
-  }
-
 
   toggleDuration()
   {

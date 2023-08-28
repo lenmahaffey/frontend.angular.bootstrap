@@ -14,10 +14,6 @@ $green: map.get(colors.$green, 500);//#0C8346;
 $gray: map.get(colors.$gray, 500);//#424651;
 $purple: map.get(colors.$purple, 500);//#5b1144;
 
-$primary: $darkBlue;
-$accent: $orange;
-$warn: $red;
-
 $app-theme-primary: mat.define-palette(colors.$darkBlue, 500);
 $app-theme-accent: mat.define-palette(colors.$orange, 500);
 $app-theme-warn: mat.define-palette(mat.$red-palette, 500);
@@ -28,6 +24,10 @@ $app-theme: mat.define-light-theme((
     warn: $app-theme-warn,
   )
 ));
+
+$primary: $darkBlue;
+$accent: $orange;
+$warn: $red;
 
 .primary{
   background-color: $primary;
