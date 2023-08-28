@@ -1,22 +1,22 @@
 
 @use '@angular/material' as mat;
 @use './color-palette.scss' as colors;
+@use "sass:map";
 
-$black: #353535;
-// $white: #FFFCFF;
-$white: #FAFAFA;
-$appOrange: #F26430;
-$appYellow: #FFC107; //Bootstrap Wanring
-$appRed:  #F71735; // Bootstrap Danger
-$appLightBlue: #3777FF;
-$appDarkBlue: #1B3B6F;
-$appGreen: #0C8346;
-$appGray: #424651;
-$appPurple: #5b1144;
+$black: map.get(colors.$black, 500); //#353535;
+$white: #FFFCFF;
+$orange: map.get(colors.$orange, 500);//#F26430;
+$yellow: map.get(colors.$yellow, 500);//#FFC107; //Bootstrap Wanring
+$red: map.get(colors.$red, 500);//#F71735; // Bootstrap Danger
+$lightBlue: map.get(colors.$lightblue, 500);//#3777FF;
+$darkBlue: map.get(colors.$darkBlue, 500);//#1B3B6F;
+$green: map.get(colors.$green, 500);//#0C8346;
+$gray: map.get(colors.$gray, 500);//#424651;
+$purple: map.get(colors.$purple, 500);//#5b1144;
 
-$primary: $appDarkBlue;
-$accent: $appOrange;
-$warn: $appRed;
+$primary: $darkBlue;
+$accent: $orange;
+$warn: $red;
 
 $app-theme-primary: mat.define-palette(colors.$darkBlue, 500);
 $app-theme-accent: mat.define-palette(colors.$orange, 500);
