@@ -15,6 +15,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+
 @NgModule({
   declarations: [
   ],
@@ -36,7 +40,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatDividerModule,
     MatSnackBarModule,
     MatExpansionModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatTableModule
   ]
 })
 export class MaterialModule { }

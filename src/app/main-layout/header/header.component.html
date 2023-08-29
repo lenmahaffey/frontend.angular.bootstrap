@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-  <button mat-button>My Application</button>
+  <a id="logo" href="/">Meeting <br> Manager</a>
   <ng-container
     *ngFor="let item of links.links.itemGroups"
     [ngTemplateOutlet]="item.items.length == 1 ? singleLink : dropDown"

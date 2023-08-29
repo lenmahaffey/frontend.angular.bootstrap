@@ -10,17 +10,17 @@ export class HeaderNavLinks implements SideBarNavLinks
       itemGroups: [
         // {
         //   id: "1",
-        //   title:"Single Link",
+        //   title:"Users",
         //   items:[
-        //   { href:"demo", text:"Component Demo" },
+        //   { href:"users/listusers", text:"Users" },
         // ]},
-        // {
-        //   id: "2",
-        //   title:"Graphs",
-        //   items:[
-        //   { href:"graphs/barchart", text:"Bar Chart" },
-        //   { href:"graphs/piechart", text:"Pie Chart" },
-        // ]}
+        {
+          id: "1",
+          title:"Users",
+          items:[
+          { href:"users/listusers", text:"List Users" },
+          { href:"users/adduser", text:"Add Users" }
+        ]}
       ]
     }
   }

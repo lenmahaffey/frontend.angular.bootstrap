@@ -9,6 +9,7 @@ import { D3Module } from './d3/d3.module';
 import { MaterialModule } from './material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     D3Module,
     MaterialModule,
     BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers:[
     ToShortDateStringPipe,

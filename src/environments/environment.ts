@@ -1,5 +1,6 @@
 export const environment = {
   production: false,
-  name: "development"
+  name: "development",
+  apiRootUrl: "http://localhost:5001",
 };
 

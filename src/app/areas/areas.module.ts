@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { GraphsModule } from './graphs/graphs.module';
+import { UsersService } from './users/users.service';
+import { UsersModule } from './users/users.module';
 
 
 @NgModule({
@@ -7,7 +9,8 @@ import { GraphsModule } from './graphs/graphs.module';
   ],
   imports: [
     GraphsModule,
-  ],
+    UsersModule
+  ]
 })
 
 export class AreasModule { }
