@@ -5,13 +5,15 @@ import { RouterModule } from '@angular/router';
 import { UsersService } from './users.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { AddressFormComponent } from './edit-user/address-form/address-form.component';
 
 
 
 @NgModule({
   declarations: [
     ListUsersComponent,
-    EditUserComponent
+    EditUserComponent,
+    AddressFormComponent
   ],
   imports: [
     CommonModule,

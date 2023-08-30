@@ -1,1 +1,79 @@
-<p>edit-user works!</p>
+<div id="container">
+  <div class="contentContainer">
+    <div class="title">Name
+    </div>
+    <div class="content">
+      <form [formGroup]="nameForm">
+        <mat-form-field>
+          <mat-label>Prefix</mat-label>
+          <input matInput type="text" name="prefix" formControlName="prefix">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>First Name</mat-label>
+          <input matInput type="text" name="firstName" formControlName="firstName">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Middle Name</mat-label>
+          <input matInput type="text" name="middleName" formControlName="middleName">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Last Name</mat-label>
+          <input matInput type="text" name="lastName" formControlName="lastName">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Suffix</mat-label>
+          <input matInput type="text" name="suffix" formControlName="suffix">
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="contentContainer">
+    <div class="title">Email</div>
+    <div class="content">
+      <form [formGroup]="emailForm">
+        <mat-form-field>
+          <mat-label>Primary</mat-label>
+          <input matInput type="email" formControlName="primary" value="">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Backup</mat-label>
+          <input matInput type="email" formControlName="secondary" value="">
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="contentContainer">
+    <div class="title">Address</div>
+    <div class="addressContent">
+      <app-address-form [address]="mailingAddress" (addressUpdate)="receiveNewMailingAddress($event)"></app-address-form>
+      <app-address-form [address]="billingAddress" (addressUpdate)="receiveNewBillingAddress($event)"></app-address-form>
+      <app-address-form [address]="shippingAddress" (addressUpdate)="receiveNewShippingAddress($event)"></app-address-form>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="contentContainer">
+    <div class="title">Phone Numbers</div>
+    <div class="content">
+      <form [formGroup]="phoneNumberForm">
+        <mat-form-field>
+          <mat-label>PhoneNumber 1</mat-label>
+          <input matInput type="text" formControlName="phone1" value="">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>PhoneNumber 2</mat-label>
+          <input matInput type="text" formControlName="phone2" value="">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>PhoneNumber 3</mat-label>
+          <input matInput type="text" formControlName="phone3" value="">
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div>
+    <button mat-raised-button color="primary" type="submit" (click)="updateUser()">Update</button>
+  </div>
+</div>

@@ -10,12 +10,16 @@ import { MaterialModule } from './material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PhoneNumberToFormattedStringPipe } from './pipes/phone-number-to-formatted-string.pipe';
+import { FormattedStringToPhoneNumberPipe } from './pipes/formatted-string-to-phone-number.pipe';
 
 @NgModule({
   declarations: [
     ToShortTimeStringPipe,
-    ConfirmationDialogComponent,
     ToShortDateStringPipe,
+    PhoneNumberToFormattedStringPipe,
+    FormattedStringToPhoneNumberPipe,
+    ConfirmationDialogComponent,
     SpinnerComponent,
   ],
   imports: [
@@ -24,6 +28,8 @@ import { HttpClientModule } from '@angular/common/http';
   exports:[
     ToShortDateStringPipe,
     ToShortTimeStringPipe,
+    PhoneNumberToFormattedStringPipe,
+    FormattedStringToPhoneNumberPipe,
     CommonModule,
     BrowserModule,
     ReactiveFormsModule,
@@ -34,7 +40,9 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   providers:[
     ToShortDateStringPipe,
-    ToShortTimeStringPipe
+    ToShortTimeStringPipe,
+    PhoneNumberToFormattedStringPipe,
+    FormattedStringToPhoneNumberPipe,
   ]
 })
 export class SharedModule { }

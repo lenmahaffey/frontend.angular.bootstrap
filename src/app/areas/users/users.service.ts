@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Constants } from 'src/app/constants';
@@ -23,6 +23,21 @@ export class UsersService {
       catchError(this.handleError.bind(this)))
   }
 
+  getUser(id: number)
+  {
+    let params = new HttpParams().set('eventAvlNumber', id)
+    let url = `${this.apiUrl}/getuser/` + id
+    return this.http.get<any>(url, this.headers).pipe(
+      catchError(this.handleError.bind(this)))
+  }
+
+  updateUser(user: User)
+  {
+    let url = `${this.apiUrl}/updateuser/`
+    let body = JSON.stringify(user)
+    return this.http.post<User>(url, {body: body, heders: this.headers}).pipe(
+      catchError(this.handleError.bind(this)))
+  }
   private handleError(err: HttpErrorResponse) {
     let errorMessage = ''
     if (err.error instanceof ErrorEvent) {
@@ -32,6 +47,7 @@ export class UsersService {
         errorMessage = `Server returned code ${err.status}, error message is ${err.message}`
     }
     let message = new Message(MessageType.Error);
+    message.title = "Error!"
     message.text = errorMessage
     this.notificationService.sendNotification(message)
     return throwError(() => errorMessage)

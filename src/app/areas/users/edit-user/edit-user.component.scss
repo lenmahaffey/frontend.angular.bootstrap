@@ -1,0 +1,37 @@
+#container{
+  padding: 2%;
+}
+
+.contentContainer
+{
+  display: flex;
+}
+
+.title{
+  flex: 1;
+  font-size: x-large;
+}
+
+.title button{
+  font-size: medium;
+}
+.content{
+  flex:8;
+}
+
+.addressContent{
+  flex:8;
+  display: flex;
+}
+
+mat-form-field{
+  margin-right: 2%;
+}
+
+app-address-form{
+  flex: 1;
+}
+
+mat-divider{
+  margin-bottom: 2%;
+}
