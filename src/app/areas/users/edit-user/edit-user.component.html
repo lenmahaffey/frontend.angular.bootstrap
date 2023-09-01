@@ -4,23 +4,23 @@
     </div>
     <div class="content">
       <form [formGroup]="nameForm">
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>Prefix</mat-label>
           <input matInput type="text" name="prefix" formControlName="prefix">
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>First Name</mat-label>
           <input matInput type="text" name="firstName" formControlName="firstName">
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>Middle Name</mat-label>
           <input matInput type="text" name="middleName" formControlName="middleName">
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>Last Name</mat-label>
           <input matInput type="text" name="lastName" formControlName="lastName">
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>Suffix</mat-label>
           <input matInput type="text" name="suffix" formControlName="suffix">
         </mat-form-field>
@@ -32,11 +32,11 @@
     <div class="title">Email</div>
     <div class="content">
       <form [formGroup]="emailForm">
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>Primary</mat-label>
           <input matInput type="email" formControlName="primary" value="">
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>Backup</mat-label>
           <input matInput type="email" formControlName="secondary" value="">
         </mat-form-field>
@@ -57,15 +57,15 @@
     <div class="title">Phone Numbers</div>
     <div class="content">
       <form [formGroup]="phoneNumberForm">
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>PhoneNumber 1</mat-label>
           <input matInput type="text" formControlName="phone1" value="">
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>PhoneNumber 2</mat-label>
           <input matInput type="text" formControlName="phone2" value="">
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>PhoneNumber 3</mat-label>
           <input matInput type="text" formControlName="phone3" value="">
         </mat-form-field>

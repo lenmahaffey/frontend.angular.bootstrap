@@ -5,7 +5,7 @@ import { Constants } from 'src/app/constants';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { User } from 'src/app/shared/api/api.models';
+import { PhysicalAddress, User } from 'src/app/shared/api/api.models';
 
 @Injectable()
 export class UsersService {
@@ -35,9 +35,19 @@ export class UsersService {
   {
     let url = `${this.apiUrl}/updateuser/`
     let body = JSON.stringify(user)
-    return this.http.post<User>(url, {body: body, heders: this.headers}).pipe(
+    return this.http.put<User>(url, body, this.headers).pipe(
       catchError(this.handleError.bind(this)))
   }
+
+  testMethod(address: PhysicalAddress)
+  {
+    let url = `${this.apiUrl}/testmethod/`
+    let body = JSON.stringify(address)
+    return this.http.post<User>(url, body, this.headers).pipe(
+      catchError(this.handleError.bind(this)))
+  }
+
+
   private handleError(err: HttpErrorResponse) {
     let errorMessage = ''
     if (err.error instanceof ErrorEvent) {
@@ -46,10 +56,6 @@ export class UsersService {
     else {
         errorMessage = `Server returned code ${err.status}, error message is ${err.message}`
     }
-    let message = new Message(MessageType.Error);
-    message.title = "Error!"
-    message.text = errorMessage
-    this.notificationService.sendNotification(message)
     return throwError(() => errorMessage)
 }
 }

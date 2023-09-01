@@ -13,7 +13,7 @@ export class User implements IUser {
     phoneNumber3Id?: number | undefined;
     phoneNumber3?: PhoneNumber | undefined;
     primaryEmailId!: number;
-    primaryEmail?: EmailAddress | undefined;
+    primaryEmail!: EmailAddress;
     secondaryEmailId?: number | undefined;
     secondaryEmail?: EmailAddress | undefined;
     prefix?: string | undefined;
@@ -28,6 +28,9 @@ export class User implements IUser {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+        }
+        if (!data) {
+            this.primaryEmail = new EmailAddress();
         }
     }
 
@@ -47,7 +50,7 @@ export class User implements IUser {
             this.phoneNumber3Id = _data["phoneNumber3Id"];
             this.phoneNumber3 = _data["phoneNumber3"] ? PhoneNumber.fromJS(_data["phoneNumber3"]) : <any>undefined;
             this.primaryEmailId = _data["primaryEmailId"];
-            this.primaryEmail = _data["primaryEmail"] ? EmailAddress.fromJS(_data["primaryEmail"]) : <any>undefined;
+            this.primaryEmail = _data["primaryEmail"] ? EmailAddress.fromJS(_data["primaryEmail"]) : new EmailAddress();
             this.secondaryEmailId = _data["secondaryEmailId"];
             this.secondaryEmail = _data["secondaryEmail"] ? EmailAddress.fromJS(_data["secondaryEmail"]) : <any>undefined;
             this.prefix = _data["prefix"];
@@ -108,7 +111,7 @@ export interface IUser {
     phoneNumber3Id?: number | undefined;
     phoneNumber3?: PhoneNumber | undefined;
     primaryEmailId: number;
-    primaryEmail?: EmailAddress | undefined;
+    primaryEmail: EmailAddress;
     secondaryEmailId?: number | undefined;
     secondaryEmail?: EmailAddress | undefined;
     prefix?: string | undefined;
@@ -128,12 +131,12 @@ export class PhysicalAddress implements IPhysicalAddress {
     postalCode!: string;
 
     constructor(data?: IPhysicalAddress) {
-      if (data) {
-        for (var property in data) {
-          if (data.hasOwnProperty(property))
-              (<any>this)[property] = (<any>data)[property];
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
         }
-      }
     }
 
     init(_data?: any) {

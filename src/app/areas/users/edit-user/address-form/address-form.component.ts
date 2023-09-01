@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, Output, AfterViewInit, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, Input, OnInit, Output, AfterViewInit, OnChanges, SimpleChanges, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PhysicalAddress } from 'src/app/shared/api/api.models';
 
 @Component({
@@ -9,18 +9,39 @@ import { PhysicalAddress } from 'src/app/shared/api/api.models';
 })
 export class AddressFormComponent implements AfterViewInit, OnChanges {
 
-  @Input() address: PhysicalAddress = new PhysicalAddress()
+  @Input() address: PhysicalAddress | undefined
   @Output() addressUpdate = new EventEmitter<PhysicalAddress>()
 
+  isVisible = "hide"
   addressForm: FormGroup = new FormGroup({
-    line1: new FormControl(''),
+    line1: new FormControl('',[
+      Validators.required
+    ]),
     line2: new FormControl(''),
-    city: new FormControl(''),
-    state: new FormControl(''),
-    zip: new FormControl('')
+    city: new FormControl('',[
+      Validators.required
+    ]),
+    state: new FormControl('',[
+      Validators.required
+    ]),
+    zip: new FormControl('',[
+      Validators.required
+    ])
   })
 
+  constructor(private cdr: ChangeDetectorRef)
+  {
+    this.addressForm.disable()
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.address)
+    if(this.address != undefined)
+    {
+      this.isVisible = "show"
+      this.addressForm.enable()
+      this.cdr.detectChanges()
+    }
     this.setForm()
   }
 
