@@ -1,27 +1,28 @@
-<form [formGroup]="addressForm" class="{{ isVisible }}">
-  <mat-form-field appearance="outline">
-    <mat-label>Line 1</mat-label>
+<form [formGroup]="addressForm">
+  <div id="title">{{title}}</div>
+  <mat-form-field class="input" appearance="outline">
+    <mat-label class="label">Line 1</mat-label>
     <input matInput id="line1" type="text" name="line1" formControlName="line1" (change)="sendUpdate()" required>
-    <mat-error>Line 1 is required</mat-error>
+    <mat-error class="label">Line 1 is required</mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Line 2</mat-label>
+  <mat-form-field class="input" appearance="outline">
+    <mat-label class="label">Line 2</mat-label>
     <input matInput type="text" name="line2" formControlName="line2" (change)="sendUpdate()">
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>City</mat-label>
+  <mat-form-field class="input" appearance="outline">
+    <mat-label class="label">City</mat-label>
     <input matInput type="text" name="city" formControlName="city" (change)="sendUpdate()">
   </mat-form-field>
 
   <div id="combo">
-    <mat-form-field id="state" appearance="outline">
-      <mat-label>State</mat-label>
+    <mat-form-field class="input" id="state" appearance="outline">
+      <mat-label class="label">State</mat-label>
       <input matInput type="text" name="state" formControlName="state" (change)="sendUpdate()">
     </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Zip</mat-label>
+    <mat-form-field class="input" appearance="outline">
+      <mat-label class="label">Zip</mat-label>
       <input matInput type="text" name="zip" formControlName="zip" (change)="sendUpdate()">
     </mat-form-field>
   </div>

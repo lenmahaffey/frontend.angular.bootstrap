@@ -10,6 +10,7 @@ import { PhysicalAddress } from 'src/app/shared/api/api.models';
 export class AddressFormComponent implements AfterViewInit, OnChanges {
 
   @Input() address: PhysicalAddress | undefined
+  @Input() title: string = ""
   @Output() addressUpdate = new EventEmitter<PhysicalAddress>()
 
   isVisible = "hide"
@@ -35,7 +36,6 @@ export class AddressFormComponent implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.address)
     if(this.address != undefined)
     {
       this.isVisible = "show"
@@ -63,12 +63,17 @@ export class AddressFormComponent implements AfterViewInit, OnChanges {
 
   sendUpdate()
   {
-    let addressUpdate = new PhysicalAddress()
-    addressUpdate.line1 = this.addressForm.value.line1
-    addressUpdate.line2 = this.addressForm.value.line2
-    addressUpdate.city = this.addressForm.value.city
-    addressUpdate.state = this.addressForm.value.state
-    addressUpdate.postalCode = this.addressForm.value.zip
-    this.addressUpdate.emit(addressUpdate)
+    console.log(this.addressForm)
+    if(this.addressForm.valid && this.addressForm.dirty)
+    {
+      let addressUpdate = new PhysicalAddress()
+      addressUpdate.line1 = this.addressForm.value.line1
+      addressUpdate.line2 = this.addressForm.value.line2
+      addressUpdate.city = this.addressForm.value.city
+      addressUpdate.state = this.addressForm.value.state
+      addressUpdate.postalCode = this.addressForm.value.zip
+      this.addressUpdate.emit(addressUpdate)
+    }
+
   }
 }

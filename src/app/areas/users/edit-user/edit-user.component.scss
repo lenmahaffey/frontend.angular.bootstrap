@@ -2,26 +2,23 @@
   padding: 2%;
 }
 
-.contentContainer
-{
+.section{
   display: flex;
 }
 
 .title{
   flex: 1;
   font-size: x-large;
+  padding-right: 2%;
+
 }
 
-.title button{
-  font-size: medium;
+button{
+  font-size: small;
 }
+
 .content{
   flex:8;
-}
-
-.addressContent{
-  flex:8;
-  display: flex;
 }
 
 mat-form-field{
@@ -34,4 +31,39 @@ app-address-form{
 
 mat-divider{
   margin-bottom: 2%;
+}
+
+#addressForms{
+  flex:8;
+  display: flex;
+}
+
+#addressButtons{
+  display: flex;
+  flex-direction: column;
+}
+
+#addressButtons button{
+  margin-bottom: 2%;
+}
+
+.show{
+  display: flex;
+}
+
+.hide{
+  display: none;
+}
+
+app-address-form{
+  display: flex;
+}
+
+.input{
+  font-weight: bolder;
+}
+
+.label
+{
+  font-weight: normal;
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../users.service';
 import { PhysicalAddress, User } from 'src/app/shared/api/api.models';
@@ -18,7 +18,6 @@ import { NotificationService } from 'src/app/services/notification/notification.
   styleUrls: ['./edit-user.component.scss']
 })
 export class EditUserComponent {
-
   config = new MatDialogConfig()
   id = 0
   user: User = new User()
@@ -26,10 +25,6 @@ export class EditUserComponent {
   mailingAddress: PhysicalAddress | undefined
   billingAddress:  PhysicalAddress | undefined
   shippingAddress: PhysicalAddress | undefined
-
-  // mailingAddressUpdate: PhysicalAddress | undefined
-  // billingAddressUpdate:  PhysicalAddress | undefined
-  // shippingAddressUpdate:  PhysicalAddress | undefined
 
   nameForm = new FormGroup({
     prefix: new FormControl(""),
@@ -82,6 +77,7 @@ export class EditUserComponent {
       message: "Fetching User Data",
     }
     this.config.disableClose = true
+
     if(this.id != 0)
     {
       this.appStateService.openSpinner(this.config);
@@ -109,33 +105,103 @@ export class EditUserComponent {
 
   setForms()
   {
-    let data = this.user
-    this.nameForm.controls['prefix'].setValue(data.prefix ?? null)
-    this.nameForm.controls['firstName'].setValue(data.firstName ?? null)
-    this.nameForm.controls['middleName'].setValue(data.middleName ?? null)
-    this.nameForm.controls['lastName'].setValue(data.lastName ?? null)
-    this.nameForm.controls['suffix'].setValue(data.suffix ?? null)
+    this.setNameFormWithCurrentUser()
+    this.setEmailAddressFromWithCurrentUser()
+    this.setPhoneNumberFormWithCurrentUser()
+    this.setAddressesWithCurrentUser()
+    }
 
-    data.mailingAddress != null || data.mailingAddress != undefined ?
-      this.mailingAddress = data.mailingAddress : this.mailingAddress = undefined
+  setNameFormWithCurrentUser()
+  {
+    this.nameForm.controls['prefix'].setValue(this.user.prefix ?? null)
+    this.nameForm.controls['firstName'].setValue(this.user.firstName ?? null)
+    this.nameForm.controls['middleName'].setValue(this.user.middleName ?? null)
+    this.nameForm.controls['lastName'].setValue(this.user.lastName ?? null)
+    this.nameForm.controls['suffix'].setValue(this.user.suffix ?? null)
+  }
 
-    data.shippingAddress != null || data.shippingAddress != undefined ?
-      this.shippingAddress = data.shippingAddress : this.shippingAddress = undefined
+  setPhoneNumberFormWithCurrentUser()
+  {
+    this.user.phoneNumber1 != null || this.user.phoneNumber1 != undefined ?
+    this.phoneNumberForm.controls['phone1'].setValue(this.phoneToString.transform(this.user.phoneNumber1)) : this.phoneNumberForm.controls['phone1'].setValue("")
 
-    data.billingAddress != null || data.billingAddress != undefined ?
-      this.billingAddress = data.billingAddress : this.billingAddress = undefined
+    this.user.phoneNumber2 != null || this.user.phoneNumber2 != undefined ?
+    this.phoneNumberForm.controls['phone2'].setValue(this.phoneToString.transform(this.user.phoneNumber2)) : this.phoneNumberForm.controls['phone2'].setValue("")
 
-    this.emailForm.controls['primary'].setValue(data.primaryEmail?.address ?? null)
-    this.emailForm.controls['secondary'].setValue(data.secondaryEmail?.address ?? null)
+    this.user.phoneNumber3 != null || this.user.phoneNumber3 != undefined ?
+    this.phoneNumberForm.controls['phone3'].setValue(this.phoneToString.transform(this.user.phoneNumber3)) : this.phoneNumberForm.controls['phone3'].setValue("")
 
-    data.phoneNumber1 != null || data.phoneNumber1 != undefined ?
-    this.phoneNumberForm.controls['phone1'].setValue(this.phoneToString.transform(data.phoneNumber1)) : this.phoneNumberForm.controls['phone1'].setValue("")
+  }
 
-    data.phoneNumber2 != null || data.phoneNumber2 != undefined ?
-    this.phoneNumberForm.controls['phone2'].setValue(this.phoneToString.transform(data.phoneNumber2)) : this.phoneNumberForm.controls['phone2'].setValue("")
+  setEmailAddressFromWithCurrentUser()
+  {
+    this.emailForm.controls['primary'].setValue(this.user.primaryEmail?.address ?? undefined)
+    this.emailForm.controls['secondary'].setValue(this.user.secondaryEmail?.address ?? null)
+  }
 
-    data.phoneNumber3 != null || data.phoneNumber3 != undefined ?
-    this.phoneNumberForm.controls['phone3'].setValue(this.phoneToString.transform(data.phoneNumber3)) : this.phoneNumberForm.controls['phone3'].setValue("")
+  setAddressesWithCurrentUser()
+  {
+    if(this.user.mailingAddress != undefined)
+    {
+      this.mailingAddress = this.user.mailingAddress
+    }
+
+    if(this.user.billingAddress != undefined)
+    {
+      this.billingAddress = this.user.billingAddress
+    }
+
+    if(this.user.shippingAddress != undefined)
+    {
+      this.shippingAddress = this.user.shippingAddress
+    }
+  }
+
+  updateUserWithNameFormValues(user: User)
+  {
+    this.nameForm.value.prefix != null || this.nameForm.value.firstName != undefined ?
+      user.prefix = this.nameForm.value.prefix ?? undefined : null
+
+    this.nameForm.value.firstName != null || this.nameForm.value.firstName != undefined ?
+      user.firstName = this.nameForm.value.firstName : null
+
+    user.middleName = this.nameForm.value.middleName ?? undefined
+
+    this.nameForm.value.lastName != null || this.nameForm.value.lastName != undefined ?
+      user.lastName = this.nameForm.value.lastName : null
+  }
+
+  updateUserWithEmailFormValues(user: User)
+  {
+    this.emailForm.value.primary != null || this.emailForm.value.primary != undefined ?
+      user.primaryEmail!.address = this.emailForm.value.primary : null
+
+    this.emailForm.value.secondary != null || this.emailForm.value.secondary != undefined ?
+      user.secondaryEmail!.address = this.emailForm.value.secondary : null
+  }
+
+  updateUserWithPhoneNumberFormValues(user: User)
+  {
+    this.phoneNumberForm.value.phone1 != null || this.phoneNumberForm.value.phone1 != undefined ?
+     user.phoneNumber1 = this.stringToPhone.transform(this.phoneNumberForm.value.phone1) : null
+
+    this.phoneNumberForm.value.phone2 != null || this.phoneNumberForm.value.phone1 != undefined ?
+      user.phoneNumber2 = this.stringToPhone.transform(this.phoneNumberForm.value.phone2 ?? "") : null
+
+    this.phoneNumberForm.value.phone3 != null || this.phoneNumberForm.value.phone1 != undefined ?
+      user.phoneNumber3 = this.stringToPhone.transform(this.phoneNumberForm.value.phone3 ?? "") : null
+  }
+
+  getAddressUpdates(user: User)
+  {
+    this.mailingAddress != undefined && Object.keys(this.mailingAddress).length > 0 ?
+      user.mailingAddress = this.mailingAddress : undefined
+
+    this.billingAddress != undefined && Object.keys(this.billingAddress).length > 0 ?
+      user.billingAddress = this.billingAddress : undefined
+
+    this.shippingAddress != undefined && Object.keys(this.shippingAddress).length > 0 ?
+      user.shippingAddress = this.shippingAddress : undefined
   }
 
   updateUser()
@@ -144,42 +210,10 @@ export class EditUserComponent {
     this.appStateService.openSpinner(this.config)
     let userUpdate = this.user
 
-    this.nameForm.value.prefix != null || this.nameForm.value.firstName != undefined ?
-      userUpdate.prefix = this.nameForm.value.prefix ?? undefined : null
-
-    this.nameForm.value.firstName != null || this.nameForm.value.firstName != undefined ?
-      userUpdate.firstName = this.nameForm.value.firstName : null
-
-    userUpdate.middleName = this.nameForm.value.middleName ?? undefined
-
-    this.nameForm.value.lastName != null || this.nameForm.value.lastName != undefined ?
-      userUpdate.lastName = this.nameForm.value.lastName : null
-
-    userUpdate.suffix = this.nameForm.value.suffix ?? undefined
-
-    this.emailForm.value.primary != null || this.emailForm.value.primary != undefined ?
-      userUpdate.primaryEmail!.address = this.emailForm.value.primary : null
-
-    this.emailForm.value.secondary != null || this.emailForm.value.secondary != undefined ?
-      userUpdate.secondaryEmail!.address = this.emailForm.value.secondary : null
-
-    this.mailingAddress != undefined ?
-       userUpdate.mailingAddress = this.mailingAddress : null
-
-    this.billingAddress != undefined ?
-      userUpdate.billingAddress = this.billingAddress : null
-
-    this.shippingAddress != undefined ?
-      userUpdate.shippingAddress = this.shippingAddress : null
-
-    this.phoneNumberForm.value.phone1 != null || this.phoneNumberForm.value.phone1 != undefined ?
-     userUpdate.phoneNumber1 = this.stringToPhone.transform(this.phoneNumberForm.value.phone1) : null
-
-    this.phoneNumberForm.value.phone2 != null || this.phoneNumberForm.value.phone1 != undefined ?
-      userUpdate.phoneNumber2 = this.stringToPhone.transform(this.phoneNumberForm.value.phone2 ?? "") : null
-
-    this.phoneNumberForm.value.phone3 != null || this.phoneNumberForm.value.phone1 != undefined ?
-      userUpdate.phoneNumber3 = this.stringToPhone.transform(this.phoneNumberForm.value.phone3 ?? "") : null
+    this.updateUserWithNameFormValues(userUpdate)
+    this.updateUserWithEmailFormValues(userUpdate)
+    this.updateUserWithPhoneNumberFormValues(userUpdate)
+    this.getAddressUpdates(userUpdate)
 
     this.api.updateUser(userUpdate).subscribe(
       {
@@ -207,16 +241,35 @@ export class EditUserComponent {
 
   receiveNewMailingAddress(event: any)
   {
+    console.log(event)
     this.mailingAddress = event
   }
 
   receiveNewBillingAddress(event: any)
   {
+    console.log(event)
     this.billingAddress = event
   }
 
   receiveNewShippingAddress(event: any)
   {
+    console.log(event)
     this.shippingAddress = event
+  }
+
+  addNewAddress(name:string)
+  {
+    if(name == "mailing")
+    {
+      this.mailingAddress = new PhysicalAddress()
+    }
+    else if (name == "billing")
+    {
+      this.billingAddress = new PhysicalAddress()
+    }
+    else if(name == "shipping")
+    {
+      this.shippingAddress = new PhysicalAddress()
+    }
   }
 }
