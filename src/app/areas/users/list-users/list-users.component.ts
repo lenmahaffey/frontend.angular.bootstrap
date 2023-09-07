@@ -32,6 +32,7 @@ export class ListUsersComponent {
       next: (data) =>
       {
         this.data = data
+        console.log(data)
       },
       error: (error) =>
       {

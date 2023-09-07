@@ -1,21 +1,7 @@
 export class User implements IUser {
     id!: number;
-    mailingAddressId?: number | undefined;
-    mailingAddress?: PhysicalAddress | undefined;
-    billingAddressId?: number | undefined;
-    billingAddress?: PhysicalAddress | undefined;
-    shippingAddressId?: number | undefined;
-    shippingAddress?: PhysicalAddress | undefined;
-    phoneNumber1Id?: number | undefined;
-    phoneNumber1?: PhoneNumber | undefined;
-    phoneNumber2Id?: number | undefined;
-    phoneNumber2?: PhoneNumber | undefined;
-    phoneNumber3Id?: number | undefined;
-    phoneNumber3?: PhoneNumber | undefined;
-    primaryEmailId!: number;
-    primaryEmail!: EmailAddress;
-    secondaryEmailId?: number | undefined;
-    secondaryEmail?: EmailAddress | undefined;
+    contactInfoId!: number;
+    contactInfo?: ContactInfo | undefined;
     prefix?: string | undefined;
     suffix?: string | undefined;
     firstName!: string;
@@ -29,30 +15,13 @@ export class User implements IUser {
                     (<any>this)[property] = (<any>data)[property];
             }
         }
-        if (!data) {
-            this.primaryEmail = new EmailAddress();
-        }
     }
 
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.mailingAddressId = _data["mailingAddressId"];
-            this.mailingAddress = _data["mailingAddress"] ? PhysicalAddress.fromJS(_data["mailingAddress"]) : <any>undefined;
-            this.billingAddressId = _data["billingAddressId"];
-            this.billingAddress = _data["billingAddress"] ? PhysicalAddress.fromJS(_data["billingAddress"]) : <any>undefined;
-            this.shippingAddressId = _data["shippingAddressId"];
-            this.shippingAddress = _data["shippingAddress"] ? PhysicalAddress.fromJS(_data["shippingAddress"]) : <any>undefined;
-            this.phoneNumber1Id = _data["phoneNumber1Id"];
-            this.phoneNumber1 = _data["phoneNumber1"] ? PhoneNumber.fromJS(_data["phoneNumber1"]) : <any>undefined;
-            this.phoneNumber2Id = _data["phoneNumber2Id"];
-            this.phoneNumber2 = _data["phoneNumber2"] ? PhoneNumber.fromJS(_data["phoneNumber2"]) : <any>undefined;
-            this.phoneNumber3Id = _data["phoneNumber3Id"];
-            this.phoneNumber3 = _data["phoneNumber3"] ? PhoneNumber.fromJS(_data["phoneNumber3"]) : <any>undefined;
-            this.primaryEmailId = _data["primaryEmailId"];
-            this.primaryEmail = _data["primaryEmail"] ? EmailAddress.fromJS(_data["primaryEmail"]) : new EmailAddress();
-            this.secondaryEmailId = _data["secondaryEmailId"];
-            this.secondaryEmail = _data["secondaryEmail"] ? EmailAddress.fromJS(_data["secondaryEmail"]) : <any>undefined;
+            this.contactInfoId = _data["contactInfoId"];
+            this.contactInfo = _data["contactInfo"] ? ContactInfo.fromJS(_data["contactInfo"]) : <any>undefined;
             this.prefix = _data["prefix"];
             this.suffix = _data["suffix"];
             this.firstName = _data["firstName"];
@@ -71,22 +40,8 @@ export class User implements IUser {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["mailingAddressId"] = this.mailingAddressId;
-        data["mailingAddress"] = this.mailingAddress ? this.mailingAddress.toJSON() : <any>undefined;
-        data["billingAddressId"] = this.billingAddressId;
-        data["billingAddress"] = this.billingAddress ? this.billingAddress.toJSON() : <any>undefined;
-        data["shippingAddressId"] = this.shippingAddressId;
-        data["shippingAddress"] = this.shippingAddress ? this.shippingAddress.toJSON() : <any>undefined;
-        data["phoneNumber1Id"] = this.phoneNumber1Id;
-        data["phoneNumber1"] = this.phoneNumber1 ? this.phoneNumber1.toJSON() : <any>undefined;
-        data["phoneNumber2Id"] = this.phoneNumber2Id;
-        data["phoneNumber2"] = this.phoneNumber2 ? this.phoneNumber2.toJSON() : <any>undefined;
-        data["phoneNumber3Id"] = this.phoneNumber3Id;
-        data["phoneNumber3"] = this.phoneNumber3 ? this.phoneNumber3.toJSON() : <any>undefined;
-        data["primaryEmailId"] = this.primaryEmailId;
-        data["primaryEmail"] = this.primaryEmail ? this.primaryEmail.toJSON() : <any>undefined;
-        data["secondaryEmailId"] = this.secondaryEmailId;
-        data["secondaryEmail"] = this.secondaryEmail ? this.secondaryEmail.toJSON() : <any>undefined;
+        data["contactInfoId"] = this.contactInfoId;
+        data["contactInfo"] = this.contactInfo ? this.contactInfo.toJSON() : <any>undefined;
         data["prefix"] = this.prefix;
         data["suffix"] = this.suffix;
         data["firstName"] = this.firstName;
@@ -98,22 +53,8 @@ export class User implements IUser {
 
 export interface IUser {
     id: number;
-    mailingAddressId?: number | undefined;
-    mailingAddress?: PhysicalAddress | undefined;
-    billingAddressId?: number | undefined;
-    billingAddress?: PhysicalAddress | undefined;
-    shippingAddressId?: number | undefined;
-    shippingAddress?: PhysicalAddress | undefined;
-    phoneNumber1Id?: number | undefined;
-    phoneNumber1?: PhoneNumber | undefined;
-    phoneNumber2Id?: number | undefined;
-    phoneNumber2?: PhoneNumber | undefined;
-    phoneNumber3Id?: number | undefined;
-    phoneNumber3?: PhoneNumber | undefined;
-    primaryEmailId: number;
-    primaryEmail: EmailAddress;
-    secondaryEmailId?: number | undefined;
-    secondaryEmail?: EmailAddress | undefined;
+    contactInfoId: number;
+    contactInfo?: ContactInfo | undefined;
     prefix?: string | undefined;
     suffix?: string | undefined;
     firstName: string;
@@ -121,14 +62,92 @@ export interface IUser {
     lastName: string;
 }
 
+export class ContactInfo implements IContactInfo {
+    id!: number;
+    userId!: number;
+    physicalAddresses?: PhysicalAddress[] | undefined;
+    emailAddresses?: EmailAddress[] | undefined;
+    phoneNumbers?: PhoneNumber[] | undefined;
+
+    constructor(data?: IContactInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.userId = _data["userId"];
+            if (Array.isArray(_data["physicalAddresses"])) {
+                this.physicalAddresses = [] as any;
+                for (let item of _data["physicalAddresses"])
+                    this.physicalAddresses!.push(PhysicalAddress.fromJS(item));
+            }
+            if (Array.isArray(_data["emailAddresses"])) {
+                this.emailAddresses = [] as any;
+                for (let item of _data["emailAddresses"])
+                    this.emailAddresses!.push(EmailAddress.fromJS(item));
+            }
+            if (Array.isArray(_data["phoneNumbers"])) {
+                this.phoneNumbers = [] as any;
+                for (let item of _data["phoneNumbers"])
+                    this.phoneNumbers!.push(PhoneNumber.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ContactInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContactInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["userId"] = this.userId;
+        if (Array.isArray(this.physicalAddresses)) {
+            data["physicalAddresses"] = [];
+            for (let item of this.physicalAddresses)
+                data["physicalAddresses"].push(item.toJSON());
+        }
+        if (Array.isArray(this.emailAddresses)) {
+            data["emailAddresses"] = [];
+            for (let item of this.emailAddresses)
+                data["emailAddresses"].push(item.toJSON());
+        }
+        if (Array.isArray(this.phoneNumbers)) {
+            data["phoneNumbers"] = [];
+            for (let item of this.phoneNumbers)
+                data["phoneNumbers"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IContactInfo {
+    id: number;
+    userId: number;
+    physicalAddresses?: PhysicalAddress[] | undefined;
+    emailAddresses?: EmailAddress[] | undefined;
+    phoneNumbers?: PhoneNumber[] | undefined;
+}
+
 export class PhysicalAddress implements IPhysicalAddress {
     id!: number;
+    contactInfoId!: number;
     line1!: string;
     line2?: string | undefined;
     line3?: string | undefined;
     city!: string;
     state!: string;
     postalCode!: string;
+    addressType!: AddressType;
 
     constructor(data?: IPhysicalAddress) {
         if (data) {
@@ -142,12 +161,14 @@ export class PhysicalAddress implements IPhysicalAddress {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
+            this.contactInfoId = _data["contactInfoId"];
             this.line1 = _data["line1"];
             this.line2 = _data["line2"];
             this.line3 = _data["line3"];
             this.city = _data["city"];
             this.state = _data["state"];
             this.postalCode = _data["postalCode"];
+            this.addressType = _data["addressType"];
         }
     }
 
@@ -161,77 +182,42 @@ export class PhysicalAddress implements IPhysicalAddress {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["contactInfoId"] = this.contactInfoId;
         data["line1"] = this.line1;
         data["line2"] = this.line2;
         data["line3"] = this.line3;
         data["city"] = this.city;
         data["state"] = this.state;
         data["postalCode"] = this.postalCode;
+        data["addressType"] = this.addressType;
         return data;
     }
 }
 
 export interface IPhysicalAddress {
     id: number;
+    contactInfoId: number;
     line1: string;
     line2?: string | undefined;
     line3?: string | undefined;
     city: string;
     state: string;
     postalCode: string;
+    addressType: AddressType;
 }
 
-export class PhoneNumber implements IPhoneNumber {
-    id!: number;
-    countryCode!: string;
-    areaCode!: string;
-    localNumber!: string;
-
-    constructor(data?: IPhoneNumber) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.countryCode = _data["countryCode"];
-            this.areaCode = _data["areaCode"];
-            this.localNumber = _data["localNumber"];
-        }
-    }
-
-    static fromJS(data: any): PhoneNumber {
-        data = typeof data === 'object' ? data : {};
-        let result = new PhoneNumber();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["countryCode"] = this.countryCode;
-        data["areaCode"] = this.areaCode;
-        data["localNumber"] = this.localNumber;
-        return data;
-    }
-}
-
-export interface IPhoneNumber {
-    id: number;
-    countryCode: string;
-    areaCode: string;
-    localNumber: string;
+export enum AddressType {
+    Mailing = 0,
+    Billing = 1,
+    Shipping = 2,
 }
 
 export class EmailAddress implements IEmailAddress {
     id!: number;
+    contactInfoId!: number;
     address!: string;
+    label!: string;
+    priority!: number;
 
     constructor(data?: IEmailAddress) {
         if (data) {
@@ -245,7 +231,10 @@ export class EmailAddress implements IEmailAddress {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
+            this.contactInfoId = _data["contactInfoId"];
             this.address = _data["address"];
+            this.label = _data["label"];
+            this.priority = _data["priority"];
         }
     }
 
@@ -259,14 +248,84 @@ export class EmailAddress implements IEmailAddress {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["contactInfoId"] = this.contactInfoId;
         data["address"] = this.address;
+        data["label"] = this.label;
+        data["priority"] = this.priority;
         return data;
     }
 }
 
 export interface IEmailAddress {
     id: number;
+    contactInfoId: number;
     address: string;
+    label: string;
+    priority: number;
+}
+
+export class PhoneNumber implements IPhoneNumber {
+    id!: number;
+    contactInfoId!: number;
+    countryCode!: string;
+    areaCode!: string;
+    prefix!: string;
+    localNumber!: string;
+    label!: string;
+    priority!: number;
+
+    constructor(data?: IPhoneNumber) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.contactInfoId = _data["contactInfoId"];
+            this.countryCode = _data["countryCode"];
+            this.areaCode = _data["areaCode"];
+            this.prefix = _data["prefix"];
+            this.localNumber = _data["localNumber"];
+            this.label = _data["label"];
+            this.priority = _data["priority"];
+        }
+    }
+
+    static fromJS(data: any): PhoneNumber {
+        data = typeof data === 'object' ? data : {};
+        let result = new PhoneNumber();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["contactInfoId"] = this.contactInfoId;
+        data["countryCode"] = this.countryCode;
+        data["areaCode"] = this.areaCode;
+        data["prefix"] = this.prefix;
+        data["localNumber"] = this.localNumber;
+        data["label"] = this.label;
+        data["priority"] = this.priority;
+        return data;
+    }
+}
+
+export interface IPhoneNumber {
+    id: number;
+    contactInfoId: number;
+    countryCode: string;
+    areaCode: string;
+    prefix: string;
+    localNumber: string;
+    label: string;
+    priority: number;
 }
 
 export interface FileResponse {

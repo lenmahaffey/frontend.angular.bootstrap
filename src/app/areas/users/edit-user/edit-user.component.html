@@ -79,17 +79,9 @@
     <div class="title">Phone Numbers</div>
     <div class="content">
       <form [formGroup]="phoneNumberForm">
-        <mat-form-field class="input" *ngIf="this.user.phoneNumber1"  appearance="outline">
+        <mat-form-field *ngFor="let number of user.contactInfo?.phoneNumbers" class="input"  appearance="outline">
           <mat-label class="label">PhoneNumber 1</mat-label>
-          <input matInput type="text" formControlName="phone1" value="">
-        </mat-form-field>
-        <mat-form-field class="input" *ngIf="this.user.phoneNumber2" appearance="outline">
-          <mat-label>PhoneNumber 2</mat-label>
-          <input matInput type="text" formControlName="phone2" value="">
-        </mat-form-field>
-        <mat-form-field class="input" *ngIf="this.user.phoneNumber3" appearance="outline">
-          <mat-label>PhoneNumber 3</mat-label>
-          <input matInput type="text" formControlName="phone3" value="">
+          <input matInput type="text" formControlName="{{number.priority}}">
         </mat-form-field>
       </form>
     </div>
