@@ -1,0 +1,29 @@
+@use '/src/appTheme.scss' as *;
+@use '/src/color-palette.scss' as colors;
+@use "sass:map";
+
+#container{
+  display: flex;
+  flex-direction: column;
+}
+
+h1{
+  margin-left: auto;
+  margin-right:auto;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.pointer:hover{
+  background-color: $accent !important;
+}
+
+.pointer:nth-child(even){
+  background-color: $white;
+}
+
+.pointer:nth-child(odd){
+  background-color: map.get(colors.$gray, 100);
+}

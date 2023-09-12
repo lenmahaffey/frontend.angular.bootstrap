@@ -1,0 +1,63 @@
+@use '/src/appTheme.scss' as *;
+
+.flexContainer{
+  padding: 1%;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.flexItem{
+  border-style: solid;
+  padding: .5%;
+}
+
+.category{
+  flex: 1 0 0;
+  overflow-y: scroll;
+  border-right: none;
+}
+
+.type{
+  flex: 1 0 0;
+  overflow-y: scroll;
+  border-right: none;
+}
+
+.subtype{
+  flex: 1 0 0;
+  overflow-y: scroll;
+  border-right: none;
+}
+
+.main{
+  flex: 7 0 auto;
+}
+
+mat-divider{
+  margin: 10%;
+}
+
+.item:hover{
+  cursor: pointer;
+  background-color: $accent;
+}
+
+.itemViewContainer{
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.itemView{
+  flex:1.5;
+}
+
+.listView{
+  flex:1;
+  overflow: scroll;
+}
+
+

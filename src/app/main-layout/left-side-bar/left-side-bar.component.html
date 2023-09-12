@@ -11,7 +11,7 @@
 <ng-template #singleLink let-item>
   <mat-expansion-panel hideToggle="true" disabled="true">
     <mat-expansion-panel-header>
-      <a class="link" href="{{item.href}}"><h4>{{ item.title }}</h4></a>
+      <a class="link" href="{{item.items[0].href}}"><h4>{{ item.title }}</h4></a>
     </mat-expansion-panel-header>
   </mat-expansion-panel>
 </ng-template>

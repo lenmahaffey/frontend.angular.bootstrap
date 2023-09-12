@@ -1,0 +1,29 @@
+<div class="flexContainer">
+  <div class="flexItem category">
+    <div class="item" *ngFor="let cat of categories" (click)="getTypes(cat)">
+      <span >{{cat.name}}</span>
+       <mat-divider></mat-divider>
+      </div>
+  </div>
+  <div class="flexItem type">
+    <div class="item" *ngFor="let type of types" (click)="getSubTypes(type)">
+      <span >{{type.name}}</span>
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+  <div class="flexItem subtype">
+    <div class="item" *ngFor="let type of subTypes">
+      <span >{{type.name}}</span>
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+
+  <div class="flexItem main">
+    <div class="itemViewContainer">
+      <div class="itemView">item</div>
+      <div class="listView">
+        <app-list-items></app-list-items>
+      </div>
+    </div>
+  </div>
+</div>

@@ -57,5 +57,5 @@ export class UsersService {
         errorMessage = `Server returned code ${err.status}, error message is ${err.message}`
     }
     return throwError(() => errorMessage)
-}
+  }
 }
