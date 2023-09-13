@@ -33,7 +33,9 @@ mat-card{
 .item{
   padding-top: 2%;
   padding-bottom: 2%;
+  padding-left: 2%;
 }
+
 .item:hover{
   cursor: pointer;
   background-color: $accent;
@@ -44,13 +46,42 @@ mat-divider{
   margin-right: 2%;
 }
 
+
+.flexCardContainer{
+  display: flex;
+  flex-direction: column;
+  flex:1;
+}
+
+.list{
+  flex: 12 0 0;
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
 .button{
-  padding-top: 2%;
-  padding-bottom: 2%;
-  margin:auto;
+  flex:1 0 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: flex-end;
 }
 
 .selectionMessage{
+  flex: 1;
   margin: auto;
   font-size: larger;
+  display: flex;
+}
+
+.selectionMessage > p {
+  margin: auto;
+}
+
+.active{
+  cursor: pointer;
+  border-style: solid;
+  border-color: $accent;
+  border-radius: 10px;
 }

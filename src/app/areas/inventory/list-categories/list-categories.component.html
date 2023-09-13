@@ -1,28 +1,47 @@
 <div class="flexContainer">
   <mat-card class="category">
-    <div *ngFor="let cat of categories" (click)="getTypes(cat)">
-      <div class="item"><span>{{cat.name}}</span></div>
-      <mat-divider></mat-divider>
-    </div>
-    <div class="button">
-      <button mat-raised-button color="primary">Add Category</button>
+    <div class="flexCardContainer">
+      <div class="list">
+        <div *ngFor="let cat of categories" (click)="getTypes(cat)" [ngClass]="(selectedCategory == cat) ? 'active' : 'inactive'">
+          <div class="item"><span>{{cat.name}}</span></div>
+          <mat-divider></mat-divider>
+        </div>
+      </div>
+      <div class="button">
+        <button mat-raised-button color="primary">Add Category</button>
+      </div>
     </div>
   </mat-card>
 
   <mat-card class="type">
-    <ng-container *ngIf="selectedCategory == undefined; then unselectedType; else typeList">
-    </ng-container>
+    <div class="flexCardContainer">
+      <div class="list">
+        <ng-container *ngIf="selectedCategory == undefined; then unselectedType; else typeList">
+        </ng-container>
+      </div>
+      <div class="button">
+        <button [disabled]="selectedCategory == undefined"  mat-raised-button color="primary">Add Type</button>
+      </div>
+    </div>
   </mat-card>
 
   <mat-card class="subtype">
-    <ng-container *ngIf="selectedType == undefined; then unselectedSubType; else subTypeList">
-    </ng-container>
+    <div class="flexCardContainer">
+      <div class="list">
+        <ng-container *ngIf="selectedType == undefined; then unselectedSubType; else subTypeList"></ng-container>
+      </div>
+      <div class="button">
+        <button [disabled]="selectedType == undefined"  mat-raised-button color="primary">Add Sub Type</button>
+      </div>
+    </div>
   </mat-card>
 </div>
 
 <ng-template #typeList>
-  <div class="selectionMessage" *ngIf="selectedCategory?.types?.length == 0">There are no types in {{ selectedCategory?.name }} </div>
-  <div *ngFor="let type of types" (click)="getSubTypes(type)">
+  <div class="selectionMessage"  *ngIf="selectedCategory?.types?.length == 0">
+    <p>There are no types in {{ selectedCategory?.name }} </p>
+  </div>
+  <div *ngFor="let type of types" (click)="getSubTypes(type)" [ngClass]="(selectedType == type) ? 'active' : 'inactive'">
     <div class="item">
       <span>{{type.name}}</span>
     </div>
@@ -31,7 +50,7 @@
 </ng-template>
 
 <ng-template #subTypeList>
-  <div class="selectionMessage" *ngIf="selectedType?.subTypes?.length == 0">There are no sub types associated with  {{ selectedType?.name }}</div>
+  <div class="selectionMessage"  *ngIf="selectedType?.subTypes?.length == 0"><p>There are no sub types associated with  {{ selectedType?.name }}</p></div>
   <div *ngFor="let subType of subTypes">
     <div class="item">
       <span>{{ subType.name }}</span>
@@ -41,14 +60,14 @@
 </ng-template>
 
 <ng-template #unselectedType>
-  <div class="selectionMessage" #empty>Please select a category</div>
+  <div class="selectionMessage" #empty><p>Select a category</p></div>
   <div *ngIf="selectedType != undefined"  class="button">
     <button mat-raised-button color="primary">Add Type</button>
   </div>
 </ng-template>
 
 <ng-template #unselectedSubType>
-  <div class="selectionMessage" #empty>Please select a type</div>
+  <div class="selectionMessage" #empty><p>Select a type</p></div>
   <div *ngIf="selectedType != undefined"  class="button">
     <button mat-raised-button color="primary">Add Type</button>
   </div>

@@ -52,6 +52,7 @@ export class ListCategoriesComponent {
       }
     })
   }
+
   getTypes(category: any)
   {
     this.selectedCategory = category
@@ -61,8 +62,12 @@ export class ListCategoriesComponent {
 
   getSubTypes(type: any)
   {
-    console.log(type)
     this.selectedType = type
     this.subTypes = type.subTypes
+  }
+
+  addNewCategory(name:string)
+  {
+    
   }
 }
