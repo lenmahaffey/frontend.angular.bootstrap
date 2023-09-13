@@ -9,6 +9,9 @@ import { ViewItemComponent } from './view-item/view-item.component';
 import { ListItemsComponent } from './list-items/list-items.component';
 import { InventoryService } from './inventory.service';
 import { ListCategoriesComponent } from './list-categories/list-categories.component';
+import { AddNewCategoryComponent } from './add-new-category/add-new-category.component';
+import { AddNewTypeComponent } from './add-new-type/add-new-type.component';
+import { AddNewSubTypeComponent } from './add-new-sub-type/add-new-sub-type.component';
 
 
 
@@ -19,7 +22,10 @@ import { ListCategoriesComponent } from './list-categories/list-categories.compo
     EditItemComponent,
     ViewItemComponent,
     ListItemsComponent,
-    ListCategoriesComponent
+    ListCategoriesComponent,
+    AddNewCategoryComponent,
+    AddNewTypeComponent,
+    AddNewSubTypeComponent
   ],
   imports: [
     CommonModule,

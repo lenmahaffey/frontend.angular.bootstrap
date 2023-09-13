@@ -34,6 +34,31 @@ export class InventoryService {
     return this.http.get<any>(url, this.headers).pipe(
       catchError(this.handleError.bind(this)))
   }
+
+  AddNewCategory(category: InventoryItemCategory_DTO) : Observable<InventoryItemCategory_DTO>
+  {
+    let url = `${this.apiUrl}/addNewCategory`
+    let body = JSON.stringify(category);
+    return this.http.post<any>(url, body, this.headers).pipe(
+      catchError(this.handleError.bind(this)))
+  }
+
+  AddNewType(type: InventoryItemType_DTO) : Observable<InventoryItemType_DTO>
+  {
+    let url = `${this.apiUrl}/addNewType`
+    let body = JSON.stringify(type);
+    return this.http.post<any>(url, body, this.headers).pipe(
+      catchError(this.handleError.bind(this)))
+  }
+
+  AddNewSubType(subType: InventoryItemType_DTO) : Observable<InventoryItemType_DTO>
+  {
+    let url = `${this.apiUrl}/addNewSubType`
+    let body = JSON.stringify(subType);
+    return this.http.post<any>(url, body, this.headers).pipe(
+      catchError(this.handleError.bind(this)))
+  }
+
   private handleError(err: HttpErrorResponse) {
     let errorMessage = ''
     if (err.error instanceof ErrorEvent) {

@@ -14,7 +14,7 @@ export class Message {
     this.time = new Date()
     this.title = ""
     this.text = ""
-    this.duration = 1
+    this.duration = 3
   }
 }
 
