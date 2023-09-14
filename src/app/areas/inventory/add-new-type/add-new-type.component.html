@@ -1,1 +1,17 @@
-<p>add-new-type works!</p>
+<form [formGroup]="newCategoryForm" (ngSubmit)="addNewType()">
+  <h1 mat-dialog-title>Create New {{ selectedCategory?.name}} Type</h1>
+  <div mat-dialog-content>
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput required type="text" name="name" formControlName="name" [value]=""/>
+      </mat-form-field>
+      <div class="validationError" *ngIf="newCategoryForm.controls['name'].invalid &&
+                  (newCategoryForm.controls['name'].dirty || newCategoryForm.controls['name'].touched)">
+        A type name is required.
+      </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
+    <button mat-raised-button type="submit" color="primary">Ok</button>
+  </div>
+</form>

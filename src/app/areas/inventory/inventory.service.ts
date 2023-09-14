@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Constants } from 'src/app/constants';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItem_DTO } from 'src/app/shared/api/api.models';
+import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_DTO, InventoryItem_DTO } from 'src/app/shared/api/api.models';
 
 @Injectable()
 export class InventoryService {
@@ -51,7 +51,7 @@ export class InventoryService {
       catchError(this.handleError.bind(this)))
   }
 
-  AddNewSubType(subType: InventoryItemType_DTO) : Observable<InventoryItemType_DTO>
+  AddNewSubType(subType: InventoryItemSubType_DTO) : Observable<InventoryItemSubType_DTO>
   {
     let url = `${this.apiUrl}/addNewSubType`
     let body = JSON.stringify(subType);

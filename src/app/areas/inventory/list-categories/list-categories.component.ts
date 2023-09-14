@@ -41,20 +41,20 @@ export class ListCategoriesComponent {
     .subscribe({
       next: (data) =>
       {
-      this.categories = data
+        this.categories = data
       },
       error: (error) =>
       {
-      let message = new Message(MessageType.Error);
-      message.title = "Error!"
-      message.text = error
-      this.notificationService.sendNotification(message)
-      this.appStateService.closeSpinner()
+        let message = new Message(MessageType.Error);
+        message.title = "Error!"
+        message.text = error
+        this.notificationService.sendNotification(message)
+        this.appStateService.closeSpinner()
       },
       complete: () =>
       {
-      sub.unsubscribe();
-      this.appStateService.closeSpinner()
+        sub.unsubscribe();
+        this.appStateService.closeSpinner()
       }
     })
   }
@@ -101,16 +101,21 @@ export class ListCategoriesComponent {
 
   openTypeModal()
   {
-    let dialogRef = this._dialog.open(AddNewTypeComponent)
+    let config = new MatDialogConfig()
+    config.data = this.selectedCategory
+    let dialogRef = this._dialog.open(AddNewTypeComponent, config)
     let sub = dialogRef.componentInstance.nameOutput.subscribe(
       {
         next: (data) =>
         {
-          this.addNewCategory(data)
+          this.addNewType(data)
         },
-        error: ()=>
+        error: (error)=>
         {
-
+          let message = new Message(MessageType.Error);
+          message.title = "Error!"
+          message.text = error
+          this.notificationService.sendNotification(message)
         },
         complete: () =>
         {
@@ -122,16 +127,21 @@ export class ListCategoriesComponent {
 
   openSubTypeModal()
   {
-    let dialogRef = this._dialog.open(AddNewSubTypeComponent)
+    let config = new MatDialogConfig()
+    config.data = this.selectedType
+    let dialogRef = this._dialog.open(AddNewTypeComponent, config)
     let sub = dialogRef.componentInstance.nameOutput.subscribe(
       {
         next: (data) =>
         {
-          this.addNewCategory(data)
+          this.addNewSubType(data)
         },
-        error: ()=>
+        error: (error)=>
         {
-
+          let message = new Message(MessageType.Error);
+          message.title = "Error!"
+          message.text = error
+          this.notificationService.sendNotification(message)
         },
         complete: () =>
         {
@@ -140,6 +150,7 @@ export class ListCategoriesComponent {
         }
       })
   }
+
   addNewCategory(name: string)
   {
     let config:MatDialogConfig = new MatDialogConfig()
@@ -178,11 +189,79 @@ export class ListCategoriesComponent {
 
   addNewType(name: string)
   {
-
+    let config:MatDialogConfig = new MatDialogConfig()
+    config.data =
+    {
+      message: "Creating Type",
+    }
+    config.disableClose = true
+    this.appStateService.openSpinner(config)
+    let newType = new InventoryItemType_DTO();
+    newType.name = name
+    newType.categoryId = this.selectedCategory!.id
+    let sub = this.api.AddNewType(newType).subscribe(
+      {
+        next: (data) =>
+        {
+          this.types.push(data)
+          this.types = this.types.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+          let message = new Message()
+          message.text = `The ${this.categories.find(x => x.id == data.categoryId)?.name} type ${data.name} was created`
+          message.type = MessageType.Success
+          message.autoDismiss = true
+          this.appStateService.closeSpinner()
+          this.alertService.sendAlert(message)
+        },
+        error: (error)=>
+        {
+          let message = new Message(MessageType.Error);
+          message.title = "Error!"
+          message.text = error
+          this.notificationService.sendNotification(message)
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
+        }
+      })
   }
 
   addNewSubType(name: string)
   {
-
+    let config:MatDialogConfig = new MatDialogConfig()
+    config.data =
+    {
+      message: "Creating SubType",
+    }
+    config.disableClose = true
+    this.appStateService.openSpinner(config)
+    let newSubType = new InventoryItemSubType_DTO();
+    newSubType.name = name
+    newSubType.typeId = this.selectedType!.id
+    let sub = this.api.AddNewSubType(newSubType).subscribe(
+      {
+        next: (data) =>
+        {
+          this.subTypes.push(data)
+          this.subTypes = this.subTypes.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+          let message = new Message()
+          message.text = `The ${this.types.find(x => x.id == data.typeId)?.name} type ${data.name} was created`
+          message.type = MessageType.Success
+          message.autoDismiss = true
+          this.appStateService.closeSpinner()
+          this.alertService.sendAlert(message)
+        },
+        error: (error)=>
+        {
+          let message = new Message(MessageType.Error);
+          message.title = "Error!"
+          message.text = error
+          this.notificationService.sendNotification(message)
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
+        }
+      })
   }
 }
