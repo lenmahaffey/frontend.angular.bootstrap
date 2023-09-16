@@ -41,6 +41,9 @@ export class ListCategoriesComponent {
     .subscribe({
       next: (data) =>
       {
+        console.log(this.categories)
+        console.log(this.types)
+        console.log(this.subTypes)
         this.categories = data
       },
       error: (error) =>
@@ -59,17 +62,17 @@ export class ListCategoriesComponent {
     })
   }
 
-  getTypes(category: any)
+  getTypes(category: InventoryItemCategory_DTO)
   {
     this.selectedCategory = category
-    this.types = category.types
+    this.types = category.types || []
     this.selectedType = undefined
   }
 
-  getSubTypes(type: any)
+  getSubTypes(type: InventoryItemType_DTO)
   {
     this.selectedType = type
-    this.subTypes = type.subTypes
+    this.subTypes = type.subTypes || []
   }
 
   selectSubType(subType: InventoryItemSubType_DTO)
