@@ -14,7 +14,6 @@ import { MessageType } from 'src/app/services/message-type.interface';
   styleUrls: ['./list-items.component.scss']
 })
 export class ListItemsComponent {
-  private isLoading: boolean = true
   columns: string[] = ['assetId', 'name'];
   inventory: InventoryItem_DTO[] | undefined
   filteredInventory: InventoryItem_DTO[] = []
@@ -23,15 +22,14 @@ export class ListItemsComponent {
   {
     return this._category
   }
-  
   public set category(value)
   {
     this._category = value
     this._type = undefined
-    if(!this.isLoading)
+    this._subType = undefined
+    if(this.inventory != undefined)
     {
-      this.isLoading = true
-      this.getInventoryItems()
+      this.filterInventoryItems()
     }
   }
 
@@ -42,12 +40,11 @@ export class ListItemsComponent {
   public set type(value)
   {
     this._type = value
-    if(!this.isLoading)
-    {
-      this.isLoading = true
-      this.getInventoryItems()
-    }
     this.subType = undefined
+    if(this.inventory != undefined)
+    {
+      this.filterInventoryItems()
+    }
   }
 
   @Input() public get subType(): InventoryItemSubType_DTO | undefined
@@ -57,10 +54,9 @@ export class ListItemsComponent {
   public set subType(value)
   {
     this._subType = value
-    if(!this.isLoading)
+    if(this.inventory != undefined)
     {
-      this.isLoading = true
-      this.getInventoryItems()
+      this.filterInventoryItems()
     }
   }
 
@@ -81,7 +77,9 @@ export class ListItemsComponent {
     let sub = this.api.ListInventoryItems(this.category, undefined, this.subType).subscribe({
       next: (data) =>
       {
+        console.log(data)
         this.inventory = data
+        this.filterInventoryItems()
       },
       error: (error) =>
       {
@@ -95,10 +93,19 @@ export class ListItemsComponent {
       {
         sub.unsubscribe
         this.appStateService.closeSpinner()
-        this.isLoading = false
       }
     })
   }
+
+  filterInventoryItems()
+  {
+    console.log(this.inventory?.filter(x => x.categoryId == this._category?.id).length)
+    this._category == undefined ?
+      this.filteredInventory = this.inventory ?? [] :
+      this.filteredInventory = this.inventory?.filter(x => x.categoryId == this._category?.id) ?? []
+
+  }
+
   view(user: any){
     this.router.navigate(['/inventory/edititem', user.id])
   }
