@@ -2,7 +2,7 @@
   <mat-card class="category">
     <div class="flexCardContainer">
       <div class="list">
-        <div *ngFor="let cat of categories" (click)="getTypes(cat)" [ngClass]="(selectedCategory == cat) ? 'active' : 'inactive'">
+        <div *ngFor="let cat of categories" (click)="selectCategory(cat)" [ngClass]="(selectedCategory == cat) ? 'active' : 'inactive'">
           <div class="item"><span>{{cat.name}}</span></div>
           <mat-divider></mat-divider>
         </div>
@@ -41,7 +41,7 @@
   <div class="selectionMessage"  *ngIf="selectedCategory?.types?.length == 0">
     <p>There are no types in {{ selectedCategory?.name }} </p>
   </div>
-  <div *ngFor="let type of types" (click)="getSubTypes(type)" [ngClass]="(selectedType == type) ? 'active' : 'inactive'">
+  <div *ngFor="let type of types" (click)="selectType(type)" [ngClass]="(selectedType == type) ? 'active' : 'inactive'">
     <div class="item">
       <span>{{type.name}}</span>
     </div>

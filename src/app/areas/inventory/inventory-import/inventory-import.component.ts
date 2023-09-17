@@ -1,0 +1,57 @@
+import { Component } from '@angular/core';
+import { AppStateService } from 'src/app/services/app-state/app-state-service';
+import { InventoryService } from '../inventory.service';
+import { MatDialogConfig } from '@angular/material/dialog';
+import { HttpEventType } from '@angular/common/http';
+import { Message } from 'src/app/services/message';
+import { MessageType } from 'src/app/services/message-type.interface';
+import { AlertService } from 'src/app/services/alert/alert.service';
+
+@Component({
+  selector: 'app-inventory-import',
+  templateUrl: './inventory-import.component.html',
+  styleUrls: ['./inventory-import.component.scss']
+})
+export class InventoryImportComponent {
+
+  constructor(private appStateService: AppStateService,
+              private alertService:AlertService,
+              private api: InventoryService)
+  {
+
+  }
+  csvInputChange(fileInputEvent: any) {
+    console.log(fileInputEvent.target.files[0]);
+    this.ImportInventoryItems(fileInputEvent.target.files[0])
+  }
+
+  ImportInventoryItems(file: File)
+  {
+    let message = "Uploading File"
+    let spinnerConfig = new MatDialogConfig()
+    spinnerConfig.disableClose = true
+    spinnerConfig.data = {message: message}
+    this.appStateService.openSpinner(spinnerConfig);
+    this.api.ImportInventoryItems(file).subscribe(
+      {
+        next: (event) =>
+        {
+
+        },
+        error: (error) =>
+        {
+
+        },
+        complete: () =>
+        {
+          let message = new Message()
+          message.text = `The file was successfully uploaded`
+          message.type = MessageType.Success
+          message.autoDismiss = true
+          this.appStateService.closeSpinner()
+          this.alertService.sendAlert(message)
+          this.appStateService.closeSpinner()
+        }
+      })
+  }
+}

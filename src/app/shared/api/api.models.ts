@@ -15,8 +15,12 @@ export class InventoryItem_DTO implements IInventoryItem_DTO {
     length?: number | undefined;
     width?: number | undefined;
     height?: number | undefined;
-    typeId!: number;
+    categoryId!: number;
+    typeId?: number | undefined;
+    subTypeId?: number | undefined;
+    category!: InventoryItemCategory_DTO;
     type!: InventoryItemType_DTO;
+    subType!: InventoryItemSubType_DTO;
     isContainer!: boolean;
     isAssetTracked!: boolean;
 
@@ -28,7 +32,9 @@ export class InventoryItem_DTO implements IInventoryItem_DTO {
             }
         }
         if (!data) {
+            this.category = new InventoryItemCategory_DTO();
             this.type = new InventoryItemType_DTO();
+            this.subType = new InventoryItemSubType_DTO();
         }
     }
 
@@ -50,8 +56,12 @@ export class InventoryItem_DTO implements IInventoryItem_DTO {
             this.length = _data["length"];
             this.width = _data["width"];
             this.height = _data["height"];
+            this.categoryId = _data["categoryId"];
             this.typeId = _data["typeId"];
+            this.subTypeId = _data["subTypeId"];
+            this.category = _data["category"] ? InventoryItemCategory_DTO.fromJS(_data["category"]) : new InventoryItemCategory_DTO();
             this.type = _data["type"] ? InventoryItemType_DTO.fromJS(_data["type"]) : new InventoryItemType_DTO();
+            this.subType = _data["subType"] ? InventoryItemSubType_DTO.fromJS(_data["subType"]) : new InventoryItemSubType_DTO();
             this.isContainer = _data["isContainer"];
             this.isAssetTracked = _data["isAssetTracked"];
         }
@@ -82,8 +92,12 @@ export class InventoryItem_DTO implements IInventoryItem_DTO {
         data["length"] = this.length;
         data["width"] = this.width;
         data["height"] = this.height;
+        data["categoryId"] = this.categoryId;
         data["typeId"] = this.typeId;
+        data["subTypeId"] = this.subTypeId;
+        data["category"] = this.category ? this.category.toJSON() : <any>undefined;
         data["type"] = this.type ? this.type.toJSON() : <any>undefined;
+        data["subType"] = this.subType ? this.subType.toJSON() : <any>undefined;
         data["isContainer"] = this.isContainer;
         data["isAssetTracked"] = this.isAssetTracked;
         return data;
@@ -107,10 +121,70 @@ export interface IInventoryItem_DTO {
     length?: number | undefined;
     width?: number | undefined;
     height?: number | undefined;
-    typeId: number;
+    categoryId: number;
+    typeId?: number | undefined;
+    subTypeId?: number | undefined;
+    category: InventoryItemCategory_DTO;
     type: InventoryItemType_DTO;
+    subType: InventoryItemSubType_DTO;
     isContainer: boolean;
     isAssetTracked: boolean;
+}
+
+export class InventoryItemCategory_DTO implements IInventoryItemCategory_DTO {
+    id!: number;
+    name!: string;
+    description?: string | undefined;
+    types?: InventoryItemType_DTO[] | undefined;
+
+    constructor(data?: IInventoryItemCategory_DTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.description = _data["description"];
+            if (Array.isArray(_data["types"])) {
+                this.types = [] as any;
+                for (let item of _data["types"])
+                    this.types!.push(InventoryItemType_DTO.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): InventoryItemCategory_DTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new InventoryItemCategory_DTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        if (Array.isArray(this.types)) {
+            data["types"] = [];
+            for (let item of this.types)
+                data["types"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IInventoryItemCategory_DTO {
+    id: number;
+    name: string;
+    description?: string | undefined;
+    types?: InventoryItemType_DTO[] | undefined;
 }
 
 export class InventoryItemType_DTO implements IInventoryItemType_DTO {
@@ -221,13 +295,12 @@ export interface IInventoryItemSubType_DTO {
     typeId: number;
 }
 
-export class InventoryItemCategory_DTO implements IInventoryItemCategory_DTO {
-    id!: number;
-    name!: string;
-    description?: string | undefined;
-    types?: InventoryItemType_DTO[] | undefined;
+export class ListInventoryItemsViewModel implements IListInventoryItemsViewModel {
+    catgeoryId?: number | undefined;
+    typeId?: number | undefined;
+    subTypeId?: number | undefined;
 
-    constructor(data?: IInventoryItemCategory_DTO) {
+    constructor(data?: IListInventoryItemsViewModel) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -238,43 +311,32 @@ export class InventoryItemCategory_DTO implements IInventoryItemCategory_DTO {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
-            this.description = _data["description"];
-            if (Array.isArray(_data["types"])) {
-                this.types = [] as any;
-                for (let item of _data["types"])
-                    this.types!.push(InventoryItemType_DTO.fromJS(item));
-            }
+            this.catgeoryId = _data["catgeoryId"];
+            this.typeId = _data["typeId"];
+            this.subTypeId = _data["subTypeId"];
         }
     }
 
-    static fromJS(data: any): InventoryItemCategory_DTO {
+    static fromJS(data: any): ListInventoryItemsViewModel {
         data = typeof data === 'object' ? data : {};
-        let result = new InventoryItemCategory_DTO();
+        let result = new ListInventoryItemsViewModel();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["description"] = this.description;
-        if (Array.isArray(this.types)) {
-            data["types"] = [];
-            for (let item of this.types)
-                data["types"].push(item.toJSON());
-        }
+        data["catgeoryId"] = this.catgeoryId;
+        data["typeId"] = this.typeId;
+        data["subTypeId"] = this.subTypeId;
         return data;
     }
 }
 
-export interface IInventoryItemCategory_DTO {
-    id: number;
-    name: string;
-    description?: string | undefined;
-    types?: InventoryItemType_DTO[] | undefined;
+export interface IListInventoryItemsViewModel {
+    catgeoryId?: number | undefined;
+    typeId?: number | undefined;
+    subTypeId?: number | undefined;
 }
 
 export class User_DTO implements IUser_DTO {
@@ -620,6 +682,7 @@ export class User implements IUser {
     firstName!: string;
     middleName?: string | undefined;
     lastName!: string;
+    version!: number;
 
     constructor(data?: IUser) {
         if (data) {
@@ -640,6 +703,7 @@ export class User implements IUser {
             this.firstName = _data["firstName"];
             this.middleName = _data["middleName"];
             this.lastName = _data["lastName"];
+            this.version = _data["version"];
         }
     }
 
@@ -660,6 +724,7 @@ export class User implements IUser {
         data["firstName"] = this.firstName;
         data["middleName"] = this.middleName;
         data["lastName"] = this.lastName;
+        data["version"] = this.version;
         return data;
     }
 }
@@ -673,6 +738,7 @@ export interface IUser {
     firstName: string;
     middleName?: string | undefined;
     lastName: string;
+    version: number;
 }
 
 export class ContactInformation implements IContactInformation {
@@ -682,6 +748,7 @@ export class ContactInformation implements IContactInformation {
     physicalAddresses?: PhysicalAddress[] | undefined;
     emailAddresses?: EmailAddress[] | undefined;
     phoneNumbers?: PhoneNumber[] | undefined;
+    version!: number;
 
     constructor(data?: IContactInformation) {
         if (data) {
@@ -712,6 +779,7 @@ export class ContactInformation implements IContactInformation {
                 for (let item of _data["phoneNumbers"])
                     this.phoneNumbers!.push(PhoneNumber.fromJS(item));
             }
+            this.version = _data["version"];
         }
     }
 
@@ -742,6 +810,7 @@ export class ContactInformation implements IContactInformation {
             for (let item of this.phoneNumbers)
                 data["phoneNumbers"].push(item.toJSON());
         }
+        data["version"] = this.version;
         return data;
     }
 }
@@ -753,6 +822,7 @@ export interface IContactInformation {
     physicalAddresses?: PhysicalAddress[] | undefined;
     emailAddresses?: EmailAddress[] | undefined;
     phoneNumbers?: PhoneNumber[] | undefined;
+    version: number;
 }
 
 export class PhysicalAddress implements IPhysicalAddress {
@@ -766,6 +836,7 @@ export class PhysicalAddress implements IPhysicalAddress {
     state!: string;
     postalCode!: string;
     addressType!: AddressType;
+    version!: number;
 
     constructor(data?: IPhysicalAddress) {
         if (data) {
@@ -788,6 +859,7 @@ export class PhysicalAddress implements IPhysicalAddress {
             this.state = _data["state"];
             this.postalCode = _data["postalCode"];
             this.addressType = _data["addressType"];
+            this.version = _data["version"];
         }
     }
 
@@ -810,6 +882,7 @@ export class PhysicalAddress implements IPhysicalAddress {
         data["state"] = this.state;
         data["postalCode"] = this.postalCode;
         data["addressType"] = this.addressType;
+        data["version"] = this.version;
         return data;
     }
 }
@@ -825,6 +898,7 @@ export interface IPhysicalAddress {
     state: string;
     postalCode: string;
     addressType: AddressType;
+    version: number;
 }
 
 export class EmailAddress implements IEmailAddress {
@@ -834,6 +908,7 @@ export class EmailAddress implements IEmailAddress {
     address!: string;
     label!: string;
     priority!: number;
+    version!: number;
 
     constructor(data?: IEmailAddress) {
         if (data) {
@@ -852,6 +927,7 @@ export class EmailAddress implements IEmailAddress {
             this.address = _data["address"];
             this.label = _data["label"];
             this.priority = _data["priority"];
+            this.version = _data["version"];
         }
     }
 
@@ -870,6 +946,7 @@ export class EmailAddress implements IEmailAddress {
         data["address"] = this.address;
         data["label"] = this.label;
         data["priority"] = this.priority;
+        data["version"] = this.version;
         return data;
     }
 }
@@ -881,6 +958,7 @@ export interface IEmailAddress {
     address: string;
     label: string;
     priority: number;
+    version: number;
 }
 
 export class PhoneNumber implements IPhoneNumber {
@@ -893,6 +971,7 @@ export class PhoneNumber implements IPhoneNumber {
     localNumber!: string;
     label!: string;
     priority!: number;
+    version!: number;
 
     constructor(data?: IPhoneNumber) {
         if (data) {
@@ -914,6 +993,7 @@ export class PhoneNumber implements IPhoneNumber {
             this.localNumber = _data["localNumber"];
             this.label = _data["label"];
             this.priority = _data["priority"];
+            this.version = _data["version"];
         }
     }
 
@@ -935,6 +1015,7 @@ export class PhoneNumber implements IPhoneNumber {
         data["localNumber"] = this.localNumber;
         data["label"] = this.label;
         data["priority"] = this.priority;
+        data["version"] = this.version;
         return data;
     }
 }
@@ -949,6 +1030,7 @@ export interface IPhoneNumber {
     localNumber: string;
     label: string;
     priority: number;
+    version: number;
 }
 
 export interface FileResponse {

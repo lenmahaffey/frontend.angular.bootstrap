@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
@@ -8,6 +8,7 @@ import { InventoryService } from '../inventory.service';
 import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_DTO } from 'src/app/shared/api/api.models';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
+import { SpinnerComponent } from 'src/app/shared/spinner/spinner.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,46 +18,34 @@ import { MessageType } from 'src/app/services/message-type.interface';
 export class DashboardComponent {
 
   columns: string[] = []
+
   categories: InventoryItemCategory_DTO[] = []
   types: InventoryItemType_DTO[] = []
   subTypes: InventoryItemSubType_DTO[] = []
+
+  selectedCategory: InventoryItemCategory_DTO | undefined
+  selectedType: InventoryItemType_DTO | undefined
+  selectedSubType: InventoryItemSubType_DTO | undefined
+
   links: InventorySideBarNavLinks = new InventorySideBarNavLinks()
-  constructor(private api: InventoryService,
-              private alertService:AlertService,
-              private notificationService: NotificationService,
-              private _dialog: MatDialog,
+  constructor(private notificationService: NotificationService,
               private appStateService: AppStateService)
   {
     this.appStateService.setLeftSideMenuItems(this.links)
-    let catSub = this.api.ListAllCategories().subscribe({
-      next: (data) =>
-      {
-        this.categories = data
-        console.log(data)
-      },
-      error: (error) =>
-      {
-        let message = new Message(MessageType.Error);
-        message.title = "Error!"
-        message.text = error
-        this.notificationService.sendNotification(message)
-        this.appStateService.closeSpinner()
-      },
-      complete: () =>
-      {
-        catSub.unsubscribe();
-        this.appStateService.closeSpinner()
-      }
-    })
+  }
 
-  }
-  getTypes(event: any)
+  selectCategory(catagory: InventoryItemCategory_DTO | undefined)
   {
-    this.types = event.types
+    this.selectedCategory = catagory
   }
-  getSubTypes(event: any)
+
+  selectType(type: InventoryItemType_DTO | undefined)
   {
-    console.log(event)
-    this.subTypes = event.subTypes
+    this.selectedType = type
+  }
+
+  selectSubType(event: InventoryItemSubType_DTO| undefined)
+  {
+    this.selectedSubType = event
   }
 }

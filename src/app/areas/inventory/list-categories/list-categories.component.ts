@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
@@ -9,7 +9,7 @@ import { InventoryService } from '../inventory.service';
 import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_DTO } from 'src/app/shared/api/api.models';
 import { AddNewCategoryComponent } from '../add-new-category/add-new-category.component';
 import { AddNewTypeComponent } from '../add-new-type/add-new-type.component';
-import { AddNewSubTypeComponent } from '../add-new-sub-type/add-new-sub-type.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-view-categories',
@@ -21,6 +21,10 @@ export class ListCategoriesComponent {
   categories: InventoryItemCategory_DTO[] = []
   types: InventoryItemType_DTO[] = []
   subTypes: InventoryItemSubType_DTO[] = []
+
+  @Output() categoryOutput: EventEmitter<InventoryItemCategory_DTO | undefined> = new EventEmitter()
+  @Output() typeOutput: EventEmitter<InventoryItemType_DTO | undefined> = new EventEmitter()
+  @Output() subTypeOutput: EventEmitter<InventoryItemSubType_DTO | undefined> = new EventEmitter()
 
   selectedCategory: InventoryItemCategory_DTO | undefined
   selectedType: InventoryItemType_DTO | undefined
@@ -41,9 +45,6 @@ export class ListCategoriesComponent {
     .subscribe({
       next: (data) =>
       {
-        console.log(this.categories)
-        console.log(this.types)
-        console.log(this.subTypes)
         this.categories = data
       },
       error: (error) =>
@@ -62,22 +63,25 @@ export class ListCategoriesComponent {
     })
   }
 
-  getTypes(category: InventoryItemCategory_DTO)
+  selectCategory(category: InventoryItemCategory_DTO)
   {
+    this.categoryOutput.next(category)
     this.selectedCategory = category
     this.types = category.types || []
     this.selectedType = undefined
   }
 
-  getSubTypes(type: InventoryItemType_DTO)
+  selectType(type: InventoryItemType_DTO)
   {
+    this.typeOutput.next(type)
     this.selectedType = type
     this.subTypes = type.subTypes || []
+    this.selectedSubType = undefined
   }
 
   selectSubType(subType: InventoryItemSubType_DTO)
   {
-    console.log(subType)
+    this.subTypeOutput.next(subType)
     this.selectedSubType = subType
   }
 

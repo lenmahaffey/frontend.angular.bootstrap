@@ -1,13 +1,16 @@
 <div class="flexContainer">
   <div class="flexItem category">
-    <app-view-categories></app-view-categories>
+    <app-view-categories (categoryOutput)="selectCategory($event)"
+                         (typeOutput)="selectType($event)"
+                         (subTypeOutput)="selectSubType($event)">
+    </app-view-categories>
   </div>
 
   <div class="flexItem main">
     <div class="itemViewContainer">
       <div class="itemView">item</div>
       <div class="listView">
-        <app-list-items></app-list-items>
+        <app-list-items [category]="selectedCategory" [type]="selectedType" [subType]="selectedSubType" ></app-list-items>
       </div>
     </div>
   </div>

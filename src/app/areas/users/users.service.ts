@@ -52,9 +52,19 @@ export class UsersService {
     let errorMessage = ''
     if (err.error instanceof ErrorEvent) {
         errorMessage = `An error occured: ${err.error.message}`
+        let message = new Message()
+        message.type = MessageType.Error
+        message.title = "Error"
+        message.text = errorMessage
+        this.notificationService.sendNotification(message)
     }
     else {
         errorMessage = `Server returned code ${err.status}, error message is ${err.message}`
+        let message = new Message()
+        message.type = MessageType.Error
+        message.title = "Error"
+        message.text = errorMessage
+        this.notificationService.sendNotification(message)
     }
     return throwError(() => errorMessage)
   }

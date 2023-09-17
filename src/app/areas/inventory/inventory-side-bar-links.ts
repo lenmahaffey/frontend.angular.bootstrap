@@ -20,6 +20,12 @@ export class InventorySideBarNavLinks implements SideBarNavLinks
           items:[
           { href:"inventory/viewcategories", text:"View Catagories" },
         ]},
+        {
+          id: "3",
+          title:"Import Inventory",
+          items:[
+          { href:"inventory/import", text:"Import Inventory" },
+        ]},
       ]
     }
   }
