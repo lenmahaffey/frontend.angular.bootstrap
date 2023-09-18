@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { PhoneNumber } from '../api/api.models';
+import { PhoneNumber_DTO } from '../api/api.models';
 
 @Pipe({
   name: 'phoneNumberFormatter'
 })
 export class PhoneNumberToFormattedStringPipe implements PipeTransform {
 
-  transform(value: PhoneNumber): string | null {
+  transform(value: PhoneNumber_DTO): string | null {
     if(value?.localNumber != null)
     {
       let prefix = value.localNumber.slice(0,3)

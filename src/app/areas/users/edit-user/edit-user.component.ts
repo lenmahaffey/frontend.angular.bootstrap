@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../users.service';
-import { AddressType, PhysicalAddress, User } from 'src/app/shared/api/api.models';
+import { AddressType, PhysicalAddress_DTO, User_DTO } from 'src/app/shared/api/api.models';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PhoneNumberToFormattedStringPipe } from 'src/app/shared/pipes/phone-number-to-formatted-string.pipe';
 import { FormattedStringToPhoneNumberPipe } from 'src/app/shared/pipes/formatted-string-to-phone-number.pipe';
@@ -20,11 +20,11 @@ import { NotificationService } from 'src/app/services/notification/notification.
 export class EditUserComponent {
   config = new MatDialogConfig()
   id = 0
-  user: User = new User()
+  user: User_DTO = new User_DTO()
 
-  mailingAddress: PhysicalAddress | undefined
-  billingAddress:  PhysicalAddress | undefined
-  shippingAddress: PhysicalAddress | undefined
+  mailingAddress: PhysicalAddress_DTO | undefined
+  billingAddress:  PhysicalAddress_DTO | undefined
+  shippingAddress: PhysicalAddress_DTO | undefined
 
   nameForm = new FormGroup({
     prefix: new FormControl(""),
@@ -153,7 +153,7 @@ export class EditUserComponent {
     }
   }
 
-  updateUserWithNameFormValues(user: User)
+  updateUserWithNameFormValues(user: User_DTO)
   {
     this.nameForm.value.prefix != null || this.nameForm.value.firstName != undefined ?
       user.prefix = this.nameForm.value.prefix ?? undefined : null
@@ -167,7 +167,7 @@ export class EditUserComponent {
       user.lastName = this.nameForm.value.lastName : null
   }
 
-  updateUserWithEmailFormValues(user: User)
+  updateUserWithEmailFormValues(user: User_DTO)
   {
     // this.emailForm.value.primary != null || this.emailForm.value.primary != undefined ?
     //   user.primaryEmail!.address = this.emailForm.value.primary : null
@@ -176,7 +176,7 @@ export class EditUserComponent {
     //   user.secondaryEmail!.address = this.emailForm.value.secondary : null
   }
 
-  updateUserWithPhoneNumberFormValues(user: User)
+  updateUserWithPhoneNumberFormValues(user: User_DTO)
   {
     // this.phoneNumberForm.value.phone1 != null || this.phoneNumberForm.value.phone1 != undefined ?
     //  user.phoneNumber1 = this.stringToPhone.transform(this.phoneNumberForm.value.phone1) : null
@@ -188,7 +188,7 @@ export class EditUserComponent {
     //   user.phoneNumber3 = this.stringToPhone.transform(this.phoneNumberForm.value.phone3 ?? "") : null
   }
 
-  getAddressUpdates(user: User)
+  getAddressUpdates(user: User_DTO)
   {
     // this.mailingAddress != undefined && Object.keys(this.mailingAddress).length > 0 ?
     //   user.mailingAddress = this.mailingAddress : undefined
@@ -253,15 +253,15 @@ export class EditUserComponent {
   {
     if(name == "mailing")
     {
-      this.mailingAddress = new PhysicalAddress()
+      this.mailingAddress = new PhysicalAddress_DTO()
     }
     else if (name == "billing")
     {
-      this.billingAddress = new PhysicalAddress()
+      this.billingAddress = new PhysicalAddress_DTO()
     }
     else if(name == "shipping")
     {
-      this.shippingAddress = new PhysicalAddress()
+      this.shippingAddress = new PhysicalAddress_DTO()
     }
   }
 }

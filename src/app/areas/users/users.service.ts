@@ -5,7 +5,7 @@ import { Constants } from 'src/app/constants';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { PhysicalAddress, User } from 'src/app/shared/api/api.models';
+import { PhysicalAddress_DTO, User_DTO } from 'src/app/shared/api/api.models';
 
 @Injectable()
 export class UsersService {
@@ -16,7 +16,7 @@ export class UsersService {
   constructor(private notificationService: NotificationService, private http: HttpClient)
   {}
 
-  ListAllUsers() : Observable<User[]>
+  ListAllUsers() : Observable<User_DTO[]>
   {
     let url = `${this.apiUrl}/listallusers`
     return this.http.get<any>(url, this.headers).pipe(
@@ -31,19 +31,19 @@ export class UsersService {
       catchError(this.handleError.bind(this)))
   }
 
-  updateUser(user: User)
+  updateUser(user: User_DTO)
   {
     let url = `${this.apiUrl}/updateuser/`
     let body = JSON.stringify(user)
-    return this.http.put<User>(url, body, this.headers).pipe(
+    return this.http.put<User_DTO>(url, body, this.headers).pipe(
       catchError(this.handleError.bind(this)))
   }
 
-  testMethod(address: PhysicalAddress)
+  testMethod(address: PhysicalAddress_DTO)
   {
     let url = `${this.apiUrl}/testmethod/`
     let body = JSON.stringify(address)
-    return this.http.post<User>(url, body, this.headers).pipe(
+    return this.http.post<User_DTO>(url, body, this.headers).pipe(
       catchError(this.handleError.bind(this)))
   }
 

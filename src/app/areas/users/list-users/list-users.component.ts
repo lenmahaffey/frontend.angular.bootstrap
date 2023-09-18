@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { UsersService } from '../users.service';
 import { Router } from '@angular/router';
-import { User } from 'src/app/shared/api/api.models';
+import { User_DTO } from 'src/app/shared/api/api.models';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { MessageType } from 'src/app/services/message-type.interface';
@@ -18,7 +18,7 @@ export class ListUsersComponent {
 
   users = []
   displayedColumns: string[] = ['id', 'firstname', 'lastname'];
-  data:User[] = []
+  data:User_DTO[] = []
   dialogConfig: MatDialogConfig
   constructor(private api: UsersService,
               private router: Router,

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, AfterViewInit, OnChanges, SimpleChanges, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { PhysicalAddress } from 'src/app/shared/api/api.models';
+import { PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
 
 @Component({
   selector: 'app-address-form',
@@ -9,9 +9,9 @@ import { PhysicalAddress } from 'src/app/shared/api/api.models';
 })
 export class AddressFormComponent implements AfterViewInit, OnChanges {
 
-  @Input() address: PhysicalAddress | undefined
+  @Input() address: PhysicalAddress_DTO | undefined
   @Input() title: string = ""
-  @Output() addressUpdate = new EventEmitter<PhysicalAddress>()
+  @Output() addressUpdate = new EventEmitter<PhysicalAddress_DTO>()
 
   isVisible = "hide"
   addressForm: FormGroup = new FormGroup({
@@ -66,7 +66,7 @@ export class AddressFormComponent implements AfterViewInit, OnChanges {
     console.log(this.addressForm)
     if(this.addressForm.valid && this.addressForm.dirty)
     {
-      let addressUpdate = new PhysicalAddress()
+      let addressUpdate = new PhysicalAddress_DTO()
       addressUpdate.line1 = this.addressForm.value.line1
       addressUpdate.line2 = this.addressForm.value.line2
       addressUpdate.city = this.addressForm.value.city
