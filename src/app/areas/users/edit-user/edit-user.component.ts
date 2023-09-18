@@ -90,10 +90,6 @@ export class EditUserComponent {
           },
           error: (error) =>
           {
-            let message = new Message(MessageType.Error);
-            message.title = "Error!"
-            message.text = error
-            this.notificationService.sendNotification(message)
           },
           complete: () =>
           {
@@ -227,10 +223,6 @@ export class EditUserComponent {
         },
         error: (error) =>
         {
-          let message = new Message(MessageType.Error);
-          message.title = "Error!"
-          message.text = error
-          this.notificationService.sendNotification(message)
         },
         complete: () =>
         {

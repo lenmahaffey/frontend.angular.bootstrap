@@ -49,10 +49,6 @@ export class ListCategoriesComponent {
       },
       error: (error) =>
       {
-        let message = new Message(MessageType.Error);
-        message.title = "Error!"
-        message.text = error
-        this.notificationService.sendNotification(message)
         this.appStateService.closeSpinner()
       },
       complete: () =>
@@ -119,10 +115,6 @@ export class ListCategoriesComponent {
         },
         error: (error)=>
         {
-          let message = new Message(MessageType.Error);
-          message.title = "Error!"
-          message.text = error
-          this.notificationService.sendNotification(message)
         },
         complete: () =>
         {
@@ -145,10 +137,6 @@ export class ListCategoriesComponent {
         },
         error: (error)=>
         {
-          let message = new Message(MessageType.Error);
-          message.title = "Error!"
-          message.text = error
-          this.notificationService.sendNotification(message)
         },
         complete: () =>
         {
@@ -221,10 +209,6 @@ export class ListCategoriesComponent {
         },
         error: (error)=>
         {
-          let message = new Message(MessageType.Error);
-          message.title = "Error!"
-          message.text = error
-          this.notificationService.sendNotification(message)
         },
         complete: () =>
         {
@@ -260,10 +244,6 @@ export class ListCategoriesComponent {
         },
         error: (error)=>
         {
-          let message = new Message(MessageType.Error);
-          message.title = "Error!"
-          message.text = error
-          this.notificationService.sendNotification(message)
         },
         complete: () =>
         {

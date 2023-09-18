@@ -83,11 +83,6 @@ export class ListItemsComponent {
       },
       error: (error) =>
       {
-        let message = new Message(MessageType.Error);
-        message.title = "Error!"
-        message.text = error
-        this.notificationService.sendNotification(message)
-        this.appStateService.closeSpinner()
       },
       complete: () =>
       {
