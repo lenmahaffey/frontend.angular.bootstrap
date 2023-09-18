@@ -76,14 +76,13 @@ export class InventoryService {
     )
   }
 
-  private handleError(err: HttpErrorResponse) {
-    let errorMessage = ''
-    errorMessage = `${err.error}`
+  private handleError(response: HttpErrorResponse) {
     let message = new Message()
     message.type = MessageType.Error
-    message.title = `Server returned code ${err.status}`
-    message.text = errorMessage
+    message.text = response.error.title
+    message.title = "API Error"
+    console.log(response)
     this.notificationService.sendNotification(message)
-    return throwError(() => errorMessage)
+    return throwError(() => response.error)
   }
 }
