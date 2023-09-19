@@ -5,8 +5,7 @@ import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_DTO, InventoryItem_DTO } from 'src/app/shared/api/api.models';
 import { InventoryService } from '../inventory.service';
-import { Message } from 'src/app/services/message';
-import { MessageType } from 'src/app/services/message-type.interface';
+import { MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-list-items',
@@ -74,10 +73,13 @@ export class ListItemsComponent {
 
   getInventoryItems()
   {
+    let spinnerConfig = new MatDialogConfig()
+    spinnerConfig.disableClose = true
+    spinnerConfig.data = {message: "Getting Inventory"}
+    this.appStateService.openSpinner(spinnerConfig);
     let sub = this.api.ListInventoryItems(this.category, undefined, this.subType).subscribe({
       next: (data) =>
       {
-        console.log(data)
         this.inventory = data
         this.filterInventoryItems()
       },
@@ -94,11 +96,24 @@ export class ListItemsComponent {
 
   filterInventoryItems()
   {
-    console.log(this.inventory?.filter(x => x.categoryId == this._category?.id).length)
-    this._category == undefined ?
-      this.filteredInventory = this.inventory ?? [] :
+    if(this._category == undefined)
+    {
+      this.filteredInventory = this.inventory ?? []
+      return
+    }
+    else
+    {
       this.filteredInventory = this.inventory?.filter(x => x.categoryId == this._category?.id) ?? []
+    }
 
+    if(this._type != undefined)
+    {
+      this.filteredInventory = this.inventory?.filter(x => x.typeId == this._type?.id) ?? []
+    }
+    if(this._subType != undefined)
+    {
+      this.filteredInventory = this.inventory?.filter(x => x.subTypeId == this._subType?.id) ?? []
+    }
   }
 
   view(user: any){

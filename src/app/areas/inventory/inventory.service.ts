@@ -76,13 +76,24 @@ export class InventoryService {
     )
   }
 
-  private handleError(response: HttpErrorResponse) {
-    let message = new Message()
-    message.type = MessageType.Error
-    message.text = response.error.title
-    message.title = "API Error"
-    console.log(response)
-    this.notificationService.sendNotification(message)
-    return throwError(() => response.error)
+  private handleError(err: HttpErrorResponse) {
+    let errorMessage = ''
+    if (err.error instanceof ErrorEvent) {
+        errorMessage = `An error occured: ${err.error.message}`
+        let message = new Message()
+        message.type = MessageType.Error
+        message.title = "Error"
+        message.text = errorMessage
+        this.notificationService.sendNotification(message)
+    }
+    else {
+        errorMessage = `Server returned code ${err.status}, error message is ${err.message}`
+        let message = new Message()
+        message.type = MessageType.Error
+        message.title = "Error"
+        message.text = errorMessage
+        this.notificationService.sendNotification(message)
+    }
+    return throwError(() => errorMessage)
   }
 }
