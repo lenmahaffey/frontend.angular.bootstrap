@@ -1,0 +1,13 @@
+.flexContainer{
+  margin:10%;
+  display: flex;
+}
+
+mat-card{
+  flex: 1;
+}
+
+mat-panel-title{
+  color: black !important;
+  font-size: large;
+}

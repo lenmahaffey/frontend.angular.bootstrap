@@ -13,6 +13,7 @@ import { AddNewCategoryComponent } from './add-new-category/add-new-category.com
 import { AddNewTypeComponent } from './add-new-type/add-new-type.component';
 import { AddNewSubTypeComponent } from './add-new-sub-type/add-new-sub-type.component';
 import { InventoryImportComponent } from './inventory-import/inventory-import.component';
+import { InventoryTreeComponent } from './inventory-tree/inventory-tree.component';
 
 
 
@@ -28,6 +29,7 @@ import { InventoryImportComponent } from './inventory-import/inventory-import.co
     AddNewTypeComponent,
     AddNewSubTypeComponent,
     InventoryImportComponent,
+    InventoryTreeComponent,
   ],
   imports: [
     CommonModule,
@@ -38,6 +40,7 @@ import { InventoryImportComponent } from './inventory-import/inventory-import.co
       { path: 'inventory/edititem/:id', component: EditItemComponent },
       { path: 'inventory/viewcategories', component: ListCategoriesComponent },
       { path: 'inventory/import', component: InventoryImportComponent },
+      { path: 'inventory/tree', component: InventoryTreeComponent },
     ]),
     SharedModule
   ],

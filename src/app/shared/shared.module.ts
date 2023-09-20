@@ -12,6 +12,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { HttpClientModule } from '@angular/common/http';
 import { PhoneNumberToFormattedStringPipe } from './pipes/phone-number-to-formatted-string.pipe';
 import { FormattedStringToPhoneNumberPipe } from './pipes/formatted-string-to-phone-number.pipe';
+import { CurrencyFormatterPipe } from './pipes/currency-formatter.pipe';
+import { MonthNameFromDatePipe } from './pipes/month-name-from-date.pipe';
 
 @NgModule({
   declarations: [
@@ -21,11 +23,14 @@ import { FormattedStringToPhoneNumberPipe } from './pipes/formatted-string-to-ph
     FormattedStringToPhoneNumberPipe,
     ConfirmationDialogComponent,
     SpinnerComponent,
+    CurrencyFormatterPipe,
+    MonthNameFromDatePipe,
   ],
   imports: [
     MaterialModule
   ],
   exports:[
+    CurrencyFormatterPipe,
     ToShortDateStringPipe,
     ToShortTimeStringPipe,
     PhoneNumberToFormattedStringPipe,
@@ -44,6 +49,7 @@ import { FormattedStringToPhoneNumberPipe } from './pipes/formatted-string-to-ph
     ToShortTimeStringPipe,
     PhoneNumberToFormattedStringPipe,
     FormattedStringToPhoneNumberPipe,
+    CurrencyFormatterPipe
   ]
 })
 export class SharedModule { }

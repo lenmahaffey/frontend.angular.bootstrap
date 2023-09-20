@@ -17,7 +17,7 @@ export class InventoryService {
 
   ListInventoryItems(category: InventoryItemCategory_DTO | undefined,
                      type: InventoryItemType_DTO | undefined,
-                     subType: InventoryItemSubType_DTO | undefined) : Observable<InventoryItem_DTO[]>
+                     subType: InventoryItemSubType_DTO | undefined) : Observable<any>
   {
     let url = `${this.apiUrl}/listInventoryItems`
     let model = new ListInventoryItemsViewModel()
@@ -91,7 +91,7 @@ export class InventoryService {
         let message = new Message()
         message.type = MessageType.Error
         message.title = "Error"
-        message.text = errorMessage
+        message.text = err.error.message
         this.notificationService.sendNotification(message)
     }
     return throwError(() => errorMessage)

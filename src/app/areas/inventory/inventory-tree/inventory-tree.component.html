@@ -1,0 +1,68 @@
+<div class="flexContainer">
+  <mat-card>
+    <mat-card-content>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <td>Quantity</td>
+            <td>Name</td>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let group of groupedInventory | keyvalue">
+              <ng-container
+                 [ngTemplateOutlet]="group.value[0].isAssetTracked ? assetTracked : nonAssetTracked"
+                 [ngTemplateOutletContext]="{group:group}">
+              </ng-container>
+            </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<ng-template #assetTracked let-group="group">
+  <td>{{ group.value.length }}</td>
+  <td>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ group.key }}
+          </mat-panel-title>
+          <mat-panel-description>
+            <mat-icon></mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <td>AssetId</td>
+              <td>price</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of group.value">
+              <td>{{ item.assetId }}</td>
+              <td>{{ item.purchasePrice | currencyFormatter }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </mat-expansion-panel>
+  </td>
+</ng-template>
+
+<ng-template #nonAssetTracked let-group="group">
+  <td>{{ group.value[0].quantity }}</td>
+  <div>
+    <mat-expansion-panel hideToggle disabled>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ group.key }}
+        </mat-panel-title>
+        <mat-panel-description>
+          <mat-icon></mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+  </div>
+</ng-template>
