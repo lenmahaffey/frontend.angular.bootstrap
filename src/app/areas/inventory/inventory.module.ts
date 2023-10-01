@@ -3,17 +3,18 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AddItemComponent } from './add-item/add-item.component';
+import { AddItemComponent } from './components/add-item/add-item.component';
 import { EditItemComponent } from './edit-item/edit-item.component';
-import { ViewItemComponent } from './view-item/view-item.component';
-import { ListItemsComponent } from './list-items/list-items.component';
+import { ViewItemComponent } from './components/view-item/view-item.component';
+import { ListItemsComponent } from './components/list-items/list-items.component';
 import { InventoryService } from './inventory.service';
-import { ListCategoriesComponent } from './list-categories/list-categories.component';
-import { AddNewCategoryComponent } from './add-new-category/add-new-category.component';
-import { AddNewTypeComponent } from './add-new-type/add-new-type.component';
-import { AddNewSubTypeComponent } from './add-new-sub-type/add-new-sub-type.component';
+import { ListCategoriesComponent } from './components/list-categories/list-categories.component';
+import { AddNewCategoryComponent } from './components/add-new-category/add-new-category.component';
+import { AddNewTypeComponent } from './components/add-new-type/add-new-type.component';
+import { AddNewSubTypeComponent } from './components/add-new-sub-type/add-new-sub-type.component';
 import { InventoryImportComponent } from './inventory-import/inventory-import.component';
-import { InventoryTreeComponent } from './inventory-tree/inventory-tree.component';
+import { GroupItemsComponent } from './components/group-items/group-items.component';
+import { AssetReportComponent } from './asset-report/asset-report.component';
 
 
 
@@ -29,7 +30,8 @@ import { InventoryTreeComponent } from './inventory-tree/inventory-tree.componen
     AddNewTypeComponent,
     AddNewSubTypeComponent,
     InventoryImportComponent,
-    InventoryTreeComponent,
+    GroupItemsComponent,
+    AssetReportComponent,
   ],
   imports: [
     CommonModule,
@@ -40,7 +42,9 @@ import { InventoryTreeComponent } from './inventory-tree/inventory-tree.componen
       { path: 'inventory/edititem/:id', component: EditItemComponent },
       { path: 'inventory/viewcategories', component: ListCategoriesComponent },
       { path: 'inventory/import', component: InventoryImportComponent },
-      { path: 'inventory/tree', component: InventoryTreeComponent },
+      { path: 'inventory/groupItems', component: GroupItemsComponent },
+      { path: 'inventory/assetreport', component: AssetReportComponent },
+      { path: 'inventory/items', component: GroupItemsComponent },
     ]),
     SharedModule
   ],

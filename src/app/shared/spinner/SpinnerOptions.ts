@@ -4,7 +4,7 @@ export class SpinnerOptions
   message: string
   buttonLabel: string
 
-  constructor(title: string = "", message:string = "", buttonLabel:string = "")
+  constructor(title: "", message: "", buttonLabel: "")
   {
     this.title = title
     this.message = message

@@ -1,0 +1,50 @@
+<div class="flexContainer">
+  <mat-card>
+    <div class="category row" *ngFor="let cat of categories">
+      <div class="col text-center h1">{{cat.name}}</div>
+      <div class="type row" *ngFor="let type of cat.types">
+        <div class="col"></div>
+        <div class="col title">{{type.name}}</div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col text-end"></div>
+        <div class="col"></div>
+        <div class="subType row" *ngFor="let subType of type.subTypes">
+          <div class="col leftMarginCell"></div>
+          <div class="col title borderCell">{{subType.name}}</div>
+          <div class="col amount borderCell text-end">{{ values[subType.name]  | currencyFormatter }}</div>
+          <div class="col"></div>
+          <div class="col"></div>
+        </div>
+        <div class="row">
+          <div class="col leftMarginCell"></div>
+          <div class="col">
+            <div class="row">
+              <div class="col text-end borderCell"></div>
+              <div class="col-1 text-start borderCell">{{ values[type.name] | currencyFormatter }}</div>
+              <div class="col border-0"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col">
+          <div class="row ">
+            <div class="col text-end">{{ cat.name }} Total</div>
+            <div class="col text-end">{{ values[cat.name] ?? 0 | currencyFormatter }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="m-3">
+        <mat-divider ></mat-divider>
+      </div>
+    </div>
+    <div>
+    </div>
+  </mat-card>
+</div>

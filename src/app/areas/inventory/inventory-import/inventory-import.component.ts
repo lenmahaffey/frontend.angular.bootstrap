@@ -6,6 +6,7 @@ import { HttpEventType } from '@angular/common/http';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { AlertService } from 'src/app/services/alert/alert.service';
+import { InventorySideBarNavLinks } from '../inventory-side-bar-links';
 
 @Component({
   selector: 'app-inventory-import',
@@ -13,12 +14,13 @@ import { AlertService } from 'src/app/services/alert/alert.service';
   styleUrls: ['./inventory-import.component.scss']
 })
 export class InventoryImportComponent {
-
+  
+  links: InventorySideBarNavLinks = new InventorySideBarNavLinks()
   constructor(private appStateService: AppStateService,
               private alertService:AlertService,
               private api: InventoryService)
   {
-
+    this.appStateService.setLeftSideMenuItems(this.links)
   }
   csvInputChange(fileInputEvent: any) {
     console.log(fileInputEvent.target.files[0]);

@@ -1,14 +1,8 @@
 import { Component } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { AlertService } from 'src/app/services/alert/alert.service';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { InventorySideBarNavLinks } from '../inventory-side-bar-links';
-import { InventoryService } from '../inventory.service';
 import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_DTO } from 'src/app/shared/api/api.models';
-import { Message } from 'src/app/services/message';
-import { MessageType } from 'src/app/services/message-type.interface';
-import { SpinnerComponent } from 'src/app/shared/spinner/spinner.component';
 
 @Component({
   selector: 'app-dashboard',

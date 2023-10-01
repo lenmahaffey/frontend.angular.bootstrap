@@ -75,6 +75,12 @@ export class InventoryService {
       catchError(this.handleError.bind(this))
     )
   }
+  GetInventoryValue() : Observable<any>
+  {
+    let url = `${this.apiUrl}/getInventoryValue`
+    return this.http.get<any>(url, this.headers).pipe(
+      catchError(this.handleError.bind(this)))
+  }
 
   private handleError(err: HttpErrorResponse) {
     let errorMessage = ''

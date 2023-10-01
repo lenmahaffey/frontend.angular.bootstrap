@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { UsersService } from '../../users/users.service';
+import { UsersService } from '../../../users/users.service';
 import { Router } from '@angular/router';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_DTO, InventoryItem_DTO } from 'src/app/shared/api/api.models';
-import { InventoryService } from '../inventory.service';
+import { InventoryService } from '../../inventory.service';
 import { MatDialogConfig } from '@angular/material/dialog';
+import { InventorySideBarNavLinks } from '../../inventory-side-bar-links';
 
 @Component({
   selector: 'app-list-items',
@@ -71,8 +72,6 @@ export class ListItemsComponent {
   {
     this.getInventoryItems()
   }
-
-
 
   getInventoryItems()
   {

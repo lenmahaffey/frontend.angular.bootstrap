@@ -12,7 +12,7 @@ export class InventorySideBarNavLinks implements SideBarNavLinks
           id: "1",
           title:"View Items",
           items:[
-          { href:"inventory/listitems", text:"View Items" },
+          { href:"inventory/items", text:"View Items" },
         ]},
         {
           id: "2",
@@ -25,6 +25,12 @@ export class InventorySideBarNavLinks implements SideBarNavLinks
           title:"Import Inventory",
           items:[
           { href:"inventory/import", text:"Import Inventory" },
+        ]},
+        {
+          id: "4",
+          title:"Asset Report",
+          items:[
+          { href:"inventory/assetreport", text:"Asset Report" },
         ]},
       ]
     }

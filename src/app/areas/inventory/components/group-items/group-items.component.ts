@@ -4,23 +4,19 @@ import { Router } from '@angular/router';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_DTO, InventoryItem_DTO } from 'src/app/shared/api/api.models';
-import { InventoryService } from '../inventory.service';
-import { InventoryFlatNode, InventoryNode } from './inventory-node';
-import { tree } from 'd3';
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { InventoryService } from '../../inventory.service';
 import { CurrencyFormatterPipe } from 'src/app/shared/pipes/currency-formatter.pipe';
+import { InventoryNode } from './inventory-node';
 
 @Component({
-  selector: 'app-inventory-tree',
-  templateUrl: './inventory-tree.component.html',
-  styleUrls: ['./inventory-tree.component.scss']
+  selector: 'app-group-items',
+  templateUrl: './group-items.component.html',
+  styleUrls: ['./group-items.component.scss']
 })
-export class InventoryTreeComponent {
+export class GroupItemsComponent {
   inventory: InventoryItem_DTO[] | undefined
   filteredInventory: InventoryItem_DTO[] = []
   groupedInventory: Map<string, InventoryItem_DTO[]> = new Map()
-  treeData: InventoryNode[] = []
 
   @Input() public get category() : InventoryItemCategory_DTO | undefined
   {
@@ -35,6 +31,7 @@ export class InventoryTreeComponent {
     if(this.inventory != undefined)
     {
       this.filterInventoryItems()
+      this.groupInventory()
     }
   }
 
@@ -50,6 +47,7 @@ export class InventoryTreeComponent {
     if(this.inventory != undefined)
     {
       this.filterInventoryItems()
+      this.groupInventory()
     }
   }
 
@@ -64,6 +62,7 @@ export class InventoryTreeComponent {
     if(this.inventory != undefined)
     {
       this.filterInventoryItems()
+      this.groupInventory()
     }
   }
 
@@ -92,8 +91,6 @@ export class InventoryTreeComponent {
         this.inventory = data
         this.filterInventoryItems()
         this.groupInventory()
-        this.getInventoryNodes()
-        this.dataSource.data = this.treeData
       },
       error: (error) =>
       {
@@ -103,26 +100,6 @@ export class InventoryTreeComponent {
         sub.unsubscribe
         this.appStateService.closeSpinner()
       }
-    })
-  }
-
-  getInventoryNodes()
-  {
-    console.log(this.groupedInventory)
-
-    this.groupedInventory.forEach(x =>
-    {
-      let newNode:InventoryNode = {name: x[0].name}
-      if(x.length > 1)
-      {
-        newNode.children = []
-        x.forEach(y =>
-          {
-            newNode.children?.push(y)
-          })
-      }
-
-      this.treeData.push(newNode)
     })
   }
 
@@ -147,6 +124,7 @@ export class InventoryTreeComponent {
       this.filteredInventory = this.inventory?.filter(x => x.subTypeId == this._subType?.id) ?? []
     }
   }
+
   groupInventory()
   {
     if(this.filteredInventory != undefined)
@@ -156,27 +134,4 @@ export class InventoryTreeComponent {
           new Map())
       }
   }
-
-  private _transformer = (node: InventoryNode, level: number) => {
-    return {
-      expandable: !!node.children && node.children.length > 0,
-      name: node.name,
-      level: level,
-    };
-  };
-
-  treeControl = new FlatTreeControl<InventoryFlatNode>(
-    node => node.level,
-    node => node.expandable,
-  );
-
-  treeFlattener = new MatTreeFlattener(
-    this._transformer,
-    node => node.level,
-    node => node.expandable,
-    node => node.children,
-  );
-
-  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-  hasChild = (_: number, node: InventoryFlatNode) => node.expandable;
 }

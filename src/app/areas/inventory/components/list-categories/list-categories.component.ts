@@ -5,11 +5,12 @@ import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { InventoryService } from '../inventory.service';
+import { InventoryService } from '../../inventory.service';
 import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_DTO } from 'src/app/shared/api/api.models';
 import { AddNewCategoryComponent } from '../add-new-category/add-new-category.component';
 import { AddNewTypeComponent } from '../add-new-type/add-new-type.component';
 import { Subject } from 'rxjs';
+import { InventorySideBarNavLinks } from '../../inventory-side-bar-links';
 
 @Component({
   selector: 'app-view-categories',
@@ -18,6 +19,7 @@ import { Subject } from 'rxjs';
 })
 export class ListCategoriesComponent {
 
+  links: InventorySideBarNavLinks = new InventorySideBarNavLinks()
   categories: InventoryItemCategory_DTO[] = []
   types: InventoryItemType_DTO[] = []
   subTypes: InventoryItemSubType_DTO[] = []
@@ -36,6 +38,7 @@ export class ListCategoriesComponent {
     private _dialog: MatDialog,
     private appStateService: AppStateService)
   {
+    this.appStateService.setLeftSideMenuItems(this.links)
     this.getCategories()
   }
 

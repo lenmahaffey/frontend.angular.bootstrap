@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  frontend_meetingmanager_net:
+    container_name: ${HOST}.avlancer.net
+    hostname: ${HOST}
+    dns: 10.0.0.200
+    image: http://docker.avlancer.net/${HOST}.avlancer.net:latest
+    restart: always
+    ports:
+    - "80:80"
+    - "443:443"
+    volumes:
+      - /docker/volumes/{HOST}.avlancer.net/sslCerts:/etc/ssl/certs/mm
