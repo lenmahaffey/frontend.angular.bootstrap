@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, isDevMode } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { AlertService } from 'src/app/services/alert/alert.service';
@@ -10,13 +10,13 @@ import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/co
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { LeftSideBarNavLinks } from './left-side-bar-nav-links';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss']
 })
-export class DemoComponent implements OnDestroy{
+export class DemoComponent implements OnDestroy, OnInit {
 
   keys: any[] = []
   types = MessageType
@@ -54,6 +54,9 @@ export class DemoComponent implements OnDestroy{
     });
   }
 
+  ngOnInit(): void {
+    console.log("Environemnt Name: " + environment.name + (isDevMode() ? " is a developemnt environemnt" : " is a production environment"));
+  }
   ngOnDestroy(): void {
     this.appStateService.setLeftSideMenuItems(new LeftSideBarNavLinks())
   }
