@@ -1,6 +1,6 @@
-<!-- <div id="envBorder" [ngClass]="getEnvironmentBorderName()">
-  <div *ngIf="(envName != 'production')" class="text-center borderText ">{{envName}}  </div>
-</div> -->
+<div id="envBorder" [ngClass]="getEnvironmentBorderName()">
+  <div *ngIf="(envName !== 'production')" class="text-center borderText ">{{envName}}  </div>
+</div>
 <div id="flexContainer">
   <div id="headerContainer">
     <app-header></app-header>
