@@ -9,7 +9,6 @@ import { InventoryService } from '../../inventory.service';
 import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_DTO } from 'src/app/shared/api/api.models';
 import { AddNewCategoryComponent } from '../add-new-category/add-new-category.component';
 import { AddNewTypeComponent } from '../add-new-type/add-new-type.component';
-import { Subject } from 'rxjs';
 import { InventorySideBarNavLinks } from '../../inventory-side-bar-links';
 
 @Component({
@@ -44,15 +43,15 @@ export class ListCategoriesComponent {
 
   getCategories()
   {
-    let sub = this.api.ListAllCategories()
+    const sub = this.api.ListAllCategories()
     .subscribe({
       next: (data) =>
       {
         this.categories = data
       },
-      error: (error) =>
+      error: () =>
       {
-        this.appStateService.closeSpinner()
+        this.appStateService.closeSpinner();
       },
       complete: () =>
       {
@@ -86,16 +85,12 @@ export class ListCategoriesComponent {
 
   openCategoryModal()
   {
-    let dialogRef = this._dialog.open(AddNewCategoryComponent)
-    let sub = dialogRef.componentInstance.nameOutput.subscribe(
+    const dialogRef = this._dialog.open(AddNewCategoryComponent)
+    const sub = dialogRef.componentInstance.nameOutput.subscribe(
       {
         next: (data) =>
         {
           this.addNewCategory(data)
-        },
-        error: ()=>
-        {
-
         },
         complete: () =>
         {
@@ -107,17 +102,14 @@ export class ListCategoriesComponent {
 
   openTypeModal()
   {
-    let config = new MatDialogConfig()
+    const config = new MatDialogConfig()
     config.data = this.selectedCategory
-    let dialogRef = this._dialog.open(AddNewTypeComponent, config)
-    let sub = dialogRef.componentInstance.nameOutput.subscribe(
+    const dialogRef = this._dialog.open(AddNewTypeComponent, config)
+    const sub = dialogRef.componentInstance.nameOutput.subscribe(
       {
         next: (data) =>
         {
           this.addNewType(data)
-        },
-        error: (error)=>
-        {
         },
         complete: () =>
         {
@@ -129,17 +121,14 @@ export class ListCategoriesComponent {
 
   openSubTypeModal()
   {
-    let config = new MatDialogConfig()
+    const config = new MatDialogConfig()
     config.data = this.selectedType
-    let dialogRef = this._dialog.open(AddNewTypeComponent, config)
-    let sub = dialogRef.componentInstance.nameOutput.subscribe(
+    const dialogRef = this._dialog.open(AddNewTypeComponent, config)
+    const sub = dialogRef.componentInstance.nameOutput.subscribe(
       {
         next: (data) =>
         {
           this.addNewSubType(data)
-        },
-        error: (error)=>
-        {
         },
         complete: () =>
         {
@@ -151,34 +140,34 @@ export class ListCategoriesComponent {
 
   addNewCategory(name: string)
   {
-    let config:MatDialogConfig = new MatDialogConfig()
+    const config:MatDialogConfig = new MatDialogConfig()
     config.data =
     {
       message: "Creating Category",
     }
     config.disableClose = true
     this.appStateService.openSpinner(config)
-    let newCat = new InventoryItemCategory_DTO();
+    const newCat = new InventoryItemCategory_DTO();
     newCat.name = name
-    let sub = this.api.AddNewCategory(newCat).subscribe(
+    const sub = this.api.AddNewCategory(newCat).subscribe(
       {
         next: (data) =>
         {
           this.categories.push(data)
           this.categories = this.categories.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
-          let message = new Message()
+          const message = new Message()
           message.text = `The category ${data.name} was created`
           message.type = MessageType.Success
           message.autoDismiss = true
-          this.appStateService.closeSpinner()
           this.alertService.sendAlert(message)
         },
         error: () =>
         {
-
+          this.appStateService.closeSpinner();
         },
         complete: () =>
         {
+          this.appStateService.closeSpinner()
           sub.unsubscribe()
         }
       }
@@ -187,34 +176,35 @@ export class ListCategoriesComponent {
 
   addNewType(name: string)
   {
-    let config:MatDialogConfig = new MatDialogConfig()
+    const config:MatDialogConfig = new MatDialogConfig()
     config.data =
     {
       message: "Creating Type",
     }
     config.disableClose = true
     this.appStateService.openSpinner(config)
-    let newType = new InventoryItemType_DTO();
+    const newType = new InventoryItemType_DTO();
     newType.name = name
     newType.categoryId = this.selectedCategory!.id
-    let sub = this.api.AddNewType(newType).subscribe(
+    const sub = this.api.AddNewType(newType).subscribe(
       {
         next: (data) =>
         {
           this.types.push(data)
           this.types = this.types.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
-          let message = new Message()
+          const message = new Message()
           message.text = `The ${this.categories.find(x => x.id == data.categoryId)?.name} type ${data.name} was created`
           message.type = MessageType.Success
           message.autoDismiss = true
-          this.appStateService.closeSpinner()
           this.alertService.sendAlert(message)
         },
-        error: (error)=>
+        error: () =>
         {
+          this.appStateService.closeSpinner();
         },
         complete: () =>
         {
+          this.appStateService.closeSpinner()
           sub.unsubscribe()
         }
       })
@@ -222,34 +212,36 @@ export class ListCategoriesComponent {
 
   addNewSubType(name: string)
   {
-    let config:MatDialogConfig = new MatDialogConfig()
+    const config:MatDialogConfig = new MatDialogConfig()
     config.data =
     {
       message: "Creating SubType",
     }
     config.disableClose = true
     this.appStateService.openSpinner(config)
-    let newSubType = new InventoryItemSubType_DTO();
+    const newSubType = new InventoryItemSubType_DTO();
     newSubType.name = name
     newSubType.typeId = this.selectedType!.id
-    let sub = this.api.AddNewSubType(newSubType).subscribe(
+    const sub = this.api.AddNewSubType(newSubType).subscribe(
       {
         next: (data) =>
         {
           this.subTypes.push(data)
           this.subTypes = this.subTypes.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
-          let message = new Message()
+          const message = new Message()
           message.text = `The ${this.types.find(x => x.id == data.typeId)?.name} type ${data.name} was created`
           message.type = MessageType.Success
           message.autoDismiss = true
           this.appStateService.closeSpinner()
           this.alertService.sendAlert(message)
         },
-        error: (error)=>
+        error: () =>
         {
+          this.appStateService.closeSpinner();
         },
         complete: () =>
         {
+          this.appStateService.closeSpinner()
           sub.unsubscribe()
         }
       })

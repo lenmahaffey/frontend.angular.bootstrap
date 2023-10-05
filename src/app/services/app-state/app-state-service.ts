@@ -33,7 +33,7 @@ export class AppStateService {
 
   openSpinner(config: MatDialogConfig)
   {
-    let dref = this._dialog.open(SpinnerComponent, config);
+    this._dialog.open(SpinnerComponent, config);
   }
 
   closeSpinner()

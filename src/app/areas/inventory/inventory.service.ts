@@ -17,58 +17,58 @@ export class InventoryService {
 
   ListInventoryItems(category: InventoryItemCategory_DTO | undefined,
                      type: InventoryItemType_DTO | undefined,
-                     subType: InventoryItemSubType_DTO | undefined) : Observable<any>
+                     subType: InventoryItemSubType_DTO | undefined) : Observable<InventoryItem_DTO[]>
   {
-    let url = `${this.apiUrl}/listInventoryItems`
-    let model = new ListInventoryItemsViewModel()
+    const url = `${this.apiUrl}/listInventoryItems`
+    const model = new ListInventoryItemsViewModel()
     model.catgeoryId = category?.id || undefined
     model.typeId = type?.id
     model.subTypeId = subType?.id
-    let body = JSON.stringify(model)
-    return this.http.post<any>(url, body, this.headers).pipe(
+    const body = JSON.stringify(model)
+    return this.http.post<InventoryItem_DTO[]>(url, body, this.headers).pipe(
       catchError(this.handleError.bind(this)))
   }
 
   ListAllCategories() : Observable<InventoryItemCategory_DTO[]>
   {
-    let url = `${this.apiUrl}/listallitemcategories`
-    return this.http.get<any>(url, this.headers).pipe(
+    const url = `${this.apiUrl}/listallitemcategories`
+    return this.http.get<InventoryItemCategory_DTO[]>(url, this.headers).pipe(
       catchError(this.handleError.bind(this)))
   }
 
   ListAllTypes() : Observable<InventoryItemType_DTO[]>
   {
-    let url = `${this.apiUrl}/listallitemtypes`
-    return this.http.get<any>(url, this.headers).pipe(
+    const url = `${this.apiUrl}/listallitemtypes`
+    return this.http.get<InventoryItemType_DTO[]>(url, this.headers).pipe(
       catchError(this.handleError.bind(this)))
   }
 
   AddNewCategory(category: InventoryItemCategory_DTO) : Observable<InventoryItemCategory_DTO>
   {
-    let url = `${this.apiUrl}/addNewCategory`
-    let body = JSON.stringify(category);
-    return this.http.post<any>(url, body, this.headers).pipe(
+    const url = `${this.apiUrl}/addNewCategory`
+    const body = JSON.stringify(category);
+    return this.http.post<InventoryItemCategory_DTO>(url, body, this.headers).pipe(
       catchError(this.handleError.bind(this)))
   }
 
   AddNewType(type: InventoryItemType_DTO) : Observable<InventoryItemType_DTO>
   {
-    let url = `${this.apiUrl}/addNewType`
-    let body = JSON.stringify(type);
-    return this.http.post<any>(url, body, this.headers).pipe(
+    const url = `${this.apiUrl}/addNewType`
+    const body = JSON.stringify(type);
+    return this.http.post<InventoryItemType_DTO>(url, body, this.headers).pipe(
       catchError(this.handleError.bind(this)))
   }
 
   AddNewSubType(subType: InventoryItemSubType_DTO) : Observable<InventoryItemSubType_DTO>
   {
-    let url = `${this.apiUrl}/addNewSubType`
-    let body = JSON.stringify(subType);
-    return this.http.post<any>(url, body, this.headers).pipe(
+    const url = `${this.apiUrl}/addNewSubType`
+    const body = JSON.stringify(subType);
+    return this.http.post<InventoryItemSubType_DTO>(url, body, this.headers).pipe(
       catchError(this.handleError.bind(this)))
   }
 
   ImportInventoryItems(file: File){
-    let url = `${this.apiUrl}/importInventoryItems`
+    const url = `${this.apiUrl}/importInventoryItems`
     const formData = new FormData();
     formData.append('file', file, file.name);
     return this.http.post<any>(url,formData, {reportProgress: true, observe: 'events'}).pipe(
@@ -77,27 +77,30 @@ export class InventoryService {
   }
   GetInventoryValue() : Observable<any>
   {
-    let url = `${this.apiUrl}/getInventoryValue`
+    const url = `${this.apiUrl}/getInventoryValue`
     return this.http.get<any>(url, this.headers).pipe(
       catchError(this.handleError.bind(this)))
   }
 
   private handleError(err: HttpErrorResponse) {
     let errorMessage = ''
-    if (err.error instanceof ErrorEvent) {
-        errorMessage = `An error occured: ${err.error.message}`
-        let message = new Message()
+    if (err.error.length > 0) {
+      console.log(err.error)
+      err.error.forEach((x: any) => {
+        errorMessage = `An error occured: ${x.errorMessage}`
+        const message = new Message()
         message.type = MessageType.Error
         message.title = "Error"
         message.text = errorMessage
         this.notificationService.sendNotification(message)
+      });
     }
     else {
         errorMessage = `Server returned code ${err.status}, error message is ${err.message}`
-        let message = new Message()
+        const message = new Message()
         message.type = MessageType.Error
         message.title = "Error"
-        message.text = err.error.message
+        message.text = errorMessage
         this.notificationService.sendNotification(message)
     }
     return throwError(() => errorMessage)
