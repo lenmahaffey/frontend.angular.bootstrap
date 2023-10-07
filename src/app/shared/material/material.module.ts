@@ -20,6 +20,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginatorModule,
     MatTableModule,
     MatTreeModule,
-    MatIconModule
+    MatIconModule,
+    DragDropModule
   ]
 })
 export class MaterialModule { }

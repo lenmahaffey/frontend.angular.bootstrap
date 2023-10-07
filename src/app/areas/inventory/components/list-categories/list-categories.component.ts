@@ -37,7 +37,6 @@ export class ListCategoriesComponent {
     private _dialog: MatDialog,
     private appStateService: AppStateService)
   {
-    this.appStateService.setLeftSideMenuItems(this.links)
     this.getCategories()
   }
 

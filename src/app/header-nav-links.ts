@@ -22,10 +22,10 @@ export class HeaderNavLinks implements SideBarNavLinks
         ]},
         {
           id: "2",
-          title:"Users",
+          title:"Sales",
           items:[
-          { href:"users/listusers", text:"List Users" },
-          { href:"users/adduser", text:"Add Users" }
+          { href:"sales/createitem", text:"Create Sales Item" },
+          { href:"", text:"Add Users" }
         ]},
       ]
     }

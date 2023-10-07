@@ -3,7 +3,7 @@
     <div class="flexCardContainer">
       <div class="list">
         <div *ngFor="let cat of categories" (click)="selectCategory(cat)" [ngClass]="(selectedCategory === cat) ? 'active' : 'inactive'">
-          <div class="item"><span>{{cat.name}} - {{cat.id}}</span></div>
+          <div class="item"><span>{{cat.name}}<!-- - {{cat.id}} --></span></div>
           <mat-divider></mat-divider>
         </div>
       </div>
@@ -43,7 +43,7 @@
   </div>
   <div *ngFor="let type of types" (click)="selectType(type)" [ngClass]="(selectedType === type) ? 'active' : 'inactive'">
     <div class="item">
-      <span>{{type.name}} - {{type.id}}</span>
+      <span>{{type.name}} <!--- {{type.id}} --></span>
     </div>
     <mat-divider></mat-divider>
   </div>
@@ -53,7 +53,7 @@
   <div class="selectionMessage"  *ngIf="selectedType?.subTypes?.length === 0"><p>There are no sub types associated with  {{ selectedType?.name }}</p></div>
   <div *ngFor="let subType of subTypes" (click)="selectSubType(subType)" [ngClass]="(selectedSubType === subType) ? 'active' : 'inactive'">
     <div class="item">
-      <span>{{ subType.name }} - {{subType.id}}</span>
+      <span>{{ subType.name }} <!-- - {{subType.id}} --></span>
     </div>
     <mat-divider></mat-divider>
     </div>

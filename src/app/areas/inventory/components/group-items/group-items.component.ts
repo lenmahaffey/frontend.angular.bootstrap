@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
 import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_DTO, InventoryItem_DTO } from 'src/app/shared/api/api.models';
 import { InventoryService } from '../../inventory.service';
 import { CurrencyFormatterPipe } from 'src/app/shared/pipes/currency-formatter.pipe';
+import { CdkDragEnd } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-group-items',

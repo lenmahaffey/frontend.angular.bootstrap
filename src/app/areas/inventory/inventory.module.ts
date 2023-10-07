@@ -33,6 +33,11 @@ import { AssetReportComponent } from './asset-report/asset-report.component';
     GroupItemsComponent,
     AssetReportComponent,
   ],
+  exports: [
+    ListCategoriesComponent,
+    GroupItemsComponent,
+    ListItemsComponent
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild([

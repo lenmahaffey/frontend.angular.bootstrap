@@ -5,14 +5,15 @@
         <thead>
           <tr>
             <td>Quantity</td>
+            <td>AssetId</td>
             <td>Name</td>
           </tr>
         </thead>
         <tbody>
             <tr *ngFor="let group of groupedInventory | keyvalue">
               <ng-container
-                 [ngTemplateOutlet]="group.value[0].isAssetTracked ? assetTracked : nonAssetTracked"
-                 [ngTemplateOutletContext]="{group:group}">
+                [ngTemplateOutlet]="group.value[0].isAssetTracked ? assetTracked : nonAssetTracked"
+                [ngTemplateOutletContext]="{group:group}">
               </ng-container>
             </tr>
         </tbody>
@@ -23,8 +24,9 @@
 
 <ng-template #assetTracked let-group="group">
   <td>{{ group.value.length }}</td>
+  <td>multiple</td>
   <td>
-      <mat-expansion-panel>
+      <mat-expansion-panel cdkDropList cdkDrag>
         <mat-expansion-panel-header>
           <mat-panel-title>
             {{ group.key }}
@@ -53,11 +55,13 @@
 
 <ng-template #nonAssetTracked let-group="group">
   <td>{{ group.value[0].quantity }}</td>
+  <td>{{ group.value[0].assetId }}</td>
   <div>
-    <mat-expansion-panel hideToggle disabled>
+    <mat-expansion-panel hideToggle disabled cdkDrag >
       <mat-expansion-panel-header>
         <mat-panel-title>
-          {{ group.key }}
+          <input value="{{ group.value[0].assetId }}" hidden/>
+          <span id="groupName">{{ group.key }}</span>
         </mat-panel-title>
         <mat-panel-description>
           <mat-icon></mat-icon>

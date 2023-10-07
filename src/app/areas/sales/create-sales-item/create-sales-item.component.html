@@ -1,0 +1,19 @@
+<div class="flexContainer">
+  <div class="flexItem category">
+    <app-view-categories (categoryOutput)="selectCategory($event)"
+                         (typeOutput)="selectType($event)"
+                         (subTypeOutput)="selectSubType($event)">
+    </app-view-categories>
+  </div>
+
+  <div class="flexItem main">
+    <div class="itemViewContainer" cdkDropListGroup>
+      <div class="itemView" cdkDropList [cdkDropListData]="itemList" (cdkDropListDropped)="drop($event)">
+        <app-view-sales-item ></app-view-sales-item>
+      </div>
+      <div class="listView" cdkDropList>
+        <app-group-items [category]="selectedCategory" [type]="selectedType" [subType]="selectedSubType" ></app-group-items>
+      </div>
+    </div>
+  </div>
+</div>
