@@ -20,7 +20,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
-
 @NgModule({
   declarations: [
   ],
@@ -47,7 +46,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginatorModule,
     MatTableModule,
     MatTreeModule,
-    MatIconModule
+    MatIconModule,
   ]
 })
 export class MaterialModule { }
