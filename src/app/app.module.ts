@@ -11,6 +11,7 @@ import { AlertService } from './services/alert/alert.service';
 import { NotificationService } from './services/notification/notification.service';
 import { DemoComponent } from './pages/demo/demo.component';
 import { AppStateService } from './services/app-state/app-state-service';
+import { DragDropService } from './services/dragDrop/drag-drop.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { AppStateService } from './services/app-state/app-state-service';
       { path: '**', component: PageNotFoundComponent }
     ]),
   ],
-  providers: [AlertService, NotificationService, AppStateService],
+  providers: [AlertService, NotificationService, AppStateService, DragDropService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

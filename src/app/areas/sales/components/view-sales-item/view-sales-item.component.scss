@@ -1,0 +1,28 @@
+.flexContainer{
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-header{
+  margin:auto;
+}
+
+.itemRow{
+  display: flex;
+  flex-direction: row;
+}
+
+.quantity{
+  flex: 1;
+}
+
+.name{
+  flex: 10;
+  margin: auto;
+
+}
+
+.cost{
+  flex: 1;
+  margin-right: auto;
+}

@@ -4,7 +4,8 @@ import { CreateSalesItemComponent } from './create-sales-item/create-sales-item.
 import { SharedModule } from 'src/app/shared/shared.module';
 import { InventoryModule } from '../inventory/inventory.module';
 import { RouterModule } from '@angular/router';
-import { ViewSalesItemComponent } from './view-sales-item/view-sales-item.component';
+import { ViewSalesItemComponent } from './components/view-sales-item/view-sales-item.component';
+import { SalesService } from './sales.service';
 
 
 
@@ -20,6 +21,7 @@ import { ViewSalesItemComponent } from './view-sales-item/view-sales-item.compon
     RouterModule.forChild([
       { path: 'sales/createitem', component: CreateSalesItemComponent }
     ]),
-  ]
+  ],
+  providers: [SalesService]
 })
 export class SalesModule { }

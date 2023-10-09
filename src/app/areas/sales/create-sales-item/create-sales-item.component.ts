@@ -1,14 +1,16 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
-import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_DTO, InventoryItem_DTO } from 'src/app/shared/api/api.models';
+import { Component, OnDestroy, Output} from '@angular/core';
+import { Subscription } from 'rxjs';
+import { DragDropService } from 'src/app/services/dragDrop/drag-drop.service';
+import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_DTO, InventoryItem_DTO, SalesItem_DTO } from 'src/app/shared/api/api.models';
 
 @Component({
   selector: 'app-create-sales-item',
   templateUrl: './create-sales-item.component.html',
   styleUrls: ['./create-sales-item.component.scss']
 })
-export class CreateSalesItemComponent {
-
-  itemList: InventoryItem_DTO[] = []
+export class CreateSalesItemComponent implements OnDestroy{
+  sub: Subscription
+  @Output() salesItem: SalesItem_DTO = new SalesItem_DTO()
   categories: InventoryItemCategory_DTO[] = []
   types: InventoryItemType_DTO[] = []
   subTypes: InventoryItemSubType_DTO[] = []
@@ -17,10 +19,22 @@ export class CreateSalesItemComponent {
   selectedType: InventoryItemType_DTO | undefined
   selectedSubType: InventoryItemSubType_DTO | undefined
 
-  constructor(private cdk:ChangeDetectorRef)
+  constructor(private dragDropService: DragDropService)
   {
+    this.salesItem.inventoryItems = []
 
+    this.sub = this.dragDropService.dropped.subscribe({
+      next: (data) =>
+      {
+        this.salesItem.inventoryItems?.push(data)
+      }
+    })
   }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe()
+  }
+
   selectCategory(catagory: InventoryItemCategory_DTO | undefined)
   {
     this.selectedCategory = catagory
@@ -34,9 +48,5 @@ export class CreateSalesItemComponent {
   selectSubType(event: InventoryItemSubType_DTO| undefined)
   {
     this.selectedSubType = event
-  }
-  drop(event: any) {
-    const name = event.item.element.nativeElement.querySelector("#groupName").innerText
-    const assetId = event.item.element.nativeElement.querySelector("input").value
   }
 }

@@ -6,7 +6,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
 import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_DTO, InventoryItem_DTO } from 'src/app/shared/api/api.models';
 import { InventoryService } from '../../inventory.service';
 import { CurrencyFormatterPipe } from 'src/app/shared/pipes/currency-formatter.pipe';
-import { CdkDragEnd } from '@angular/cdk/drag-drop';
+import { DragDropService } from 'src/app/services/dragDrop/drag-drop.service';
 
 @Component({
   selector: 'app-group-items',
@@ -14,7 +14,7 @@ import { CdkDragEnd } from '@angular/cdk/drag-drop';
   styleUrls: ['./group-items.component.scss']
 })
 export class GroupItemsComponent {
-  inventory: InventoryItem_DTO[] | undefined
+  inventory: InventoryItem_DTO[] = []
   filteredInventory: InventoryItem_DTO[] = []
   groupedInventory: Map<string, InventoryItem_DTO[]> = new Map()
 
@@ -65,16 +65,15 @@ export class GroupItemsComponent {
       this.groupInventory()
     }
   }
-
+  @Input() public dragDisabled = true
   private _category: InventoryItemCategory_DTO | undefined
   private _type: InventoryItemType_DTO | undefined
   private _subType: InventoryItemSubType_DTO | undefined
-
   constructor(private api: InventoryService,
     private router: Router,
     private appStateService: AppStateService,
     private notificationService: NotificationService,
-    private currencyFormatter: CurrencyFormatterPipe)
+    private dragDropService: DragDropService)
   {
     this.getInventoryItems()
   }
@@ -134,5 +133,10 @@ export class GroupItemsComponent {
           (entryMap, e) => entryMap.set(e.name, [...entryMap.get(e.name)||[], e]),
           new Map())
       }
+  }
+  dragEnded(event: any)
+  {
+    const item = this.inventory?.filter(x => x.assetId == event.item.element.nativeElement.querySelector("input").value)[0]
+    this.dragDropService.dropObject(item)
   }
 }

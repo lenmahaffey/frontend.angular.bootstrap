@@ -1,0 +1,35 @@
+<mat-card >
+  <mat-card-header>
+    <mat-card-title>
+      <h1>Create New Sales Item</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form class="flexContainer">
+      <mat-form-field appearance="outline">
+        <mat-label class="label">Name</mat-label>
+        <input matInput id="name" type="text" name="name"  required>
+        <mat-error class="label">A name is required</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label class="label">Description</mat-label>
+        <input matInput id="desc" type="textarea" name="desc" >
+        <mat-error class="label">Line 1 is required</mat-error>
+      </mat-form-field>
+    </form>
+    <div>
+      <h4>Items</h4>
+      <div class="itemRow" *ngFor="let item of item.inventoryItems">
+        <div class="quantity">
+            <input type="number" class="form-control" value="1" required/>
+        </div>
+        <div class="name text-center">{{item.name}}</div>
+        <div class="cost">{{item.dailyRentalRate | currencyFormatter}}</div>
+      </div>
+  </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="warn">Cancel</button>
+    <button mat-raised-button color="primary">Save</button>
+  </mat-card-actions>
+</mat-card>
