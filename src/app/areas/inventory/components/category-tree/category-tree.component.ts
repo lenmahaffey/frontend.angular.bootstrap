@@ -9,30 +9,13 @@ interface TreeNode {
   name: string;
   children?: TreeNode[];
 }
-interface ExampleFlatNode {
+interface FlatNode {
   expandable: boolean;
   name: string;
   level: number;
 }
-const TREE_DATA: TreeNode[] = [
-  {
-    name: 'Fruit',
-    children: [{name: 'Apple'}, {name: 'Banana'}, {name: 'Fruit loops'}],
-  },
-  {
-    name: 'Vegetables',
-    children: [
-      {
-        name: 'Green',
-        children: [{name: 'Broccoli'}, {name: 'Brussels sprouts'}],
-      },
-      {
-        name: 'Orange',
-        children: [{name: 'Pumpkins'}, {name: 'Carrots'}],
-      },
-    ],
-  },
-];
+const TREE_DATA: TreeNode[] = [];
+
 @Component({
   selector: 'app-category-tree',
   templateUrl: './category-tree.component.html',
@@ -47,7 +30,7 @@ export class CategoryTreeComponent {
     };
   };
 
-  treeControl = new FlatTreeControl<ExampleFlatNode>(
+  treeControl = new FlatTreeControl<FlatNode>(
     node => node.level,
     node => node.expandable,
   );
@@ -98,5 +81,9 @@ export class CategoryTreeComponent {
     })
     this.dataSource.data = newTreeData
   }
-  hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
+  hasChild = (_: number, node: FlatNode) => node.expandable;
+  onClick(name:string)
+  {
+    console.log(name)
+  }
 }
