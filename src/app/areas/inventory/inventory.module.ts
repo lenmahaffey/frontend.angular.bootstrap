@@ -15,6 +15,7 @@ import { AddNewSubTypeComponent } from './components/add-new-sub-type/add-new-su
 import { InventoryImportComponent } from './inventory-import/inventory-import.component';
 import { GroupItemsComponent } from './components/group-items/group-items.component';
 import { AssetReportComponent } from './asset-report/asset-report.component';
+import { CategoryTreeComponent } from './components/category-tree/category-tree.component';
 
 
 
@@ -32,6 +33,7 @@ import { AssetReportComponent } from './asset-report/asset-report.component';
     InventoryImportComponent,
     GroupItemsComponent,
     AssetReportComponent,
+    CategoryTreeComponent,
   ],
   exports: [
     ListCategoriesComponent,
@@ -50,6 +52,7 @@ import { AssetReportComponent } from './asset-report/asset-report.component';
       { path: 'inventory/groupItems', component: GroupItemsComponent },
       { path: 'inventory/assetreport', component: AssetReportComponent },
       { path: 'inventory/items', component: GroupItemsComponent },
+      { path: 'inventory/tree', component: CategoryTreeComponent },
     ]),
     SharedModule
   ],

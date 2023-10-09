@@ -1,0 +1,6 @@
+@use '/src/appTheme.scss' as *;
+
+.node:hover{
+  cursor: pointer !important;
+  background-color: $accent !important;
+}
