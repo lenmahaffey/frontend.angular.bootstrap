@@ -2,7 +2,7 @@
   <!-- This is the tree node template for leaf nodes -->
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
     <button mat-icon-button disabled></button>
-    <div class="node" (click)="onClick(node.name)">{{node.name}}</div>
+    <div class="node" (click)="onClick(node.obj)">{{node.name}}</div>
   </mat-tree-node>
   <!-- This is the tree node template for expandable nodes -->
   <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
@@ -12,6 +12,6 @@
         {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
       </mat-icon>
     </button>
-    <div class="node" (click)="onClick(node.name)">{{node.name}}</div>
+    <div class="node" (click)="onClick(node.obj)">{{node.name}}</div>
   </mat-tree-node>
 </mat-tree>

@@ -1,16 +1,18 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { InventoryService } from '../../inventory.service';
-import { InventoryItemCategory_DTO } from 'src/app/shared/api/api.models';
+import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_DTO } from 'src/app/shared/api/api.models';
 
 
 interface TreeNode {
   name: string;
+  obj:  InventoryItemCategory_DTO | InventoryItemType_DTO | InventoryItemSubType_DTO
   children?: TreeNode[];
 }
 interface FlatNode {
   expandable: boolean;
+  obj: InventoryItemCategory_DTO | InventoryItemType_DTO | InventoryItemSubType_DTO
   name: string;
   level: number;
 }
@@ -22,9 +24,13 @@ const TREE_DATA: TreeNode[] = [];
   styleUrls: ['./category-tree.component.scss']
 })
 export class CategoryTreeComponent {
+
+  @Output() selection: EventEmitter<InventoryItemCategory_DTO | InventoryItemType_DTO | InventoryItemSubType_DTO> = new EventEmitter()
+
   private _transformer = (node: TreeNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
+      obj: node.obj,
       name: node.name,
       level: level,
     };
@@ -72,18 +78,20 @@ export class CategoryTreeComponent {
           subTypeNodes = []
           type.subTypes?.forEach(subType =>
             {
-              subTypeNodes.push({name: subType.name}) //Subtypes
+              subTypeNodes.push({name: subType.name, obj: subType}) //Subtypes
             })
-          typeNodes.push( {name: type.name, children: subTypeNodes}) //Types
+          typeNodes.push( {name: type.name, children: subTypeNodes, obj: type}) //Types
         });
-      let newNode = {name: category.name, children: typeNodes } //Categories
+      let newNode = {name: category.name, children: typeNodes, obj: category} //Categories
       newTreeData.push(newNode)
     })
     this.dataSource.data = newTreeData
   }
   hasChild = (_: number, node: FlatNode) => node.expandable;
-  onClick(name:string)
+
+  onClick(selection: InventoryItemCategory_DTO | InventoryItemType_DTO | InventoryItemSubType_DTO)
   {
-    console.log(name)
+    console.log(selection)
+    this.selection.next(selection)
   }
 }

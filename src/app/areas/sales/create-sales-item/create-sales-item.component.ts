@@ -10,6 +10,7 @@ import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_
 })
 export class CreateSalesItemComponent implements OnDestroy{
   sub: Subscription
+  selected: InventoryItemCategory_DTO | InventoryItemType_DTO | InventoryItemSubType_DTO | undefined
   @Output() salesItem: SalesItem_DTO = new SalesItem_DTO()
   categories: InventoryItemCategory_DTO[] = []
   types: InventoryItemType_DTO[] = []
@@ -35,6 +36,21 @@ export class CreateSalesItemComponent implements OnDestroy{
     this.sub.unsubscribe()
   }
 
+  selectItems(s: InventoryItemCategory_DTO | InventoryItemType_DTO | InventoryItemSubType_DTO)
+  {
+    if(("types" in s))
+    {
+      this.selectCategory(s)
+    }
+    else if (("subTypes" in s))
+    {
+      this.selectType(s)
+    }
+    else
+    {
+      this.selectSubType(s as InventoryItemSubType_DTO)
+    }
+  }
   selectCategory(catagory: InventoryItemCategory_DTO | undefined)
   {
     this.selectedCategory = catagory
@@ -45,8 +61,8 @@ export class CreateSalesItemComponent implements OnDestroy{
     this.selectedType = type
   }
 
-  selectSubType(event: InventoryItemSubType_DTO| undefined)
+  selectSubType(subType: InventoryItemSubType_DTO | undefined)
   {
-    this.selectedSubType = event
+    this.selectedSubType = subType
   }
 }

@@ -28,6 +28,22 @@ export class DashboardComponent {
     this.appStateService.setLeftSideMenuItems(this.links)
   }
 
+  selectItems(s: InventoryItemCategory_DTO | InventoryItemType_DTO | InventoryItemSubType_DTO)
+  {
+    if(("types" in s))
+    {
+      this.selectCategory(s)
+    }
+    else if (("subTypes" in s))
+    {
+      this.selectType(s)
+    }
+    else
+    {
+      this.selectSubType(s as InventoryItemSubType_DTO)
+    }
+  }
+  
   selectCategory(catagory: InventoryItemCategory_DTO | undefined)
   {
     this.selectedCategory = catagory

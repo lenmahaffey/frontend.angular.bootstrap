@@ -38,7 +38,8 @@ import { CategoryTreeComponent } from './components/category-tree/category-tree.
   exports: [
     ListCategoriesComponent,
     GroupItemsComponent,
-    ListItemsComponent
+    ListItemsComponent,
+    CategoryTreeComponent
   ],
   imports: [
     CommonModule,

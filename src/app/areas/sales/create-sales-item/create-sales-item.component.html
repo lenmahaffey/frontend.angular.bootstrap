@@ -1,9 +1,6 @@
 <div class="flexContainer">
   <div class="flexItem category">
-    <app-view-categories (categoryOutput)="selectCategory($event)"
-                         (typeOutput)="selectType($event)"
-                         (subTypeOutput)="selectSubType($event)">
-    </app-view-categories>
+    <app-category-tree (selection)="selectItems($event)"></app-category-tree>
   </div>
 
   <div class="flexItem main">
