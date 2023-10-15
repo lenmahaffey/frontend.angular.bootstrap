@@ -9,4 +9,16 @@ mat-card{
 mat-panel-title{
   color: black !important;
   font-size: large;
+  flex:1;
+}
+
+mat-panel-description{
+  color: black !important;
+  font-size: large;
+  flex:3;
+  justify-content: space-between;
+}
+
+#groupName{
+  flex:1;
 }

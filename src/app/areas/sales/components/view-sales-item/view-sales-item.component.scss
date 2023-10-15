@@ -7,22 +7,32 @@ mat-card-header{
   margin:auto;
 }
 
-.itemRow{
+mat-panel-title{
+  color: black !important;
+  font-size: large;
+}
+
+mat-panel-description{
+  color: black !important;
+  font-size: large;
+  flex:3;
+  justify-content: space-between;
+}
+
+.name{
+  flex:1;
+}
+
+.itemContainer{
   display: flex;
   flex-direction: row;
 }
 
-.quantity{
-  flex: 1;
+mat-expansion-panel{
+  flex:10;
 }
 
-.name{
-  flex: 10;
-  margin: auto;
-
+input{
+  flex:1
 }
 
-.cost{
-  flex: 1;
-  margin-right: auto;
-}

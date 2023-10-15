@@ -1,7 +1,8 @@
 import { Component, OnDestroy, Output} from '@angular/core';
 import { Subscription } from 'rxjs';
+import { InventoryService } from 'src/app/areas/inventory/inventory.service';
 import { DragDropService } from 'src/app/services/dragDrop/drag-drop.service';
-import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_DTO, InventoryItem_DTO, SalesItem_DTO } from 'src/app/shared/api/api.models';
+import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_DTO, SalesItem_DTO, InventoryItem_DTO } from 'src/app/shared/api/api.models';
 
 @Component({
   selector: 'app-create-sales-item',
@@ -9,7 +10,6 @@ import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_
   styleUrls: ['./create-sales-item.component.scss']
 })
 export class CreateSalesItemComponent implements OnDestroy{
-  sub: Subscription
   selected: InventoryItemCategory_DTO | InventoryItemType_DTO | InventoryItemSubType_DTO | undefined
   @Output() salesItem: SalesItem_DTO = new SalesItem_DTO()
   categories: InventoryItemCategory_DTO[] = []
@@ -20,20 +20,12 @@ export class CreateSalesItemComponent implements OnDestroy{
   selectedType: InventoryItemType_DTO | undefined
   selectedSubType: InventoryItemSubType_DTO | undefined
 
-  constructor(private dragDropService: DragDropService)
+  constructor(private inventoryService: InventoryService)
   {
     this.salesItem.inventoryItems = []
-
-    this.sub = this.dragDropService.dropped.subscribe({
-      next: (data) =>
-      {
-        this.salesItem.inventoryItems?.push(data)
-      }
-    })
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe()
   }
 
   selectItems(s: InventoryItemCategory_DTO | InventoryItemType_DTO | InventoryItemSubType_DTO)
@@ -64,5 +56,11 @@ export class CreateSalesItemComponent implements OnDestroy{
   selectSubType(subType: InventoryItemSubType_DTO | undefined)
   {
     this.selectedSubType = subType
+  }
+
+  dropped(event: any)
+  {
+    const item = JSON.parse(event.item.element.nativeElement.querySelector("input").value)
+    this.salesItem.inventoryItems?.push(item)
   }
 }

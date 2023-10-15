@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CreateSalesItemComponent } from './create-sales-item/create-sales-item.component';
+import { CreateSalesItemComponent } from './pages/create-sales-item/create-sales-item.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { InventoryModule } from '../inventory/inventory.module';
 import { RouterModule } from '@angular/router';

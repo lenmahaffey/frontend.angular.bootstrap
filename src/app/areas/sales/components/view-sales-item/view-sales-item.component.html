@@ -17,16 +17,23 @@
         <mat-error class="label">Line 1 is required</mat-error>
       </mat-form-field>
     </form>
-    <div>
-      <h4>Items</h4>
-      <div class="itemRow" *ngFor="let item of item.inventoryItems">
-        <div class="quantity">
-            <input type="number" class="form-control" value="1" required/>
-        </div>
-        <div class="name text-center">{{item.name}}</div>
-        <div class="cost">{{item.dailyRentalRate | currencyFormatter}}</div>
+    <h4>Items</h4>
+    <div *ngFor="let item of item.inventoryItems">
+      <div class="itemContainer">
+        <input class="quantity" type="number" class="form-control" value="1" required/>
+        <mat-expansion-panel hideToggle disabled cdkDrag cdkDropList class="itemRow" >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span id="id">{{ item.assetId }}</span>
+            </mat-panel-title>
+            <mat-panel-description>
+              <span id="name">{{ item.name }}</span>
+              <span id="price">{{ item.dailyRentalRate | currencyFormatter }}</span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
       </div>
-  </div>
+    </div>
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button color="warn">Cancel</button>

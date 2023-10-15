@@ -1,0 +1,11 @@
+<div class="flexContainer" cdkDropListGroup>
+  <div class="categoryViewContainer">
+    <app-category-tree class="category" (selection)="selectItems($event)"></app-category-tree>
+  </div>
+  <div class="inventoryViewContainer" >
+    <app-group-items cdkDropList class="inventory" [category]="selectedCategory" [type]="selectedType" [subType]="selectedSubType" [dragDisabled]="false"></app-group-items>
+  </div>
+    <div class="itemViewContainer">
+      <app-view-sales-item (cdkDropListDropped)="dropped($event)" class="item" (itemList)="salesItem.inventoryItems" [item]="salesItem" cdkDropList></app-view-sales-item>
+    </div>
+</div>

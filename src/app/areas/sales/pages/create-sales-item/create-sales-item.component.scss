@@ -1,0 +1,47 @@
+@use '/src/appTheme.scss' as *;
+
+.flexContainer{
+  padding: 1%;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.categoryViewContainer{
+  flex: 1 1 15%;
+  display: flex;
+  overflow: scroll;
+  border-style: solid;
+}
+
+.inventoryViewContainer{
+  flex: 1 0 40%;
+  display: flex;
+  overflow: scroll;
+  border-style: solid;
+  border-left: 0;
+  border-right: 0;
+}
+
+.itemViewContainer{
+  flex: 1 1 45%;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  border-style: solid;
+}
+
+.category{
+  flex:1 1 auto;
+  overflow-y: scroll;
+}
+
+.inventory{
+  flex:1;
+  overflow-y: scroll;
+}
+
+.item{
+  flex:1;
+  overflow: scroll;
+}
