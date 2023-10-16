@@ -36,3 +36,12 @@ input{
   flex:1
 }
 
+.closeButton{
+  margin-left: 2%;
+  flex:.4;
+  color:red;
+  transform: scale(2);
+  align-self: center;
+  justify-self: end;
+  cursor: pointer;
+}

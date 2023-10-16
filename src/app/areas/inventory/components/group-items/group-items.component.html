@@ -15,6 +15,7 @@
   <mat-expansion-panel cdkDrag (cdkDragDropped)="dragEnded($event)" [cdkDragDisabled]="dragDisabled">
     <mat-expansion-panel-header>
       <mat-panel-title>
+        <input value="{{ group.value[0] | json }}" hidden/>
         multiple
       </mat-panel-title>
       <mat-panel-description>

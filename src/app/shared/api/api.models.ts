@@ -371,7 +371,7 @@ export class SalesItem_DTO implements ISalesItem_DTO {
     type?: InventoryItemType_DTO | undefined;
     subTypeId?: number | undefined;
     subType?: InventoryItemSubType_DTO | undefined;
-    inventoryItems?: InventoryItem_DTO[] | undefined;
+    inventoryItems?: InventorySalesItem_DTO[] | undefined;
 
     constructor(data?: ISalesItem_DTO) {
         if (data) {
@@ -399,7 +399,7 @@ export class SalesItem_DTO implements ISalesItem_DTO {
             if (Array.isArray(_data["inventoryItems"])) {
                 this.inventoryItems = [] as any;
                 for (let item of _data["inventoryItems"])
-                    this.inventoryItems!.push(InventoryItem_DTO.fromJS(item));
+                    this.inventoryItems!.push(InventorySalesItem_DTO.fromJS(item));
             }
         }
     }
@@ -441,7 +441,63 @@ export interface ISalesItem_DTO {
     type?: InventoryItemType_DTO | undefined;
     subTypeId?: number | undefined;
     subType?: InventoryItemSubType_DTO | undefined;
-    inventoryItems?: InventoryItem_DTO[] | undefined;
+    inventoryItems?: InventorySalesItem_DTO[] | undefined;
+}
+
+export class InventorySalesItem_DTO implements IInventorySalesItem_DTO {
+    inventoryItemId!: number;
+    salesItemId!: number;
+    quantity!: number;
+    inventoryItem!: InventoryItem_DTO;
+    salesItem!: SalesItem_DTO;
+
+    constructor(data?: IInventorySalesItem_DTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.inventoryItem = new InventoryItem_DTO();
+            this.salesItem = new SalesItem_DTO();
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.inventoryItemId = _data["inventoryItemId"];
+            this.salesItemId = _data["salesItemId"];
+            this.quantity = _data["quantity"];
+            this.inventoryItem = _data["inventoryItem"] ? InventoryItem_DTO.fromJS(_data["inventoryItem"]) : new InventoryItem_DTO();
+            this.salesItem = _data["salesItem"] ? SalesItem_DTO.fromJS(_data["salesItem"]) : new SalesItem_DTO();
+        }
+    }
+
+    static fromJS(data: any): InventorySalesItem_DTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new InventorySalesItem_DTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["inventoryItemId"] = this.inventoryItemId;
+        data["salesItemId"] = this.salesItemId;
+        data["quantity"] = this.quantity;
+        data["inventoryItem"] = this.inventoryItem ? this.inventoryItem.toJSON() : <any>undefined;
+        data["salesItem"] = this.salesItem ? this.salesItem.toJSON() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IInventorySalesItem_DTO {
+    inventoryItemId: number;
+    salesItemId: number;
+    quantity: number;
+    inventoryItem: InventoryItem_DTO;
+    salesItem: SalesItem_DTO;
 }
 
 export class User_DTO implements IUser_DTO {

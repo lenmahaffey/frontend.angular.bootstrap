@@ -2,7 +2,7 @@ import { Component, OnDestroy, Output} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { InventoryService } from 'src/app/areas/inventory/inventory.service';
 import { DragDropService } from 'src/app/services/dragDrop/drag-drop.service';
-import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_DTO, SalesItem_DTO, InventoryItem_DTO } from 'src/app/shared/api/api.models';
+import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_DTO, SalesItem_DTO, InventoryItem_DTO, InventorySalesItem_DTO } from 'src/app/shared/api/api.models';
 
 @Component({
   selector: 'app-create-sales-item',
@@ -61,6 +61,22 @@ export class CreateSalesItemComponent implements OnDestroy{
   dropped(event: any)
   {
     const item = JSON.parse(event.item.element.nativeElement.querySelector("input").value)
-    this.salesItem.inventoryItems?.push(item)
+    const existingItemIndex = this.salesItem.inventoryItems!.findIndex(x => x.inventoryItem.id == item.id)
+    if(existingItemIndex >= 0)
+    {
+      console.log(existingItemIndex)
+      this.salesItem.inventoryItems![existingItemIndex].quantity += 1
+      console.log(this.salesItem)
+    }
+    else
+    {
+      const newItem = new InventorySalesItem_DTO()
+      newItem.inventoryItemId = item.id
+      newItem.inventoryItem = item
+      newItem.salesItem = this.salesItem
+      newItem.salesItemId = this.salesItem.id
+      newItem.quantity = 1
+      this.salesItem.inventoryItems?.push(newItem)
+    }
   }
 }

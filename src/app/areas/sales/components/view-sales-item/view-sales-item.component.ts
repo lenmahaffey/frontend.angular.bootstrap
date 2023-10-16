@@ -11,56 +11,11 @@ import { Subscription } from 'rxjs';
 export class ViewSalesItemComponent {
 
   @Input() item: SalesItem_DTO = new SalesItem_DTO()
-  constructor(private service: SalesService)
-  {
-    if(this.item.id > 0)
-    {
-      this.getItem(this.item.id)
-    }
-  }
 
-  saveItem()
+  removeItem(id: number)
   {
-    if(this.item.id === 0 )
-    {
-      this.addNewItem()
-    }
-    else{
-      this.updateItem()
-    }
-  }
-  getItem(id: number)
-  {
-    this.service.GetSalesItem(id).subscribe(
-      {
-        next: (data) =>
-        {
-          console.log(data)
-        }
-      }
-    )
-  }
-
-  addNewItem()
-  {
-    this.service.addNewSalesItem(this.item).subscribe(
-      {
-        next: (data) =>
-        {
-          console.log(data)
-        }
-      }
-    )
-  }
-  updateItem()
-  {
-    this.service.updateInventoryItem(this.item).subscribe(
-      {
-        next: (data) =>
-        {
-          console.log(data)
-        }
-      }
-    )
+    const i = this.item.inventoryItems?.findIndex(x => x.inventoryItem.id == id)
+    if(i != undefined)
+      this.item.inventoryItems?.splice(i);
   }
 }
