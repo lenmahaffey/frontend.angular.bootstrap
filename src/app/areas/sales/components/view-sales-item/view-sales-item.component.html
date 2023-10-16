@@ -8,17 +8,17 @@
     <form class="flexContainer">
       <mat-form-field appearance="outline">
         <mat-label class="label">Name</mat-label>
-        <input matInput id="name" type="text" name="name"  required>
+        <input matInput id="name" type="text" name="name" [(ngModel)]="itemInput.name" required>
         <mat-error class="label">A name is required</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label class="label">Description</mat-label>
-        <input matInput id="desc" type="textarea" name="desc" >
+        <input matInput id="desc" type="textarea" name="desc" [(ngModel)]="itemInput.description">
         <mat-error class="label">Line 1 is required</mat-error>
       </mat-form-field>
     </form>
     <h4>Items</h4>
-    <div *ngFor="let item of item.inventoryItems">
+    <div *ngFor="let item of itemInput.inventoryItems">
       <div class="itemContainer">
         <input #quantity class="quantity" type="number" class="form-control" min="1" [(ngModel)]="item.quantity" required/>
         <mat-expansion-panel hideToggle disabled cdkDrag cdkDropList class="itemRow" >
@@ -32,12 +32,12 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
         </mat-expansion-panel>
-        <mat-icon class="closeButton" fontIcon="close" (click)="removeItem(item.inventoryItem.id)"></mat-icon>
+        <mat-icon class="closeButton" fontIcon="close" color="warn" (click)="removeItem(item.inventoryItem.id)"></mat-icon>
       </div>
     </div>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="warn">Cancel</button>
-    <button mat-raised-button color="primary">Save</button>
+    <button mat-raised-button color="warn" (click)="resetItem()">Reset</button>
+    <button mat-raised-button color="primary" (click)="addOrUpdateItem()">Save</button>
   </mat-card-actions>
 </mat-card>

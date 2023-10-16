@@ -32,10 +32,10 @@ export class SalesService {
     return this.http.get<SalesItem_DTO[]>(url, { params: params }).pipe(
       catchError(this.handleError.bind(this)))
   }
-  
+
   addNewSalesItem(item: SalesItem_DTO)
   {
-    const url = `${this.apiUrl}/addNewSalesItem`
+    const url = `${this.apiUrl}/addSalesItem`
     const body = JSON.stringify(item);
     return this.http.post<SalesItem_DTO>(url, body, this.headers).pipe(
       catchError(this.handleError.bind(this)))

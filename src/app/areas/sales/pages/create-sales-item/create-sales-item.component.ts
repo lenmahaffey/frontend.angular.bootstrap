@@ -60,6 +60,7 @@ export class CreateSalesItemComponent implements OnDestroy{
 
   dropped(event: any)
   {
+    console.log(this.salesItem)
     const item = JSON.parse(event.item.element.nativeElement.querySelector("input").value)
     const existingItemIndex = this.salesItem.inventoryItems!.findIndex(x => x.inventoryItem.id == item.id)
     if(existingItemIndex >= 0)

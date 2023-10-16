@@ -6,6 +6,6 @@
     <app-group-items cdkDropList class="inventory" [category]="selectedCategory" [type]="selectedType" [subType]="selectedSubType" [dragDisabled]="false"></app-group-items>
   </div>
     <div class="itemViewContainer">
-      <app-view-sales-item (cdkDropListDropped)="dropped($event)" class="item" (itemList)="salesItem.inventoryItems" [item]="salesItem" cdkDropList></app-view-sales-item>
+      <app-view-sales-item (cdkDropListDropped)="dropped($event)" class="item" (itemList)="salesItem.inventoryItems" [itemInput]="salesItem" cdkDropList></app-view-sales-item>
     </div>
 </div>
