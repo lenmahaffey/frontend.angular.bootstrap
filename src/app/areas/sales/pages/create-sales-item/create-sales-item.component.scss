@@ -1,22 +1,27 @@
 @use '/src/appTheme.scss' as *;
-
-.flexContainer{
-  padding: 1%;
+.flexRow{
   display: flex;
   flex-direction: row;
+}
+
+.flexColumn{
+  display: flex;
+  flex-direction: column;
+}
+
+.page{
+  padding: 1%;
   height: 100%;
 }
 
 .categoryViewContainer{
-  flex: 1 1 15%;
-  display: flex;
+  flex: 1 0 15%;
   overflow: scroll;
   border-style: solid;
 }
 
 .inventoryViewContainer{
   flex: 1 0 40%;
-  display: flex;
   overflow: scroll;
   border-style: solid;
   border-left: 0;
@@ -24,24 +29,39 @@
 }
 
 .itemViewContainer{
-  flex: 1 1 45%;
-  display: flex;
-  flex-direction: column;
+  flex: 1 0 45%;
   overflow: scroll;
   border-style: solid;
 }
 
+.closeButton{
+  margin-left: 2%;
+  flex:.4;
+  transform: scale(2);
+  align-self: center;
+  justify-self: end;
+  cursor: pointer;
+}
+
+mat-expansion-panel{
+  flex:10;
+}
+
+input{
+  flex:1
+}
+
+mat-panel-description{
+  color: black !important;
+  font-size: large;
+  flex:3;
+  justify-content: space-between;
+}
+mat-panel-title{
+  color: black !important;
+  font-size: large;
+}
+
 .category{
-  flex:1 1 auto;
-  overflow-y: scroll;
-}
-
-.inventory{
-  flex:1;
-  overflow-y: scroll;
-}
-
-.item{
-  flex:1;
-  overflow: scroll;
+  justify-content: space-between;
 }

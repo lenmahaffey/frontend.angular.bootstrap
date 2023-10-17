@@ -5,7 +5,8 @@ import { Constants } from 'src/app/constants';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { SalesItem_DTO } from 'src/app/shared/api/api.models';
+import { AddInventoryToSalesItemsViewModel, SalesItem_DTO } from 'src/app/shared/api/api.models';
+import { AddItemComponent } from '../inventory/components/add-item/add-item.component';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,11 @@ export class SalesService {
   addNewSalesItem(item: SalesItem_DTO)
   {
     const url = `${this.apiUrl}/addSalesItem`
-    const body = JSON.stringify(item);
+    let model = new AddInventoryToSalesItemsViewModel()
+    model.salesItem = item
+    model.inventoryItemIds = []
+    item.inventoryItems?.forEach(x => model.inventoryItemIds.push(x.inventoryItem!.id))
+    const body = JSON.stringify(model);
     return this.http.post<SalesItem_DTO>(url, body, this.headers).pipe(
       catchError(this.handleError.bind(this)))
   }

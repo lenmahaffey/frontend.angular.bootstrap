@@ -24,15 +24,15 @@
         <mat-expansion-panel hideToggle disabled cdkDrag cdkDropList class="itemRow" >
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <span id="id">{{ item.inventoryItem.assetId }}</span>
+              <span id="id">{{ item.inventoryItem?.assetId }}</span>
             </mat-panel-title>
             <mat-panel-description>
-              <span id="name">{{ item.inventoryItem.name }}</span>
-              <span id="price">{{ item.inventoryItem.dailyRentalRate * item.quantity | currencyFormatter }}</span>
+              <span id="name">{{ item.inventoryItem?.name }}</span>
+              <span id="price">{{ item.inventoryItem!.dailyRentalRate * item.quantity | currencyFormatter }}</span>
             </mat-panel-description>
           </mat-expansion-panel-header>
         </mat-expansion-panel>
-        <mat-icon class="closeButton" fontIcon="close" color="warn" (click)="removeItem(item.inventoryItem.id)"></mat-icon>
+        <mat-icon class="closeButton" fontIcon="close" color="warn" (click)="removeItem(item.inventoryItem!.id)"></mat-icon>
       </div>
     </div>
   </mat-card-content>

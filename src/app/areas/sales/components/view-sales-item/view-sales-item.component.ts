@@ -19,7 +19,7 @@ export class ViewSalesItemComponent {
 
   removeItem(id: number)
   {
-    const i = this.itemInput.inventoryItems?.findIndex(x => x.inventoryItem.id == id)
+    const i = this.itemInput.inventoryItems?.findIndex(x => x.inventoryItem?.id == id)
     if(i != undefined && i > -1)
       this.itemInput.inventoryItems?.splice(i, 1);
   }

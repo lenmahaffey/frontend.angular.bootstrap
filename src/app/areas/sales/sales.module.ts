@@ -22,6 +22,6 @@ import { SalesService } from './sales.service';
       { path: 'sales/createitem', component: CreateSalesItemComponent }
     ]),
   ],
-  providers: [SalesService]
+  providers: [ SalesService ]
 })
 export class SalesModule { }
