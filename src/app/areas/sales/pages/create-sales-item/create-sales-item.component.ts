@@ -1,8 +1,14 @@
 import { Component, OnDestroy } from '@angular/core';
 import { InventoryService } from 'src/app/areas/inventory/inventory.service';
-import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_DTO, SalesItem_DTO, InventoryItem_DTO, InventorySalesItem_DTO } from 'src/app/shared/api/api.models';
+import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_DTO, SalesItem_DTO, InventoryItem_DTO, InventorySalesItem_DTO, CreateNewInventorySalesItemViewModel } from 'src/app/shared/api/api.models';
 import { SalesService } from '../../sales.service';
 import { FormControl, FormGroup } from '@angular/forms';
+
+interface InventoryNode{
+  item: InventoryItem_DTO
+  quantity: number
+  price: number
+}
 
 @Component({
   selector: 'app-create-sales-item',
@@ -12,9 +18,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 export class CreateSalesItemComponent {
   salesItemInput: any
-  salesItemInventoryInput: InventoryItem_DTO[] = []
-  typeDisabled = true
-  subTypeDisabled = true
+  inventoryItems: InventoryNode[] = []
+  inventoryMap = new Map<number, number>()
   categories: InventoryItemCategory_DTO[] = []
   types: InventoryItemType_DTO[] = []
   subTypes: InventoryItemSubType_DTO[] = []
@@ -33,7 +38,6 @@ export class CreateSalesItemComponent {
       subType: new FormControl(""),
       name: new FormControl(""),
       description: new FormControl(""),
-      quantity: new FormControl(1)
     });
     this.salesItemInput.get('type').disable()
     this.salesItemInput.get('subType').disable()
@@ -45,8 +49,6 @@ export class CreateSalesItemComponent {
         }
       }
     )
-    this.salesItemInput.inventoryItems = []
-    this.salesItemInput.category = new InventoryItemCategory_DTO()
   }
 
   selectItems(s: InventoryItemCategory_DTO | InventoryItemType_DTO | InventoryItemSubType_DTO)
@@ -82,32 +84,43 @@ export class CreateSalesItemComponent {
   dropped(event: any)
   {
     const item = new InventoryItem_DTO(JSON.parse(event.item.element.nativeElement.querySelector("input").value))
-    const existingItemIndex = this.salesItemInventoryInput.findIndex(x => x.id == item.id)
-    if(existingItemIndex >= 0)
+    const index = this.inventoryItems.findIndex(x => x.item.id == item.id)
+    if(index >= 0)
     {
-      this.salesItemInput.inventoryItems![existingItemIndex].quantity += 1
+      this.inventoryItems.find(x => x.item.id == item.id)!.quantity += 1
     }
     else
     {
-      console.log(this.salesItemInput)
+      let node = {item: item, quantity: 1, price: item.dailyRentalRate * 1}
+      this.inventoryItems.push(node)
     }
   }
   removeItem(id: number)
   {
-    const i = this.salesItemInventoryInput.findIndex(x => x.id == id)
+    const i = this.inventoryItems.findIndex(x => x.item.id == id)
     if(i != undefined && i > -1)
       this.salesItemInput.inventoryItems?.splice(i, 1);
   }
 
   addOrUpdateItem()
   {
-    console.log(this.salesItemInput)
-    //this.addItem(this.salesItemInput)
+    const model = new CreateNewInventorySalesItemViewModel()
+    model.categoryId = this.salesItemInput.get('category').value.id
+    model.typeId = this.salesItemInput.get('type').value.id
+    model.subTypeId = this.salesItemInput.get('subType').value.id
+    model.name = this.salesItemInput.get('name').value
+    model.description = this.salesItemInput.get('description').value
+    model.inventoryItemQuantities = {}
+    this.inventoryItems.forEach(x =>
+    {
+      model.inventoryItemQuantities[x.item.id.toString()] = x.quantity
+    })
+    this.addItem(model)
   }
 
-  addItem(item: SalesItem_DTO)
+  addItem(model: CreateNewInventorySalesItemViewModel)
   {
-    const sub = this.salesService.addNewSalesItem(item).subscribe(
+    const sub = this.salesService.addNewSalesItem(model).subscribe(
     {
       next: (data) =>
       {
@@ -136,5 +149,15 @@ export class CreateSalesItemComponent {
   {
     this.subTypes = type.subTypes ?? []
     this.salesItemInput.get('subType').enable()
+  }
+
+  getQuantity(item: InventoryItem_DTO) : number
+  {
+    return this.inventoryItems.find(x => x.item === item)?.quantity ?? 1
+  }
+
+  setQuantity(item: InventoryItem_DTO)
+  {
+    this.inventoryItems.find(x => x.item === item)!.quantity += 1
   }
 }

@@ -31,13 +31,13 @@ export class ViewSalesItemComponent {
 
   addItem(item: SalesItem_DTO)
   {
-    const sub = this.salesService.addNewSalesItem(item).subscribe(
-    {
-      next: (data) =>
-      {
-        console.log(data)
-      }
-    })
+    // const sub = this.salesService.addNewSalesItem(item).subscribe(
+    // {
+    //   next: (data) =>
+    //   {
+    //     console.log(data)
+    //   }
+    // })
   }
 
   updateItem(item: SalesItem_DTO)
