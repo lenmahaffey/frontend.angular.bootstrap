@@ -560,3 +560,337 @@ export interface ICreateNewInventorySalesItemViewModel {
     inventoryItemQuantities: { [key: string]: number; };
 }
 
+export class User_DTO implements IUser_DTO {
+    id!: number;
+    contactInfoId!: number;
+    contactInfo?: ContactInformation_DTO | undefined;
+    prefix?: string | undefined;
+    suffix?: string | undefined;
+    firstName!: string;
+    middleName?: string | undefined;
+    lastName!: string;
+
+    constructor(data?: IUser_DTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.contactInfoId = _data["contactInfoId"];
+            this.contactInfo = _data["contactInfo"] ? ContactInformation_DTO.fromJS(_data["contactInfo"]) : <any>undefined;
+            this.prefix = _data["prefix"];
+            this.suffix = _data["suffix"];
+            this.firstName = _data["firstName"];
+            this.middleName = _data["middleName"];
+            this.lastName = _data["lastName"];
+        }
+    }
+
+    static fromJS(data: any): User_DTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new User_DTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["contactInfoId"] = this.contactInfoId;
+        data["contactInfo"] = this.contactInfo ? this.contactInfo.toJSON() : <any>undefined;
+        data["prefix"] = this.prefix;
+        data["suffix"] = this.suffix;
+        data["firstName"] = this.firstName;
+        data["middleName"] = this.middleName;
+        data["lastName"] = this.lastName;
+        return data;
+    }
+}
+
+export interface IUser_DTO {
+    id: number;
+    contactInfoId: number;
+    contactInfo?: ContactInformation_DTO | undefined;
+    prefix?: string | undefined;
+    suffix?: string | undefined;
+    firstName: string;
+    middleName?: string | undefined;
+    lastName: string;
+}
+
+export class ContactInformation_DTO implements IContactInformation_DTO {
+    id!: number;
+    userId!: number;
+    physicalAddresses?: PhysicalAddress_DTO[] | undefined;
+    emailAddresses?: EmailAddress_DTO[] | undefined;
+    phoneNumbers?: PhoneNumber_DTO[] | undefined;
+
+    constructor(data?: IContactInformation_DTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.userId = _data["userId"];
+            if (Array.isArray(_data["physicalAddresses"])) {
+                this.physicalAddresses = [] as any;
+                for (let item of _data["physicalAddresses"])
+                    this.physicalAddresses!.push(PhysicalAddress_DTO.fromJS(item));
+            }
+            if (Array.isArray(_data["emailAddresses"])) {
+                this.emailAddresses = [] as any;
+                for (let item of _data["emailAddresses"])
+                    this.emailAddresses!.push(EmailAddress_DTO.fromJS(item));
+            }
+            if (Array.isArray(_data["phoneNumbers"])) {
+                this.phoneNumbers = [] as any;
+                for (let item of _data["phoneNumbers"])
+                    this.phoneNumbers!.push(PhoneNumber_DTO.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ContactInformation_DTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContactInformation_DTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["userId"] = this.userId;
+        if (Array.isArray(this.physicalAddresses)) {
+            data["physicalAddresses"] = [];
+            for (let item of this.physicalAddresses)
+                data["physicalAddresses"].push(item.toJSON());
+        }
+        if (Array.isArray(this.emailAddresses)) {
+            data["emailAddresses"] = [];
+            for (let item of this.emailAddresses)
+                data["emailAddresses"].push(item.toJSON());
+        }
+        if (Array.isArray(this.phoneNumbers)) {
+            data["phoneNumbers"] = [];
+            for (let item of this.phoneNumbers)
+                data["phoneNumbers"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IContactInformation_DTO {
+    id: number;
+    userId: number;
+    physicalAddresses?: PhysicalAddress_DTO[] | undefined;
+    emailAddresses?: EmailAddress_DTO[] | undefined;
+    phoneNumbers?: PhoneNumber_DTO[] | undefined;
+}
+
+export class PhysicalAddress_DTO implements IPhysicalAddress_DTO {
+    id!: number;
+    contactInfoId!: number;
+    line1!: string;
+    line2?: string | undefined;
+    line3?: string | undefined;
+    city!: string;
+    state!: string;
+    postalCode!: string;
+    addressType!: AddressType;
+
+    constructor(data?: IPhysicalAddress_DTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.contactInfoId = _data["contactInfoId"];
+            this.line1 = _data["line1"];
+            this.line2 = _data["line2"];
+            this.line3 = _data["line3"];
+            this.city = _data["city"];
+            this.state = _data["state"];
+            this.postalCode = _data["postalCode"];
+            this.addressType = _data["addressType"];
+        }
+    }
+
+    static fromJS(data: any): PhysicalAddress_DTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new PhysicalAddress_DTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["contactInfoId"] = this.contactInfoId;
+        data["line1"] = this.line1;
+        data["line2"] = this.line2;
+        data["line3"] = this.line3;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["postalCode"] = this.postalCode;
+        data["addressType"] = this.addressType;
+        return data;
+    }
+}
+
+export interface IPhysicalAddress_DTO {
+    id: number;
+    contactInfoId: number;
+    line1: string;
+    line2?: string | undefined;
+    line3?: string | undefined;
+    city: string;
+    state: string;
+    postalCode: string;
+    addressType: AddressType;
+}
+
+export enum AddressType {
+    Mailing = 0,
+    Billing = 1,
+    Shipping = 2,
+}
+
+export class EmailAddress_DTO implements IEmailAddress_DTO {
+    id!: number;
+    contactInformationId!: number;
+    contactInformation?: ContactInformation_DTO | undefined;
+    address!: string;
+    label!: string;
+    priority!: number;
+
+    constructor(data?: IEmailAddress_DTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.contactInformationId = _data["contactInformationId"];
+            this.contactInformation = _data["contactInformation"] ? ContactInformation_DTO.fromJS(_data["contactInformation"]) : <any>undefined;
+            this.address = _data["address"];
+            this.label = _data["label"];
+            this.priority = _data["priority"];
+        }
+    }
+
+    static fromJS(data: any): EmailAddress_DTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new EmailAddress_DTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["contactInformationId"] = this.contactInformationId;
+        data["contactInformation"] = this.contactInformation ? this.contactInformation.toJSON() : <any>undefined;
+        data["address"] = this.address;
+        data["label"] = this.label;
+        data["priority"] = this.priority;
+        return data;
+    }
+}
+
+export interface IEmailAddress_DTO {
+    id: number;
+    contactInformationId: number;
+    contactInformation?: ContactInformation_DTO | undefined;
+    address: string;
+    label: string;
+    priority: number;
+}
+
+export class PhoneNumber_DTO implements IPhoneNumber_DTO {
+    id!: number;
+    contactInfoId!: number;
+    countryCode!: string;
+    areaCode!: string;
+    prefix!: string;
+    localNumber!: string;
+    label!: string;
+    priority!: number;
+
+    constructor(data?: IPhoneNumber_DTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.contactInfoId = _data["contactInfoId"];
+            this.countryCode = _data["countryCode"];
+            this.areaCode = _data["areaCode"];
+            this.prefix = _data["prefix"];
+            this.localNumber = _data["localNumber"];
+            this.label = _data["label"];
+            this.priority = _data["priority"];
+        }
+    }
+
+    static fromJS(data: any): PhoneNumber_DTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new PhoneNumber_DTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["contactInfoId"] = this.contactInfoId;
+        data["countryCode"] = this.countryCode;
+        data["areaCode"] = this.areaCode;
+        data["prefix"] = this.prefix;
+        data["localNumber"] = this.localNumber;
+        data["label"] = this.label;
+        data["priority"] = this.priority;
+        return data;
+    }
+}
+
+export interface IPhoneNumber_DTO {
+    id: number;
+    contactInfoId: number;
+    countryCode: string;
+    areaCode: string;
+    prefix: string;
+    localNumber: string;
+    label: string;
+    priority: number;
+}
+
