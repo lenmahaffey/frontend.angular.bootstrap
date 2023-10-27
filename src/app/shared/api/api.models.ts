@@ -315,7 +315,7 @@ export interface IInventoryItemSubType_DTO {
 }
 
 export class ListInventoryItemsViewModel implements IListInventoryItemsViewModel {
-    catgeoryId?: number | undefined;
+    categoryId?: number | undefined;
     typeId?: number | undefined;
     subTypeId?: number | undefined;
 
@@ -330,7 +330,7 @@ export class ListInventoryItemsViewModel implements IListInventoryItemsViewModel
 
     init(_data?: any) {
         if (_data) {
-            this.catgeoryId = _data["catgeoryId"];
+            this.categoryId = _data["categoryId"];
             this.typeId = _data["typeId"];
             this.subTypeId = _data["subTypeId"];
         }
@@ -345,7 +345,7 @@ export class ListInventoryItemsViewModel implements IListInventoryItemsViewModel
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["catgeoryId"] = this.catgeoryId;
+        data["categoryId"] = this.categoryId;
         data["typeId"] = this.typeId;
         data["subTypeId"] = this.subTypeId;
         return data;
@@ -353,7 +353,7 @@ export class ListInventoryItemsViewModel implements IListInventoryItemsViewModel
 }
 
 export interface IListInventoryItemsViewModel {
-    catgeoryId?: number | undefined;
+    categoryId?: number | undefined;
     typeId?: number | undefined;
     subTypeId?: number | undefined;
 }

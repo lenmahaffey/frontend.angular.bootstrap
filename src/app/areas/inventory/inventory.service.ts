@@ -21,7 +21,7 @@ export class InventoryService {
   {
     const url = `${this.apiUrl}/listInventoryItems`
     const model = new ListInventoryItemsViewModel()
-    model.catgeoryId = category?.id || undefined
+    model.categoryId = category?.id || undefined
     model.typeId = type?.id
     model.subTypeId = subType?.id
     const body = JSON.stringify(model)
