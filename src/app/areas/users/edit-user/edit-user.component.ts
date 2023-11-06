@@ -109,19 +109,19 @@ export class EditUserComponent {
 
   setNameFormWithCurrentUser()
   {
-    this.nameForm.controls['prefix'].setValue(this.user.prefix ?? null)
-    this.nameForm.controls['firstName'].setValue(this.user.firstName ?? null)
-    this.nameForm.controls['middleName'].setValue(this.user.middleName ?? null)
-    this.nameForm.controls['lastName'].setValue(this.user.lastName ?? null)
-    this.nameForm.controls['suffix'].setValue(this.user.suffix ?? null)
+    this.nameForm.controls['prefix'].setValue(this.user.contact?.prefix ?? null)
+    this.nameForm.controls['firstName'].setValue(this.user.contact?.firstName ?? null)
+    this.nameForm.controls['middleName'].setValue(this.user.contact?.middleName ?? null)
+    this.nameForm.controls['lastName'].setValue(this.user.contact?.lastName ?? null)
+    this.nameForm.controls['suffix'].setValue(this.user.contact?.suffix ?? null)
   }
 
   setPhoneNumberFormWithCurrentUser()
   {
-    if(this.user?.contactInfo?.phoneNumbers != null)
+    if(this.user?.contact?.contactInformation?.phoneNumbers != null)
     {
       let i = 1
-      this.user?.contactInfo?.phoneNumbers.forEach((info) => {
+      this.user?.contact?.contactInformation?.phoneNumbers.forEach((info) => {
         console.log(info)
         this.phoneNumberForm.addControl(info.priority.toString(), new FormControl(this.phoneToString.transform(info)))
       })
@@ -130,9 +130,9 @@ export class EditUserComponent {
 
   setEmailAddressFromWithCurrentUser()
   {
-    if(this.user.contactInfo?.emailAddresses != undefined)
+    if(this.user.contact?.contactInformation?.emailAddresses != undefined)
     {
-      let primary = this.user.contactInfo?.emailAddresses.filter(x => x.priority == 1)[0]
+      let primary = this.user.contact?.contactInformation?.emailAddresses.filter(x => x.priority == 1)[0]
 
       this.emailForm.controls['primary'].setValue(primary.address)
     }
@@ -140,15 +140,15 @@ export class EditUserComponent {
 
   setAddressesWithCurrentUser()
   {
-    if(this.user.contactInfo?.physicalAddresses != undefined)
+    if(this.user.contact?.contactInformation?.physicalAddresses != undefined)
     {
-      let mailing = this.user.contactInfo?.physicalAddresses.filter(x => x.addressType == AddressType.Mailing)[0]
+      let mailing = this.user.contact?.contactInformation?.physicalAddresses.filter(x => x.addressType == AddressType.Mailing)[0]
       this.mailingAddress = mailing
 
-      let billing = this.user.contactInfo?.physicalAddresses.filter(x => x.addressType == AddressType.Billing)[0]
+      let billing = this.user.contact?.contactInformation?.physicalAddresses.filter(x => x.addressType == AddressType.Billing)[0]
       this.billingAddress = billing
 
-      let shipping = this.user.contactInfo?.physicalAddresses.filter(x => x.addressType == AddressType.Shipping)[0]
+      let shipping = this.user.contact?.contactInformation?.physicalAddresses.filter(x => x.addressType == AddressType.Shipping)[0]
       this.shippingAddress = shipping
     }
   }
@@ -156,15 +156,15 @@ export class EditUserComponent {
   updateUserWithNameFormValues(user: User_DTO)
   {
     this.nameForm.value.prefix != null || this.nameForm.value.firstName != undefined ?
-      user.prefix = this.nameForm.value.prefix ?? undefined : null
+      user.contact!.prefix = this.nameForm.value.prefix ?? undefined : null
 
     this.nameForm.value.firstName != null || this.nameForm.value.firstName != undefined ?
-      user.firstName = this.nameForm.value.firstName : null
+      user.contact!.firstName = this.nameForm.value.firstName : null
 
-    user.middleName = this.nameForm.value.middleName ?? undefined
+    user.contact!.middleName = this.nameForm.value.middleName ?? undefined
 
     this.nameForm.value.lastName != null || this.nameForm.value.lastName != undefined ?
-      user.lastName = this.nameForm.value.lastName : null
+      user.contact!.lastName = this.nameForm.value.lastName : null
   }
 
   updateUserWithEmailFormValues(user: User_DTO)

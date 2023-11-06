@@ -1,0 +1,81 @@
+@use '/src/appTheme.scss' as *;
+@use '/src/color-palette.scss' as colors;
+@use "sass:map";
+
+.flexRow{
+  display: flex;
+  flex-direction: row;
+}
+
+.flexColumn{
+  display: flex;
+  flex-direction: column;
+}
+
+.flexItem{
+  flex: 1;
+  height: 100%;
+}
+
+.page{
+  padding: 1%;
+  height: 100%;
+}
+
+.contacts{
+  flex:1 0 30%;
+  border-style: solid;
+}
+
+.info{
+  flex:1 0 70%;
+}
+
+.list{
+  overflow: scroll;
+}
+
+.details{
+  flex:1 0 75%;
+  overflow: scroll;
+  border-left: none;
+  border-right: solid;
+  border-top: solid;
+  border-bottom: solid;
+}
+
+.log{
+  flex:1 0 25%;
+  overflow: scroll;
+  border-left: none;
+  border-right: solid;
+  border-bottom: solid;
+}
+.pointer{
+  cursor: pointer;
+}
+
+.pointer:hover{
+  background-color: $accent !important;
+}
+
+.searchInputs{
+  margin-top: 1%;
+  margin-left: 1%;
+  align-items: center;
+  justify-content: center;
+}
+
+.input{
+  flex: 1;
+  margin-right: 1%;
+}
+
+span{
+  margin-right: 1%;
+}
+
+.buttons{
+  display: flex;
+  justify-content: space-around;
+}

@@ -3,6 +3,7 @@ import { GraphsModule } from './graphs/graphs.module';
 import { UsersModule } from './users/users.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { SalesModule } from './sales/sales.module';
+import { ContactsModule } from './contacts/contacts.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { SalesModule } from './sales/sales.module';
     GraphsModule,
     UsersModule,
     InventoryModule,
-    SalesModule
+    SalesModule,
+    ContactsModule
   ]
 })
 

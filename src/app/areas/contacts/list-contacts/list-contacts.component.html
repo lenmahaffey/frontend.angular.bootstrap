@@ -1,0 +1,39 @@
+<div class="page flexRow">
+  <div class="contacts flexRow">
+    <div class="list flexItem">
+      <form [formGroup]="searchFormGroup">
+        <div class="flexRow searchInputs">
+          <mat-form-field class="input" appearance="outline">
+            <mat-label class="label">First Name</mat-label>
+            <input matInput id="line1" type="text" name="firstName" formControlName="firstName" (keyup)="filterContacts()">
+          </mat-form-field>
+          <mat-form-field class="input" appearance="outline">
+            <mat-label class="label">Last Name</mat-label>
+            <input matInput id="line1" type="text" name="lastName" formControlName="lastName" (keyup)="filterContacts()">
+          </mat-form-field>
+        </div>
+     </form>
+      <div class="buttons">
+        <button mat-raised-button color="primary" disabled="true" >Filter</button>
+        <button mat-raised-button color="primary">Add New</button>
+      </div>
+      <mat-list>
+        <mat-list-item *ngFor="let contact of filteredList" class="pointer" (click)="contactClicked(contact)">
+          {{contact.firstName}} {{contact.lastName}}
+          <span class="badge bg-danger" *ngIf="contact.userId != undefined">User</span>
+          <span class="badge bg-primary" *ngIf="contact.employeeId != undefined">Employee</span>
+          <span class="badge bg-warning" *ngIf="contact.freelancerId != undefined">Freelancer</span>
+          <span class="badge bg-success" *ngIf="contact.customerId != undefined">Customer</span>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+  <div class="info flexColumn">
+    <div class="details">
+        <app-view-contact [contact]="contact"></app-view-contact>
+    </div>
+    <div class="log">
+      <div class="">Contact Log</div>
+    </div>
+  </div>
+</div>

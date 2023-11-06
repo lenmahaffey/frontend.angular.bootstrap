@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { PhoneNumber_DTO } from '../api/api.models';
 
 @Pipe({
-  name: 'phoneNumberFormatter'
+  name: 'phoneNumberToString'
 })
 export class PhoneNumberToFormattedStringPipe implements PipeTransform {
 

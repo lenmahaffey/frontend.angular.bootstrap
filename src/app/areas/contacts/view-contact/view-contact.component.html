@@ -1,0 +1,27 @@
+<div *ngIf="(contact != undefined)" class="page flexColumn">
+  <h1 class="flexItem heading">{{contact.firstName}} {{contact.lastName}}</h1>
+  <div class="top flexItem flexRow content">
+    <mat-card class="flexItem left">
+      <mat-card-content>
+      <mat-tab-group>
+        <mat-tab label="Info">
+          <div *ngIf="contact.contactInformation != null && contact.contactInformation.phoneNumbers != null">
+            <div *ngFor="let number of contact.contactInformation.phoneNumbers">
+              {{number.label}} : {{number | phoneNumberToString}} </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Address">
+          <mat-tab-group>
+            <mat-tab label="Mailing Address"></mat-tab>
+            <mat-tab label="Billing Address"></mat-tab>
+            <mat-tab label="Shipping Address"></mat-tab>
+          </mat-tab-group>
+        </mat-tab>
+      </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+     <mat-card class="flexColumn right imageContainer">
+        <img class="image"  src="../../../../assets/No-Image-Placeholder.svg">
+    </mat-card>
+  </div>
+</div>

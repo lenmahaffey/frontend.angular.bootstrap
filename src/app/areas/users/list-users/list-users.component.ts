@@ -17,7 +17,7 @@ import { Message } from 'src/app/services/message';
 export class ListUsersComponent {
 
   users = []
-  displayedColumns: string[] = ['id', 'firstname', 'lastname'];
+  displayedColumns: string[] = ['id', 'username','firstname', 'lastname'];
   data:User_DTO[] = []
   dialogConfig: MatDialogConfig
   constructor(private api: UsersService,
