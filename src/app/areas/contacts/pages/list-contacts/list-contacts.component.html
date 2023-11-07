@@ -15,15 +15,15 @@
      </form>
       <div class="buttons">
         <button mat-raised-button color="primary" disabled="true" >Filter</button>
-        <button mat-raised-button color="primary">Add New</button>
+        <button mat-raised-button color="primary" (click)="openModal()">Add New</button>
       </div>
       <mat-list>
         <mat-list-item *ngFor="let contact of filteredList" class="pointer" (click)="contactClicked(contact)">
-          {{contact.firstName}} {{contact.lastName}}
-          <span class="badge bg-danger" *ngIf="contact.userId != undefined">User</span>
-          <span class="badge bg-primary" *ngIf="contact.employeeId != undefined">Employee</span>
-          <span class="badge bg-warning" *ngIf="contact.freelancerId != undefined">Freelancer</span>
-          <span class="badge bg-success" *ngIf="contact.customerId != undefined">Customer</span>
+          {{contact.businessName}}{{contact.firstName}} {{contact.lastName}}
+            <span class="badge bg-danger" *ngIf="contact.userId != undefined">User</span>
+            <span class="badge bg-primary" *ngIf="contact.employeeId != undefined">Employee</span>
+            <span class="badge bg-warning" *ngIf="contact.freelancerId != undefined">Freelancer</span>
+            <span class="badge bg-success" *ngIf="contact.customerId != undefined">Customer</span>
         </mat-list-item>
       </mat-list>
     </div>
@@ -37,3 +37,10 @@
     </div>
   </div>
 </div>
+
+<ng-template #business>
+
+</ng-template>
+<ng-template #person>
+
+</ng-template>

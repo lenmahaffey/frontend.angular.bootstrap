@@ -6,6 +6,11 @@ export class Contact_DTO implements IContact_DTO {
     firstName!: string;
     middleName?: string | undefined;
     lastName!: string;
+    preferredName?: string | undefined;
+    businessName?: string | undefined;
+    title?: string | undefined;
+    description?: string | undefined;
+    isBusiness!: boolean;
     customerId?: number | undefined;
     employeeId?: number | undefined;
     freelancerId?: number | undefined;
@@ -37,6 +42,11 @@ export class Contact_DTO implements IContact_DTO {
             this.firstName = _data["firstName"];
             this.middleName = _data["middleName"];
             this.lastName = _data["lastName"];
+            this.preferredName = _data["preferredName"];
+            this.businessName = _data["businessName"];
+            this.title = _data["title"];
+            this.description = _data["description"];
+            this.isBusiness = _data["isBusiness"];
             this.customerId = _data["customerId"];
             this.employeeId = _data["employeeId"];
             this.freelancerId = _data["freelancerId"];
@@ -88,6 +98,11 @@ export class Contact_DTO implements IContact_DTO {
         data["firstName"] = this.firstName;
         data["middleName"] = this.middleName;
         data["lastName"] = this.lastName;
+        data["preferredName"] = this.preferredName;
+        data["businessName"] = this.businessName;
+        data["title"] = this.title;
+        data["description"] = this.description;
+        data["isBusiness"] = this.isBusiness;
         data["customerId"] = this.customerId;
         data["employeeId"] = this.employeeId;
         data["freelancerId"] = this.freelancerId;
@@ -132,6 +147,11 @@ export interface IContact_DTO {
     firstName: string;
     middleName?: string | undefined;
     lastName: string;
+    preferredName?: string | undefined;
+    businessName?: string | undefined;
+    title?: string | undefined;
+    description?: string | undefined;
+    isBusiness: boolean;
     customerId?: number | undefined;
     employeeId?: number | undefined;
     freelancerId?: number | undefined;

@@ -1,7 +1,9 @@
 import { Component, Output } from '@angular/core';
 import { Contact_DTO } from 'src/app/shared/api/api.models';
-import { ContactService } from '../contact.service';
+import { ContactService } from '../../contact.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { AddContactComponent } from '../../components/add-contact/add-contact.component';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-list-contacts',
@@ -15,7 +17,7 @@ export class ListContactsComponent {
   data: Contact_DTO[] = []
   @Output() contact:Contact_DTO | undefined = undefined
 
-  constructor(service: ContactService)
+  constructor(private service: ContactService, private _dialog: MatDialog,)
   {
     this.searchFormGroup = new FormGroup(
       {
@@ -95,5 +97,51 @@ export class ListContactsComponent {
     // {
     //   this.filteredList = this.filteredList.filter(x => x.lastName.includes(filter))
     // }
+  }
+
+  openModal()
+  {
+    const bodyRect = document.body.getBoundingClientRect();
+    console.log(bodyRect)
+    var config = new MatDialogConfig()
+    config.data =
+    {
+      title: "Demostration Modal",
+      text: "This is a modal",
+      yesButtonText: "yes",
+      noButtonText: "no",
+    }
+    config.minWidth = '400px'
+    config.disableClose = false;
+    config.position =
+    {
+      left: ((bodyRect.width / 2) - (Number(config.minWidth.replace("px", "")))).toString() + "px",
+      top: "5%"
+    }
+    let modalRef = this._dialog.open(AddContactComponent, config);
+    let sub = modalRef.componentInstance.response.subscribe(
+      {
+        next: (data) =>
+        {
+          if(data != null)
+          {
+            this.addContact(data)
+          }
+          modalRef.close()
+          sub.unsubscribe()
+        }
+      }
+    )
+  }
+  addContact(contact: Contact_DTO)
+  {
+    const sub = this.service.AddContact(contact).subscribe(
+      {
+        next: (data) =>
+        {
+          console.log(data);
+        }
+      }
+    )
   }
 }

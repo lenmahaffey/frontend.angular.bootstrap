@@ -21,6 +21,15 @@ export class ContactService {
     return this.http.get<Contact_DTO[]>(url, this.headers).pipe(
       catchError(this.handleError.bind(this)))
   }
+
+  AddContact(contact: Contact_DTO)
+  {
+    const url = `${this.apiUrl}/addcontact`
+    const body = JSON.stringify(contact)
+    return this.http.post<Contact_DTO>(url, body, this.headers).pipe(
+      catchError(this.handleError.bind(this))
+    )
+  }
   private handleError(err: HttpErrorResponse) {
     let errorMessage = ''
     if (err.error.length > 0) {

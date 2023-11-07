@@ -5,7 +5,6 @@ import { InventoryModule } from './inventory/inventory.module';
 import { SalesModule } from './sales/sales.module';
 import { ContactsModule } from './contacts/contacts.module';
 
-
 @NgModule({
   declarations: [
   ],
