@@ -68,10 +68,9 @@ export class ListContactsComponent {
     {
       this.filteredList = this.data;
       this.sortContacts();
-      this.filterContacts();
       return
     }
-      this.filteredList = (this.data.filter(x => {
+      this.filteredList = (this.filteredList.filter(x => {
         if(x.firstName != null)
           if(x.firstName.includes(fName))
           {
@@ -90,7 +89,6 @@ export class ListContactsComponent {
       }
       ))
       this.sortContacts();
-      this.filterContacts();
   }
 
   sortContacts()
