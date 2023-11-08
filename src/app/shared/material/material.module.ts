@@ -25,6 +25,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { MatCheckboxModule} from '@angular/material/checkbox';
     MatChipsModule,
     MatTabsModule,
     MatCheckboxModule,
+    MatRadioModule
   ]
 })
 export class MaterialModule { }

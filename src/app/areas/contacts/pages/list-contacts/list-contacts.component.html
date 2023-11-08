@@ -5,16 +5,53 @@
         <div class="flexRow searchInputs">
           <mat-form-field class="input" appearance="outline">
             <mat-label class="label">First Name</mat-label>
-            <input matInput id="line1" type="text" name="firstName" formControlName="firstName" (keyup)="filterContacts()">
+            <input matInput id="line1" type="text" name="firstName" formControlName="firstName" (keyup)="searchContacts()">
           </mat-form-field>
           <mat-form-field class="input" appearance="outline">
             <mat-label class="label">Last Name</mat-label>
-            <input matInput id="line1" type="text" name="lastName" formControlName="lastName" (keyup)="filterContacts()">
+            <input matInput id="line1" type="text" name="lastName" formControlName="lastName" (keyup)="searchContacts()">
           </mat-form-field>
         </div>
      </form>
       <div class="buttons">
-        <button mat-raised-button color="primary" disabled="true" >Filter</button>
+        <button mat-raised-button [matMenuTriggerFor]="filterMenu" color="primary">Filter</button>
+        <mat-menu #filterMenu="matMenu">
+          <form [formGroup]="filterOptions">
+            <div class="flexRow selection" (click)="$event.stopPropagation();filterContacts()">
+              <mat-checkbox formControlName="employees" [value]="filterOptions.value.employees"></mat-checkbox>
+              <div mat-menu-item><span class="badge bg-primary" >Employee</span></div>
+            </div>
+            <div class="flexRow selection" (click)="$event.stopPropagation();filterContacts()">
+              <mat-checkbox formControlName="freelancers" [value]="filterOptions.value.freelancers"></mat-checkbox>
+              <div mat-menu-item><span class="badge bg-warning">Freelancer</span></div>
+            </div>
+            <div class="flexRow selection" (click)="$event.stopPropagation();filterContacts()">
+              <mat-checkbox formControlName="customers" [value]="filterOptions.value.customers"></mat-checkbox>
+              <div mat-menu-item><span class="badge bg-success">Customer</span></div>
+            </div>
+            <div class="flexRow selection" (click)="$event.stopPropagation();filterContacts()">
+              <mat-checkbox formControlName="users" [value]="filterOptions.value.users"></mat-checkbox>
+              <div mat-menu-item><span class="badge bg-danger">User</span></div>
+            </div>
+          </form>
+        </mat-menu>
+        <button mat-raised-button [matMenuTriggerFor]="sortMenu" color="primary">Sort</button>
+        <mat-menu #sortMenu="matMenu">
+          <mat-radio-group [(ngModel)]="sortOptions" (change)="sortContacts()">
+            <div class="flexRow selection" >
+              <mat-radio-button [value]="'firstName'"></mat-radio-button>
+              <div mat-menu-item><span class="badge bg-danger">First Name</span></div>
+            </div>
+            <div class="flexRow selection">
+              <mat-radio-button [value]="'lastName'"></mat-radio-button>
+              <div mat-menu-item><span class="badge bg-danger">Last Name</span></div>
+            </div>
+            <div class="flexRow selection">
+              <mat-radio-button [value]="'businessName'"></mat-radio-button>
+              <div mat-menu-item><span class="badge bg-danger">Business Name</span></div>
+            </div>
+          </mat-radio-group>
+        </mat-menu>
         <button mat-raised-button color="primary" (click)="openModal()">Add New</button>
       </div>
       <mat-list>
