@@ -2,50 +2,71 @@
 @use '/src/color-palette.scss' as colors;
 @use "sass:map";
 
-.page{
-  padding-left: 1%;
-  padding-right: 1%;
-  height: 99.9%;
+.main{
+  height: 84%;
 }
 
-.flexRow{
-  display: flex;
-  flex-direction: row;
+.leftCard{
+  margin: 2%;
 }
 
-.flexColumn{
-  display: flex;
-  flex-direction: column;
-}
-
-.flexItem{
-  flex: 1;
-}
-
-.content{
-  flex:1 1 95%;
-}
-
-.heading{
-  flex:1 1 5%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.imageContainer{
-  flex:1;
-  height: 100%;
+.rightCard{
+  margin-top: 2%;
+  margin-bottom: 2%;
+  margin-right: 2%;
 }
 
 .image{
+  height: 350px;
+}
+
+.addressContainer{
+  display: flex;
+  flex-direction: column;
+  margin-top: 1%;
+  flex: 1;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.address{
+  padding-top: 2%;
+  flex: 1;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.saveButton{
   flex:1;
   margin: auto;
-  padding: 1%;
+}
+
+.numberList{
   height: 100%;
 }
 
-.left{
-  margin-right: 1%;
+.phoneNumberList{
+  margin-top: 2%;
 }
 
+.phoneNumberListItem{
+  flex:1;
+  background-color: white;
+  border: solid 1px #ccc;
+  border-radius: 4px;
+}
 
+.phoneNumberContainer{
+  display: flex;
+  justify-content: space-around;
+}
+
+.phoneNumber{
+  align-self: center;
+}
+
+.newPhoneNumberInputs{
+  display: flex;
+  flex:1;
+  flex-direction: row;
+}

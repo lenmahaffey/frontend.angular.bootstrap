@@ -5,7 +5,8 @@ import { RouterModule } from '@angular/router';
 import { UsersService } from './users.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EditUserComponent } from './edit-user/edit-user.component';
-import { AddressFormComponent } from './edit-user/address-form/address-form.component';
+import { AddressFormComponent } from '../contacts/components/address-form/address-form.component';
+import { ContactsModule } from '../contacts/contacts.module';
 
 
 
@@ -13,7 +14,6 @@ import { AddressFormComponent } from './edit-user/address-form/address-form.comp
   declarations: [
     ListUsersComponent,
     EditUserComponent,
-    AddressFormComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +22,8 @@ import { AddressFormComponent } from './edit-user/address-form/address-form.comp
       { path: 'users/adduser', component: EditUserComponent },
       { path: 'users/edituser/:id', component: EditUserComponent },
     ]),
-    SharedModule
+    SharedModule,
+    ContactsModule
   ],
   providers:[UsersService]
 })

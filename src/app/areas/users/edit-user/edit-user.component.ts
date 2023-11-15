@@ -4,7 +4,7 @@ import { UsersService } from '../users.service';
 import { AddressType, PhysicalAddress_DTO, User_DTO } from 'src/app/shared/api/api.models';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PhoneNumberToFormattedStringPipe } from 'src/app/shared/pipes/phone-number-to-formatted-string.pipe';
-import { FormattedStringToPhoneNumberPipe } from 'src/app/shared/pipes/formatted-string-to-phone-number.pipe';
+import { StringToPhoneNumberPipe } from 'src/app/shared/pipes/string-to-phone-number.pipe';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
@@ -69,7 +69,7 @@ export class EditUserComponent {
               private notificationService: NotificationService,
               private appStateService: AppStateService,
               private phoneToString: PhoneNumberToFormattedStringPipe,
-              private stringToPhone: FormattedStringToPhoneNumberPipe,)
+              private stringToPhone: StringToPhoneNumberPipe,)
     {
     this.id = Number(this.route.snapshot.paramMap.get('id')) || 0;
     this.config.data =

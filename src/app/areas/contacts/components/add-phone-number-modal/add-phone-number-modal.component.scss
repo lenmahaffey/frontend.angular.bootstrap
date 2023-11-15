@@ -1,0 +1,20 @@
+@use '/src/appTheme.scss' as *;
+@use '/src/color-palette.scss' as colors;
+@use "sass:map";
+
+.content{
+  margin-bottom: 2%;
+}
+
+.topRow{
+  margin-top: 2%;
+}
+
+.input{
+  margin-right: 2%;
+}
+
+.alert{
+  padding-top: 0;
+  color: $warn;
+}

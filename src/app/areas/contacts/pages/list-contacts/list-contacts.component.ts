@@ -96,10 +96,6 @@ export class ListContactsComponent {
     var fName = this.sortOptions === "firstName"
     var lName = this.sortOptions === "lastName"
     var bName = this.sortOptions === "businessName"
-    console.log(fName)
-    console.log(lName)
-    console.log(bName)
-
 
     if(fName)
     {
@@ -309,7 +305,7 @@ export class ListContactsComponent {
       {
         next: (data) =>
         {
-          console.log(data);
+          //console.log(data);
         }
       }
     )

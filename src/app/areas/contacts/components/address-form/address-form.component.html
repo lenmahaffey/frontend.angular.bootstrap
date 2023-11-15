@@ -1,5 +1,4 @@
 <form [formGroup]="addressForm">
-  <div id="title">{{title}}</div>
   <mat-form-field class="input" appearance="outline">
     <mat-label class="label">Line 1</mat-label>
     <input matInput id="line1" type="text" name="line1" formControlName="line1" (change)="sendUpdate()" required>

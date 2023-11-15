@@ -9,9 +9,7 @@ export class PhoneNumberToFormattedStringPipe implements PipeTransform {
   transform(value: PhoneNumber_DTO): string | null {
     if(value?.localNumber != null)
     {
-      let prefix = value.localNumber.slice(0,3)
-      let localNumber = value.localNumber.slice(3,10)
-      let result = `(${value.areaCode}) ${prefix} - ${localNumber}`
+      let result = `(${value.areaCode}) ${value.prefix}-${value.localNumber}`
       return result;
     }
     else

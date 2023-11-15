@@ -32,7 +32,7 @@ export class AddressFormComponent implements AfterViewInit, OnChanges {
 
   constructor(private cdr: ChangeDetectorRef)
   {
-    this.addressForm.disable()
+    //this.addressForm.disable()
   }
 
   ngOnChanges(changes: SimpleChanges): void {

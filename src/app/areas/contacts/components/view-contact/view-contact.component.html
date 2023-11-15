@@ -1,27 +1,88 @@
-<div *ngIf="(contact != undefined)" class="page flexColumn">
-  <h1 class="flexItem heading">{{ contact.businessName }}{{contact.firstName}} {{contact.lastName}}</h1>
-  <div class="top flexItem flexRow content">
-    <mat-card class="flexItem left">
-      <mat-card-content>
-      <mat-tab-group>
-        <mat-tab label="Info">
-          <div *ngIf="contact.contactInformation != null && contact.contactInformation.phoneNumbers != null">
-            <div *ngFor="let number of contact.contactInformation.phoneNumbers">
-              {{number.label}} : {{number | phoneNumberToString}} </div>
-          </div>
+<div *ngIf="(contactInput != undefined)" class="page flexColumn h-100">
+  <div class="flexColumn">
+    <h1 class="autoMargin">{{ contactInput.businessName }}{{contactInput.firstName}} {{contactInput.lastName}}</h1>
+    <h3 class="autoMargin">{{ contactInput.title != null ? contactInput.title : "none" }}</h3>
+  </div>
+  <div class="main flexRow">
+    <mat-card class="leftCard flexItem scrollOverflow">
+      <mat-card-content class="fullHeight">
+        <mat-tab-group class="fullHeight flexRow">
+          <mat-tab label="Phone Numbers" class="h-100 bg-info">
+            <div class="hideOverflow flexItem flexColumn phoneNumberList">
+              <div *ngIf="contactInput.contactInformation != null && contactInput.contactInformation.phoneNumbers != null" >
+                <mat-list cdkDropList [cdkDropListData]="contactInput.contactInformation.phoneNumbers" (cdkDropListDropped)="numberDropped($event)">
+                  <mat-list-item class="phoneNumberListItem flexItem" cdkDrag cdkDragLockAxis="y" *ngFor="let number of contactInput.contactInformation.phoneNumbers; index as i">
+                    <div class="phoneNumberContainer">
+                      <div class="phoneNumber flexItem">{{number.label}} : {{number | phoneNumberToString}}</div>
+                      <div class="edit"><button mat-raised-button color="warn" (click)="openAddPhoneNumberModal(number)">Edit</button></div>
+                    </div>
+                  </mat-list-item>
+                </mat-list>
+              </div>
+              <div class="flexColumn">
+                <div class="flexItem autoMargin">
+                  <button mat-raised-button color="warn" (click)="openAddPhoneNumberModal(undefined)">Add New Number</button>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Addresses">
+            <mat-tab-group>
+              <mat-tab label="Mailing">
+                <div class="addressContainer">
+                  <div class="address">
+                    <app-address-form [address]="mailingAddressInput"></app-address-form>
+                  </div>
+                  <div class="saveButton">
+                    <button mat-raised-button color="accent">Save</button>
+                  </div>
+                </div>
+              </mat-tab>
+              <mat-tab label="Billing">
+                <div class="addressContainer">
+                  <div class="address">
+                    <app-address-form [address]="billingAddressInput"></app-address-form>
+                  </div>
+                  <div class="saveButton">
+                    <button mat-raised-button color="accent">Save</button>
+                  </div>
+                </div>
+              </mat-tab>
+              <mat-tab label="Shipping">
+                <div class="addressContainer">
+                  <div class="address">
+                    <app-address-form [address]="shippingAddressInput"></app-address-form>
+                  </div>
+                  <div class="saveButton">
+                    <button mat-raised-button color="accent">Save</button>
+                  </div>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
         </mat-tab>
-        <mat-tab label="Address">
-          <mat-tab-group>
-            <mat-tab label="Mailing Address"></mat-tab>
-            <mat-tab label="Billing Address"></mat-tab>
-            <mat-tab label="Shipping Address"></mat-tab>
-          </mat-tab-group>
-        </mat-tab>
-      </mat-tab-group>
+        <mat-tab label="Email">
+            <div class="flexRow flexItem">
+                <div class="phoneNumberList flexItem" *ngIf="contactInput.contactInformation != null && contactInput.contactInformation.emailAddresses != null">
+                <mat-list>
+                  <mat-list-item
+                    *ngFor="let email of contactInput.contactInformation.emailAddresses; index as i"
+                    class="phoneNumber flexItem">
+                    {{email.address}}
+                    <button mat-raised-button>Edit</button>
+                  </mat-list-item>
+                  <mat-list-item cdkDrag cdkDragLockAxis="y"
+                    class="phoneNumber flexItem">New Item</mat-list-item>
+                </mat-list>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
       </mat-card-content>
     </mat-card>
-     <mat-card class="flexColumn right imageContainer">
-        <img class="image"  src="../../../../assets/No-Image-Placeholder.svg">
+    <mat-card class="rightCard flexItem hideOverflow">
+      <mat-card-content>
+        <div class="flexColumn"><img class="image" src="../../../../assets/No-Image-Placeholder.svg"></div>
+      </mat-card-content>
     </mat-card>
   </div>
 </div>

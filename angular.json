@@ -46,7 +46,8 @@
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/material-design-icons/iconfont/material-icons.css",
-              "src/index.scss"
+              "src/index.scss",
+              "src/app.scss"
             ],
             "scripts": [
               "node_modules/@fortawesome/fontawesome-free/js/all.js",

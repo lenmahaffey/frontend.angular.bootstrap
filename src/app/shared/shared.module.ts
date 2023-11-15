@@ -11,20 +11,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { HttpClientModule } from '@angular/common/http';
 import { PhoneNumberToFormattedStringPipe } from './pipes/phone-number-to-formatted-string.pipe';
-import { FormattedStringToPhoneNumberPipe } from './pipes/formatted-string-to-phone-number.pipe';
+import { StringToPhoneNumberPipe } from './pipes/string-to-phone-number.pipe';
 import { CurrencyFormatterPipe } from './pipes/currency-formatter.pipe';
 import { MonthNameFromDatePipe } from './pipes/month-name-from-date.pipe';
+import { StringToFormattedPhoneNumberStringPipe } from './pipes/string-to-formatted-phone-number-string.pipe';
 
 @NgModule({
   declarations: [
     ToShortTimeStringPipe,
     ToShortDateStringPipe,
     PhoneNumberToFormattedStringPipe,
-    FormattedStringToPhoneNumberPipe,
+    StringToPhoneNumberPipe,
     ConfirmationDialogComponent,
     SpinnerComponent,
     CurrencyFormatterPipe,
     MonthNameFromDatePipe,
+    StringToFormattedPhoneNumberStringPipe,
   ],
   imports: [
     MaterialModule
@@ -34,7 +36,7 @@ import { MonthNameFromDatePipe } from './pipes/month-name-from-date.pipe';
     ToShortDateStringPipe,
     ToShortTimeStringPipe,
     PhoneNumberToFormattedStringPipe,
-    FormattedStringToPhoneNumberPipe,
+    StringToPhoneNumberPipe,
     CommonModule,
     BrowserModule,
     FormsModule,
@@ -48,8 +50,9 @@ import { MonthNameFromDatePipe } from './pipes/month-name-from-date.pipe';
     ToShortDateStringPipe,
     ToShortTimeStringPipe,
     PhoneNumberToFormattedStringPipe,
-    FormattedStringToPhoneNumberPipe,
-    CurrencyFormatterPipe
+    StringToPhoneNumberPipe,
+    CurrencyFormatterPipe,
+    StringToFormattedPhoneNumberStringPipe
   ]
 })
 export class SharedModule { }
