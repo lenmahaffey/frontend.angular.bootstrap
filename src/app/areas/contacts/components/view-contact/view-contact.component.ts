@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddressType, Contact_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
 import { AddPhoneNumberModalComponent } from '../add-phone-number-modal/add-phone-number-modal.component';
+import { ContactService } from '../../contact.service';
 
 @Component({
   selector: 'app-view-contact',
@@ -26,7 +27,7 @@ export class ViewContactComponent {
   billingAddressInput: PhysicalAddress_DTO = new PhysicalAddress_DTO()
   shippingAddressInput: PhysicalAddress_DTO = new PhysicalAddress_DTO()
 
-  constructor( private _dialog: MatDialog){
+  constructor( private _dialog: MatDialog, private service: ContactService){
     this._contact = new Contact_DTO()
   }
   numberDropped(event: CdkDragDrop<PhoneNumber_DTO[]>) {
@@ -46,16 +47,61 @@ export class ViewContactComponent {
     {
       top: "5%"
     }
+    config.autoFocus = false
     let modalRef = this._dialog.open(AddPhoneNumberModalComponent, config);
     let sub = modalRef.componentInstance.response.subscribe(
       {
         next: (data) =>
         {
-          // console.log(data)
+          if(data != undefined)
+          {
+            data.id == 0 ? this.addPhoneNumber(data) : this.updatePhoneNumber(data)
+          }
         },
         complete: () =>
         {
           modalRef.close()
+          sub.unsubscribe()
+        }
+      }
+    )
+  }
+
+  addPhoneNumber(number: PhoneNumber_DTO)
+  {
+    console.log(number)
+    number.contactInfoId = this.contact.contactInformation?.id ?? 0
+    let sub = this.service.AddPhoneNumber(number).subscribe(
+      {
+        next: (data) =>
+        {
+          console.log(data)
+        },
+        error: () =>
+        {
+
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
+        }
+      }
+    )
+  }
+  updatePhoneNumber(number: PhoneNumber_DTO)
+  {
+    let sub = this.service.UpdatePhoneNumber(number).subscribe(
+      {
+        next: (data) =>
+        {
+          console.log(data)
+        },
+        error: () =>
+        {
+
+        },
+        complete: () =>
+        {
           sub.unsubscribe()
         }
       }

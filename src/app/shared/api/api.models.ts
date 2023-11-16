@@ -1,6 +1,5 @@
 export class Contact_DTO implements IContact_DTO {
     id!: number;
-    contactInformationId!: number;
     prefix?: string | undefined;
     suffix?: string | undefined;
     firstName!: string;
@@ -36,7 +35,6 @@ export class Contact_DTO implements IContact_DTO {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.contactInformationId = _data["contactInformationId"];
             this.prefix = _data["prefix"];
             this.suffix = _data["suffix"];
             this.firstName = _data["firstName"];
@@ -92,7 +90,6 @@ export class Contact_DTO implements IContact_DTO {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["contactInformationId"] = this.contactInformationId;
         data["prefix"] = this.prefix;
         data["suffix"] = this.suffix;
         data["firstName"] = this.firstName;
@@ -141,7 +138,6 @@ export class Contact_DTO implements IContact_DTO {
 
 export interface IContact_DTO {
     id: number;
-    contactInformationId: number;
     prefix?: string | undefined;
     suffix?: string | undefined;
     firstName: string;
@@ -382,7 +378,7 @@ export interface IEmailAddress_DTO {
 export class PhoneNumber_DTO implements IPhoneNumber_DTO {
     id!: number;
     contactInfoId!: number;
-    contactInformation!: ContactInformation_DTO;
+    contactInformation?: ContactInformation_DTO | undefined;
     countryCode!: string;
     areaCode!: string;
     prefix!: string;
@@ -397,16 +393,13 @@ export class PhoneNumber_DTO implements IPhoneNumber_DTO {
                     (<any>this)[property] = (<any>data)[property];
             }
         }
-        if (!data) {
-            this.contactInformation = new ContactInformation_DTO();
-        }
     }
 
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
             this.contactInfoId = _data["contactInfoId"];
-            this.contactInformation = _data["contactInformation"] ? ContactInformation_DTO.fromJS(_data["contactInformation"]) : new ContactInformation_DTO();
+            this.contactInformation = _data["contactInformation"] ? ContactInformation_DTO.fromJS(_data["contactInformation"]) : <any>undefined;
             this.countryCode = _data["countryCode"];
             this.areaCode = _data["areaCode"];
             this.prefix = _data["prefix"];
@@ -441,7 +434,7 @@ export class PhoneNumber_DTO implements IPhoneNumber_DTO {
 export interface IPhoneNumber_DTO {
     id: number;
     contactInfoId: number;
-    contactInformation: ContactInformation_DTO;
+    contactInformation?: ContactInformation_DTO | undefined;
     countryCode: string;
     areaCode: string;
     prefix: string;

@@ -5,7 +5,7 @@ import { Constants } from 'src/app/constants';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { Contact_DTO } from 'src/app/shared/api/api.models';
+import { Contact_DTO, PhoneNumber_DTO } from 'src/app/shared/api/api.models';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +30,23 @@ export class ContactService {
       catchError(this.handleError.bind(this))
     )
   }
+
+  AddPhoneNumber(number: PhoneNumber_DTO)
+  {
+    const url = `${this.apiUrl}/addphonenumber`
+    const body = JSON.stringify(number)
+    return this.http.post<Contact_DTO>(url, body, this.headers).pipe(
+      catchError(this.handleError.bind(this)))
+  }
+  
+  UpdatePhoneNumber(number: PhoneNumber_DTO)
+  {
+    const url = `${this.apiUrl}/updatephonenumber`
+    const body = JSON.stringify(number)
+    return this.http.post<Contact_DTO>(url, body, this.headers).pipe(
+      catchError(this.handleError.bind(this)))
+  }
+
   private handleError(err: HttpErrorResponse) {
     let errorMessage = ''
     if (err.error.length > 0) {

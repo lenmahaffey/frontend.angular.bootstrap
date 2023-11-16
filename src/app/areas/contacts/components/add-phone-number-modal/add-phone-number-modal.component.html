@@ -1,6 +1,6 @@
 
 <h1 mat-dialog-title>Add New Number</h1>
-<form [formGroup]="phoneNumberInput" (ngSubmit)="sendResponse(phoneNumberInput)">
+<form [formGroup]="phoneNumberInput" (ngSubmit)="sendResponse(phoneNumberInput.value)">
   <div mat-dialog-content>
       <div class="topRow">
         <mat-form-field appearance="outline">
@@ -28,7 +28,7 @@
       </div>
   </div>
   <div mat-dialog-actions>
-    <button mat-raised-button color="warn"  (click)="sendResponse(undefined)">Cancel</button>
+    <button mat-raised-button color="warn" type="button" (click)="sendResponse(undefined)">Cancel</button>
     <button mat-raised-button color="warn" [disabled]="phoneNumberInput.invalid" type="submit">Save</button>
   </div>
 </form>

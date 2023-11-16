@@ -29,13 +29,6 @@ export class ListContactsComponent {
         users: new FormControl(false),
       }
     )
-    // this.sortOptions = new  FormGroup(
-    //   {
-    //     firstName: new FormControl(false),
-    //     lastName: new FormControl(true),
-    //     businessName: new FormControl(false),
-    //   }
-    // )
     this.searchFormGroup = new FormGroup(
       {
         firstName: new FormControl(""),
@@ -228,41 +221,6 @@ export class ListContactsComponent {
     {
       this.filteredList = this.data
     }
-    // }
-
-    // if(employees)
-    // {
-    //   this.filteredList = (this.data.filter(x => {
-    //       if(x.employeeId != null)
-    //       {
-    //         return true
-    //       }
-    //         return false
-    //   }
-    //   ))
-    // }
-
-    // if(freelancers)
-    //   this.filteredList = (this.data.filter(x => {
-    //       if(x.freelancerId != null)
-    //       {
-    //         return true
-    //       }
-    //         return false
-    //   }
-    //   ))
-
-    // if(users)
-    // {
-    //   this.filteredList = (this.data.filter(x => {
-    //       if(x.userId != null)
-    //       {
-    //         return true
-    //       }
-    //         return false
-    //   }
-    //   ))
-    // }
   }
 
   openModal()

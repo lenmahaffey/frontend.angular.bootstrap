@@ -24,27 +24,33 @@ export class AddPhoneNumberModalComponent {
   get label(){
     return this.phoneNumberInput.get('label')
   }
-  constructor(private phonePipe: PhoneNumberToFormattedStringPipe, private stringToPhoneNumber: StringToPhoneNumberPipe,@Inject(MAT_DIALOG_DATA) public data: any)
+  constructor(
+    private stringPipe: StringToFormattedPhoneNumberStringPipe,
+    private phonePipe: PhoneNumberToFormattedStringPipe,
+    private stringToPhoneNumber: StringToPhoneNumberPipe,
+    @Inject(MAT_DIALOG_DATA) public data: any)
   {
     let dto = data['dto']
     if(dto == undefined)
     {
       dto = new PhoneNumber_DTO()
+      dto.id = 0
+      dto.contactInformationId = 0
       dto.label = ""
       dto.areaCode = ""
       dto.prefix = ""
       dto.localNumber = ""
     }
 
-    this.currentNumber = data
+    this.currentNumber = dto
     this.phoneNumberInput = new FormGroup(
       {
-        label: new FormControl(dto.label ?? "",
+        label: new FormControl(dto.label,
         [
           Validators.required,
           Validators.maxLength(10),
         ]),
-        number: new FormControl(phonePipe.transform(dto),
+        number: new FormControl(dto.areaCode != "" ? phonePipe.transform(dto) : "",
         [
           Validators.required,
           Validators.minLength(10),
@@ -53,7 +59,16 @@ export class AddPhoneNumberModalComponent {
       }
     )
   }
-
+  // inputChanged(input:any)
+  // {
+  //   let s = this.stringToPhoneNumber.transform(input)
+  //   let formattedString = this.stringPipe.transform(input)
+  //   this.phoneNumberInput.patchValue(
+  //     {
+  //       number: formattedString
+  //     }
+  //   )
+  // }
   sendResponse(response: any)
   {
     if(response == undefined)
@@ -62,9 +77,12 @@ export class AddPhoneNumberModalComponent {
     }
     else
     {
-      let newNumber = this.stringToPhoneNumber.transform(response.value.number)
+      let newNumber = this.stringToPhoneNumber.transform(response.number)
       newNumber.label = this.phoneNumberInput.value.label
-      this.response.next(response)
+      newNumber.id = this.currentNumber.id != undefined ? this.currentNumber.id : 0
+      newNumber.contactInfoId = this.currentNumber.contactInfoId
+      newNumber.contactInformation = undefined
+      this.response.next(newNumber)
     }
     this.response.complete()
   }

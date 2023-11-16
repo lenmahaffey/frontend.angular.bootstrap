@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class StringToFormattedPhoneNumberStringPipe implements PipeTransform {
 
   transform(value: string): string {
-    console.log(value)
     let result = "(   )    -    "
     let resultChars = [...result]
 
