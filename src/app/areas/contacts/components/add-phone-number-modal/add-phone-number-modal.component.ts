@@ -80,7 +80,7 @@ export class AddPhoneNumberModalComponent {
       let newNumber = this.stringToPhoneNumber.transform(response.number)
       newNumber.label = this.phoneNumberInput.value.label
       newNumber.id = this.currentNumber.id != undefined ? this.currentNumber.id : 0
-      newNumber.contactInfoId = this.currentNumber.contactInfoId
+      newNumber.contactInformationId = this.currentNumber.contactInformationId
       newNumber.contactInformation = undefined
       this.response.next(newNumber)
     }

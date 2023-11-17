@@ -7,19 +7,20 @@
     <mat-card class="leftCard flexItem scrollOverflow">
       <mat-card-content class="fullHeight">
         <mat-tab-group class="fullHeight flexRow">
-          <mat-tab label="Phone Numbers" class="h-100 bg-info">
-            <div class="hideOverflow flexItem flexColumn phoneNumberList">
+          <mat-tab label="Phone Numbers">
+            <div class="hideOverflow flexColumn phoneNumberList">
               <div *ngIf="contactInput.contactInformation != null && contactInput.contactInformation.phoneNumbers != null" >
                 <mat-list cdkDropList [cdkDropListData]="contactInput.contactInformation.phoneNumbers" (cdkDropListDropped)="numberDropped($event)">
                   <mat-list-item class="phoneNumberListItem flexItem" cdkDrag cdkDragLockAxis="y" *ngFor="let number of contactInput.contactInformation.phoneNumbers; index as i">
                     <div class="phoneNumberContainer">
                       <div class="phoneNumber flexItem">{{number.label}} : {{number | phoneNumberToString}}</div>
-                      <div class="edit"><button mat-raised-button color="warn" (click)="openAddPhoneNumberModal(number)">Edit</button></div>
+                      <div class="edit" (click)="openAddPhoneNumberModal(number)"><i class="fa-solid fa-pen fa-xl"></i></div>
+                      <div class="delete" (click)="openDeletePhoneNumberModal(number)"><i class="fa-solid fa-xmark fa-2xl"></i></div>
                     </div>
                   </mat-list-item>
                 </mat-list>
               </div>
-              <div class="flexColumn">
+              <div class="flexItem flexColumn">
                 <div class="flexItem autoMargin">
                   <button mat-raised-button color="warn" (click)="openAddPhoneNumberModal(undefined)">Add New Number</button>
                 </div>

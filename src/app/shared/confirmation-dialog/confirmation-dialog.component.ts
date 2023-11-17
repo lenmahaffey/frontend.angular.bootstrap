@@ -24,13 +24,16 @@ export class ConfirmationDialogComponent {
   }
   yes(){
     this.response.next(true);
+    this.response.complete();
   }
 
   no(){
     this.response.next(false);
+    this.response.complete();
   }
 
   dismiss(){
     this.response.next(null);
+    this.response.complete();
   }
 }

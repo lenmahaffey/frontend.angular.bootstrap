@@ -25,21 +25,21 @@ export class InventoryService {
     model.typeId = type?.id
     model.subTypeId = subType?.id
     const body = JSON.stringify(model)
-    return this.http.post<InventoryItem_DTO[]>(url, body, this.headers).pipe(
+    return this.http.post<InventoryItem_DTO[]>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
 
   ListAllCategories() : Observable<InventoryItemCategory_DTO[]>
   {
     const url = `${this.apiUrl}/listallitemcategories`
-    return this.http.get<InventoryItemCategory_DTO[]>(url, this.headers).pipe(
+    return this.http.get<InventoryItemCategory_DTO[]>(url, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
 
   ListAllTypes() : Observable<InventoryItemType_DTO[]>
   {
     const url = `${this.apiUrl}/listallitemtypes`
-    return this.http.get<InventoryItemType_DTO[]>(url, this.headers).pipe(
+    return this.http.get<InventoryItemType_DTO[]>(url, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
 
@@ -47,7 +47,7 @@ export class InventoryService {
   {
     const url = `${this.apiUrl}/addNewCategory`
     const body = JSON.stringify(category);
-    return this.http.post<InventoryItemCategory_DTO>(url, body, this.headers).pipe(
+    return this.http.post<InventoryItemCategory_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
 
@@ -55,7 +55,7 @@ export class InventoryService {
   {
     const url = `${this.apiUrl}/addNewType`
     const body = JSON.stringify(type);
-    return this.http.post<InventoryItemType_DTO>(url, body, this.headers).pipe(
+    return this.http.post<InventoryItemType_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
 
@@ -63,7 +63,7 @@ export class InventoryService {
   {
     const url = `${this.apiUrl}/addNewSubType`
     const body = JSON.stringify(subType);
-    return this.http.post<InventoryItemSubType_DTO>(url, body, this.headers).pipe(
+    return this.http.post<InventoryItemSubType_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
 
@@ -78,7 +78,7 @@ export class InventoryService {
   GetInventoryValue() : Observable<any>
   {
     const url = `${this.apiUrl}/getInventoryValue`
-    return this.http.get<any>(url, this.headers).pipe(
+    return this.http.get<any>(url, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
 

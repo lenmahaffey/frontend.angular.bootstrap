@@ -59,6 +59,7 @@
 .phoneNumberContainer{
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 
 .phoneNumber{
@@ -69,4 +70,16 @@
   display: flex;
   flex:1;
   flex-direction: row;
+}
+
+.edit{
+  color: $warn;
+  margin-right: 5%;
+  cursor: pointer;
+}
+
+.delete{
+  font-size: larger;
+  color: $warn;
+  cursor: pointer;
 }

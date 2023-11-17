@@ -19,7 +19,7 @@ export class UsersService {
   ListAllUsers() : Observable<User_DTO[]>
   {
     let url = `${this.apiUrl}/listallusers`
-    return this.http.get<any>(url, this.headers).pipe(
+    return this.http.get<any>(url, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
 
@@ -27,7 +27,7 @@ export class UsersService {
   {
     let params = new HttpParams().set('eventAvlNumber', id)
     let url = `${this.apiUrl}/getuser/` + id
-    return this.http.get<any>(url, this.headers).pipe(
+    return this.http.get<any>(url, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
 
@@ -35,7 +35,7 @@ export class UsersService {
   {
     let url = `${this.apiUrl}/updateuser/`
     let body = JSON.stringify(user)
-    return this.http.put<User_DTO>(url, body, this.headers).pipe(
+    return this.http.put<User_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
 
@@ -43,7 +43,7 @@ export class UsersService {
   {
     let url = `${this.apiUrl}/testmethod/`
     let body = JSON.stringify(address)
-    return this.http.post<User_DTO>(url, body, this.headers).pipe(
+    return this.http.post<User_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
 

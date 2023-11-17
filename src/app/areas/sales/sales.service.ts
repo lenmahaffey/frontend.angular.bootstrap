@@ -20,7 +20,7 @@ export class SalesService {
   ListAllSalesItems() : Observable<SalesItem_DTO[]>
   {
     const url = `${this.apiUrl}/listallsalesitems`
-    return this.http.get<SalesItem_DTO[]>(url, this.headers).pipe(
+    return this.http.get<SalesItem_DTO[]>(url, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
 
@@ -37,7 +37,7 @@ export class SalesService {
   {
     const url = `${this.apiUrl}/addSalesItem`
     const body = JSON.stringify(model);
-    return this.http.post<SalesItem_DTO>(url, body, this.headers).pipe(
+    return this.http.post<SalesItem_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
 
@@ -45,7 +45,7 @@ export class SalesService {
   {
     const url = `${this.apiUrl}/updateNewSalesItem`
     const body = JSON.stringify(item);
-    return this.http.post<SalesItem_DTO>(url, body, this.headers).pipe(
+    return this.http.post<SalesItem_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
   private handleError(err: HttpErrorResponse) {

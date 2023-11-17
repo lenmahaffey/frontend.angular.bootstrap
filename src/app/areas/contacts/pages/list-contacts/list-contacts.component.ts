@@ -4,6 +4,7 @@ import { ContactService } from '../../contact.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AddContactComponent } from '../../components/add-contact/add-contact.component';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { AppStateService } from 'src/app/services/app-state/app-state-service';
 
 @Component({
   selector: 'app-list-contacts',
@@ -19,7 +20,7 @@ export class ListContactsComponent {
   data: Contact_DTO[] = []
   @Output() contact:Contact_DTO | undefined = undefined
 
-  constructor(private service: ContactService, private _dialog: MatDialog)
+  constructor(private service: ContactService, private _dialog: MatDialog, private appStateService: AppStateService)
   {
     this.filterOptions = new  FormGroup(
       {
@@ -35,7 +36,13 @@ export class ListContactsComponent {
         lastName: new FormControl(""),
       }
     )
-    const sub = service.listAllContacts().subscribe(
+    const config:MatDialogConfig = new MatDialogConfig()
+    config.data =
+    {
+      message: "Getting Contacts",
+    }
+    this.appStateService.openSpinner(config)
+    const sub = service.listAllContacts(true).subscribe(
       {
         next: (data) =>
           {
@@ -44,6 +51,7 @@ export class ListContactsComponent {
             this.sortContacts()
             this.filterContacts()
             this.contact = data[1]
+            this.appStateService.closeSpinner()
           }
       }
     )

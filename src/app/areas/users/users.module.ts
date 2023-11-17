@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { UsersService } from './users.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EditUserComponent } from './edit-user/edit-user.component';
-import { AddressFormComponent } from '../contacts/components/address-form/address-form.component';
 import { ContactsModule } from '../contacts/contacts.module';
 
 
