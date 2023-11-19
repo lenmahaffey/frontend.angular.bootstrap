@@ -1,11 +1,12 @@
 import { CdkDragDrop, CdkDragEnd, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { AddressType, Contact_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
+import { AddressType, Contact_DTO, EmailAddress_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
 import { AddPhoneNumberModalComponent } from '../add-phone-number-modal/add-phone-number-modal.component';
 import { ContactService } from '../../contact.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { PhoneNumberToFormattedStringPipe } from 'src/app/shared/pipes/phone-number-to-formatted-string.pipe';
+import { AddEmailAddressModalComponent } from '../add-email-address-modal/add-email-address-modal.component';
 
 @Component({
   selector: 'app-view-contact',
@@ -49,6 +50,7 @@ export class ViewContactComponent implements OnInit {
       )
     }
   }
+
   numberDropped(event: CdkDragDrop<PhoneNumber_DTO[]>) {
     moveItemInArray(this.contact?.contactInformation?.phoneNumbers!, event.previousIndex, event.currentIndex);
   }
@@ -120,6 +122,73 @@ export class ViewContactComponent implements OnInit {
     )
   }
 
+  openAddEmailAddressModal(address:EmailAddress_DTO | undefined)
+  {
+    const bodyRect = document.body.getBoundingClientRect();
+    var config = new MatDialogConfig()
+    config.data =
+    {
+      dto: address
+    }
+    config.disableClose = false;
+    config.position =
+    {
+      top: "5%"
+    }
+    config.autoFocus = false
+    let modalRef = this._dialog.open(AddEmailAddressModalComponent, config);
+    let sub = modalRef.componentInstance.response.subscribe(
+      {
+        next: (data) =>
+        {
+          if(data != undefined)
+          {
+            data.id == 0 ? this.addEmailAddress(data) : this.updateEmailAddress(data)
+          }
+        },
+        complete: () =>
+        {
+          modalRef.close()
+          sub.unsubscribe()
+        }
+      }
+    )
+  }
+
+  openDeleteEmailAddressModal(address:EmailAddress_DTO | undefined)
+  {
+    const bodyRect = document.body.getBoundingClientRect();
+    var config = new MatDialogConfig()
+    config.data =
+    {
+      dto: address,
+      title: "Delete Email Address",
+      text: `Are you sure you want to delete ${address?.address}`,
+      yesButtonText: "yes",
+      noButtonText: "no",
+    }
+    config.disableClose = false;
+    config.position =
+    {
+      top: "5%"
+    }
+    config.autoFocus = false
+    let modalRef = this._dialog.open(ConfirmationDialogComponent, config);
+    let sub = modalRef.componentInstance.response.subscribe(
+      {
+        next: (data) =>
+        {
+          this.deleteEmailAddress(address!)
+        },
+        complete: () =>
+        {
+          modalRef.close()
+          sub.unsubscribe()
+        }
+      }
+    )
+  }
+
   addPhoneNumber(number: PhoneNumber_DTO)
   {
     console.log(this.contact)
@@ -148,7 +217,10 @@ export class ViewContactComponent implements OnInit {
       {
         next: (data) =>
         {
-          console.log(data)
+          var i = this.contact.contactInformation?.phoneNumbers?.indexOf(number)
+          if (i != undefined)
+            this.contact.contactInformation?.phoneNumbers?.splice(i ,1)
+          this.contact.contactInformation?.phoneNumbers?.push(data)
         },
         error: () =>
         {
@@ -161,6 +233,7 @@ export class ViewContactComponent implements OnInit {
       }
     )
   }
+
   deletePhoneNumber(number: PhoneNumber_DTO)
   {
     let sub = this.service.DeletePhoneNumber(number).subscribe(
@@ -170,7 +243,7 @@ export class ViewContactComponent implements OnInit {
           console.log(data)
           var i = this.contact.contactInformation?.phoneNumbers?.indexOf(number)
           if (i != undefined)
-            this.contact.contactInformation!.phoneNumbers = this.contact.contactInformation?.phoneNumbers?.splice(i ,1)
+            this.contact.contactInformation?.phoneNumbers?.splice(i ,1)
         },
         error: () =>
         {
@@ -183,6 +256,89 @@ export class ViewContactComponent implements OnInit {
       }
     )
   }
+
+  addEmailAddress(address:EmailAddress_DTO)
+  {
+    console.log(this.contact)
+    address.contactInformationId = this.contact.contactInformation?.id ?? 0
+    let sub = this.service.AddEmailAddress(address).subscribe(
+      {
+        next: (data) =>
+        {
+          this.contact.contactInformation?.emailAddresses?.push(data)
+        },
+        error: () =>
+        {
+
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
+        }
+      }
+    )
+  }
+
+  updateEmailAddress(address:EmailAddress_DTO)
+  {
+    let sub = this.service.UpdateEmailAddress(address).subscribe(
+      {
+        next: (data) =>
+        {
+          var index: number | undefined
+          this.contact.contactInformation?.emailAddresses?.forEach((e, i) => {
+            if (e.id == address.id)
+            {
+              index = i
+            }
+          });
+          console.log(index)
+
+          if (index != undefined)
+            this.contact.contactInformation?.emailAddresses?.splice(index)
+          this.contact.contactInformation?.emailAddresses?.push(data)
+        },
+        error: () =>
+        {
+
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
+        }
+      }
+    )
+  }
+
+  deleteEmailAddress(address:EmailAddress_DTO)
+  {
+    let sub = this.service.DeleteEmailAddress(address).subscribe(
+      {
+        next: (data) =>
+        {
+          var index: number | undefined
+          this.contact.contactInformation?.emailAddresses?.forEach((e, i) => {
+            if (e.id == address.id)
+            {
+              console.log(e.id)
+              index = i
+            }
+          });
+          if (index != undefined)
+            this.contact.contactInformation?.emailAddresses?.splice(index ,1)
+        },
+        error: () =>
+        {
+
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
+        }
+      }
+    )
+  }
+
   addPhysicalAddress(address: PhysicalAddress_DTO)
   {
     address.contactInformationId = this.contact.contactInformation?.id ?? 0
@@ -203,6 +359,7 @@ export class ViewContactComponent implements OnInit {
       }
     )
   }
+
   updatePhysicalAddress(address: PhysicalAddress_DTO)
   {
     let sub = this.service.UpdatePhysicalAddress(address).subscribe(

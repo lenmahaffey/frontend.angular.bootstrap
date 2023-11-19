@@ -1,11 +1,11 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { Constants } from 'src/app/constants';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { Contact_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
+import { Contact_DTO, EmailAddress_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +62,30 @@ export class ContactService {
     const url = `${this.apiUrl}/deletephonenumber`
     const body = JSON.stringify(number)
     return this.http.delete(url, {headers: this.headers, body: number.id }).pipe(
+      catchError(this.handleError.bind(this)))
+  }
+
+  AddEmailAddress(address:EmailAddress_DTO) : Observable<EmailAddress_DTO>
+  {
+    const url = `${this.apiUrl}/addemailaddress`
+    const body = JSON.stringify(address)
+    return this.http.post<EmailAddress_DTO>(url, body, { headers: this.headers }).pipe(
+      catchError(this.handleError.bind(this)))
+  }
+
+  UpdateEmailAddress(address:EmailAddress_DTO) : Observable<EmailAddress_DTO>
+  {
+    const url = `${this.apiUrl}/updateemailaddress`
+    const body = JSON.stringify(address)
+    return this.http.post<EmailAddress_DTO>(url, body, { headers: this.headers }).pipe(
+      catchError(this.handleError.bind(this)))
+  }
+
+  DeleteEmailAddress(address:EmailAddress_DTO)
+  {
+    const url = `${this.apiUrl}/deleteemailaddress`
+    const body = JSON.stringify(address)
+    return this.http.delete(url, {headers: this.headers, body: address.id }).pipe(
       catchError(this.handleError.bind(this)))
   }
 

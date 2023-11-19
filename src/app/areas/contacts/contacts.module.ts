@@ -6,9 +6,9 @@ import { RouterModule } from '@angular/router';
 import { ViewContactComponent } from './components/view-contact/view-contact.component';
 import { AddContactComponent } from './components/add-contact/add-contact.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { ViewAddressComponent } from './components/view-address/view-address.component';
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { AddPhoneNumberModalComponent } from './components/add-phone-number-modal/add-phone-number-modal.component';
+import { AddEmailAddressModalComponent } from './components/add-email-address-modal/add-email-address-modal.component';
 
 
 
@@ -18,9 +18,9 @@ import { AddPhoneNumberModalComponent } from './components/add-phone-number-moda
     ViewContactComponent,
     AddContactComponent,
     DashboardComponent,
-    ViewAddressComponent,
     AddressFormComponent,
-    AddPhoneNumberModalComponent
+    AddPhoneNumberModalComponent,
+    AddEmailAddressModalComponent
   ],
   imports: [
     CommonModule,
