@@ -1,7 +1,7 @@
-<div *ngIf="(contactInput != undefined)" class="page flexColumn h-100">
+<div *ngIf="(this.contact != undefined)" class="page flexColumn h-100">
   <div class="flexColumn">
-    <h1 class="autoMargin">{{ contactInput.businessName }}{{contactInput.firstName}} {{contactInput.lastName}}</h1>
-    <h3 class="autoMargin">{{ contactInput.title != null ? contactInput.title : "none" }}</h3>
+    <h1 class="autoMargin">{{ this.contact.businessName }}{{this.contact.firstName}} {{this.contact.lastName}}</h1>
+    <h3 class="autoMargin">{{ this.contact.title != null ? this.contact.title : "none" }}</h3>
   </div>
   <div class="main flexRow">
     <mat-card class="leftCard flexItem scrollOverflow">
@@ -10,11 +10,10 @@
           <mat-tab label="Phone Numbers">
             <div class="hideOverflow flexColumn phoneNumberList">
               <div
-                *ngIf="contactInput.contactInformation != null && contactInput.contactInformation.phoneNumbers != null">
-                <mat-list cdkDropList [cdkDropListData]="contactInput.contactInformation.phoneNumbers"
-                  (cdkDropListDropped)="numberDropped($event)">
+                *ngIf="this.contact.contactInformation != null && this.contact.contactInformation.phoneNumbers != null">
+                <mat-list cdkDropList [cdkDropListData]="this.contact.contactInformation.phoneNumbers">
                   <mat-list-item class="phoneNumberListItem flexItem" cdkDrag cdkDragLockAxis="y"
-                    *ngFor="let number of contactInput.contactInformation.phoneNumbers; index as i">
+                    *ngFor="let number of this.contact.contactInformation.phoneNumbers; index as i">
                     <div class="phoneNumberContainer">
                       <div class="phoneNumber flexItem">{{number.label}} : {{number | phoneNumberToString}}</div>
                       <div class="edit" (click)="openAddPhoneNumberModal(number)"><i class="fa-solid fa-pen fa-xl"></i>
@@ -27,7 +26,7 @@
               </div>
               <div class="flexItem flexColumn">
                 <div class="flexItem autoMargin">
-                  <button mat-raised-button color="warn" (click)="openAddPhoneNumberModal(undefined)">
+                  <button mat-raised-button color="primary" (click)="openAddPhoneNumberModal(undefined)">
                     Add New Number
                   </button>
                 </div>
@@ -41,31 +40,19 @@
                   <div class="address">
                     <app-address-form [address]="mailingAddressInput"></app-address-form>
                   </div>
-                  <div class="saveButton">
-                    <button mat-raised-button color="accent">Save</button>
-                  </div>
                 </div>
               </mat-tab>
               <mat-tab label="Billing">
                 <div class="addressContainer">
                   <div class="address">
-                    <mat-slide-toggle>Same as Mailing Address</mat-slide-toggle>
                     <app-address-form [address]="billingAddressInput"></app-address-form>
-                  </div>
-                  <div class="saveButton">
-                    <button mat-raised-button color="accent">Save</button>
                   </div>
                 </div>
               </mat-tab>
               <mat-tab label="Shipping">
                 <div class="addressContainer">
                   <div class="address">
-                    <mat-slide-toggle>Same as Mailing Address</mat-slide-toggle>
-                    <mat-slide-toggle>Same as Billing Address</mat-slide-toggle>
                     <app-address-form [address]="shippingAddressInput"></app-address-form>
-                  </div>
-                  <div class="saveButton">
-                    <button mat-raised-button color="accent">Save</button>
                   </div>
                 </div>
               </mat-tab>
@@ -74,10 +61,10 @@
           <mat-tab label="Email">
             <div class="hideOverflow flexColumn phoneNumberList">
               <div class="phoneNumberList flexItem"
-                *ngIf="contactInput.contactInformation != null && contactInput.contactInformation.emailAddresses != null">
-                <mat-list cdkDropList [cdkDropListData]="contactInput.contactInformation.phoneNumbers">
+                *ngIf="this.contact.contactInformation != null && this.contact.contactInformation.emailAddresses != null">
+                <mat-list cdkDropList [cdkDropListData]="this.contact.contactInformation.phoneNumbers">
                   <mat-list-item class="phoneNumberListItem flexItem" cdkDrag cdkDragLockAxis="y"
-                    *ngFor="let email of contactInput.contactInformation.emailAddresses; index as i">
+                    *ngFor="let email of this.contact.contactInformation.emailAddresses; index as i">
                     <div class="phoneNumberContainer">
                       <div class="phoneNumber flexItem">{{email.address}}</div>
                       <div class="edit" (click)="openAddEmailAddressModal(email)"><i class="fa-solid fa-pen fa-xl"></i></div>
@@ -88,7 +75,7 @@
               </div>
               <div class="flexItem flexColumn">
                 <div class="flexItem autoMargin">
-                  <button mat-raised-button color="warn" (click)="openAddEmailAddressModal(undefined)">Add New Email Address</button>
+                  <button mat-raised-button color="primary" (click)="openAddEmailAddressModal(undefined)">Add New Email Address</button>
                 </div>
               </div>
             </div>

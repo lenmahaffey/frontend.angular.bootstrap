@@ -89,18 +89,26 @@ export class ContactService {
       catchError(this.handleError.bind(this)))
   }
 
-  AddPhysicalAddress(number: PhysicalAddress_DTO)
+  AddPhysicalAddress(address: PhysicalAddress_DTO)
   {
     const url = `${this.apiUrl}/addphysicaladdress`
-    const body = JSON.stringify(number)
+    const body = JSON.stringify(address)
     return this.http.post<PhysicalAddress_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
 
-  UpdatePhysicalAddress(number: PhysicalAddress_DTO)
+  UpdatePhysicalAddress(address: PhysicalAddress_DTO)
   {
     const url = `${this.apiUrl}/updatephysicaladdress`
-    const body = JSON.stringify(number)
+    const body = JSON.stringify(address)
+    return this.http.post<PhysicalAddress_DTO>(url, body, { headers: this.headers }).pipe(
+      catchError(this.handleError.bind(this)))
+  }
+
+  DeletePhysicalAddress(address: PhysicalAddress_DTO)
+  {
+    const url = `${this.apiUrl}/deletephysicaladdress`
+    const body = JSON.stringify(address)
     return this.http.post<PhysicalAddress_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }

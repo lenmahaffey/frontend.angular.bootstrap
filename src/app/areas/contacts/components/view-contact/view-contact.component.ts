@@ -1,5 +1,5 @@
 import { CdkDragDrop, CdkDragEnd, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddressType, Contact_DTO, EmailAddress_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
 import { AddPhoneNumberModalComponent } from '../add-phone-number-modal/add-phone-number-modal.component';
@@ -15,22 +15,19 @@ import { AddEmailAddressModalComponent } from '../add-email-address-modal/add-em
 })
 export class ViewContactComponent implements OnInit {
   _contact: Contact_DTO
-  @Input() get contact(){
+  @Input() get contact() : Contact_DTO{
     return this._contact;
   }
   set contact(value: Contact_DTO){
     this._contact = value
-    this.contactInput = value
-    this.mailingAddressInput = this._contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Mailing) ?? new PhysicalAddress_DTO
-    this.billingAddressInput = this._contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Billing) ?? new PhysicalAddress_DTO
-    this.shippingAddressInput = this._contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Shipping) ?? new PhysicalAddress_DTO
+    this.setAddressInputs()
   }
-  contactInput: Contact_DTO = new Contact_DTO()
+
   mailingAddressInput: PhysicalAddress_DTO = new PhysicalAddress_DTO()
   billingAddressInput: PhysicalAddress_DTO = new PhysicalAddress_DTO()
   shippingAddressInput: PhysicalAddress_DTO = new PhysicalAddress_DTO()
 
-  constructor( private _dialog: MatDialog, private service: ContactService, private phonePipe: PhoneNumberToFormattedStringPipe){
+  constructor(private cdr: ChangeDetectorRef, private _dialog: MatDialog, private service: ContactService, private phonePipe: PhoneNumberToFormattedStringPipe){
     this._contact = new Contact_DTO()
   }
   ngOnInit(): void {
@@ -41,6 +38,7 @@ export class ViewContactComponent implements OnInit {
           next: (data) =>
           {
             this.contact = data
+            this.setAddressInputs()
           },
           complete: () =>
           {
@@ -49,6 +47,14 @@ export class ViewContactComponent implements OnInit {
         }
       )
     }
+  }
+
+  setAddressInputs()
+  {
+    console.log(this.contact)
+    this.mailingAddressInput = this._contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Mailing) ?? new PhysicalAddress_DTO
+    this.billingAddressInput = this._contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Billing) ?? new PhysicalAddress_DTO
+    this.shippingAddressInput = this._contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Shipping) ?? new PhysicalAddress_DTO
   }
 
   numberDropped(event: CdkDragDrop<PhoneNumber_DTO[]>) {
@@ -292,8 +298,6 @@ export class ViewContactComponent implements OnInit {
               index = i
             }
           });
-          console.log(index)
-
           if (index != undefined)
             this.contact.contactInformation?.emailAddresses?.splice(index)
           this.contact.contactInformation?.emailAddresses?.push(data)
@@ -339,44 +343,45 @@ export class ViewContactComponent implements OnInit {
     )
   }
 
-  addPhysicalAddress(address: PhysicalAddress_DTO)
+  savePhysicalAddress(address: PhysicalAddress_DTO)
   {
     address.contactInformationId = this.contact.contactInformation?.id ?? 0
-    let sub = this.service.AddPhysicalAddress(address).subscribe(
-      {
-        next: (data) =>
-        {
-          console.log(data)
-        },
-        error: () =>
-        {
+    console.log(address)
+    // let sub = this.service.AddPhysicalAddress(address).subscribe(
+    //   {
+    //     next: (data) =>
+    //     {
+    //       console.log(data)
+    //     },
+    //     error: () =>
+    //     {
 
-        },
-        complete: () =>
-        {
-          sub.unsubscribe()
-        }
-      }
-    )
+    //     },
+    //     complete: () =>
+    //     {
+    //       sub.unsubscribe()
+    //     }
+    //   }
+    // )
   }
 
-  updatePhysicalAddress(address: PhysicalAddress_DTO)
-  {
-    let sub = this.service.UpdatePhysicalAddress(address).subscribe(
-      {
-        next: (data) =>
-        {
-          console.log(data)
-        },
-        error: () =>
-        {
+  // deletePhysicalAddress(address: PhysicalAddress_DTO)
+  // {
+  //   let sub = this.service.DeletePhysicalAddress(address).subscribe(
+  //     {
+  //       next: (data) =>
+  //       {
+  //         console.log(data)
+  //       },
+  //       error: () =>
+  //       {
 
-        },
-        complete: () =>
-        {
-          sub.unsubscribe()
-        }
-      }
-    )
-  }
+  //       },
+  //       complete: () =>
+  //       {
+  //         sub.unsubscribe()
+  //       }
+  //     }
+  //   )
+  // }
 }

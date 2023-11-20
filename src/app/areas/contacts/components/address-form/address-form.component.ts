@@ -7,45 +7,65 @@ import { PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
   templateUrl: './address-form.component.html',
   styleUrls: ['./address-form.component.scss']
 })
-export class AddressFormComponent implements AfterViewInit, OnChanges {
+export class AddressFormComponent implements OnInit, OnChanges {
 
-  @Input() address: PhysicalAddress_DTO | undefined
+  addressForm: any
+  @Input() address: PhysicalAddress_DTO
   @Input() title: string = ""
   @Output() addressUpdate = new EventEmitter<PhysicalAddress_DTO>()
 
-  isVisible = "hide"
-  addressForm: FormGroup = new FormGroup({
-    line1: new FormControl('',[
-      Validators.required
-    ]),
-    line2: new FormControl(''),
-    city: new FormControl('',[
-      Validators.required
-    ]),
-    state: new FormControl('',[
-      Validators.required
-    ]),
-    zip: new FormControl('',[
-      Validators.required
-    ])
-  })
+  get line1()
+  {
+    return this.addressForm.get('line1')
+  }
+  get line2()
+  {
+    return this.addressForm.get('line2')
+  }
+  get city()
+  {
+    return this.addressForm.get('city')
+  }
+  get state()
+  {
+    return this.addressForm.get('state')
+  }
+  get zip()
+  {
+    return this.addressForm.get('zip')
+  }
 
   constructor(private cdr: ChangeDetectorRef)
   {
-    //this.addressForm.disable()
+    this.address = new PhysicalAddress_DTO()
+    this.addressForm = new FormGroup({
+      line1: new FormControl('',[
+        Validators.required,
+        Validators.maxLength(75),
+      ]),
+      line2: new FormControl('',[
+        Validators.maxLength(75),
+      ]),
+      city: new FormControl('',[
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      state: new FormControl('',[
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      zip: new FormControl('',[
+        Validators.required,
+        Validators.maxLength(10),
+      ])
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.address != undefined)
-    {
-      this.isVisible = "show"
-      this.addressForm.enable()
-      this.cdr.detectChanges()
-    }
     this.setForm()
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.setForm()
   }
 
@@ -63,17 +83,17 @@ export class AddressFormComponent implements AfterViewInit, OnChanges {
 
   sendUpdate()
   {
-    console.log(this.addressForm)
     if(this.addressForm.valid && this.addressForm.dirty)
     {
-      let addressUpdate = new PhysicalAddress_DTO()
+      let addressUpdate = JSON.parse(JSON.stringify(this.address))
       addressUpdate.line1 = this.addressForm.value.line1
       addressUpdate.line2 = this.addressForm.value.line2
       addressUpdate.city = this.addressForm.value.city
       addressUpdate.state = this.addressForm.value.state
       addressUpdate.postalCode = this.addressForm.value.zip
+      console.log(this.address)
+      console.log(addressUpdate)
       this.addressUpdate.emit(addressUpdate)
     }
-
   }
 }
