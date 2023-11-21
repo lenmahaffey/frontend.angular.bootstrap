@@ -376,7 +376,6 @@ export class ViewContactComponent implements OnInit {
 
   onAddressReceived(address: PhysicalAddress_DTO)
   {
-    console.log(address)
     if(address.id > 0)
     {
       this.updatePhysicalAddress(address)
@@ -446,7 +445,16 @@ export class ViewContactComponent implements OnInit {
       {
         next: (data) =>
         {
-          console.log(data)
+          var index: number | undefined
+          this.contact.contactInformation?.physicalAddresses?.forEach((e, i) => {
+            if (e.id == address.id)
+            {
+              index = i
+            }
+          });
+          if (index != undefined)
+            this.contact.contactInformation?.physicalAddresses?.splice(index ,1)
+          this.setAddressInputs()
         },
         error: () =>
         {

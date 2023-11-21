@@ -12,6 +12,7 @@ export class AddressFormComponent implements OnInit, OnChanges {
   addressForm: any
   @Input() address: PhysicalAddress_DTO
   @Output() addressChange = new EventEmitter<PhysicalAddress_DTO>()
+  @Output() delete = new EventEmitter<PhysicalAddress_DTO>()
 
   get line1()
   {
@@ -81,6 +82,10 @@ export class AddressFormComponent implements OnInit, OnChanges {
     }
   }
 
+  deleteAddress()
+  {
+    this.delete.next(this.address)
+  }
   sendUpdate()
   {
     if(this.addressForm.valid && this.addressForm.dirty)

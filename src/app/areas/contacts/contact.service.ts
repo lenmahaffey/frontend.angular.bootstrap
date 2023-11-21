@@ -109,7 +109,7 @@ export class ContactService {
   {
     const url = `${this.apiUrl}/deletephysicaladdress`
     const body = JSON.stringify(address)
-    return this.http.post<PhysicalAddress_DTO>(url, body, { headers: this.headers }).pipe(
+    return this.http.delete(url, { headers: this.headers, body: address.id }).pipe(
       catchError(this.handleError.bind(this)))
   }
 
