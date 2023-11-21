@@ -1,11 +1,14 @@
 <div *ngIf="(this.contact != undefined)" class="page flexColumn h-100">
-  <div class="flexColumn">
-    <h1 class="autoMargin">{{ this.contact.businessName }}{{this.contact.firstName}} {{this.contact.lastName}}</h1>
-    <h3 class="autoMargin">{{ this.contact.title != null ? this.contact.title : "none" }}</h3>
-  </div>
   <div class="main flexRow">
-    <mat-card class="leftCard flexItem scrollOverflow">
+    <mat-card class="flexItem">
       <mat-card-content class="fullHeight">
+        <div class="flexRow">
+          <img class="image" src="../../../../assets/No-Image-Placeholder.svg">
+          <div class="flexColumn flexItem">
+            <h1 class="autoMargin flexItem">{{ this.contact.businessName }}{{this.contact.firstName}} {{this.contact.lastName}}</h1>
+            <h3 class="autoMargin flexItem">{{ this.contact.title != null ? this.contact.title : "none" }}</h3>
+          </div>
+        </div>
         <mat-tab-group class="fullHeight flexRow">
           <mat-tab label="Phone Numbers">
             <div class="hideOverflow flexColumn phoneNumberList">
@@ -83,10 +86,10 @@
         </mat-tab-group>
       </mat-card-content>
     </mat-card>
-    <mat-card class="rightCard flexItem hideOverflow">
+    <!-- <mat-card class="rightCard flexItem hideOverflow">
       <mat-card-content>
         <div class="flexColumn"><img class="image" src="../../../../assets/No-Image-Placeholder.svg"></div>
       </mat-card-content>
-    </mat-card>
+    </mat-card> -->
   </div>
 </div>

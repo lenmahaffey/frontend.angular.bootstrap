@@ -3,21 +3,12 @@
 @use "sass:map";
 
 .main{
-  height: 84%;
-}
-
-.leftCard{
+  height: 100%;
   margin: 2%;
 }
 
-.rightCard{
-  margin-top: 2%;
-  margin-bottom: 2%;
-  margin-right: 2%;
-}
-
 .image{
-  height: 350px;
+  height: 150px;
 }
 
 .addressContainer{
