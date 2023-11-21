@@ -14,12 +14,15 @@ import { AddEmailAddressModalComponent } from '../add-email-address-modal/add-em
   styleUrls: ['./view-contact.component.scss']
 })
 export class ViewContactComponent implements OnInit {
-  _contact: Contact_DTO = new Contact_DTO
-  @Input() get contact() : Contact_DTO{
-    return this._contact;
+  contact: Contact_DTO = new Contact_DTO
+  private _contactId: number = 0
+  @Input() get contactId() : number{
+    return this._contactId;
   }
-  set contact(value: Contact_DTO){
-    this._contact = value
+  set contactId(value: number){
+    console.log(value)
+    this._contactId = value
+    this.getContact(value)
     this.setAddressInputs()
   }
 
@@ -30,7 +33,7 @@ export class ViewContactComponent implements OnInit {
   private _updatedMailingAddress: PhysicalAddress_DTO = new PhysicalAddress_DTO()
   get updatedMailingAddress()
   {
-    return this._updatedBillingAddress
+    return this._updatedMailingAddress
   }
   set updatedMailingAddress(value: PhysicalAddress_DTO)
   {
@@ -64,12 +67,18 @@ export class ViewContactComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.contact.id != 0)
+
+  }
+
+  getContact(value: number)
+  {
+    if(value != 0)
     {
-      let sub = this.service.getContact(this.contact.id, true).subscribe(
+      let sub = this.service.getContact(value, true).subscribe(
         {
           next: (data) =>
           {
+            console.log(data)
             this.contact = data
             this.setAddressInputs()
           },
@@ -81,12 +90,11 @@ export class ViewContactComponent implements OnInit {
       )
     }
   }
-
   setAddressInputs()
   {
-    this.currentMailingAddress = this._contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Mailing) ?? new PhysicalAddress_DTO
-    this.currentBillingAddress = this._contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Billing) ?? new PhysicalAddress_DTO
-    this.currentShippingAddress = this._contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Shipping) ?? new PhysicalAddress_DTO
+    this.currentMailingAddress = this.contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Mailing) ?? new PhysicalAddress_DTO
+    this.currentBillingAddress = this.contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Billing) ?? new PhysicalAddress_DTO
+    this.currentShippingAddress = this.contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Shipping) ?? new PhysicalAddress_DTO
     this.currentMailingAddress.addressType = AddressType.Mailing
     this.currentBillingAddress.addressType = AddressType.Billing
     this.currentShippingAddress.addressType = AddressType.Shipping

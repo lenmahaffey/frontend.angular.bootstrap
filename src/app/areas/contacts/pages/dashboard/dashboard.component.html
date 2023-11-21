@@ -2,7 +2,7 @@
   <app-list-contacts [data]="data" (contact)="onContactSelected($event)"></app-list-contacts>
   <div class="info flexColumn">
     <div class="details">
-        <app-view-contact *ngIf="contact != undefined" [contact]="contact"></app-view-contact>
+        <app-view-contact *ngIf="contact != undefined" [contactId]="contact.id"></app-view-contact>
     </div>
   </div>
 

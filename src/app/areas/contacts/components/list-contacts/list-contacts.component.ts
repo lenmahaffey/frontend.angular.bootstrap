@@ -42,7 +42,7 @@ export class ListContactsComponent {
       message: "Getting Contacts",
     }
     this.appStateService.openSpinner(config)
-    const sub = service.listAllContacts(true).subscribe(
+    const sub = service.listAllContacts(false).subscribe(
       {
         next: (data) =>
           {
