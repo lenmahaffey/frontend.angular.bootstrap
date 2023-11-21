@@ -1,0 +1,29 @@
+@use '/src/appTheme.scss' as *;
+@use '/src/color-palette.scss' as colors;
+@use "sass:map";
+
+.page{
+  padding: 1%;
+  height: 100%;
+}
+
+.info{
+  flex:1 0 70%;
+}
+
+.details{
+  flex:1 1 75%;
+  border-left: none;
+  border-right: solid;
+  border-top: solid;
+  border-bottom: solid;
+  overflow: hidden;
+}
+
+.log{
+  flex:1 1 25%;
+  overflow: scroll;
+  border-left: none;
+  border-right: solid;
+  border-bottom: solid;
+}

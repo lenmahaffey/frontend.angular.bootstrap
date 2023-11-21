@@ -1,8 +1,8 @@
-import { Component, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Contact_DTO } from 'src/app/shared/api/api.models';
 import { ContactService } from '../../contact.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AddContactComponent } from '../../components/add-contact/add-contact.component';
+import { AddContactComponent } from '../add-contact/add-contact.component';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 
@@ -17,8 +17,8 @@ export class ListContactsComponent {
   sortOptions: string = ""
   searchFormGroup: any
   filteredList: Contact_DTO[] = []
-  data: Contact_DTO[] = []
-  @Output() contact:Contact_DTO | undefined = undefined
+  @Input() data: Contact_DTO[] = []
+  @Output() contact = new EventEmitter<Contact_DTO>()
 
   constructor(private service: ContactService, private _dialog: MatDialog, private appStateService: AppStateService)
   {
@@ -50,7 +50,7 @@ export class ListContactsComponent {
             this.filteredList = data
             this.sortContacts()
             this.filterContacts()
-            this.contact = data[1]
+            this.contact.next(data[1])
             this.appStateService.closeSpinner()
           }
       }
@@ -58,7 +58,7 @@ export class ListContactsComponent {
   }
 
   contactClicked(contact:Contact_DTO){
-    this.contact = contact
+    this.contact.next(contact)
   }
 
   searchContacts()
@@ -233,7 +233,6 @@ export class ListContactsComponent {
 
   openModal()
   {
-    const bodyRect = document.body.getBoundingClientRect();
     var config = new MatDialogConfig()
     config.data =
     {
@@ -242,11 +241,9 @@ export class ListContactsComponent {
       yesButtonText: "yes",
       noButtonText: "no",
     }
-    config.minWidth = '400px'
     config.disableClose = false;
     config.position =
     {
-      left: ((bodyRect.width / 2) - (Number(config.minWidth.replace("px", "")))).toString() + "px",
       top: "5%"
     }
     let modalRef = this._dialog.open(AddContactComponent, config);

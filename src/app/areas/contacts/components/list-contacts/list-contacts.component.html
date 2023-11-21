@@ -1,4 +1,4 @@
-<div class="page flexRow">
+<div class="fullHeight flexRow">
   <div class="contacts flexRow">
     <div class="list flexItem">
       <form [formGroup]="searchFormGroup">
@@ -65,14 +65,5 @@
       </mat-list>
     </div>
   </div>
-  <div class="info flexColumn">
-    <div class="details">
-        <app-view-contact *ngIf="contact != undefined" [contact]="contact"></app-view-contact>
-    </div>
-    <div class="log">
-      <div class="">Contact Log</div>
-    </div>
-  </div>
-
 </div>
 

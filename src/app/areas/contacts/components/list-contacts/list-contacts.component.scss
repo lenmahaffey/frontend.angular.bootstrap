@@ -2,26 +2,6 @@
 @use '/src/color-palette.scss' as colors;
 @use "sass:map";
 
-.flexRow{
-  display: flex;
-  flex-direction: row;
-}
-
-.flexColumn{
-  display: flex;
-  flex-direction: column;
-}
-
-.flexItem{
-  flex: 1;
-  height: 100%;
-}
-
-.page{
-  padding: 1%;
-  height: 100%;
-}
-
 .contacts{
   flex:1 0 30%;
   border-style: solid;
