@@ -14,7 +14,7 @@ import { AddEmailAddressModalComponent } from '../add-email-address-modal/add-em
   styleUrls: ['./view-contact.component.scss']
 })
 export class ViewContactComponent implements OnInit {
-  _contact: Contact_DTO
+  _contact: Contact_DTO = new Contact_DTO
   @Input() get contact() : Contact_DTO{
     return this._contact;
   }
@@ -23,13 +23,46 @@ export class ViewContactComponent implements OnInit {
     this.setAddressInputs()
   }
 
-  mailingAddressInput: PhysicalAddress_DTO = new PhysicalAddress_DTO()
-  billingAddressInput: PhysicalAddress_DTO = new PhysicalAddress_DTO()
-  shippingAddressInput: PhysicalAddress_DTO = new PhysicalAddress_DTO()
+  currentMailingAddress: PhysicalAddress_DTO = new PhysicalAddress_DTO()
+  currentBillingAddress: PhysicalAddress_DTO = new PhysicalAddress_DTO()
+  currentShippingAddress: PhysicalAddress_DTO = new PhysicalAddress_DTO()
 
-  constructor(private cdr: ChangeDetectorRef, private _dialog: MatDialog, private service: ContactService, private phonePipe: PhoneNumberToFormattedStringPipe){
-    this._contact = new Contact_DTO()
+  private _updatedMailingAddress: PhysicalAddress_DTO = new PhysicalAddress_DTO()
+  get updatedMailingAddress()
+  {
+    return this._updatedBillingAddress
   }
+  set updatedMailingAddress(value: PhysicalAddress_DTO)
+  {
+    console.log(value)
+    this._updatedMailingAddress = value
+  }
+
+  _updatedBillingAddress: PhysicalAddress_DTO = new PhysicalAddress_DTO()
+  get updatedBillingAddress()
+  {
+    return this._updatedBillingAddress
+  }
+  set updatedBillingAddress(value: PhysicalAddress_DTO)
+  {
+    console.log(value)
+    this._updatedBillingAddress = value
+  }
+
+  _updatedShippingAddress: PhysicalAddress_DTO = new PhysicalAddress_DTO()
+  get updatedShippingAddress()
+  {
+    return this._updatedShippingAddress
+  }
+  set updatedShippingAddress(value: PhysicalAddress_DTO)
+  {
+    console.log(value)
+    this._updatedShippingAddress = value
+  }
+
+  constructor(private _dialog: MatDialog, private service: ContactService, private phonePipe: PhoneNumberToFormattedStringPipe){
+  }
+
   ngOnInit(): void {
     if(this.contact.id != 0)
     {
@@ -51,10 +84,12 @@ export class ViewContactComponent implements OnInit {
 
   setAddressInputs()
   {
-    console.log(this.contact)
-    this.mailingAddressInput = this._contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Mailing) ?? new PhysicalAddress_DTO
-    this.billingAddressInput = this._contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Billing) ?? new PhysicalAddress_DTO
-    this.shippingAddressInput = this._contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Shipping) ?? new PhysicalAddress_DTO
+    this.currentMailingAddress = this._contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Mailing) ?? new PhysicalAddress_DTO
+    this.currentBillingAddress = this._contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Billing) ?? new PhysicalAddress_DTO
+    this.currentShippingAddress = this._contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Shipping) ?? new PhysicalAddress_DTO
+    this.currentMailingAddress.addressType = AddressType.Mailing
+    this.currentBillingAddress.addressType = AddressType.Billing
+    this.currentShippingAddress.addressType = AddressType.Shipping
   }
 
   numberDropped(event: CdkDragDrop<PhoneNumber_DTO[]>) {
@@ -197,7 +232,6 @@ export class ViewContactComponent implements OnInit {
 
   addPhoneNumber(number: PhoneNumber_DTO)
   {
-    console.log(this.contact)
     number.contactInformationId = this.contact.contactInformation?.id ?? 0
     let sub = this.service.AddPhoneNumber(number).subscribe(
       {
@@ -246,7 +280,6 @@ export class ViewContactComponent implements OnInit {
       {
         next: (data) =>
         {
-          console.log(data)
           var i = this.contact.contactInformation?.phoneNumbers?.indexOf(number)
           if (i != undefined)
             this.contact.contactInformation?.phoneNumbers?.splice(i ,1)
@@ -265,7 +298,6 @@ export class ViewContactComponent implements OnInit {
 
   addEmailAddress(address:EmailAddress_DTO)
   {
-    console.log(this.contact)
     address.contactInformationId = this.contact.contactInformation?.id ?? 0
     let sub = this.service.AddEmailAddress(address).subscribe(
       {
@@ -324,7 +356,6 @@ export class ViewContactComponent implements OnInit {
           this.contact.contactInformation?.emailAddresses?.forEach((e, i) => {
             if (e.id == address.id)
             {
-              console.log(e.id)
               index = i
             }
           });
@@ -343,45 +374,89 @@ export class ViewContactComponent implements OnInit {
     )
   }
 
-  savePhysicalAddress(address: PhysicalAddress_DTO)
+  onAddressReceived(address: PhysicalAddress_DTO)
   {
-    address.contactInformationId = this.contact.contactInformation?.id ?? 0
     console.log(address)
-    // let sub = this.service.AddPhysicalAddress(address).subscribe(
-    //   {
-    //     next: (data) =>
-    //     {
-    //       console.log(data)
-    //     },
-    //     error: () =>
-    //     {
+    if(address.id > 0)
+    {
+      this.updatePhysicalAddress(address)
 
-    //     },
-    //     complete: () =>
-    //     {
-    //       sub.unsubscribe()
-    //     }
-    //   }
-    // )
+    }
+    else
+    {
+      this.addPhysicalAddress(address)
+    }
   }
 
-  // deletePhysicalAddress(address: PhysicalAddress_DTO)
-  // {
-  //   let sub = this.service.DeletePhysicalAddress(address).subscribe(
-  //     {
-  //       next: (data) =>
-  //       {
-  //         console.log(data)
-  //       },
-  //       error: () =>
-  //       {
+  addPhysicalAddress(address: PhysicalAddress_DTO)
+  {
+    address.id = 0
+    address.contactInformationId = this.contact.contactInformation?.id ?? 0
+    console.log(address)
+    let sub = this.service.AddPhysicalAddress(address).subscribe(
+      {
+        next: (data) =>
+        {
+          var index: number | undefined
+          this.contact.contactInformation?.physicalAddresses?.forEach((e, i) => {
+            if (e.id == address.id)
+            {
+              index = i
+            }
+          });
+          if (index != undefined)
+            this.contact.contactInformation?.physicalAddresses?.splice(index)
+          this.contact.contactInformation?.physicalAddresses?.push(data)
+        },
+        error: () =>
+        {
 
-  //       },
-  //       complete: () =>
-  //       {
-  //         sub.unsubscribe()
-  //       }
-  //     }
-  //   )
-  // }
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
+        }
+      }
+    )
+  }
+
+  updatePhysicalAddress(address: PhysicalAddress_DTO)
+  {
+    let sub = this.service.UpdatePhysicalAddress(address).subscribe(
+      {
+        next: (data) =>
+        {
+          this.contact.contactInformation?.physicalAddresses?.push(address)
+        },
+        error: () =>
+        {
+
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
+        }
+      }
+    )
+  }
+
+  deletePhysicalAddress(address: PhysicalAddress_DTO)
+  {
+    let sub = this.service.DeletePhysicalAddress(address).subscribe(
+      {
+        next: (data) =>
+        {
+          console.log(data)
+        },
+        error: () =>
+        {
+
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
+        }
+      }
+    )
+  }
 }

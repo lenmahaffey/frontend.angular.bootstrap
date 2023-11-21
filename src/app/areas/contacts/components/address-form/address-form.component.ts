@@ -11,8 +11,7 @@ export class AddressFormComponent implements OnInit, OnChanges {
 
   addressForm: any
   @Input() address: PhysicalAddress_DTO
-  @Input() title: string = ""
-  @Output() addressUpdate = new EventEmitter<PhysicalAddress_DTO>()
+  @Output() addressChange = new EventEmitter<PhysicalAddress_DTO>()
 
   get line1()
   {
@@ -35,7 +34,7 @@ export class AddressFormComponent implements OnInit, OnChanges {
     return this.addressForm.get('zip')
   }
 
-  constructor(private cdr: ChangeDetectorRef)
+  constructor()
   {
     this.address = new PhysicalAddress_DTO()
     this.addressForm = new FormGroup({
@@ -57,7 +56,8 @@ export class AddressFormComponent implements OnInit, OnChanges {
       zip: new FormControl('',[
         Validators.required,
         Validators.maxLength(10),
-      ])
+      ]),
+      delete: new FormControl(false)
     })
   }
 
@@ -91,9 +91,8 @@ export class AddressFormComponent implements OnInit, OnChanges {
       addressUpdate.city = this.addressForm.value.city
       addressUpdate.state = this.addressForm.value.state
       addressUpdate.postalCode = this.addressForm.value.zip
-      console.log(this.address)
-      console.log(addressUpdate)
-      this.addressUpdate.emit(addressUpdate)
+      addressUpdate.addressType = this.address.addressType
+      this.addressChange.emit(addressUpdate)
     }
   }
 }
