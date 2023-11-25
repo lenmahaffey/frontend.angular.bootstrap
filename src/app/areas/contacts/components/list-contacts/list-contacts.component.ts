@@ -42,10 +42,11 @@ export class ListContactsComponent {
       message: "Getting Contacts",
     }
     this.appStateService.openSpinner(config)
-    const sub = service.listAllContacts(false).subscribe(
+    const sub = service.listAllContacts(true).subscribe(
       {
         next: (data) =>
           {
+            console.log(data)
             this.data = data
             this.filteredList = data
             this.sortContacts()
@@ -202,25 +203,25 @@ export class ListContactsComponent {
     {
       this.filteredList = (this.filteredList.filter(x => {
         if(customers)
-          if(x.customerId != null)
+          if(x.customer != null)
           {
             return true
           }
         if(freelancers)
-          if(x.freelancerId != null)
+          if(x.freelancer != null)
           {
             return true
           }
         if(employees)
-          if(x.employeeId != null)
+          if(x.employee != null)
           {
             return true
           }
-        if(users)
-          if(x.userId != null)
-          {
-            return true
-          }
+        // if(users)
+        //   if(x.user != null)
+        //   {
+        //     return true
+        //   }
         return false
         }
       ))
@@ -236,6 +237,7 @@ export class ListContactsComponent {
     var config = new MatDialogConfig()
     config.data =
     {
+      dto: new Contact_DTO(),
       title: "Demostration Modal",
       text: "This is a modal",
       yesButtonText: "yes",

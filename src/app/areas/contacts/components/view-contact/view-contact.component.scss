@@ -9,19 +9,13 @@
 
 .image{
   height: 150px;
+  margin-bottom: 1%;
 }
 
 .addressContainer{
   display: flex;
   flex-direction: column;
-  margin-top: 1%;
-  flex: 1;
-  justify-content: space-between;
-  overflow: hidden;
-}
-
-.address{
-  padding-top: 2%;
+  margin-right: 2%;
   flex: 1;
   justify-content: space-between;
   overflow: hidden;

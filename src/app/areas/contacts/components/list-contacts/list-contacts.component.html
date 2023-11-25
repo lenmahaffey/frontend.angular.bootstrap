@@ -57,10 +57,19 @@
       <mat-list>
         <mat-list-item *ngFor="let contact of filteredList" class="pointer" (click)="contactClicked(contact)">
           {{contact.businessName}}{{contact.firstName}} {{contact.lastName}}
-            <span class="badge bg-danger" *ngIf="contact.userId != undefined">User</span>
-            <span class="badge bg-primary" *ngIf="contact.employeeId != undefined">Employee</span>
-            <span class="badge bg-warning" *ngIf="contact.freelancerId != undefined">Freelancer</span>
-            <span class="badge bg-success" *ngIf="contact.customerId != undefined">Customer</span>
+            <span class="badge bg-danger" *ngIf="contact.user">User</span>
+            <span class="badge bg-primary" *ngIf="contact.employee">Employee</span>
+            <span class="badge bg-warning" *ngIf="contact.freelancer">Freelancer</span>
+            <span class="badge bg-success" *ngIf="contact.customer">Customer</span>
+            <span class="badge bg-secondary" *ngIf="contact.competitor">Competitor</span>
+            <span class="badge bg-info" *ngIf="contact.manufacturer">Manufacturer</span>
+            <span class="badge bg-warning" *ngIf="contact.venue">Venue</span>
+            <span class="badge bg-danger" *ngIf="contact.vendor">Vendor</span>
+            <span class="badge bg-success" *ngIf="contact.customerContacts!.length > 0">CustomerContact</span>
+            <span class="badge bg-secondary" *ngIf="contact.competitorContacts!.length > 0">CompetitorContact</span>
+            <span class="badge bg-info" *ngIf="contact.manufacturerContacts!.length > 0">ManufacturerContact</span>
+            <span class="badge bg-warning" *ngIf="contact.venueContacts!.length > 0">VenueContact</span>
+            <span class="badge bg-danger" *ngIf="contact.vendorContacts!.length > 0">VendorContact</span>
         </mat-list-item>
       </mat-list>
     </div>

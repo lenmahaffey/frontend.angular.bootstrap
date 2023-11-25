@@ -1,5 +1,6 @@
-import { Component, Output } from '@angular/core';
+import { Component, Inject, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { Contact_DTO } from 'src/app/shared/api/api.models';
 
@@ -9,24 +10,28 @@ import { Contact_DTO } from 'src/app/shared/api/api.models';
   styleUrls: ['./add-contact.component.scss']
 })
 export class AddContactComponent {
+  @Input() contact: Contact_DTO
   @Output() response: Subject<Contact_DTO | null> = new Subject()
   contactFormGroup: any
-
-  constructor(){
+  title:string
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any){
+    console.log(data)
+    this.contact = data
     this.contactFormGroup = new FormGroup(
       {
-        isBusiness: new FormControl(false),
-        prefix: new FormControl(null),
-        firstName: new FormControl(null),
-        middleName: new FormControl(null),
-        lastName: new FormControl(null),
-        suffix: new FormControl(null),
-        businessName: new FormControl(null),
-        title: new FormControl(null),
-        description: new FormControl(null),
-        preferredName: new FormControl(null),
+        isBusiness: new FormControl(data['dto'].isBusiness),
+        prefix: new FormControl(data['dto'].prefix),
+        firstName: new FormControl(data['dto'].firstName),
+        middleName: new FormControl(data['dto'].middleName),
+        lastName: new FormControl(data['dto'].lastName),
+        suffix: new FormControl(data['dto'].suffix),
+        businessName: new FormControl(data['dto'].businessName),
+        title: new FormControl(data['dto'].title),
+        description: new FormControl(data['dto'].description),
+        preferredName: new FormControl(data['dto'].preferredName),
       }
     )
+    this.title = this.contact.id == 0 ? "Add New Contact" : "Edit Contact"
   }
   onKeyDown(event: any)
   {

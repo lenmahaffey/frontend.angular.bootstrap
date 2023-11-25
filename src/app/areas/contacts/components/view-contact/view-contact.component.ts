@@ -7,20 +7,20 @@ import { ContactService } from '../../contact.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { PhoneNumberToFormattedStringPipe } from 'src/app/shared/pipes/phone-number-to-formatted-string.pipe';
 import { AddEmailAddressModalComponent } from '../add-email-address-modal/add-email-address-modal.component';
+import { AddContactComponent } from '../add-contact/add-contact.component';
 
 @Component({
   selector: 'app-view-contact',
   templateUrl: './view-contact.component.html',
   styleUrls: ['./view-contact.component.scss']
 })
-export class ViewContactComponent implements OnInit {
-  contact: Contact_DTO = new Contact_DTO
+export class ViewContactComponent {
+  contact: Contact_DTO = new Contact_DTO()
   private _contactId: number = 0
   @Input() get contactId() : number{
     return this._contactId;
   }
   set contactId(value: number){
-    console.log(value)
     this._contactId = value
     this.getContact(value)
     this.setAddressInputs()
@@ -37,7 +37,6 @@ export class ViewContactComponent implements OnInit {
   }
   set updatedMailingAddress(value: PhysicalAddress_DTO)
   {
-    console.log(value)
     this._updatedMailingAddress = value
   }
 
@@ -48,7 +47,6 @@ export class ViewContactComponent implements OnInit {
   }
   set updatedBillingAddress(value: PhysicalAddress_DTO)
   {
-    console.log(value)
     this._updatedBillingAddress = value
   }
 
@@ -59,15 +57,10 @@ export class ViewContactComponent implements OnInit {
   }
   set updatedShippingAddress(value: PhysicalAddress_DTO)
   {
-    console.log(value)
     this._updatedShippingAddress = value
   }
 
   constructor(private _dialog: MatDialog, private service: ContactService, private phonePipe: PhoneNumberToFormattedStringPipe){
-  }
-
-  ngOnInit(): void {
-
   }
 
   getContact(value: number)
@@ -78,7 +71,6 @@ export class ViewContactComponent implements OnInit {
         {
           next: (data) =>
           {
-            console.log(data)
             this.contact = data
             this.setAddressInputs()
           },
@@ -90,6 +82,7 @@ export class ViewContactComponent implements OnInit {
       )
     }
   }
+
   setAddressInputs()
   {
     this.currentMailingAddress = this.contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Mailing) ?? new PhysicalAddress_DTO
@@ -399,7 +392,6 @@ export class ViewContactComponent implements OnInit {
   {
     address.id = 0
     address.contactInformationId = this.contact.contactInformation?.id ?? 0
-    console.log(address)
     let sub = this.service.AddPhysicalAddress(address).subscribe(
       {
         next: (data) =>
@@ -470,6 +462,32 @@ export class ViewContactComponent implements OnInit {
         },
         complete: () =>
         {
+          sub.unsubscribe()
+        }
+      }
+    )
+  }
+  onEditContactClicked()
+  {
+    var config = new MatDialogConfig()
+    config.data =
+    {
+      dto: this.contact
+    }
+    config.disableClose = false;
+    config.position =
+    {
+      top: "5%"
+    }
+    let modalRef = this._dialog.open(AddContactComponent, config);
+    let sub = modalRef.componentInstance.response.subscribe(
+      {
+        next: (data) =>
+        {
+          if(data != null)
+          {
+          }
+          modalRef.close()
           sub.unsubscribe()
         }
       }
