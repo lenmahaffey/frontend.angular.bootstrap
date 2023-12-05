@@ -46,12 +46,11 @@ export class ListContactsComponent {
       {
         next: (data) =>
           {
-            console.log(data)
             this.data = data
             this.filteredList = data
             this.sortContacts()
             this.filterContacts()
-            this.contact.next(data[1])
+            this.contact.next(data[21])
             this.appStateService.closeSpinner()
           }
       }
@@ -217,11 +216,6 @@ export class ListContactsComponent {
           {
             return true
           }
-        // if(users)
-        //   if(x.user != null)
-        //   {
-        //     return true
-        //   }
         return false
         }
       ))
@@ -274,5 +268,10 @@ export class ListContactsComponent {
         }
       }
     )
+  }
+
+  contactDropped(event: any)
+  {
+    console.log(event)
   }
 }

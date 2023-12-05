@@ -21,4 +21,8 @@ export class DashboardComponent {
   {
     this.contact = contact
   }
+  drop(event:any)
+  {
+    console.log(event)
+  }
 }

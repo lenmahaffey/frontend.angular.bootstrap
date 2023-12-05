@@ -55,11 +55,11 @@
         <button mat-raised-button color="primary" (click)="openModal()">Add New</button>
       </div>
       <mat-list>
-        <mat-list-item *ngFor="let contact of filteredList" class="pointer" (click)="contactClicked(contact)">
+        <mat-list-item *ngFor="let contact of filteredList" class="pointer listItem" (click)="contactClicked(contact)" cdkDragList cdkDrag [cdkDragData]="contact" >
           {{contact.businessName}}{{contact.firstName}} {{contact.lastName}}
-            <span class="badge bg-danger" *ngIf="contact.user">User</span>
+            <span class="badge bg-dark" *ngIf="contact.user">User</span>
             <span class="badge bg-primary" *ngIf="contact.employee">Employee</span>
-            <span class="badge bg-warning" *ngIf="contact.freelancer">Freelancer</span>
+            <span class="badge freelancer" *ngIf="contact.freelancer">Freelancer</span>
             <span class="badge bg-success" *ngIf="contact.customer">Customer</span>
             <span class="badge bg-secondary" *ngIf="contact.competitor">Competitor</span>
             <span class="badge bg-info" *ngIf="contact.manufacturer">Manufacturer</span>

@@ -41,6 +41,19 @@
   border-radius: 4px;
 }
 
+.listItem{
+  flex:1;
+  background-color: white;
+  border: solid 1px #ccc;
+  border-radius: 4px;
+}
+
+.listItemContainer{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .phoneNumberContainer{
   display: flex;
   justify-content: space-around;
@@ -67,4 +80,20 @@
   font-size: larger;
   color: $warn;
   cursor: pointer;
+}
+.title{
+  color: gray;
+  font-style: italic;
+}
+
+.menuItem{
+  font-weight: bolder;
+}
+
+.dropText{
+  font-weight: bolder;
+}
+
+.contactListTitle{
+  font-weight: bolder;
 }

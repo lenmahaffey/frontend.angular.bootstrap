@@ -19,8 +19,7 @@
         <mat-tab-group class="fullHeight flexRow">
           <mat-tab label="Phone Numbers">
             <div class="hideOverflow flexColumn phoneNumberList">
-              <div
-                *ngIf="this.contact.contactInformation != null && this.contact.contactInformation.phoneNumbers != null">
+              <div *ngIf="this.contact.contactInformation != null && this.contact.contactInformation.phoneNumbers != null">
                 <mat-list cdkDropList [cdkDropListData]="this.contact.contactInformation.phoneNumbers">
                   <mat-list-item class="phoneNumberListItem flexItem" cdkDrag cdkDragLockAxis="y"
                     *ngFor="let number of this.contact.contactInformation.phoneNumbers; index as i">
@@ -90,13 +89,71 @@
               </div>
             </div>
           </mat-tab>
+          <mat-tab label="{{contact.isBusiness ? 'Contacts' : 'Companies'}}">
+
+            <div *ngIf="contact.isBusiness == false">
+              <div *ngFor="let customerContact of contact.customerContacts">{{customerContact.customer?.contact?.businessName}}</div>
+            </div>
+
+            <div *ngIf="contact.isBusiness">
+              <mat-list *ngIf="contact.customer">
+                <span class="contactListTitle">Customer Contacts</span>
+                <mat-list-item class="listItem flexItem">
+                  <div class="listItemContainer">
+                    <div class="flexItem menuItem">Name</div>
+                    <div class="flexItem menuItem">Title</div>
+                    <div class="flexItem menuItem">Phone Number</div>
+                    <div class="menuItem">Delete</div>
+                  </div>
+                </mat-list-item>
+                <mat-list-item class="listItem flexItem"
+                *ngFor="let cc of contact.customer?.customerContacts; index as i">
+                  <div class="listItemContainer">
+                    <div class="flexItem ">{{cc.contact?.firstName}} {{cc.contact?.lastName}} </div>
+                    <div class="flexItem title">{{cc.contact?.title ?? 'No Title'}}</div>
+                    <div class="flexItem ">{{cc.contact?.contactInformation?.phoneNumbers![0] | phoneNumberToString}}</div>
+                    <div class="delete"><i
+                      class="fa-solid fa-xmark fa-2xl"></i></div>
+                  </div>
+                </mat-list-item>
+                <mat-list-item class="listItem" cdkDropList>
+                  <div class="flexItem flexRow">
+                    <span class="autoMargin dropText" appContactDropped (cdkDropListEntered)="contactDropped($event)">Drag a contact here to add</span>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+
+              <mat-list class="list" *ngIf="contact.competitor">
+                <div>Competitor Contacts</div>
+                <mat-list-item class="listItem" *ngFor="let cc of contact.competitor.contacts">
+                  {{cc.contact?.firstName}} {{cc.contact?.lastName}}
+                </mat-list-item>
+              </mat-list>
+
+              <mat-list class="list" *ngIf="contact.manufacturer">
+                <div>Manufacturer Contacts</div>
+                <mat-list-item class="listItem" *ngFor="let mc of contact.manufacturer.contacts">
+                  {{mc.contact?.firstName}} {{mc.contact?.lastName}}
+                </mat-list-item>
+              </mat-list>
+
+              <mat-list class="list" *ngIf="contact.vendor">
+                <div>Vendor Contacts</div>
+                <mat-list-item class="listItem" *ngFor="let vc of contact.vendor.contacts">
+                  {{vc.contact?.firstName}} {{vc.contact?.lastName}}
+                </mat-list-item>
+              </mat-list>
+
+              <mat-list class="list" *ngIf="contact.venue">
+                <div>Venue Contacts</div>
+                <mat-list-item class="listItem" *ngFor="let vc of contact.venue.contacts">
+                  {{vc.contact?.firstName}} {{vc.contact?.lastName}}
+                </mat-list-item>
+              </mat-list>
+            </div>
+          </mat-tab>
         </mat-tab-group>
       </mat-card-content>
     </mat-card>
-    <!-- <mat-card class="rightCard flexItem hideOverflow">
-      <mat-card-content>
-        <div class="flexColumn"><img class="image" src="../../../../assets/No-Image-Placeholder.svg"></div>
-      </mat-card-content>
-    </mat-card> -->
   </div>
 </div>

@@ -493,4 +493,9 @@ export class ViewContactComponent {
       }
     )
   }
+
+  contactDropped(event:any)
+  {
+    console.log(event)
+  }
 }
