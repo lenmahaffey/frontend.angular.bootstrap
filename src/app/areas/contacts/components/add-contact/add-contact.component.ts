@@ -1,5 +1,5 @@
 import { Component, Inject, Input, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { Contact_DTO } from 'src/app/shared/api/api.models';
@@ -14,16 +14,65 @@ export class AddContactComponent {
   @Output() response: Subject<Contact_DTO | null> = new Subject()
   contactFormGroup: any
   title:string
+  get firstNameInput() {
+    return this.contactFormGroup.get('firstName')
+  }
+  get lastNameInput(){
+    return this.contactFormGroup.get('lastName')
+  }
+  get isBusinessInput()
+  {
+    return this.contactFormGroup.get('isBusiness')
+  }
+  get businessNameInput()
+  {
+    return this.contactFormGroup.get('businessName')
+  }
+  private onIsBusinessChange()
+  {
+    console.log('changed')
+    this.isBusinessInput.valueChanges.subscribe(
+      {
+        next: (data: any) =>
+        {
+          const validatiors = [Validators.required, Validators.maxLength(50)]
+          if(data)
+          {
+            console.log('is a business')
+            this.firstNameInput.clearValidators()
+            this.lastNameInput.clearValidators()
+            this.businessNameInput.addValidators(validatiors)
+          }
+          else
+          {
+            console.log('is not a business')
+            this.firstNameInput.addValidators(validatiors)
+            this.lastNameInput.addValidators(validatiors)
+            this.isBusinessInput.clearValidators()
+            this.businessNameInput.clearValidators()
+          }
+          this.firstNameInput.updateValueAndValidity()
+          this.lastNameInput.updateValueAndValidity()
+          this.businessNameInput.updateValueAndValidity()
+        }
+      }
+    )
+  }
   constructor(@Inject(MAT_DIALOG_DATA) public data: any){
-    console.log(data)
-    this.contact = data
+    this.contact = data['dto']
     this.contactFormGroup = new FormGroup(
       {
         isBusiness: new FormControl(data['dto'].isBusiness),
         prefix: new FormControl(data['dto'].prefix),
-        firstName: new FormControl(data['dto'].firstName),
+        firstName: new FormControl(data['dto'].firstName,[
+          Validators.required,
+          Validators.maxLength(50)
+        ]),
         middleName: new FormControl(data['dto'].middleName),
-        lastName: new FormControl(data['dto'].lastName),
+        lastName: new FormControl(data['dto'].lastName,[
+          Validators.required,
+          Validators.maxLength(50)
+        ]),
         suffix: new FormControl(data['dto'].suffix),
         businessName: new FormControl(data['dto'].businessName),
         title: new FormControl(data['dto'].title),
@@ -32,6 +81,7 @@ export class AddContactComponent {
       }
     )
     this.title = this.contact.id == 0 ? "Add New Contact" : "Edit Contact"
+    this.onIsBusinessChange()
   }
   onKeyDown(event: any)
   {
@@ -39,20 +89,24 @@ export class AddContactComponent {
       this.response.next(null)
     }
   }
+
   submit()
   {
     var newContact = new Contact_DTO()
     newContact.prefix = this.contactFormGroup.value['prefix']
-    newContact.firstName = this.contactFormGroup.value['firstName']
-    newContact.lastName = this.contactFormGroup.value['lastName']
+    newContact.firstName = this.firstNameInput.value
+    newContact.lastName = this.lastNameInput.value
     newContact.middleName = this.contactFormGroup.value['middleName']
     newContact.preferredName = this.contactFormGroup.value['preferredName']
     newContact.suffix = this.contactFormGroup.value['suffix']
     newContact.businessName = this.contactFormGroup.value['businessName']
     newContact.title = this.contactFormGroup.value['title']
     newContact.description = this.contactFormGroup.value['description']
+    newContact.isBusiness = this.isBusinessInput.value ?? false
+    console.log(newContact)
     this.response.next(newContact);
   }
+
   closeModal(){
     this.response.next(null);
   }

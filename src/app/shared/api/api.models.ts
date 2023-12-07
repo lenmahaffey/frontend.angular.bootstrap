@@ -7,11 +7,11 @@ export class Contact_DTO implements IContact_DTO {
     customerContacts?: CustomerContact_DTO[] | undefined;
     description?: string | undefined;
     employee?: Employee_DTO | undefined;
-    firstName!: string;
+    firstName?: string | undefined;
     freelancer?: Freelancer_DTO | undefined;
     id!: number;
     isBusiness!: boolean;
-    lastName!: string;
+    lastName?: string | undefined;
     manufacturer?: Manufacturer_DTO | undefined;
     manufacturerContacts?: ManufacturerContact_DTO[] | undefined;
     middleName?: string | undefined;
@@ -151,11 +151,11 @@ export interface IContact_DTO {
     customerContacts?: CustomerContact_DTO[] | undefined;
     description?: string | undefined;
     employee?: Employee_DTO | undefined;
-    firstName: string;
+    firstName?: string | undefined;
     freelancer?: Freelancer_DTO | undefined;
     id: number;
     isBusiness: boolean;
-    lastName: string;
+    lastName?: string | undefined;
     manufacturer?: Manufacturer_DTO | undefined;
     manufacturerContacts?: ManufacturerContact_DTO[] | undefined;
     middleName?: string | undefined;

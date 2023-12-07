@@ -8,7 +8,7 @@
           <mat-label class="label">Business Name</mat-label>
           <input matInput id="businessName" type="text" name="businessName" formControlName="businessName">
         </mat-form-field>
-        <mat-form-field class="padding flexItem" appearance="outline">
+        <!-- <mat-form-field class="padding flexItem" appearance="outline">
           <mat-label class="label">Business Type</mat-label>
           <mat-select>
             <mat-option [value]="'customer'">Customer</mat-option>
@@ -17,12 +17,11 @@
             <mat-option [value]="'vendor'">Vendor</mat-option>
             <mat-option [value]="'venue'">Venue</mat-option>
           </mat-select>
-          <!-- <input matInput id="businessName" type="text" name="businessName" formControlName="businessName"> -->
-        </mat-form-field>
+        </mat-form-field> -->
       </div>
     </div>
     <div *ngIf="!contactFormGroup.value.isBusiness">
-      <mat-form-field class="padding flexItem" appearance="outline">
+      <!-- <mat-form-field class="padding flexItem" appearance="outline">
         <mat-label class="label">Contact Type</mat-label>
         <mat-select>
           <mat-option [value]="'customer'">User</mat-option>
@@ -30,7 +29,7 @@
           <mat-option [value]="'manufacturer'">Freelancer</mat-option>
           <mat-option [value]="'none'">None</mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
       <div class="flexRow">
         <mat-form-field class="padding flexItem" appearance="outline">
           <mat-label class="label">Prefix</mat-label>
@@ -38,7 +37,9 @@
         </mat-form-field>
         <mat-form-field class="padding flexItem" appearance="outline">
           <mat-label class="label">First Name</mat-label>
-          <input matInput id="firstName" type="text" name="firstName" formControlName="firstName" required>
+          <input matInput id="firstName" type="text" name="firstName" formControlName="firstName">
+            <mat-error *ngIf="firstNameInput.errors?.['required']">Required</mat-error>
+            <mat-error *ngIf="firstNameInput.errors?.['maxlength']">Must be 50 characters or less.</mat-error>
         </mat-form-field>
         <mat-form-field class="padding flexItem" appearance="outline">
           <mat-label class="label">Middle Name</mat-label>
@@ -46,7 +47,9 @@
         </mat-form-field>
         <mat-form-field class="padding flexItem" appearance="outline">
           <mat-label class="label">Last Name</mat-label>
-          <input matInput id="lastName" type="text" name="lastName" formControlName="lastName" required>
+          <input matInput id="lastName" type="text" name="lastName" formControlName="lastName">
+          <mat-error *ngIf="lastNameInput.errors?.['required']">Required</mat-error>
+          <mat-error *ngIf="lastNameInput.errors?.['maxlength']">Must be 50 characters or less.</mat-error>
         </mat-form-field>
         <mat-form-field class="flexItem" appearance="outline">
           <mat-label class="label">Suffix</mat-label>
@@ -73,6 +76,6 @@
   </mat-dialog-content>
   <div mat-dialog-actions>
     <button mat-raised-button color="accent" (click)="closeModal()">Cancel</button>
-    <button mat-raised-button color="primary"(click)="submit()">Ok</button>
+    <button mat-raised-button color="primary" (click)="submit()" [disabled]="contactFormGroup.invalid">Ok</button>
   </div>
 </form>

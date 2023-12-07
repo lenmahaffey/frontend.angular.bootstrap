@@ -36,13 +36,21 @@ export class ListContactsComponent {
         lastName: new FormControl(""),
       }
     )
-    const config:MatDialogConfig = new MatDialogConfig()
-    config.data =
+    this.listAllContacts(true)
+  }
+
+  listAllContacts(spinner: boolean = false)
+  {
+    if(spinner)
     {
-      message: "Getting Contacts",
+      const config:MatDialogConfig = new MatDialogConfig()
+      config.data =
+      {
+        message: "Getting Contacts",
+      }
+      this.appStateService.openSpinner(config)
     }
-    this.appStateService.openSpinner(config)
-    const sub = service.listAllContacts(true).subscribe(
+    const sub = this.service.listAllContacts(true).subscribe(
       {
         next: (data) =>
           {
@@ -56,7 +64,6 @@ export class ListContactsComponent {
       }
     )
   }
-
   contactClicked(contact:Contact_DTO){
     this.contact.next(contact)
   }
@@ -108,20 +115,20 @@ export class ListContactsComponent {
         return 0
       });
       this.filteredList.sort(function (a, b) {
-        if (a.lastName < b.lastName) {
+        if (a.lastName! < b.lastName!) {
           return -1;
         }
-        if (a.lastName > b.lastName) {
+        if (a.lastName! > b.lastName!) {
           return 1;
         }
         return 0;
       });
 
       this.filteredList.sort(function (a, b) {
-        if (a.firstName < b.firstName) {
+        if (a.firstName! < b.firstName!) {
           return -1;
         }
-        if (a.firstName > b.firstName) {
+        if (a.firstName! > b.firstName!) {
           return 1;
         }
         return 0;
@@ -139,20 +146,20 @@ export class ListContactsComponent {
         return 0
       });
       this.filteredList.sort(function (a, b) {
-        if (a.firstName < b.firstName) {
+        if (a.firstName! < b.firstName!) {
           return -1;
         }
-        if (a.firstName > b.firstName) {
+        if (a.firstName! > b.firstName!) {
           return 1;
         }
         return 0;
       });
 
       this.filteredList.sort(function (a, b) {
-        if (a.lastName < b.lastName) {
+        if (a.lastName! < b.lastName!) {
           return -1;
         }
-        if (a.lastName > b.lastName) {
+        if (a.lastName! > b.lastName!) {
           return 1;
         }
         return 0;
@@ -163,20 +170,20 @@ export class ListContactsComponent {
     if(bName)
     {
       this.filteredList.sort(function (a, b) {
-        if (a.firstName < b.firstName) {
+        if (a.firstName! < b.firstName!) {
           return -1;
         }
-        if (a.firstName > b.firstName) {
+        if (a.firstName! > b.firstName!) {
           return 1;
         }
         return 0;
       });
 
       this.filteredList.sort(function (a, b) {
-        if (a.lastName < b.lastName) {
+        if (a.lastName! < b.lastName!) {
           return -1;
         }
-        if (a.lastName > b.lastName) {
+        if (a.lastName! > b.lastName!) {
           return 1;
         }
         return 0;
@@ -229,13 +236,11 @@ export class ListContactsComponent {
   openModal()
   {
     var config = new MatDialogConfig()
+    var dto = new Contact_DTO()
+    dto.id = 0
     config.data =
     {
-      dto: new Contact_DTO(),
-      title: "Demostration Modal",
-      text: "This is a modal",
-      yesButtonText: "yes",
-      noButtonText: "no",
+      dto: dto
     }
     config.disableClose = false;
     config.position =
@@ -264,7 +269,7 @@ export class ListContactsComponent {
       {
         next: (data) =>
         {
-          //console.log(data);
+          this.listAllContacts(false)
         }
       }
     )
