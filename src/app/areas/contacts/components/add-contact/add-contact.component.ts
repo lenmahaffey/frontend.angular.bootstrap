@@ -30,7 +30,6 @@ export class AddContactComponent {
   }
   private onIsBusinessChange()
   {
-    console.log('changed')
     this.isBusinessInput.valueChanges.subscribe(
       {
         next: (data: any) =>
@@ -58,6 +57,7 @@ export class AddContactComponent {
       }
     )
   }
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: any){
     this.contact = data['dto']
     this.contactFormGroup = new FormGroup(
@@ -83,6 +83,7 @@ export class AddContactComponent {
     this.title = this.contact.id == 0 ? "Add New Contact" : "Edit Contact"
     this.onIsBusinessChange()
   }
+
   onKeyDown(event: any)
   {
     if (event.key === "Escape") {
@@ -92,19 +93,17 @@ export class AddContactComponent {
 
   submit()
   {
-    var newContact = new Contact_DTO()
-    newContact.prefix = this.contactFormGroup.value['prefix']
-    newContact.firstName = this.firstNameInput.value
-    newContact.lastName = this.lastNameInput.value
-    newContact.middleName = this.contactFormGroup.value['middleName']
-    newContact.preferredName = this.contactFormGroup.value['preferredName']
-    newContact.suffix = this.contactFormGroup.value['suffix']
-    newContact.businessName = this.contactFormGroup.value['businessName']
-    newContact.title = this.contactFormGroup.value['title']
-    newContact.description = this.contactFormGroup.value['description']
-    newContact.isBusiness = this.isBusinessInput.value ?? false
-    console.log(newContact)
-    this.response.next(newContact);
+    this.contact.prefix = this.contactFormGroup.value['prefix']
+    this.contact.firstName = this.firstNameInput.value
+    this.contact.lastName = this.lastNameInput.value
+    this.contact.middleName = this.contactFormGroup.value['middleName']
+    this.contact.preferredName = this.contactFormGroup.value['preferredName']
+    this.contact.suffix = this.contactFormGroup.value['suffix']
+    this.contact.businessName = this.contactFormGroup.value['businessName']
+    this.contact.title = this.contactFormGroup.value['title']
+    this.contact.description = this.contactFormGroup.value['description']
+    this.contact.isBusiness = this.isBusinessInput.value ?? false
+    this.response.next(this.contact);
   }
 
   closeModal(){

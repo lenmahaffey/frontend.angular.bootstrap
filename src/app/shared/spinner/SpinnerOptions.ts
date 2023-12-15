@@ -2,12 +2,10 @@ export class SpinnerOptions
 {
   title: string
   message: string
-  buttonLabel: string
 
-  constructor(title: "", message: "", buttonLabel: "")
+  constructor(title: "", message: "")
   {
     this.title = title
     this.message = message
-    this.buttonLabel = buttonLabel
   }
 }

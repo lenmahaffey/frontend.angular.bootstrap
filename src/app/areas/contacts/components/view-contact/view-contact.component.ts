@@ -8,6 +8,9 @@ import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/
 import { PhoneNumberToFormattedStringPipe } from 'src/app/shared/pipes/phone-number-to-formatted-string.pipe';
 import { AddEmailAddressModalComponent } from '../add-email-address-modal/add-email-address-modal.component';
 import { AddContactComponent } from '../add-contact/add-contact.component';
+import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
+import { AppStateService } from 'src/app/services/app-state/app-state-service';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
   selector: 'app-view-contact',
@@ -15,14 +18,18 @@ import { AddContactComponent } from '../add-contact/add-contact.component';
   styleUrls: ['./view-contact.component.scss']
 })
 export class ViewContactComponent {
+
   contact: Contact_DTO = new Contact_DTO()
-  private _contactId: number = 0
-  @Input() get contactId() : number{
-    return this._contactId;
+
+  private _contactInput: Contact_DTO = new Contact_DTO()
+
+  @Input() get contactInput() : Contact_DTO{
+    return this._contactInput;
   }
-  set contactId(value: number){
-    this._contactId = value
-    this.getContact(value)
+  set contactInput(value: Contact_DTO){
+    this._contactInput = value
+    this.contact = value
+    // this.getContact(value.id)
     this.setAddressInputs()
   }
 
@@ -60,27 +67,29 @@ export class ViewContactComponent {
     this._updatedShippingAddress = value
   }
 
-  constructor(private _dialog: MatDialog, private service: ContactService, private phonePipe: PhoneNumberToFormattedStringPipe){
+  constructor(
+    private _dialog: MatDialog,
+    private service: ContactService,
+    private phonePipe: PhoneNumberToFormattedStringPipe,
+    private namePipe: ContactNamePipe,
+    private appState: AppStateService){
   }
 
   getContact(value: number)
   {
-    if(value != 0)
-    {
-      let sub = this.service.getContact(value, true).subscribe(
+    let sub = this.service.getContact(value, true).subscribe(
+      {
+        next: (data) =>
         {
-          next: (data) =>
-          {
-            this.contact = data
-            this.setAddressInputs()
-          },
-          complete: () =>
-          {
-            sub.unsubscribe()
-          }
+          this.contact = data
+          this.setAddressInputs()
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
         }
-      )
-    }
+      }
+    )
   }
 
   setAddressInputs()
@@ -467,6 +476,7 @@ export class ViewContactComponent {
       }
     )
   }
+
   onEditContactClicked()
   {
     var config = new MatDialogConfig()

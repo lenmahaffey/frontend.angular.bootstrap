@@ -8,12 +8,12 @@ export class Message {
   autoDismiss: boolean
   duration: number
 
-  constructor(type?: MessageType) {
+  constructor(type?: MessageType, message: string = "") {
     this.type = type ?? MessageType.Error
     this.autoDismiss = false
     this.time = new Date()
     this.title = ""
-    this.text = ""
+    this.text = message
     this.duration = 3
   }
 }

@@ -15,6 +15,7 @@ import { StringToPhoneNumberPipe } from './pipes/string-to-phone-number.pipe';
 import { CurrencyFormatterPipe } from './pipes/currency-formatter.pipe';
 import { MonthNameFromDatePipe } from './pipes/month-name-from-date.pipe';
 import { StringToFormattedPhoneNumberStringPipe } from './pipes/string-to-formatted-phone-number-string.pipe';
+import { ContactNamePipe } from './pipes/contact-name.pipe';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { StringToFormattedPhoneNumberStringPipe } from './pipes/string-to-format
     CurrencyFormatterPipe,
     MonthNameFromDatePipe,
     StringToFormattedPhoneNumberStringPipe,
+    ContactNamePipe,
   ],
   imports: [
     MaterialModule
@@ -37,6 +39,7 @@ import { StringToFormattedPhoneNumberStringPipe } from './pipes/string-to-format
     ToShortTimeStringPipe,
     PhoneNumberToFormattedStringPipe,
     StringToPhoneNumberPipe,
+    ContactNamePipe,
     CommonModule,
     BrowserModule,
     FormsModule,
@@ -52,7 +55,8 @@ import { StringToFormattedPhoneNumberStringPipe } from './pipes/string-to-format
     PhoneNumberToFormattedStringPipe,
     StringToPhoneNumberPipe,
     CurrencyFormatterPipe,
-    StringToFormattedPhoneNumberStringPipe
+    StringToFormattedPhoneNumberStringPipe,
+    ContactNamePipe
   ]
 })
 export class SharedModule { }

@@ -108,11 +108,26 @@ export class ContactService {
   DeletePhysicalAddress(address: PhysicalAddress_DTO)
   {
     const url = `${this.apiUrl}/deletephysicaladdress`
-    const body = JSON.stringify(address)
     return this.http.delete(url, { headers: this.headers, body: address.id }).pipe(
       catchError(this.handleError.bind(this)))
   }
 
+  DeleteContact(contact:Contact_DTO)
+  {
+    const url = `${this.apiUrl}/deletecontact`
+    return this.http.delete(url, {headers: this.headers, body: contact.id}).pipe(
+      catchError(this.handleError.bind(this))
+    )
+  }
+
+  UpdateContact(contact:Contact_DTO) : Observable<Contact_DTO>
+  {
+    const url = `${this.apiUrl}/updatecontact`
+    const body = JSON.stringify(contact)
+    return this.http.post<Contact_DTO>(url, body, {headers: this.headers}).pipe(
+      catchError(this.handleError.bind(this))
+    )
+  }
   private handleError(err: HttpErrorResponse) {
     let errorMessage = ''
     if (err.error.length > 0) {

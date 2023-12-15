@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { Contact_DTO } from 'src/app/shared/api/api.models';
@@ -10,8 +10,8 @@ import { ContactService } from '../../contact.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  @Output() data: Contact_DTO[] = []
-  @Input() contact:Contact_DTO | undefined = undefined
+  @Output() contactList: Contact_DTO[] = []
+  @Input() selectedContact:Contact_DTO | undefined = undefined
 
   constructor(private service: ContactService, private _dialog: MatDialog, private appStateService: AppStateService)
   {
@@ -19,8 +19,10 @@ export class DashboardComponent {
 
   onContactSelected(contact: Contact_DTO)
   {
-    this.contact = contact
+    this.selectedContact = contact
+    console.log(this.selectedContact)
   }
+
   drop(event:any)
   {
     console.log(event)
