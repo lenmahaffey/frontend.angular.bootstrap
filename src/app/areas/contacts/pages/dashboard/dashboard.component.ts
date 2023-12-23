@@ -20,7 +20,6 @@ export class DashboardComponent {
   onContactSelected(contact: Contact_DTO)
   {
     this.selectedContact = contact
-    console.log(this.selectedContact)
   }
 
   drop(event:any)

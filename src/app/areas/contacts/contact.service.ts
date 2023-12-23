@@ -5,7 +5,7 @@ import { Constants } from 'src/app/constants';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { Contact_DTO, EmailAddress_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
+import { CompetitorContact_DTO, Contact_DTO, CustomerContact_DTO, EmailAddress_DTO, ManufacturerContact_DTO, Manufacturer_DTO, PhoneNumber_DTO, PhysicalAddress_DTO, VendorContact_DTO, VenueContact_DTO } from 'src/app/shared/api/api.models';
 
 @Injectable({
   providedIn: 'root'
@@ -128,6 +128,67 @@ export class ContactService {
       catchError(this.handleError.bind(this))
     )
   }
+
+  AddContactToCompetitor(contactId: number, competitorId: number)
+  {
+    const url = `${this.apiUrl}/addCompetitorContact`
+    const model = new CompetitorContact_DTO();
+    model.competitorId = competitorId
+    model.contactId = contactId
+    const body = JSON.stringify(model)
+    return this.http.post<CompetitorContact_DTO>(url,model, {headers: this.headers}).pipe(
+      catchError(this.handleError.bind(this))
+    )
+  }
+
+  AddContactToCustomer(contactId: number, customerId: number)
+  {
+    const url = `${this.apiUrl}/addCustomerContact`
+    const model = new CustomerContact_DTO();
+    model.customerId = customerId
+    model.contactId = contactId
+    const body = JSON.stringify(model)
+    return this.http.post<CustomerContact_DTO>(url,model, {headers: this.headers}).pipe(
+      catchError(this.handleError.bind(this))
+    )
+  }
+
+  AddContactToManufacturer(contactId: number, manufacturerId: number)
+  {
+    const url = `${this.apiUrl}/addManufacturerContact`
+    const model = new ManufacturerContact_DTO();
+    model.manufacturerId = manufacturerId
+    model.contactId = contactId
+    const body = JSON.stringify(model)
+    return this.http.post<ManufacturerContact_DTO>(url,model, {headers: this.headers}).pipe(
+      catchError(this.handleError.bind(this))
+    )
+  }
+
+  AddContactToVendor(contactId: number, vendorId: number)
+  {
+    const url = `${this.apiUrl}/addVendorContact`
+    const model = new VendorContact_DTO();
+    model.vendorId = vendorId
+    model.contactId = contactId
+    const body = JSON.stringify(model)
+    return this.http.post<VendorContact_DTO>(url,model, {headers: this.headers}).pipe(
+      catchError(this.handleError.bind(this))
+    )
+  }
+
+  AddContactToVenue(contactId: number, venueId: number)
+  {
+    const url = `${this.apiUrl}/addVenueContact`
+    const model = new VenueContact_DTO();
+    model.venueId = venueId
+    model.contactId = contactId
+    const body = JSON.stringify(model)
+    return this.http.post<VenueContact_DTO>(url,model, {headers: this.headers}).pipe(
+      catchError(this.handleError.bind(this))
+    )
+  }
+
   private handleError(err: HttpErrorResponse) {
     let errorMessage = ''
     if (err.error.length > 0) {

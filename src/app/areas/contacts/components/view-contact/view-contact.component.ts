@@ -504,8 +504,103 @@ export class ViewContactComponent {
     )
   }
 
-  contactDropped(event:any)
+  onContactDroppedOnCustomerContacts(event:any)
   {
-    console.log(event)
+    const id = this.contact.customer?.id
+    if(id != undefined)
+    {
+      let sub = this.service.AddContactToCustomer(event.item.data.id, id).subscribe(
+        {
+          next: (data) =>
+          {
+            this.contact.customerContacts?.push(data)
+          },
+          complete: () =>
+          {
+            sub.unsubscribe
+          }
+        }
+      )
+    }
+  }
+
+  onContactDroppedOnCompetitorContacts(event:any)
+  {
+    const id = this.contact.competitor?.id
+    if(id != undefined)
+    {
+      let sub = this.service.AddContactToCompetitor(event.item.data.id, id).subscribe(
+        {
+          next: (data) =>
+          {
+            this.contact.competitorContacts?.push(data)
+          },
+          complete: () =>
+          {
+            sub.unsubscribe
+          }
+        }
+      )
+    }
+  }
+
+  onContactDroppedOnManufacturerContacts(event:any)
+  {
+    const id = this.contact.manufacturer?.id
+    if(id != undefined)
+    {
+      let sub = this.service.AddContactToManufacturer(event.item.data.id, id).subscribe(
+        {
+          next: (data) =>
+          {
+            this.contact.manufacturerContacts?.push(data)
+          },
+          complete: () =>
+          {
+            sub.unsubscribe
+          }
+        }
+      )
+    }
+  }
+
+  onContactDroppedOnVendorContacts(event:any)
+  {
+    const id = this.contact.vendor?.id
+    if(id != undefined)
+    {
+      let sub = this.service.AddContactToVendor(event.item.data.id, id).subscribe(
+        {
+          next: (data) =>
+          {
+            this.contact.vendorContacts?.push(data)
+          },
+          complete: () =>
+          {
+            sub.unsubscribe
+          }
+        }
+      )
+    }
+  }
+
+  onContactDroppedOnVenueContacts(event:any)
+  {
+    const id = this.contact.venue?.id
+    if(id != undefined)
+    {
+      let sub = this.service.AddContactToVenue(event.item.data.id, id).subscribe(
+        {
+          next: (data) =>
+          {
+            this.contact.venueContacts?.push(data)
+          },
+          complete: () =>
+          {
+            sub.unsubscribe
+          }
+        }
+      )
+    }
   }
 }

@@ -54,7 +54,7 @@
       <button mat-raised-button color="primary" (click)="openModal()">Add New</button>
     </div>
     <div class="list">
-      <div *ngFor="let contact of filteredList" class="pointer listItem flexRow" (click)="contactClicked(contact)" cdkDragList cdkDrag [cdkDragData]="contact" >
+      <div *ngFor="let contact of filteredList" class="pointer listItem flexRow" (click)="contactClicked(contact)" cdkDragList cdkDrag [cdkDragData]="contact">
         <div class="flexColumn flexItem">
           <span class="flexItem">
             {{ contact | contactName }}

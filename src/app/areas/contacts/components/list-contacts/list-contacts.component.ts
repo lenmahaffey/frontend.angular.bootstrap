@@ -80,7 +80,7 @@ export class ListContactsComponent {
             }
             else
             {
-              this.contact.next(data[contactId])
+              this.contact.next(data[21])
             }
             this.appStateService.closeSpinner()
           }
@@ -427,9 +427,5 @@ export class ListContactsComponent {
   addContactAs(contact: Contact_DTO)
   {
 
-  }
-  contactDropped(event: any)
-  {
-    console.log(event)
   }
 }
