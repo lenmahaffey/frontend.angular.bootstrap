@@ -1,5 +1,5 @@
 import { CdkDragDrop, CdkDragEnd, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddressType, Contact_DTO, EmailAddress_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
 import { AddPhoneNumberModalComponent } from '../add-phone-number-modal/add-phone-number-modal.component';
@@ -10,7 +10,7 @@ import { AddEmailAddressModalComponent } from '../add-email-address-modal/add-em
 import { AddContactComponent } from '../add-contact/add-contact.component';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
-import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-view-contact',
@@ -66,6 +66,7 @@ export class ViewContactComponent {
   {
     this._updatedShippingAddress = value
   }
+  private route = inject(ActivatedRoute);
 
   constructor(
     private _dialog: MatDialog,
@@ -73,7 +74,9 @@ export class ViewContactComponent {
     private phonePipe: PhoneNumberToFormattedStringPipe,
     private namePipe: ContactNamePipe,
     private appState: AppStateService,
-    private cdr: ChangeDetectorRef){
+    private cdr: ChangeDetectorRef)
+  {
+    
   }
 
   // getContact(value: number)
