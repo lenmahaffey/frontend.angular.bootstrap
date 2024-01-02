@@ -9,7 +9,7 @@ import { Contact_DTO } from 'src/app/shared/api/api.models';
   templateUrl: './add-contact.component.html',
   styleUrls: ['./add-contact.component.scss']
 })
-export class AddContactComponent {
+export class AddContactModalComponent {
   @Input() contact: Contact_DTO
   @Output() response: Subject<Contact_DTO | null> = new Subject()
   contactFormGroup: any

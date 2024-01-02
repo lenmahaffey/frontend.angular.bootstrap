@@ -1,29 +1,33 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { Contact_DTO } from 'src/app/shared/api/api.models';
 import { ContactService } from '../../contact.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
-  @Output() contactList: Contact_DTO[] = []
-  @Input() selectedContact:Contact_DTO | undefined = undefined
+export class DashboardComponent implements OnInit {
+  @Input() id = undefined
+  selectedContactId = 100
 
-  constructor(private service: ContactService, private _dialog: MatDialog, private appStateService: AppStateService)
+  constructor(private router: Router)
   {
   }
-
-  onContactSelected(contact: Contact_DTO)
-  {
-    this.selectedContact = contact
+  ngOnInit(): void {
+    if(this.id != undefined)
+    {
+      this.selectedContactId = this.id
+    }
   }
 
-  drop(event:any)
+  onContactSelected(contactId: number)
   {
-    console.log(event)
+    console.log(contactId)
+    this.selectedContactId = contactId
+    this.router.navigate([`contacts/dashboard/${contactId}`])
   }
 }

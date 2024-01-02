@@ -4,12 +4,11 @@ import { ListContactsComponent } from './components/list-contacts/list-contacts.
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { ViewContactComponent } from './components/view-contact/view-contact.component';
-import { AddContactComponent } from './components/add-contact/add-contact.component';
+import { AddContactModalComponent } from './components/contact-modal/add-contact.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { AddPhoneNumberModalComponent } from './components/add-phone-number-modal/add-phone-number-modal.component';
-import { AddEmailAddressModalComponent } from './components/add-email-address-modal/add-email-address-modal.component';
-import { ContactDroppedDirective } from './pages/dashboard/contact-dropped.directive';
-import { AddAddressFormComponent } from './components/add-address-form/address-form.component';
+import { AddPhoneNumberModalComponent } from './components/phone-number-modal/add-phone-number-modal.component';
+import { AddEmailAddressModalComponent } from './components/email-address-modal/add-email-address-modal.component';
+import { AddAddressFormComponent } from './components/address-form/address-form.component';
 
 
 
@@ -17,19 +16,19 @@ import { AddAddressFormComponent } from './components/add-address-form/address-f
   declarations: [
     ListContactsComponent,
     ViewContactComponent,
-    AddContactComponent,
+    AddContactModalComponent,
     DashboardComponent,
     AddAddressFormComponent,
     AddPhoneNumberModalComponent,
     AddEmailAddressModalComponent,
-    ContactDroppedDirective
   ],
   imports: [
     CommonModule,
     RouterModule.forChild([
-      { path: 'contacts/listcontacts', component: ListContactsComponent },
-      { path: 'contacts/viewcontact:id', component: ViewContactComponent },
+      // { path: 'contacts/listcontacts', component: ListContactsComponent },
+      // { path: 'contacts/viewcontact/:id', component: ViewContactComponent },
       { path: 'contacts/dashboard', component: DashboardComponent },
+      { path: 'contacts/dashboard/:id', component: DashboardComponent },
     ]),
     SharedModule
   ]

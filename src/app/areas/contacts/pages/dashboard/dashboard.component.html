@@ -1,9 +1,7 @@
 <div class="page flexRow" cdkDropListGroup>
-  <app-list-contacts [contactList]="contactList" [cdkDropListData]="contactList" cdkDropList (contact)="onContactSelected($event)"></app-list-contacts>
+  <app-list-contacts cdkDropList (contact)="onContactSelected($event.id)"></app-list-contacts>
   <div class="info flexColumn">
-    <div class="details">
-        <app-view-contact *ngIf="selectedContact != undefined" [contactInput]="selectedContact"></app-view-contact>
-    </div>
+    <app-view-contact class="details" [contactInputId]="selectedContactId"></app-view-contact>
   </div>
 </div>
 

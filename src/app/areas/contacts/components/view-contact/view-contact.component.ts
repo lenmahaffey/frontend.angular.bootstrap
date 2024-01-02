@@ -1,36 +1,31 @@
-import { CdkDragDrop, CdkDragEnd, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddressType, Contact_DTO, EmailAddress_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
-import { AddPhoneNumberModalComponent } from '../add-phone-number-modal/add-phone-number-modal.component';
+import { AddPhoneNumberModalComponent } from '../phone-number-modal/add-phone-number-modal.component';
 import { ContactService } from '../../contact.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { PhoneNumberToFormattedStringPipe } from 'src/app/shared/pipes/phone-number-to-formatted-string.pipe';
-import { AddEmailAddressModalComponent } from '../add-email-address-modal/add-email-address-modal.component';
-import { AddContactComponent } from '../add-contact/add-contact.component';
+import { AddEmailAddressModalComponent } from '../email-address-modal/add-email-address-modal.component';
+import { AddContactModalComponent } from '../contact-modal/add-contact.component';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-view-contact',
   templateUrl: './view-contact.component.html',
   styleUrls: ['./view-contact.component.scss']
 })
-export class ViewContactComponent {
+export class ViewContactComponent implements OnInit {
 
   contact: Contact_DTO = new Contact_DTO()
+  private _contactInputId = 0
 
-  private _contactInput: Contact_DTO = new Contact_DTO()
-
-  @Input() get contactInput() : Contact_DTO{
-    return this._contactInput;
+  @Input() get contactInputId() : number{
+    return this._contactInputId;
   }
-  set contactInput(value: Contact_DTO){
-    this._contactInput = value
-    this.contact = value
-    // this.getContact(value.id)
-    this.setAddressInputs()
+  set contactInputId(value: number){
+    this._contactInputId = value
+    this.getContact()
   }
 
   currentMailingAddress: PhysicalAddress_DTO = new PhysicalAddress_DTO()
@@ -66,7 +61,6 @@ export class ViewContactComponent {
   {
     this._updatedShippingAddress = value
   }
-  private route = inject(ActivatedRoute);
 
   constructor(
     private _dialog: MatDialog,
@@ -75,26 +69,29 @@ export class ViewContactComponent {
     private namePipe: ContactNamePipe,
     private appState: AppStateService,
     private cdr: ChangeDetectorRef)
-  {
-    
+  {}
+
+  ngOnInit(): void {
+    this.getContact()
   }
 
-  // getContact(value: number)
-  // {
-  //   let sub = this.service.getContact(value, true).subscribe(
-  //     {
-  //       next: (data) =>
-  //       {
-  //         this.contact = data
-  //         this.setAddressInputs()
-  //       },
-  //       complete: () =>
-  //       {
-  //         sub.unsubscribe()
-  //       }
-  //     }
-  //   )
-  // }
+  getContact()
+  {
+    let sub = this.service.getContact(this.contactInputId, true).subscribe(
+      {
+        next: (data) =>
+        {
+          this.contact = data
+          console.log(data)
+          this.setAddressInputs()
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
+        }
+      }
+    )
+  }
 
   setAddressInputs()
   {
@@ -104,10 +101,6 @@ export class ViewContactComponent {
     this.currentMailingAddress.addressType = AddressType.Mailing
     this.currentBillingAddress.addressType = AddressType.Billing
     this.currentShippingAddress.addressType = AddressType.Shipping
-  }
-
-  numberDropped(event: CdkDragDrop<PhoneNumber_DTO[]>) {
-    moveItemInArray(this.contact?.contactInformation?.phoneNumbers!, event.previousIndex, event.currentIndex);
   }
 
   openAddPhoneNumberModal(number: PhoneNumber_DTO | undefined)
@@ -493,7 +486,7 @@ export class ViewContactComponent {
     {
       top: "5%"
     }
-    let modalRef = this._dialog.open(AddContactComponent, config);
+    let modalRef = this._dialog.open(AddContactModalComponent, config);
     let sub = modalRef.componentInstance.response.subscribe(
       {
         next: (data) =>

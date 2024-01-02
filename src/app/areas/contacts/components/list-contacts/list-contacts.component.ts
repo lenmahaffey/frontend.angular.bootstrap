@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angu
 import { Contact_DTO } from 'src/app/shared/api/api.models';
 import { ContactService } from '../../contact.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AddContactComponent } from '../add-contact/add-contact.component';
+import { AddContactModalComponent } from '../contact-modal/add-contact.component';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
@@ -77,10 +77,6 @@ export class ListContactsComponent {
                   this.contact.next(data[i])
                 }
               })
-            }
-            else
-            {
-              this.contact.next(data[21])
             }
             this.appStateService.closeSpinner()
           }
@@ -272,7 +268,7 @@ export class ListContactsComponent {
     {
       top: "5%"
     }
-    let modalRef = this._dialog.open(AddContactComponent, config);
+    let modalRef = this._dialog.open(AddContactModalComponent, config);
     let sub = modalRef.componentInstance.response.subscribe(
       {
         next: (data) =>
@@ -377,7 +373,7 @@ export class ListContactsComponent {
     {
       top: "5%"
     }
-    let modalRef = this._dialog.open(AddContactComponent, config);
+    let modalRef = this._dialog.open(AddContactModalComponent, config);
     let sub = modalRef.componentInstance.response.subscribe(
       {
         next: (data) =>
