@@ -72,25 +72,26 @@ export class ViewContactComponent {
     private service: ContactService,
     private phonePipe: PhoneNumberToFormattedStringPipe,
     private namePipe: ContactNamePipe,
-    private appState: AppStateService){
+    private appState: AppStateService,
+    private cdr: ChangeDetectorRef){
   }
 
-  getContact(value: number)
-  {
-    let sub = this.service.getContact(value, true).subscribe(
-      {
-        next: (data) =>
-        {
-          this.contact = data
-          this.setAddressInputs()
-        },
-        complete: () =>
-        {
-          sub.unsubscribe()
-        }
-      }
-    )
-  }
+  // getContact(value: number)
+  // {
+  //   let sub = this.service.getContact(value, true).subscribe(
+  //     {
+  //       next: (data) =>
+  //       {
+  //         this.contact = data
+  //         this.setAddressInputs()
+  //       },
+  //       complete: () =>
+  //       {
+  //         sub.unsubscribe()
+  //       }
+  //     }
+  //   )
+  // }
 
   setAddressInputs()
   {
@@ -513,7 +514,9 @@ export class ViewContactComponent {
         {
           next: (data) =>
           {
+            console.log(data)
             this.contact.customerContacts?.push(data)
+            this.cdr.detectChanges()
           },
           complete: () =>
           {

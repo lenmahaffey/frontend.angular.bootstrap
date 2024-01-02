@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ViewContactComponent } from './components/view-contact/view-contact.component';
 import { AddContactComponent } from './components/add-contact/add-contact.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { AddressFormComponent } from './components/address-form/address-form.component';
+import { AddAddressFormComponent } from './components/add-address-form/address-form.component';
 import { AddPhoneNumberModalComponent } from './components/add-phone-number-modal/add-phone-number-modal.component';
 import { AddEmailAddressModalComponent } from './components/add-email-address-modal/add-email-address-modal.component';
 import { ContactDroppedDirective } from './pages/dashboard/contact-dropped.directive';
@@ -19,7 +19,7 @@ import { ContactDroppedDirective } from './pages/dashboard/contact-dropped.direc
     ViewContactComponent,
     AddContactComponent,
     DashboardComponent,
-    AddressFormComponent,
+    AddAddressFormComponent,
     AddPhoneNumberModalComponent,
     AddEmailAddressModalComponent,
     ContactDroppedDirective

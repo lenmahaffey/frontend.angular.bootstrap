@@ -1,13 +1,14 @@
 import { Component, Input, OnInit, Output, AfterViewInit, OnChanges, SimpleChanges, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
+import { Contact_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
+import { ContactService } from '../../contact.service';
 
 @Component({
   selector: 'app-address-form',
   templateUrl: './address-form.component.html',
   styleUrls: ['./address-form.component.scss']
 })
-export class AddressFormComponent implements OnInit, OnChanges {
+export class AddAddressFormComponent implements OnInit, OnChanges {
 
   addressForm: any
   @Input() address: PhysicalAddress_DTO
@@ -35,7 +36,7 @@ export class AddressFormComponent implements OnInit, OnChanges {
     return this.addressForm.get('zip')
   }
 
-  constructor()
+  constructor(private service: ContactService)
   {
     this.address = new PhysicalAddress_DTO()
     this.addressForm = new FormGroup({
@@ -86,6 +87,7 @@ export class AddressFormComponent implements OnInit, OnChanges {
   {
     this.delete.next(this.address)
   }
+
   sendUpdate()
   {
     if(this.addressForm.valid && this.addressForm.dirty)
