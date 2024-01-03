@@ -1,8 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { AppStateService } from 'src/app/services/app-state/app-state-service';
-import { Contact_DTO } from 'src/app/shared/api/api.models';
-import { ContactService } from '../../contact.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,14 +7,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  @Input() id = undefined
+  @Input() id: undefined | number
   selectedContactId = 100
 
   constructor(private router: Router)
   {
   }
   ngOnInit(): void {
-    if(this.id != undefined)
+    if(this.id == undefined)
+    {
+      this.router.navigate([`contacts/dashboard/${this.selectedContactId}`])
+    }
+    else
     {
       this.selectedContactId = this.id
     }
@@ -26,8 +26,7 @@ export class DashboardComponent implements OnInit {
 
   onContactSelected(contactId: number)
   {
-    console.log(contactId)
-    this.selectedContactId = contactId
     this.router.navigate([`contacts/dashboard/${contactId}`])
+    this.selectedContactId = contactId
   }
 }

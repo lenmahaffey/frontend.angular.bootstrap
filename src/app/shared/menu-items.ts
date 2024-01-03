@@ -9,13 +9,11 @@ export class MenuItem implements MenuItem{
 }
 
 export interface MenuItemGroup{
-  id: string,
   title: string;
   items: MenuItem[];
 }
 
 export class MenuItemGroup implements MenuItemGroup {
-  id: string = ""
   title: string = ""
   items: MenuItem[] = []
 }

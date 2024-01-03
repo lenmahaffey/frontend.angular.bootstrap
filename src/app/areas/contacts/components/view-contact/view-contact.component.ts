@@ -9,6 +9,9 @@ import { AddEmailAddressModalComponent } from '../email-address-modal/add-email-
 import { AddContactModalComponent } from '../contact-modal/add-contact.component';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
+import { AlertService } from 'src/app/services/alert/alert.service';
+import { Message } from 'src/app/services/message';
+import { MessageType } from 'src/app/services/message-type.interface';
 
 @Component({
   selector: 'app-view-contact',
@@ -32,41 +35,10 @@ export class ViewContactComponent implements OnInit {
   currentBillingAddress: PhysicalAddress_DTO = new PhysicalAddress_DTO()
   currentShippingAddress: PhysicalAddress_DTO = new PhysicalAddress_DTO()
 
-  private _updatedMailingAddress: PhysicalAddress_DTO = new PhysicalAddress_DTO()
-  get updatedMailingAddress()
-  {
-    return this._updatedMailingAddress
-  }
-  set updatedMailingAddress(value: PhysicalAddress_DTO)
-  {
-    this._updatedMailingAddress = value
-  }
-
-  _updatedBillingAddress: PhysicalAddress_DTO = new PhysicalAddress_DTO()
-  get updatedBillingAddress()
-  {
-    return this._updatedBillingAddress
-  }
-  set updatedBillingAddress(value: PhysicalAddress_DTO)
-  {
-    this._updatedBillingAddress = value
-  }
-
-  _updatedShippingAddress: PhysicalAddress_DTO = new PhysicalAddress_DTO()
-  get updatedShippingAddress()
-  {
-    return this._updatedShippingAddress
-  }
-  set updatedShippingAddress(value: PhysicalAddress_DTO)
-  {
-    this._updatedShippingAddress = value
-  }
-
   constructor(
     private _dialog: MatDialog,
     private service: ContactService,
     private phonePipe: PhoneNumberToFormattedStringPipe,
-    private namePipe: ContactNamePipe,
     private appState: AppStateService,
     private cdr: ChangeDetectorRef)
   {}
@@ -82,7 +54,6 @@ export class ViewContactComponent implements OnInit {
         next: (data) =>
         {
           this.contact = data
-          console.log(data)
           this.setAddressInputs()
         },
         complete: () =>
@@ -431,11 +402,17 @@ export class ViewContactComponent implements OnInit {
       {
         next: (data) =>
         {
-          this.contact.contactInformation?.physicalAddresses?.push(address)
+          this.appState.alertMessage.type = MessageType.Success
+          this.appState.alertMessage.text = "The address was updated"
+          this.appState.alertMessage.autoDismiss = true
+          this.appState.sendAlert()
         },
         error: () =>
         {
-
+          this.appState.alertMessage.type = MessageType.Error
+          this.appState.alertMessage.text = "The address was not updated"
+          this.appState.alertMessage.autoDismiss = true
+          this.appState.sendAlert()
         },
         complete: () =>
         {
