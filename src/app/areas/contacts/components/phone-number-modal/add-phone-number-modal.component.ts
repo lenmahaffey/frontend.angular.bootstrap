@@ -59,16 +59,7 @@ export class AddPhoneNumberModalComponent {
       }
     )
   }
-  // inputChanged(input:any)
-  // {
-  //   let s = this.stringToPhoneNumber.transform(input)
-  //   let formattedString = this.stringPipe.transform(input)
-  //   this.phoneNumberInput.patchValue(
-  //     {
-  //       number: formattedString
-  //     }
-  //   )
-  // }
+
   sendResponse(response: any)
   {
     if(response == undefined)

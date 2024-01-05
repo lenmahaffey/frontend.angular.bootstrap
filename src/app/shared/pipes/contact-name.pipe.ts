@@ -12,12 +12,14 @@ export class ContactNamePipe implements PipeTransform {
       return contact.businessName!
     }
 
-    const fullName = `${contact.firstName} ${contact.middleName != null ? contact.middleName : '' } ${contact.lastName} ${contact.suffix != null ? contact.suffix : ''}`
-    const preferredName = `${contact.preferredName} ${contact.lastName}`
-    if(contact.preferredName != undefined)
-    {
-      return preferredName
-    }
+    const prefix = contact.prefix != undefined ? contact.prefix : ''
+    const firstName = contact.preferredName != undefined ? contact.preferredName : contact.firstName
+    const middleName = contact.middleName != undefined ? contact.middleName : ''
+    const lastName = contact.lastName
+    const suffix = contact.suffix != undefined ? contact.suffix : ''
+    let fullName = `${prefix} ${firstName} ${middleName} ${lastName}`
+    suffix != undefined ? fullName += ` ${suffix}` : null
+    fullName = fullName.trim()
     return fullName
   }
 

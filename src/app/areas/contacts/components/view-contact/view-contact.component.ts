@@ -12,6 +12,7 @@ import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
+import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 
 @Component({
   selector: 'app-view-contact',
@@ -39,6 +40,7 @@ export class ViewContactComponent implements OnInit {
     private _dialog: MatDialog,
     private service: ContactService,
     private phonePipe: PhoneNumberToFormattedStringPipe,
+    private namePipe: ContactNamePipe,
     private appState: AppStateService,
     private cdr: ChangeDetectorRef)
   {}
@@ -74,9 +76,8 @@ export class ViewContactComponent implements OnInit {
     this.currentShippingAddress.addressType = AddressType.Shipping
   }
 
-  openAddPhoneNumberModal(number: PhoneNumber_DTO | undefined)
+  openAddPhoneNumberModal(number?: PhoneNumber_DTO)
   {
-    const bodyRect = document.body.getBoundingClientRect();
     var config = new MatDialogConfig()
     config.data =
     {
@@ -107,43 +108,132 @@ export class ViewContactComponent implements OnInit {
     )
   }
 
-  openDeletePhoneNumberModal(number: PhoneNumber_DTO | undefined)
+  openDeletePhoneNumberModal(number: PhoneNumber_DTO)
   {
-    const bodyRect = document.body.getBoundingClientRect();
-    var config = new MatDialogConfig()
-    config.data =
-    {
-      dto: number = number,
-      title: "Delete Phone Number",
-      text: `Are you sure you want to delete ${this.phonePipe.transform(number!)}`,
-      yesButtonText: "yes",
-      noButtonText: "no",
-    }
-    config.disableClose = false;
-    config.position =
-    {
-      top: "5%"
-    }
-    config.autoFocus = false
-    let modalRef = this._dialog.open(ConfirmationDialogComponent, config);
-    let sub = modalRef.componentInstance.response.subscribe(
+    var options = new ConfirmationDialogOptions()
+    options.title = "Delete Phone Number",
+    options.text = `Are you sure you want to delete ${this.phonePipe.transform(number!)}?`,
+    options.yesButtonText = "yes",
+    options.noButtonText = "no",
+    this.appState.openConfirmationDialog(options).subscribe(
       {
-        next: (data) =>
+        next: (response) =>
         {
-          this.deletePhoneNumber(number!)
+          response == true ? this.deletePhoneNumber(number) : null
+        },
+        error: () =>
+        {
+
         },
         complete: () =>
         {
-          modalRef.close()
+          this.appState.closeConfirmationDialog()
+        }
+      }
+    )
+  }
+
+  addPhoneNumber(number: PhoneNumber_DTO)
+  {
+    const options = new MatDialogConfig()
+    options.data =
+    {
+      message: "Adding phone number"
+    }
+    this.appState.openSpinner(options)
+    number.contactInformationId = this.contact.contactInformation?.id ?? 0
+    let sub = this.service.AddPhoneNumber(number).subscribe(
+      {
+        next: (data) =>
+        {
+          this.contact.contactInformation?.phoneNumbers?.push(data)
+          this.appState.alertMessage = new Message(MessageType.Success, `${this.phonePipe.transform(number)} has been added to ${this.namePipe.transform(this.contact)}'s phone numbers.`)
+          this.appState.sendAlert()
+          this.appState.closeSpinner()
+        },
+        error: () =>
+        {
+
+        },
+        complete: () =>
+        {
           sub.unsubscribe()
         }
       }
     )
   }
 
-  openAddEmailAddressModal(address:EmailAddress_DTO | undefined)
+  updatePhoneNumber(number: PhoneNumber_DTO)
   {
-    const bodyRect = document.body.getBoundingClientRect();
+    const options = new MatDialogConfig()
+    options.data =
+    {
+      message: "Updating phone number"
+    }
+    this.appState.openSpinner(options)
+    let sub = this.service.UpdatePhoneNumber(number).subscribe(
+      {
+        next: (data) =>
+        {
+          console.log("updated:")
+          console.log(data)
+          var i = this.contact.contactInformation?.phoneNumbers?.indexOf(number)
+          if (i != undefined)
+          {
+            this.contact.contactInformation?.phoneNumbers?.splice(i ,1)
+          }
+          this.contact.contactInformation?.phoneNumbers?.push(data)
+          this.appState.alertMessage = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s phone numbers have been updated.`)
+          this.appState.sendAlert()
+          this.appState.closeSpinner()
+        },
+        error: () =>
+        {
+
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
+        }
+      }
+    )
+  }
+
+  deletePhoneNumber(number: PhoneNumber_DTO)
+  {
+    const options = new MatDialogConfig()
+    options.data =
+    {
+      message: "Deleting phone number"
+    }
+    this.appState.openSpinner(options)
+    let sub = this.service.DeletePhoneNumber(number).subscribe(
+      {
+        next: () =>
+        {
+          var i = this.contact.contactInformation?.phoneNumbers?.indexOf(number)
+          if (i != undefined)
+          {
+            this.contact.contactInformation?.phoneNumbers?.splice(i ,1)
+            this.appState.alertMessage = new Message(MessageType.Success, `${this.phonePipe.transform(number)} has been deleted.`)
+            this.appState.sendAlert()
+            this.appState.closeSpinner()
+          }
+        },
+        error: () =>
+        {
+
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
+        }
+      }
+    )
+  }
+
+  openAddEmailAddressModal(address?:EmailAddress_DTO)
+  {
     var config = new MatDialogConfig()
     config.data =
     {
@@ -176,98 +266,21 @@ export class ViewContactComponent implements OnInit {
 
   openDeleteEmailAddressModal(address:EmailAddress_DTO | undefined)
   {
-    const bodyRect = document.body.getBoundingClientRect();
-    var config = new MatDialogConfig()
-    config.data =
-    {
-      dto: address,
-      title: "Delete Email Address",
-      text: `Are you sure you want to delete ${address?.address}`,
-      yesButtonText: "yes",
-      noButtonText: "no",
-    }
-    config.disableClose = false;
-    config.position =
-    {
-      top: "5%"
-    }
-    config.autoFocus = false
-    let modalRef = this._dialog.open(ConfirmationDialogComponent, config);
-    let sub = modalRef.componentInstance.response.subscribe(
+    var options = new ConfirmationDialogOptions()
+    options.title = "Delete Email Address"
+    options.text = `Are you sure you want to delete ${address?.address}?`
+    options.yesButtonText = "yes"
+    options.noButtonText = "no"
+
+    let sub = this.appState.openConfirmationDialog(options).subscribe(
       {
-        next: (data) =>
+        next: (response) =>
         {
-          this.deleteEmailAddress(address!)
+          response == true ? this.deleteEmailAddress(address!) : null
         },
         complete: () =>
         {
-          modalRef.close()
-          sub.unsubscribe()
-        }
-      }
-    )
-  }
-
-  addPhoneNumber(number: PhoneNumber_DTO)
-  {
-    number.contactInformationId = this.contact.contactInformation?.id ?? 0
-    let sub = this.service.AddPhoneNumber(number).subscribe(
-      {
-        next: (data) =>
-        {
-          this.contact.contactInformation?.phoneNumbers?.push(data)
-        },
-        error: () =>
-        {
-
-        },
-        complete: () =>
-        {
-          sub.unsubscribe()
-        }
-      }
-    )
-  }
-
-  updatePhoneNumber(number: PhoneNumber_DTO)
-  {
-    let sub = this.service.UpdatePhoneNumber(number).subscribe(
-      {
-        next: (data) =>
-        {
-          var i = this.contact.contactInformation?.phoneNumbers?.indexOf(number)
-          if (i != undefined)
-            this.contact.contactInformation?.phoneNumbers?.splice(i ,1)
-          this.contact.contactInformation?.phoneNumbers?.push(data)
-        },
-        error: () =>
-        {
-
-        },
-        complete: () =>
-        {
-          sub.unsubscribe()
-        }
-      }
-    )
-  }
-
-  deletePhoneNumber(number: PhoneNumber_DTO)
-  {
-    let sub = this.service.DeletePhoneNumber(number).subscribe(
-      {
-        next: (data) =>
-        {
-          var i = this.contact.contactInformation?.phoneNumbers?.indexOf(number)
-          if (i != undefined)
-            this.contact.contactInformation?.phoneNumbers?.splice(i ,1)
-        },
-        error: () =>
-        {
-
-        },
-        complete: () =>
-        {
+          this.appState.closeConfirmationDialog()
           sub.unsubscribe()
         }
       }
@@ -276,12 +289,21 @@ export class ViewContactComponent implements OnInit {
 
   addEmailAddress(address:EmailAddress_DTO)
   {
+    const options = new MatDialogConfig()
+    options.data =
+    {
+      message: "Adding email address"
+    }
+    this.appState.openSpinner(options)
     address.contactInformationId = this.contact.contactInformation?.id ?? 0
     let sub = this.service.AddEmailAddress(address).subscribe(
       {
         next: (data) =>
         {
           this.contact.contactInformation?.emailAddresses?.push(data)
+          this.appState.alertMessage = new Message(MessageType.Success, `${address.address} has been added to ${this.namePipe.transform(this.contact)}.`)
+          this.appState.sendAlert()
+          this.appState.closeSpinner()
         },
         error: () =>
         {
@@ -297,6 +319,12 @@ export class ViewContactComponent implements OnInit {
 
   updateEmailAddress(address:EmailAddress_DTO)
   {
+    const options = new MatDialogConfig()
+    options.data =
+    {
+      message: "Updating email address"
+    }
+    this.appState.openSpinner(options)
     let sub = this.service.UpdateEmailAddress(address).subscribe(
       {
         next: (data) =>
@@ -309,8 +337,13 @@ export class ViewContactComponent implements OnInit {
             }
           });
           if (index != undefined)
+          {
             this.contact.contactInformation?.emailAddresses?.splice(index)
+          }
           this.contact.contactInformation?.emailAddresses?.push(data)
+          this.appState.alertMessage = new Message(MessageType.Success, `${address.address} has been updated.`)
+          this.appState.sendAlert()
+          this.appState.closeSpinner()
         },
         error: () =>
         {
@@ -326,6 +359,12 @@ export class ViewContactComponent implements OnInit {
 
   deleteEmailAddress(address:EmailAddress_DTO)
   {
+    const options = new MatDialogConfig()
+    options.data =
+    {
+      message: "Deleting email address"
+    }
+    this.appState.openSpinner(options)
     let sub = this.service.DeleteEmailAddress(address).subscribe(
       {
         next: (data) =>
@@ -338,7 +377,11 @@ export class ViewContactComponent implements OnInit {
             }
           });
           if (index != undefined)
+          {
             this.contact.contactInformation?.emailAddresses?.splice(index ,1)
+          }
+          this.appState.alertMessage = new Message(MessageType.Success, `${address.address} has been deleted.`)
+          this.appState.sendAlert()
         },
         error: () =>
         {
@@ -354,6 +397,7 @@ export class ViewContactComponent implements OnInit {
 
   onAddressReceived(address: PhysicalAddress_DTO)
   {
+    console.log(address)
     if(address.id > 0)
     {
       this.updatePhysicalAddress(address)
@@ -381,8 +425,12 @@ export class ViewContactComponent implements OnInit {
             }
           });
           if (index != undefined)
+          {
             this.contact.contactInformation?.physicalAddresses?.splice(index)
+          }
           this.contact.contactInformation?.physicalAddresses?.push(data)
+          this.appState.alertMessage = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been added.`)
+          this.appState.sendAlert()
         },
         error: () =>
         {
@@ -402,15 +450,26 @@ export class ViewContactComponent implements OnInit {
       {
         next: (data) =>
         {
-          this.appState.alertMessage.type = MessageType.Success
-          this.appState.alertMessage.text = "The address was updated"
-          this.appState.alertMessage.autoDismiss = true
+          var index: number | undefined
+          this.contact.contactInformation?.physicalAddresses?.forEach((e, i) => {
+            if (e.id == address.id)
+            {
+              index = i
+            }
+          });
+          if (index != undefined)
+          {
+            this.contact.contactInformation?.physicalAddresses?.splice(index)
+          }
+          this.contact.contactInformation?.physicalAddresses?.push(data)
+          this.appState.alertMessage = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been updated.`)
           this.appState.sendAlert()
         },
-        error: () =>
+        error: (error) =>
         {
+          console.log(error)
           this.appState.alertMessage.type = MessageType.Error
-          this.appState.alertMessage.text = "The address was not updated"
+          this.appState.alertMessage.text = error.toString()
           this.appState.alertMessage.autoDismiss = true
           this.appState.sendAlert()
         },
@@ -426,7 +485,7 @@ export class ViewContactComponent implements OnInit {
   {
     let sub = this.service.DeletePhysicalAddress(address).subscribe(
       {
-        next: (data) =>
+        next: () =>
         {
           var index: number | undefined
           this.contact.contactInformation?.physicalAddresses?.forEach((e, i) => {
@@ -436,8 +495,12 @@ export class ViewContactComponent implements OnInit {
             }
           });
           if (index != undefined)
+          {
             this.contact.contactInformation?.physicalAddresses?.splice(index ,1)
+          }
           this.setAddressInputs()
+          this.appState.alertMessage = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been deleted.`)
+          this.appState.sendAlert()
         },
         error: () =>
         {
@@ -487,7 +550,6 @@ export class ViewContactComponent implements OnInit {
         {
           next: (data) =>
           {
-            console.log(data)
             this.contact.customerContacts?.push(data)
             this.cdr.detectChanges()
           },

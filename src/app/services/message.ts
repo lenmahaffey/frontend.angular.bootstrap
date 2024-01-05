@@ -1,18 +1,20 @@
 import { MessageType } from "./message-type.interface"
 
-export class Message {
+export interface Message{
   title: string
   text: string
   type: MessageType
   time: Date
   autoDismiss: boolean
   duration: number
+}
 
-  constructor(type?: MessageType, message: string = "") {
+export class Message implements Message {
+
+  constructor(type?: MessageType, message: string = "There was an error", autoDismiss: boolean = true) {
     this.type = type ?? MessageType.Error
-    this.autoDismiss = false
+    this.autoDismiss = autoDismiss
     this.time = new Date()
-    this.title = ""
     this.text = message
     this.duration = 3
   }
