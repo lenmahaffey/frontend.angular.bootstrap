@@ -153,7 +153,11 @@ export class ViewContactComponent implements OnInit {
         },
         error: () =>
         {
-
+          this.appState.closeSpinner()
+          this.appState.alertMessage.type = MessageType.Error
+          this.appState.alertMessage.text = "There was an error and the phone number could not be added"
+          this.appState.alertMessage.autoDismiss = true
+          this.appState.sendAlert()
         },
         complete: () =>
         {
@@ -189,7 +193,11 @@ export class ViewContactComponent implements OnInit {
         },
         error: () =>
         {
-
+          this.appState.closeSpinner()
+          this.appState.alertMessage.type = MessageType.Error
+          this.appState.alertMessage.text = "There was an error and the phone number could not be updated"
+          this.appState.alertMessage.autoDismiss = true
+          this.appState.sendAlert()
         },
         complete: () =>
         {
@@ -222,7 +230,11 @@ export class ViewContactComponent implements OnInit {
         },
         error: () =>
         {
-
+          this.appState.closeSpinner()
+          this.appState.alertMessage.type = MessageType.Error
+          this.appState.alertMessage.text = "There was an error and the phone number could not be deleted"
+          this.appState.alertMessage.autoDismiss = true
+          this.appState.sendAlert()
         },
         complete: () =>
         {
@@ -307,7 +319,11 @@ export class ViewContactComponent implements OnInit {
         },
         error: () =>
         {
-
+          this.appState.closeSpinner()
+          this.appState.alertMessage.type = MessageType.Error
+          this.appState.alertMessage.text = "There was an error and the email address could not be added"
+          this.appState.alertMessage.autoDismiss = true
+          this.appState.sendAlert()
         },
         complete: () =>
         {
@@ -347,7 +363,11 @@ export class ViewContactComponent implements OnInit {
         },
         error: () =>
         {
-
+          this.appState.closeSpinner()
+          this.appState.alertMessage.type = MessageType.Error
+          this.appState.alertMessage.text = "There was an error and the email address could not be updated"
+          this.appState.alertMessage.autoDismiss = true
+          this.appState.sendAlert()
         },
         complete: () =>
         {
@@ -385,7 +405,11 @@ export class ViewContactComponent implements OnInit {
         },
         error: () =>
         {
-
+          this.appState.closeSpinner()
+          this.appState.alertMessage.type = MessageType.Error
+          this.appState.alertMessage.text = "There was an error and the email address could not be deleted"
+          this.appState.alertMessage.autoDismiss = true
+          this.appState.sendAlert()
         },
         complete: () =>
         {
@@ -411,6 +435,12 @@ export class ViewContactComponent implements OnInit {
 
   addPhysicalAddress(address: PhysicalAddress_DTO)
   {
+    const options = new MatDialogConfig()
+    options.data =
+    {
+      message: `Adding new ${AddressType[address.addressType].toLowerCase()} address`
+    }
+    this.appState.openSpinner(options)
     address.id = 0
     address.contactInformationId = this.contact.contactInformation?.id ?? 0
     let sub = this.service.AddPhysicalAddress(address).subscribe(
@@ -418,7 +448,8 @@ export class ViewContactComponent implements OnInit {
         next: (data) =>
         {
           var index: number | undefined
-          this.contact.contactInformation?.physicalAddresses?.forEach((e, i) => {
+          this.contact.contactInformation?.physicalAddresses?.forEach((e, i) =>
+          {
             if (e.id == address.id)
             {
               index = i
@@ -429,12 +460,19 @@ export class ViewContactComponent implements OnInit {
             this.contact.contactInformation?.physicalAddresses?.splice(index)
           }
           this.contact.contactInformation?.physicalAddresses?.push(data)
+          this.setAddressInputs()
+          this.appState.closeSpinner()
           this.appState.alertMessage = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been added.`)
           this.appState.sendAlert()
+
         },
         error: () =>
         {
-
+          this.appState.closeSpinner()
+          this.appState.alertMessage.type = MessageType.Error
+          this.appState.alertMessage.text = `There was an error and the ${AddressType[address.addressType].toLowerCase()} could not be added`
+          this.appState.alertMessage.autoDismiss = true
+          this.appState.sendAlert()
         },
         complete: () =>
         {
@@ -446,6 +484,12 @@ export class ViewContactComponent implements OnInit {
 
   updatePhysicalAddress(address: PhysicalAddress_DTO)
   {
+    const options = new MatDialogConfig()
+    options.data =
+    {
+      message: `Updating ${AddressType[address.addressType].toLowerCase()} address`
+    }
+    this.appState.openSpinner(options)
     let sub = this.service.UpdatePhysicalAddress(address).subscribe(
       {
         next: (data) =>
@@ -462,14 +506,16 @@ export class ViewContactComponent implements OnInit {
             this.contact.contactInformation?.physicalAddresses?.splice(index)
           }
           this.contact.contactInformation?.physicalAddresses?.push(data)
+          this.setAddressInputs()
+          this.appState.closeSpinner()
           this.appState.alertMessage = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been updated.`)
           this.appState.sendAlert()
         },
         error: (error) =>
         {
-          console.log(error)
+          this.appState.closeSpinner()
           this.appState.alertMessage.type = MessageType.Error
-          this.appState.alertMessage.text = error.toString()
+          this.appState.alertMessage.text = `There was an error and the ${AddressType[address.addressType].toLowerCase()} could not be updated`
           this.appState.alertMessage.autoDismiss = true
           this.appState.sendAlert()
         },
@@ -483,10 +529,17 @@ export class ViewContactComponent implements OnInit {
 
   deletePhysicalAddress(address: PhysicalAddress_DTO)
   {
+    const options = new MatDialogConfig()
+    options.data =
+    {
+      message: `Deleting ${AddressType[address.addressType].toLowerCase()} address`
+    }
+    this.appState.openSpinner(options)
     let sub = this.service.DeletePhysicalAddress(address).subscribe(
       {
         next: () =>
         {
+          //Find the address
           var index: number | undefined
           this.contact.contactInformation?.physicalAddresses?.forEach((e, i) => {
             if (e.id == address.id)
@@ -494,17 +547,23 @@ export class ViewContactComponent implements OnInit {
               index = i
             }
           });
+          //Delete the address if it exists
           if (index != undefined)
           {
-            this.contact.contactInformation?.physicalAddresses?.splice(index ,1)
+            this.contact.contactInformation?.physicalAddresses?.splice(index, 1)
+            this.setAddressInputs()
+            this.appState.closeSpinner()
+            this.appState.alertMessage = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been deleted.`)
+            this.appState.sendAlert()
           }
-          this.setAddressInputs()
-          this.appState.alertMessage = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been deleted.`)
-          this.appState.sendAlert()
         },
         error: () =>
         {
-
+          this.appState.closeSpinner()
+          this.appState.alertMessage.type = MessageType.Error
+          this.appState.alertMessage.text = `There was an error and the ${AddressType[address.addressType].toLowerCase()} could not be deleted`
+          this.appState.alertMessage.autoDismiss = true
+          this.appState.sendAlert()
         },
         complete: () =>
         {
