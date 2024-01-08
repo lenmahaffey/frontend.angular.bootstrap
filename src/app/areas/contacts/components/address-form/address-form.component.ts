@@ -59,7 +59,6 @@ export class AddAddressFormComponent implements OnInit, OnChanges {
         Validators.required,
         Validators.maxLength(10),
       ]),
-      delete: new FormControl(false)
     })
   }
 
