@@ -68,6 +68,7 @@ export class AlertComponent implements AfterViewInit{
   dismissAlert()
   {
     this.isVisible = 'hidden'
+    this.message.isDismissed = true
   }
 
   async dismissAlertInTime(timeToWait: number ) {

@@ -7,6 +7,7 @@ export interface Message{
   time: Date
   autoDismiss: boolean
   duration: number
+  isDismissed: boolean
 }
 
 export class Message implements Message {
@@ -17,6 +18,7 @@ export class Message implements Message {
     this.time = new Date()
     this.text = message
     this.duration = 3
+    this.isDismissed = false
   }
 }
 
