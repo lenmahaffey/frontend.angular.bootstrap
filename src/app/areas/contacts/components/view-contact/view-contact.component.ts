@@ -549,11 +549,11 @@ export class ViewContactComponent implements OnInit {
           if (index != undefined)
           {
             this.contact.contactInformation?.physicalAddresses?.splice(index, 1)
-            this.setAddressInputs()
-            this.appState.closeSpinner()
-            this.appState.alertMessage = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been deleted.`)
-            this.appState.sendAlert()
           }
+          this.setAddressInputs()
+          this.appState.closeSpinner()
+          this.appState.alertMessage = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been deleted.`)
+          this.appState.sendAlert()
         },
         error: () =>
         {

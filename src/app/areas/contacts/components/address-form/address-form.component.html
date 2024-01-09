@@ -36,10 +36,10 @@
   </div>
   <div class="flexRow buttons">
     <div class="flexItem flexRow">
-      <button class="autoMargin" type="submit" mat-raised-button color="primary">Save</button>
+      <button class="autoMargin" type="submit" mat-raised-button color="primary" [disabled]="addressForm.invalid">Save</button>
     </div>
     <div class="flexItem flexRow">
-      <button class="autoMargin" type="button" mat-raised-button color="warn" (click)="deleteAddress()">Delete</button>
+      <button class="autoMargin" type="button" mat-raised-button color="warn" (click)="deleteAddress()" [disabled]="address.id == 0">Delete</button>
     </div>
   </div>
 </form>

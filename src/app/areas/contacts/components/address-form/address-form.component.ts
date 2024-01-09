@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, AfterViewInit, OnChanges, SimpleChanges, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Contact_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
+import { PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
 import { ContactService } from '../../contact.service';
 
 @Component({
