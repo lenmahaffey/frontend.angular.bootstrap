@@ -14,7 +14,7 @@ import { InventorySideBarNavLinks } from '../inventory-side-bar-links';
   styleUrls: ['./inventory-import.component.scss']
 })
 export class InventoryImportComponent {
-  
+
   links: InventorySideBarNavLinks = new InventorySideBarNavLinks()
   constructor(private appStateService: AppStateService,
               private alertService:AlertService,
@@ -29,11 +29,7 @@ export class InventoryImportComponent {
 
   ImportInventoryItems(file: File)
   {
-    let message = "Uploading File"
-    let spinnerConfig = new MatDialogConfig()
-    spinnerConfig.disableClose = true
-    spinnerConfig.data = {message: message}
-    this.appStateService.openSpinner(spinnerConfig);
+    this.appStateService.openSpinner("Uploading File");
     this.api.ImportInventoryItems(file).subscribe(
       {
         next: (event) =>

@@ -105,12 +105,7 @@ export class DemoComponent implements OnDestroy, OnInit {
 
   openSpinner()
   {
-    var config = new MatDialogConfig()
-    config.data =
-    {
-      message: "Fetching Data",
-    }
-    this.appStateService.openSpinner(config);
+    this.appStateService.openSpinner("Fetching Data");
   }
 
   setConfirmationResponseMessage(data: boolean | null)

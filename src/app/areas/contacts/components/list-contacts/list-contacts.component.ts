@@ -22,9 +22,19 @@ export class ListContactsComponent {
   sortOptions: string = ""
   searchFormGroup: any
   filteredList: Contact_DTO[] = []
-  @Input() contactList: Contact_DTO[] = []
+  contactList: Contact_DTO[] = []
   @Output() contact = new EventEmitter<Contact_DTO>()
 
+  getUpdatedContact()
+  {
+    return this._updatedContact
+  }
+
+  @Input() setUpdatedContact()
+  {
+    this.listAllContacts()
+  }
+  private _updatedContact: Contact_DTO | undefined
   constructor(private alertService: AlertService,
      private service: ContactService,
      private _dialog: MatDialog,
@@ -53,12 +63,7 @@ export class ListContactsComponent {
   {
     if(spinner)
     {
-      const config:MatDialogConfig = new MatDialogConfig()
-      config.data =
-      {
-        message: "Getting Contacts",
-      }
-      this.appStateService.openSpinner(config)
+      this.appStateService.openSpinner("Getting Contacts")
     }
     const sub = this.service.listAllContacts(true).subscribe(
       {
@@ -333,12 +338,7 @@ export class ListContactsComponent {
 
   deleteContact(contact: Contact_DTO)
   {
-    const options = new MatDialogConfig()
-    options.data =
-    {
-      message: "Deleteing Contact"
-    }
-    this.appStateService.openSpinner(options)
+    this.appStateService.openSpinner("Deleteing Contact")
     const sub = this.service.DeleteContact(contact).subscribe(
       {
         next: (data) =>

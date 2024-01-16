@@ -80,10 +80,7 @@ export class GroupItemsComponent {
 
   getInventoryItems()
   {
-    const spinnerConfig = new MatDialogConfig()
-    spinnerConfig.disableClose = true
-    spinnerConfig.data = {message: "Getting Inventory"}
-    this.appStateService.openSpinner(spinnerConfig);
+    this.appStateService.openSpinner("Getting Inventory");
     const sub = this.api.ListInventoryItems(this.category, undefined, this.subType).subscribe({
       next: (data) =>
       {

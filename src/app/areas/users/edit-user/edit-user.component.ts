@@ -72,15 +72,9 @@ export class EditUserComponent {
               private stringToPhone: StringToPhoneNumberPipe,)
     {
     this.id = Number(this.route.snapshot.paramMap.get('id')) || 0;
-    this.config.data =
-    {
-      message: "Fetching User Data",
-    }
-    this.config.disableClose = true
-
     if(this.id != 0)
     {
-      this.appStateService.openSpinner(this.config);
+      this.appStateService.openSpinner("Fetching User Data",);
       this.api.getUser(this.id).subscribe(
         {
           next: (data) =>
@@ -202,8 +196,7 @@ export class EditUserComponent {
 
   updateUser()
   {
-    this.config.data.message = "Updateing Profile"
-    this.appStateService.openSpinner(this.config)
+    this.appStateService.openSpinner("Updating Profile")
     let userUpdate = this.user
 
     this.updateUserWithNameFormValues(userUpdate)

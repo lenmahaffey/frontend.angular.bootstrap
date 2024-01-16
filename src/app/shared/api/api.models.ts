@@ -174,7 +174,7 @@ export class Competitor_DTO implements ICompetitor_DTO {
     id!: number;
     contactId!: number;
     contact?: Contact_DTO | undefined;
-    contacts?: CompetitorContact_DTO[] | undefined;
+    competitorContacts?: CompetitorContact_DTO[] | undefined;
 
     constructor(data?: ICompetitor_DTO) {
         if (data) {
@@ -190,10 +190,10 @@ export class Competitor_DTO implements ICompetitor_DTO {
             this.id = _data["id"];
             this.contactId = _data["contactId"];
             this.contact = _data["contact"] ? Contact_DTO.fromJS(_data["contact"]) : <any>undefined;
-            if (Array.isArray(_data["contacts"])) {
-                this.contacts = [] as any;
-                for (let item of _data["contacts"])
-                    this.contacts!.push(CompetitorContact_DTO.fromJS(item));
+            if (Array.isArray(_data["competitorContacts"])) {
+                this.competitorContacts = [] as any;
+                for (let item of _data["competitorContacts"])
+                    this.competitorContacts!.push(CompetitorContact_DTO.fromJS(item));
             }
         }
     }
@@ -210,10 +210,10 @@ export class Competitor_DTO implements ICompetitor_DTO {
         data["id"] = this.id;
         data["contactId"] = this.contactId;
         data["contact"] = this.contact ? this.contact.toJSON() : <any>undefined;
-        if (Array.isArray(this.contacts)) {
-            data["contacts"] = [];
-            for (let item of this.contacts)
-                data["contacts"].push(item.toJSON());
+        if (Array.isArray(this.competitorContacts)) {
+            data["competitorContacts"] = [];
+            for (let item of this.competitorContacts)
+                data["competitorContacts"].push(item.toJSON());
         }
         return data;
     }
@@ -223,7 +223,7 @@ export interface ICompetitor_DTO {
     id: number;
     contactId: number;
     contact?: Contact_DTO | undefined;
-    contacts?: CompetitorContact_DTO[] | undefined;
+    competitorContacts?: CompetitorContact_DTO[] | undefined;
 }
 
 export class CompetitorContact_DTO implements ICompetitorContact_DTO {
@@ -848,7 +848,7 @@ export class Manufacturer_DTO implements IManufacturer_DTO {
     id!: number;
     contactId!: number;
     contact?: Contact_DTO | undefined;
-    contacts?: ManufacturerContact_DTO[] | undefined;
+    manufacturerContacts?: ManufacturerContact_DTO[] | undefined;
 
     constructor(data?: IManufacturer_DTO) {
         if (data) {
@@ -864,10 +864,10 @@ export class Manufacturer_DTO implements IManufacturer_DTO {
             this.id = _data["id"];
             this.contactId = _data["contactId"];
             this.contact = _data["contact"] ? Contact_DTO.fromJS(_data["contact"]) : <any>undefined;
-            if (Array.isArray(_data["contacts"])) {
-                this.contacts = [] as any;
-                for (let item of _data["contacts"])
-                    this.contacts!.push(ManufacturerContact_DTO.fromJS(item));
+            if (Array.isArray(_data["manufacturerContacts"])) {
+                this.manufacturerContacts = [] as any;
+                for (let item of _data["manufacturerContacts"])
+                    this.manufacturerContacts!.push(ManufacturerContact_DTO.fromJS(item));
             }
         }
     }
@@ -884,10 +884,10 @@ export class Manufacturer_DTO implements IManufacturer_DTO {
         data["id"] = this.id;
         data["contactId"] = this.contactId;
         data["contact"] = this.contact ? this.contact.toJSON() : <any>undefined;
-        if (Array.isArray(this.contacts)) {
-            data["contacts"] = [];
-            for (let item of this.contacts)
-                data["contacts"].push(item.toJSON());
+        if (Array.isArray(this.manufacturerContacts)) {
+            data["manufacturerContacts"] = [];
+            for (let item of this.manufacturerContacts)
+                data["manufacturerContacts"].push(item.toJSON());
         }
         return data;
     }
@@ -897,7 +897,7 @@ export interface IManufacturer_DTO {
     id: number;
     contactId: number;
     contact?: Contact_DTO | undefined;
-    contacts?: ManufacturerContact_DTO[] | undefined;
+    manufacturerContacts?: ManufacturerContact_DTO[] | undefined;
 }
 
 export class ManufacturerContact_DTO implements IManufacturerContact_DTO {
@@ -952,7 +952,7 @@ export class Vendor_DTO implements IVendor_DTO {
     id!: number;
     contactId!: number;
     contact?: Contact_DTO | undefined;
-    contacts?: VendorContact_DTO[] | undefined;
+    vendorContacts?: VendorContact_DTO[] | undefined;
 
     constructor(data?: IVendor_DTO) {
         if (data) {
@@ -968,10 +968,10 @@ export class Vendor_DTO implements IVendor_DTO {
             this.id = _data["id"];
             this.contactId = _data["contactId"];
             this.contact = _data["contact"] ? Contact_DTO.fromJS(_data["contact"]) : <any>undefined;
-            if (Array.isArray(_data["contacts"])) {
-                this.contacts = [] as any;
-                for (let item of _data["contacts"])
-                    this.contacts!.push(VendorContact_DTO.fromJS(item));
+            if (Array.isArray(_data["vendorContacts"])) {
+                this.vendorContacts = [] as any;
+                for (let item of _data["vendorContacts"])
+                    this.vendorContacts!.push(VendorContact_DTO.fromJS(item));
             }
         }
     }
@@ -988,10 +988,10 @@ export class Vendor_DTO implements IVendor_DTO {
         data["id"] = this.id;
         data["contactId"] = this.contactId;
         data["contact"] = this.contact ? this.contact.toJSON() : <any>undefined;
-        if (Array.isArray(this.contacts)) {
-            data["contacts"] = [];
-            for (let item of this.contacts)
-                data["contacts"].push(item.toJSON());
+        if (Array.isArray(this.vendorContacts)) {
+            data["vendorContacts"] = [];
+            for (let item of this.vendorContacts)
+                data["vendorContacts"].push(item.toJSON());
         }
         return data;
     }
@@ -1001,7 +1001,7 @@ export interface IVendor_DTO {
     id: number;
     contactId: number;
     contact?: Contact_DTO | undefined;
-    contacts?: VendorContact_DTO[] | undefined;
+    vendorContacts?: VendorContact_DTO[] | undefined;
 }
 
 export class VendorContact_DTO implements IVendorContact_DTO {
@@ -1056,7 +1056,7 @@ export class Venue_DTO implements IVenue_DTO {
     id!: number;
     contactId!: number;
     contact?: Contact_DTO | undefined;
-    contacts?: VenueContact_DTO[] | undefined;
+    venueContacts?: VenueContact_DTO[] | undefined;
 
     constructor(data?: IVenue_DTO) {
         if (data) {
@@ -1072,10 +1072,10 @@ export class Venue_DTO implements IVenue_DTO {
             this.id = _data["id"];
             this.contactId = _data["contactId"];
             this.contact = _data["contact"] ? Contact_DTO.fromJS(_data["contact"]) : <any>undefined;
-            if (Array.isArray(_data["contacts"])) {
-                this.contacts = [] as any;
-                for (let item of _data["contacts"])
-                    this.contacts!.push(VenueContact_DTO.fromJS(item));
+            if (Array.isArray(_data["venueContacts"])) {
+                this.venueContacts = [] as any;
+                for (let item of _data["venueContacts"])
+                    this.venueContacts!.push(VenueContact_DTO.fromJS(item));
             }
         }
     }
@@ -1092,10 +1092,10 @@ export class Venue_DTO implements IVenue_DTO {
         data["id"] = this.id;
         data["contactId"] = this.contactId;
         data["contact"] = this.contact ? this.contact.toJSON() : <any>undefined;
-        if (Array.isArray(this.contacts)) {
-            data["contacts"] = [];
-            for (let item of this.contacts)
-                data["contacts"].push(item.toJSON());
+        if (Array.isArray(this.venueContacts)) {
+            data["venueContacts"] = [];
+            for (let item of this.venueContacts)
+                data["venueContacts"].push(item.toJSON());
         }
         return data;
     }
@@ -1105,7 +1105,7 @@ export interface IVenue_DTO {
     id: number;
     contactId: number;
     contact?: Contact_DTO | undefined;
-    contacts?: VenueContact_DTO[] | undefined;
+    venueContacts?: VenueContact_DTO[] | undefined;
 }
 
 export class VenueContact_DTO implements IVenueContact_DTO {

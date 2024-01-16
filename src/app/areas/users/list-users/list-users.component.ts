@@ -19,15 +19,12 @@ export class ListUsersComponent {
   users = []
   displayedColumns: string[] = ['id', 'username','firstname', 'lastname'];
   data:User_DTO[] = []
-  dialogConfig: MatDialogConfig
   constructor(private api: UsersService,
               private router: Router,
               private appStateService: AppStateService,
               private notificationService: NotificationService)
   {
-    this.dialogConfig = new MatDialogConfig()
-    this.dialogConfig.data = "Getting Users"
-    appStateService.openSpinner(this.dialogConfig)
+    appStateService.openSpinner("Getting Users")
     this.api.ListAllUsers().subscribe({
       next: (data) =>
       {

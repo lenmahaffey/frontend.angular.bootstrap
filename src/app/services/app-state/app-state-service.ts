@@ -9,6 +9,7 @@ import { Message } from '../message';
 import { NotificationService } from '../notification/notification.service';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { MessageType } from '../message-type.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,6 @@ export class AppStateService {
 
   confirmationOptions = new ConfirmationDialogOptions()
   confirmationResponse: Subject<boolean | undefined> = new Subject()
-  alertMessage = new Message()
   notificationMessage = new Message()
   leftSideNavMenuItems: Subject<MenuItems> = new Subject<MenuItems>();
   rightSideText: Subject<TemplateRef<any>> = new Subject<TemplateRef<any>>()
@@ -40,9 +40,15 @@ export class AppStateService {
     this.toolTipText.next(text);
   }
 
-  openSpinner(config: MatDialogConfig)
+  openSpinner(message: string = "Spinning the Spinner", disableClose: boolean = true)
   {
-    this._dialog.open(SpinnerComponent, config);
+    const options = new MatDialogConfig()
+    options.data =
+    {
+      message: message
+    }
+    options.disableClose = disableClose
+    this._dialog.open(SpinnerComponent, options);
   }
 
   closeSpinner()
@@ -50,9 +56,9 @@ export class AppStateService {
     this._dialog.closeAll()
   }
 
-  sendAlert()
+  sendAlert(message: Message)
   {
-    this.alertService.sendAlert(this.alertMessage)
+    this.alertService.sendAlert(message)
   }
 
   sendNotification()

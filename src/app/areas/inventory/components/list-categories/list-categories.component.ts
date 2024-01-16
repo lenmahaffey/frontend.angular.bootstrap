@@ -139,13 +139,7 @@ export class ListCategoriesComponent {
 
   addNewCategory(name: string)
   {
-    const config:MatDialogConfig = new MatDialogConfig()
-    config.data =
-    {
-      message: "Creating Category",
-    }
-    config.disableClose = true
-    this.appStateService.openSpinner(config)
+    this.appStateService.openSpinner("Creating Category")
     const newCat = new InventoryItemCategory_DTO();
     newCat.name = name
     const sub = this.api.AddNewCategory(newCat).subscribe(
@@ -175,13 +169,7 @@ export class ListCategoriesComponent {
 
   addNewType(name: string)
   {
-    const config:MatDialogConfig = new MatDialogConfig()
-    config.data =
-    {
-      message: "Creating Type",
-    }
-    config.disableClose = true
-    this.appStateService.openSpinner(config)
+    this.appStateService.openSpinner("Creating Type")
     const newType = new InventoryItemType_DTO();
     newType.name = name
     newType.categoryId = this.selectedCategory!.id
@@ -211,13 +199,7 @@ export class ListCategoriesComponent {
 
   addNewSubType(name: string)
   {
-    const config:MatDialogConfig = new MatDialogConfig()
-    config.data =
-    {
-      message: "Creating SubType",
-    }
-    config.disableClose = true
-    this.appStateService.openSpinner(config)
+    this.appStateService.openSpinner("Creating SubType")
     const newSubType = new InventoryItemSubType_DTO();
     newSubType.name = name
     newSubType.typeId = this.selectedType!.id

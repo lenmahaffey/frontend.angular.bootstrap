@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddressType, Contact_DTO, EmailAddress_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
 import { AddPhoneNumberModalComponent } from '../phone-number-modal/add-phone-number-modal.component';
@@ -34,6 +34,8 @@ export class ViewContactComponent implements OnInit {
   currentBillingAddress: PhysicalAddress_DTO = new PhysicalAddress_DTO()
   currentShippingAddress: PhysicalAddress_DTO = new PhysicalAddress_DTO()
 
+  @Output() updatedContact: EventEmitter<Contact_DTO> = new EventEmitter()
+
   constructor(
     private _dialog: MatDialog,
     private service: ContactService,
@@ -47,14 +49,20 @@ export class ViewContactComponent implements OnInit {
     this.getContact()
   }
 
-  getContact()
+  getContact(withSpinner:boolean = false)
   {
+    if(withSpinner)
+    {
+      this.appState.openSpinner();
+    }
     let sub = this.service.getContact(this.contactInputId, true).subscribe(
       {
         next: (data) =>
         {
+          console.log(data)
           this.contact = data
           this.setAddressInputs()
+          this.appState.closeSpinner()
         },
         complete: () =>
         {
@@ -133,29 +141,22 @@ export class ViewContactComponent implements OnInit {
 
   addPhoneNumber(number: PhoneNumber_DTO)
   {
-    const options = new MatDialogConfig()
-    options.data =
-    {
-      message: "Adding phone number"
-    }
-    this.appState.openSpinner(options)
+    this.appState.openSpinner("Adding phone number")
     number.contactInformationId = this.contact.contactInformation?.id ?? 0
     let sub = this.service.AddPhoneNumber(number).subscribe(
       {
         next: (data) =>
         {
           this.contact.contactInformation?.phoneNumbers?.push(data)
-          this.appState.alertMessage = new Message(MessageType.Success, `${this.phonePipe.transform(number)} has been added to ${this.namePipe.transform(this.contact)}'s phone numbers.`)
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Success, `${this.phonePipe.transform(number)} has been added to ${this.namePipe.transform(this.contact)}'s phone numbers.`)
+          this.appState.sendAlert(message)
           this.appState.closeSpinner()
         },
         error: () =>
         {
           this.appState.closeSpinner()
-          this.appState.alertMessage.type = MessageType.Error
-          this.appState.alertMessage.text = "There was an error and the phone number could not be added"
-          this.appState.alertMessage.autoDismiss = true
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Error, "There was an error and the phone number could not be added")
+          this.appState.sendAlert(message)
         },
         complete: () =>
         {
@@ -167,12 +168,7 @@ export class ViewContactComponent implements OnInit {
 
   updatePhoneNumber(number: PhoneNumber_DTO)
   {
-    const options = new MatDialogConfig()
-    options.data =
-    {
-      message: "Updating phone number"
-    }
-    this.appState.openSpinner(options)
+    this.appState.openSpinner("Updating phone number")
     let sub = this.service.UpdatePhoneNumber(number).subscribe(
       {
         next: (data) =>
@@ -185,17 +181,15 @@ export class ViewContactComponent implements OnInit {
             this.contact.contactInformation?.phoneNumbers?.splice(i ,1)
           }
           this.contact.contactInformation?.phoneNumbers?.push(data)
-          this.appState.alertMessage = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s phone numbers have been updated.`)
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s phone numbers have been updated.`)
+          this.appState.sendAlert(message)
           this.appState.closeSpinner()
         },
         error: () =>
         {
           this.appState.closeSpinner()
-          this.appState.alertMessage.type = MessageType.Error
-          this.appState.alertMessage.text = "There was an error and the phone number could not be updated"
-          this.appState.alertMessage.autoDismiss = true
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Error, "There was an error and the phone number could not be updated")
+          this.appState.sendAlert(message)
         },
         complete: () =>
         {
@@ -207,12 +201,7 @@ export class ViewContactComponent implements OnInit {
 
   deletePhoneNumber(number: PhoneNumber_DTO)
   {
-    const options = new MatDialogConfig()
-    options.data =
-    {
-      message: "Deleting phone number"
-    }
-    this.appState.openSpinner(options)
+    this.appState.openSpinner("Deleting phone number")
     let sub = this.service.DeletePhoneNumber(number).subscribe(
       {
         next: () =>
@@ -221,18 +210,16 @@ export class ViewContactComponent implements OnInit {
           if (i != undefined)
           {
             this.contact.contactInformation?.phoneNumbers?.splice(i ,1)
-            this.appState.alertMessage = new Message(MessageType.Success, `${this.phonePipe.transform(number)} has been deleted.`)
-            this.appState.sendAlert()
+            const message = new Message(MessageType.Success, `${this.phonePipe.transform(number)} has been deleted.`)
+            this.appState.sendAlert(message)
             this.appState.closeSpinner()
           }
         },
         error: () =>
         {
           this.appState.closeSpinner()
-          this.appState.alertMessage.type = MessageType.Error
-          this.appState.alertMessage.text = "There was an error and the phone number could not be deleted"
-          this.appState.alertMessage.autoDismiss = true
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Error, "There was an error and the phone number could not be deleted")
+          this.appState.sendAlert(message)
         },
         complete: () =>
         {
@@ -299,29 +286,22 @@ export class ViewContactComponent implements OnInit {
 
   addEmailAddress(address:EmailAddress_DTO)
   {
-    const options = new MatDialogConfig()
-    options.data =
-    {
-      message: "Adding email address"
-    }
-    this.appState.openSpinner(options)
+    this.appState.openSpinner("Adding email address")
     address.contactInformationId = this.contact.contactInformation?.id ?? 0
     let sub = this.service.AddEmailAddress(address).subscribe(
       {
         next: (data) =>
         {
           this.contact.contactInformation?.emailAddresses?.push(data)
-          this.appState.alertMessage = new Message(MessageType.Success, `${address.address} has been added to ${this.namePipe.transform(this.contact)}.`)
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Success, `${address.address} has been added to ${this.namePipe.transform(this.contact)}.`)
+          this.appState.sendAlert(message)
           this.appState.closeSpinner()
         },
         error: () =>
         {
           this.appState.closeSpinner()
-          this.appState.alertMessage.type = MessageType.Error
-          this.appState.alertMessage.text = "There was an error and the email address could not be added"
-          this.appState.alertMessage.autoDismiss = true
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Error, "There was an error and the email address could not be added")
+          this.appState.sendAlert(message)
         },
         complete: () =>
         {
@@ -333,12 +313,7 @@ export class ViewContactComponent implements OnInit {
 
   updateEmailAddress(address:EmailAddress_DTO)
   {
-    const options = new MatDialogConfig()
-    options.data =
-    {
-      message: "Updating email address"
-    }
-    this.appState.openSpinner(options)
+    this.appState.openSpinner("Updating email address")
     let sub = this.service.UpdateEmailAddress(address).subscribe(
       {
         next: (data) =>
@@ -355,17 +330,15 @@ export class ViewContactComponent implements OnInit {
             this.contact.contactInformation?.emailAddresses?.splice(index)
           }
           this.contact.contactInformation?.emailAddresses?.push(data)
-          this.appState.alertMessage = new Message(MessageType.Success, `${address.address} has been updated.`)
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Success, `${address.address} has been updated.`)
+          this.appState.sendAlert(message)
           this.appState.closeSpinner()
         },
         error: () =>
         {
           this.appState.closeSpinner()
-          this.appState.alertMessage.type = MessageType.Error
-          this.appState.alertMessage.text = "There was an error and the email address could not be updated"
-          this.appState.alertMessage.autoDismiss = true
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Error, "There was an error and the email address could not be updated")
+          this.appState.sendAlert(message)
         },
         complete: () =>
         {
@@ -377,12 +350,7 @@ export class ViewContactComponent implements OnInit {
 
   deleteEmailAddress(address:EmailAddress_DTO)
   {
-    const options = new MatDialogConfig()
-    options.data =
-    {
-      message: "Deleting email address"
-    }
-    this.appState.openSpinner(options)
+    this.appState.openSpinner("Deleting email address")
     let sub = this.service.DeleteEmailAddress(address).subscribe(
       {
         next: (data) =>
@@ -398,16 +366,14 @@ export class ViewContactComponent implements OnInit {
           {
             this.contact.contactInformation?.emailAddresses?.splice(index ,1)
           }
-          this.appState.alertMessage = new Message(MessageType.Success, `${address.address} has been deleted.`)
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Success, `${address.address} has been deleted.`)
+          this.appState.sendAlert(message)
         },
         error: () =>
         {
           this.appState.closeSpinner()
-          this.appState.alertMessage.type = MessageType.Error
-          this.appState.alertMessage.text = "There was an error and the email address could not be deleted"
-          this.appState.alertMessage.autoDismiss = true
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Error, "There was an error and the email address could not be deleted")
+          this.appState.sendAlert(message)
         },
         complete: () =>
         {
@@ -433,12 +399,7 @@ export class ViewContactComponent implements OnInit {
 
   addPhysicalAddress(address: PhysicalAddress_DTO)
   {
-    const options = new MatDialogConfig()
-    options.data =
-    {
-      message: `Adding new ${AddressType[address.addressType].toLowerCase()} address`
-    }
-    this.appState.openSpinner(options)
+    this.appState.openSpinner(`Adding new ${AddressType[address.addressType].toLowerCase()} address`)
     address.id = 0
     address.contactInformationId = this.contact.contactInformation?.id ?? 0
     let sub = this.service.AddPhysicalAddress(address).subscribe(
@@ -460,17 +421,15 @@ export class ViewContactComponent implements OnInit {
           this.contact.contactInformation?.physicalAddresses?.push(data)
           this.setAddressInputs()
           this.appState.closeSpinner()
-          this.appState.alertMessage = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been added.`)
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been added.`)
+          this.appState.sendAlert(message)
 
         },
         error: () =>
         {
           this.appState.closeSpinner()
-          this.appState.alertMessage.type = MessageType.Error
-          this.appState.alertMessage.text = `There was an error and the ${AddressType[address.addressType].toLowerCase()} could not be added`
-          this.appState.alertMessage.autoDismiss = true
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Error, `There was an error and the ${AddressType[address.addressType].toLowerCase()} could not be added`)
+          this.appState.sendAlert(message)
         },
         complete: () =>
         {
@@ -482,12 +441,7 @@ export class ViewContactComponent implements OnInit {
 
   updatePhysicalAddress(address: PhysicalAddress_DTO)
   {
-    const options = new MatDialogConfig()
-    options.data =
-    {
-      message: `Updating ${AddressType[address.addressType].toLowerCase()} address`
-    }
-    this.appState.openSpinner(options)
+    this.appState.openSpinner(`Updating ${AddressType[address.addressType].toLowerCase()} address`)
     let sub = this.service.UpdatePhysicalAddress(address).subscribe(
       {
         next: (data) =>
@@ -506,16 +460,14 @@ export class ViewContactComponent implements OnInit {
           this.contact.contactInformation?.physicalAddresses?.push(data)
           this.setAddressInputs()
           this.appState.closeSpinner()
-          this.appState.alertMessage = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been updated.`)
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been updated.`)
+          this.appState.sendAlert(message)
         },
         error: (error) =>
         {
           this.appState.closeSpinner()
-          this.appState.alertMessage.type = MessageType.Error
-          this.appState.alertMessage.text = `There was an error and the ${AddressType[address.addressType].toLowerCase()} could not be updated`
-          this.appState.alertMessage.autoDismiss = true
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Error, `There was an error and the ${AddressType[address.addressType].toLowerCase()} could not be updated`)
+          this.appState.sendAlert(message)
         },
         complete: () =>
         {
@@ -527,12 +479,7 @@ export class ViewContactComponent implements OnInit {
 
   deletePhysicalAddress(address: PhysicalAddress_DTO)
   {
-    const options = new MatDialogConfig()
-    options.data =
-    {
-      message: `Deleting ${AddressType[address.addressType].toLowerCase()} address`
-    }
-    this.appState.openSpinner(options)
+    this.appState.openSpinner(`Deleting ${AddressType[address.addressType].toLowerCase()} address`)
     let sub = this.service.DeletePhysicalAddress(address).subscribe(
       {
         next: () =>
@@ -552,16 +499,14 @@ export class ViewContactComponent implements OnInit {
           }
           this.setAddressInputs()
           this.appState.closeSpinner()
-          this.appState.alertMessage = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been deleted.`)
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been deleted.`)
+          this.appState.sendAlert(message)
         },
         error: () =>
         {
           this.appState.closeSpinner()
-          this.appState.alertMessage.type = MessageType.Error
-          this.appState.alertMessage.text = `There was an error and the ${AddressType[address.addressType].toLowerCase()} could not be deleted`
-          this.appState.alertMessage.autoDismiss = true
-          this.appState.sendAlert()
+          const message = new Message(MessageType.Error, `There was an error and the ${AddressType[address.addressType].toLowerCase()} could not be deleted`)
+          this.appState.sendAlert(message)
         },
         complete: () =>
         {
@@ -603,12 +548,15 @@ export class ViewContactComponent implements OnInit {
     const id = this.contact.customer?.id
     if(id != undefined)
     {
+      this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a customer contact`)
       let sub = this.service.AddContactToCustomer(event.item.data.id, id).subscribe(
         {
-          next: (data) =>
+          next: () =>
           {
-            this.contact.customerContacts?.push(data)
-            this.cdr.detectChanges()
+            this.updatedContact.next(this.contact);
+            this.getContact()
+            const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a customer contact`, true)
+            this.appState.sendAlert(message);
           },
           complete: () =>
           {
@@ -622,13 +570,18 @@ export class ViewContactComponent implements OnInit {
   onContactDroppedOnCompetitorContacts(event:any)
   {
     const id = this.contact.competitor?.id
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a competitor contact`)
+
     if(id != undefined)
     {
       let sub = this.service.AddContactToCompetitor(event.item.data.id, id).subscribe(
         {
-          next: (data) =>
+          next: () =>
           {
-            this.contact.competitorContacts?.push(data)
+            this.updatedContact.next(this.contact);
+            this.getContact()
+            const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a competitor contact`, true)
+            this.appState.sendAlert(message);
           },
           complete: () =>
           {
@@ -644,11 +597,15 @@ export class ViewContactComponent implements OnInit {
     const id = this.contact.manufacturer?.id
     if(id != undefined)
     {
+      this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a manufacturer contact`)
       let sub = this.service.AddContactToManufacturer(event.item.data.id, id).subscribe(
         {
-          next: (data) =>
+          next: () =>
           {
-            this.contact.manufacturerContacts?.push(data)
+            this.updatedContact.next(this.contact);
+            this.getContact()
+            const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a manufacturer contact`, true)
+            this.appState.sendAlert(message);
           },
           complete: () =>
           {
@@ -664,11 +621,15 @@ export class ViewContactComponent implements OnInit {
     const id = this.contact.vendor?.id
     if(id != undefined)
     {
+      this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a vendor contact`)
       let sub = this.service.AddContactToVendor(event.item.data.id, id).subscribe(
         {
           next: (data) =>
           {
-            this.contact.vendorContacts?.push(data)
+            this.updatedContact.next(this.contact);
+            this.getContact()
+            const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a vendor contact`, true)
+            this.appState.sendAlert(message);
           },
           complete: () =>
           {
@@ -684,11 +645,15 @@ export class ViewContactComponent implements OnInit {
     const id = this.contact.venue?.id
     if(id != undefined)
     {
+      this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a venue contact`)
       let sub = this.service.AddContactToVenue(event.item.data.id, id).subscribe(
         {
           next: (data) =>
           {
-            this.contact.venueContacts?.push(data)
+            this.updatedContact.next(this.contact);
+            this.getContact()
+            const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a venue contact`, true)
+            this.appState.sendAlert(message);
           },
           complete: () =>
           {

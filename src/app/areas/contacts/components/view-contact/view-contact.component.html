@@ -111,8 +111,9 @@
                     <div class="flexItem ">{{cc.contact?.firstName}} {{cc.contact?.lastName}} </div>
                     <div class="flexItem title">{{cc.contact?.title ?? 'No Title'}}</div>
                     <div class="flexItem ">{{cc.contact?.contactInformation?.phoneNumbers![0] | phoneNumberToString}}</div>
-                    <div class="delete"><i
-                      class="fa-solid fa-xmark fa-2xl"></i></div>
+                    <div class="delete">
+                      <i class="fa-solid fa-xmark fa-2xl"></i>
+                    </div>
                   </div>
                 </mat-list-item>
                 <mat-list-item class="listItem flexRow">
@@ -132,13 +133,14 @@
                     <div class="menuItem">Delete</div>
                   </div>
                 </mat-list-item>
-                <mat-list-item class="listItem" *ngFor="let cc of contact.competitor.contacts">
+                <mat-list-item class="listItem" *ngFor="let cc of contact.competitor.competitorContacts">
                   <div class="listItemContainer">
                     <div class="flexItem ">{{cc.contact?.firstName}} {{cc.contact?.lastName}} </div>
                     <div class="flexItem title">{{cc.contact?.title ?? 'No Title'}}</div>
                     <div class="flexItem ">{{cc.contact?.contactInformation?.phoneNumbers![0] | phoneNumberToString}}</div>
-                    <div class="delete"><i
-                      class="fa-solid fa-xmark fa-2xl"></i></div>
+                    <div class="delete">
+                      <i class="fa-solid fa-xmark fa-2xl"></i>
+                    </div>
                   </div>
                 </mat-list-item>
                 <mat-list-item class="listItem flexRow">
@@ -158,8 +160,15 @@
                     <div class="menuItem">Delete</div>
                   </div>
                 </mat-list-item>
-                <mat-list-item class="listItem" *ngFor="let mc of contact.manufacturer.contacts">
-                  {{mc.contact?.firstName}} {{mc.contact?.lastName}}
+                <mat-list-item class="listItem" *ngFor="let mc of contact.manufacturer.manufacturerContacts">
+                  <div class="listItemContainer">
+                    <div class="flexItem ">{{mc.contact?.firstName}} {{mc.contact?.lastName}} </div>
+                    <div class="flexItem title">{{mc.contact?.title ?? 'No Title'}}</div>
+                    <div class="flexItem ">{{mc.contact?.contactInformation?.phoneNumbers![0] | phoneNumberToString}}</div>
+                    <div class="delete">
+                      <i class="fa-solid fa-xmark fa-2xl"></i>
+                    </div>
+                  </div>
                 </mat-list-item>
                 <mat-list-item class="listItem flexRow">
                   <div class="flexItem flexRow">
@@ -178,8 +187,15 @@
                     <div class="menuItem">Delete</div>
                   </div>
                 </mat-list-item>
-                <mat-list-item class="listItem" *ngFor="let vc of contact.vendor.contacts">
-                  {{vc.contact?.firstName}} {{vc.contact?.lastName}}
+                <mat-list-item class="listItem" *ngFor="let vc of contact.vendor.vendorContacts">
+                  <div class="listItemContainer">
+                    <div class="flexItem ">{{vc.contact?.firstName}} {{vc.contact?.lastName}} </div>
+                    <div class="flexItem title">{{vc.contact?.title ?? 'No Title'}}</div>
+                    <div class="flexItem ">{{vc.contact?.contactInformation?.phoneNumbers![0] | phoneNumberToString}}</div>
+                    <div class="delete">
+                      <i class="fa-solid fa-xmark fa-2xl"></i>
+                    </div>
+                  </div>
                 </mat-list-item>
                 <mat-list-item class="listItem flexRow">
                   <div class="flexItem flexRow">
@@ -198,8 +214,15 @@
                     <div class="menuItem">Delete</div>
                   </div>
                 </mat-list-item>
-                <mat-list-item class="listItem" *ngFor="let vc of contact.venue.contacts">
-                  {{vc.contact?.firstName}} {{vc.contact?.lastName}}
+                <mat-list-item class="listItem" *ngFor="let vc of contact.venue.venueContacts">
+                  <div class="listItemContainer">
+                    <div class="flexItem ">{{vc.contact?.firstName}} {{vc.contact?.lastName}} </div>
+                    <div class="flexItem title">{{vc.contact?.title ?? 'No Title'}}</div>
+                    <div class="flexItem ">{{vc.contact?.contactInformation?.phoneNumbers![0] | phoneNumberToString}}</div>
+                    <div class="delete">
+                      <i class="fa-solid fa-xmark fa-2xl"></i>
+                    </div>
+                  </div>
                 </mat-list-item>
                 <mat-list-item class="listItem flexRow">
                   <div class="flexItem flexRow">
