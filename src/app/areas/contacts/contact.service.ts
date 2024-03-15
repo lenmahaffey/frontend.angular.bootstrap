@@ -22,7 +22,13 @@ export class ContactService {
     return this.http.get<Contact_DTO>(url, { headers: this.headers, params: params }).pipe(
       catchError(this.handleError.bind(this)))
   }
-
+  getContactInformation(id: number)
+  {
+    const url = `${this.apiUrl}/getcontactinformation`
+    const params = new HttpParams().set("id", id)
+    return this.http.get<Contact_DTO>(url, { headers: this.headers, params: params }).pipe(
+      catchError(this.handleError.bind(this)))
+  }
   listAllContacts(info: boolean)
   {
     const url = `${this.apiUrl}/listcontacts`

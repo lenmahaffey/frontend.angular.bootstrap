@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../users.service';
-import { AddressType, PhysicalAddress_DTO, User_DTO } from 'src/app/shared/api/api.models';
+import { AddressType_DTO, PhysicalAddress_DTO, User_DTO } from 'src/app/shared/api/api.models';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PhoneNumberToFormattedStringPipe } from 'src/app/shared/pipes/phone-number-to-formatted-string.pipe';
 import { StringToPhoneNumberPipe } from 'src/app/shared/pipes/string-to-phone-number.pipe';

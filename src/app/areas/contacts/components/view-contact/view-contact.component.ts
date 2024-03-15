@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { AddressType, Contact_DTO, EmailAddress_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
+import { ContactInformation_DTO, AddressType_DTO, Contact_DTO, EmailAddress_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
 import { AddPhoneNumberModalComponent } from '../phone-number-modal/add-phone-number-modal.component';
 import { ContactService } from '../../contact.service';
 import { PhoneNumberToFormattedStringPipe } from 'src/app/shared/pipes/phone-number-to-formatted-string.pipe';
@@ -19,6 +19,7 @@ import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/co
 })
 export class ViewContactComponent implements OnInit {
 
+  contactInformation: ContactInformation_DTO = new ContactInformation_DTO()
   contact: Contact_DTO = new Contact_DTO()
   private _contactInputId = 0
 
@@ -41,8 +42,7 @@ export class ViewContactComponent implements OnInit {
     private service: ContactService,
     private phonePipe: PhoneNumberToFormattedStringPipe,
     private namePipe: ContactNamePipe,
-    private appState: AppStateService,
-    private cdr: ChangeDetectorRef)
+    private appState: AppStateService)
   {}
 
   ngOnInit(): void {
@@ -59,10 +59,10 @@ export class ViewContactComponent implements OnInit {
       {
         next: (data) =>
         {
+          this.getContactInformation(data.id)
           console.log(data)
           this.contact = data
           this.setAddressInputs()
-          this.appState.closeSpinner()
         },
         complete: () =>
         {
@@ -72,14 +72,30 @@ export class ViewContactComponent implements OnInit {
     )
   }
 
+  getContactInformation(id: number)
+  {
+    let sub = this.service.getContactInformation(this.contactInputId).subscribe(
+      {
+        next: (data) =>
+        {
+          this.contactInformation = data
+          this.appState.closeSpinner()
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
+        }
+      })
+  }
+
   setAddressInputs()
   {
-    this.currentMailingAddress = this.contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Mailing) ?? new PhysicalAddress_DTO
-    this.currentBillingAddress = this.contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Billing) ?? new PhysicalAddress_DTO
-    this.currentShippingAddress = this.contact.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType.Shipping) ?? new PhysicalAddress_DTO
-    this.currentMailingAddress.addressType = AddressType.Mailing
-    this.currentBillingAddress.addressType = AddressType.Billing
-    this.currentShippingAddress.addressType = AddressType.Shipping
+    this.currentMailingAddress = this.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType_DTO.Mailing) ?? new PhysicalAddress_DTO
+    this.currentBillingAddress = this.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType_DTO.Billing) ?? new PhysicalAddress_DTO
+    this.currentShippingAddress = this.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType_DTO.Shipping) ?? new PhysicalAddress_DTO
+    this.currentMailingAddress.addressType = AddressType_DTO.Mailing
+    this.currentBillingAddress.addressType = AddressType_DTO.Billing
+    this.currentShippingAddress.addressType = AddressType_DTO.Shipping
   }
 
   openAddPhoneNumberModal(number?: PhoneNumber_DTO)
@@ -142,12 +158,12 @@ export class ViewContactComponent implements OnInit {
   addPhoneNumber(number: PhoneNumber_DTO)
   {
     this.appState.openSpinner("Adding phone number")
-    number.contactInformationId = this.contact.contactInformation?.id ?? 0
+    number.contactInformationId = this.contactInformation?.id ?? 0
     let sub = this.service.AddPhoneNumber(number).subscribe(
       {
         next: (data) =>
         {
-          this.contact.contactInformation?.phoneNumbers?.push(data)
+          this.contactInformation?.phoneNumbers?.push(data)
           const message = new Message(MessageType.Success, `${this.phonePipe.transform(number)} has been added to ${this.namePipe.transform(this.contact)}'s phone numbers.`)
           this.appState.sendAlert(message)
           this.appState.closeSpinner()
@@ -175,12 +191,12 @@ export class ViewContactComponent implements OnInit {
         {
           console.log("updated:")
           console.log(data)
-          var i = this.contact.contactInformation?.phoneNumbers?.indexOf(number)
+          var i = this.contactInformation?.phoneNumbers?.indexOf(number)
           if (i != undefined)
           {
-            this.contact.contactInformation?.phoneNumbers?.splice(i ,1)
+            this.contactInformation?.phoneNumbers?.splice(i ,1)
           }
-          this.contact.contactInformation?.phoneNumbers?.push(data)
+          this.contactInformation?.phoneNumbers?.push(data)
           const message = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s phone numbers have been updated.`)
           this.appState.sendAlert(message)
           this.appState.closeSpinner()
@@ -206,10 +222,10 @@ export class ViewContactComponent implements OnInit {
       {
         next: () =>
         {
-          var i = this.contact.contactInformation?.phoneNumbers?.indexOf(number)
+          var i = this.contactInformation?.phoneNumbers?.indexOf(number)
           if (i != undefined)
           {
-            this.contact.contactInformation?.phoneNumbers?.splice(i ,1)
+            this.contactInformation?.phoneNumbers?.splice(i ,1)
             const message = new Message(MessageType.Success, `${this.phonePipe.transform(number)} has been deleted.`)
             this.appState.sendAlert(message)
             this.appState.closeSpinner()
@@ -287,12 +303,12 @@ export class ViewContactComponent implements OnInit {
   addEmailAddress(address:EmailAddress_DTO)
   {
     this.appState.openSpinner("Adding email address")
-    address.contactInformationId = this.contact.contactInformation?.id ?? 0
+    address.contactInformationId = this.contactInformation?.id ?? 0
     let sub = this.service.AddEmailAddress(address).subscribe(
       {
         next: (data) =>
         {
-          this.contact.contactInformation?.emailAddresses?.push(data)
+          this.contactInformation?.emailAddresses?.push(data)
           const message = new Message(MessageType.Success, `${address.address} has been added to ${this.namePipe.transform(this.contact)}.`)
           this.appState.sendAlert(message)
           this.appState.closeSpinner()
@@ -319,7 +335,7 @@ export class ViewContactComponent implements OnInit {
         next: (data) =>
         {
           var index: number | undefined
-          this.contact.contactInformation?.emailAddresses?.forEach((e, i) => {
+          this.contactInformation?.emailAddresses?.forEach((e, i) => {
             if (e.id == address.id)
             {
               index = i
@@ -327,9 +343,9 @@ export class ViewContactComponent implements OnInit {
           });
           if (index != undefined)
           {
-            this.contact.contactInformation?.emailAddresses?.splice(index)
+            this.contactInformation?.emailAddresses?.splice(index)
           }
-          this.contact.contactInformation?.emailAddresses?.push(data)
+          this.contactInformation?.emailAddresses?.push(data)
           const message = new Message(MessageType.Success, `${address.address} has been updated.`)
           this.appState.sendAlert(message)
           this.appState.closeSpinner()
@@ -356,7 +372,7 @@ export class ViewContactComponent implements OnInit {
         next: (data) =>
         {
           var index: number | undefined
-          this.contact.contactInformation?.emailAddresses?.forEach((e, i) => {
+          this.contactInformation?.emailAddresses?.forEach((e, i) => {
             if (e.id == address.id)
             {
               index = i
@@ -364,7 +380,7 @@ export class ViewContactComponent implements OnInit {
           });
           if (index != undefined)
           {
-            this.contact.contactInformation?.emailAddresses?.splice(index ,1)
+            this.contactInformation?.emailAddresses?.splice(index ,1)
           }
           const message = new Message(MessageType.Success, `${address.address} has been deleted.`)
           this.appState.sendAlert(message)
@@ -399,15 +415,15 @@ export class ViewContactComponent implements OnInit {
 
   addPhysicalAddress(address: PhysicalAddress_DTO)
   {
-    this.appState.openSpinner(`Adding new ${AddressType[address.addressType].toLowerCase()} address`)
+    this.appState.openSpinner(`Adding new ${AddressType_DTO[address.addressType].toLowerCase()} address`)
     address.id = 0
-    address.contactInformationId = this.contact.contactInformation?.id ?? 0
+    address.contactInformationId = this.contactInformation?.id ?? 0
     let sub = this.service.AddPhysicalAddress(address).subscribe(
       {
         next: (data) =>
         {
           var index: number | undefined
-          this.contact.contactInformation?.physicalAddresses?.forEach((e, i) =>
+          this.contactInformation?.physicalAddresses?.forEach((e, i) =>
           {
             if (e.id == address.id)
             {
@@ -416,19 +432,19 @@ export class ViewContactComponent implements OnInit {
           });
           if (index != undefined)
           {
-            this.contact.contactInformation?.physicalAddresses?.splice(index)
+            this.contactInformation?.physicalAddresses?.splice(index)
           }
-          this.contact.contactInformation?.physicalAddresses?.push(data)
+          this.contactInformation?.physicalAddresses?.push(data)
           this.setAddressInputs()
           this.appState.closeSpinner()
-          const message = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been added.`)
+          const message = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType_DTO[address.addressType].toLowerCase()} address has been added.`)
           this.appState.sendAlert(message)
 
         },
         error: () =>
         {
           this.appState.closeSpinner()
-          const message = new Message(MessageType.Error, `There was an error and the ${AddressType[address.addressType].toLowerCase()} could not be added`)
+          const message = new Message(MessageType.Error, `There was an error and the ${AddressType_DTO[address.addressType].toLowerCase()} could not be added`)
           this.appState.sendAlert(message)
         },
         complete: () =>
@@ -441,13 +457,13 @@ export class ViewContactComponent implements OnInit {
 
   updatePhysicalAddress(address: PhysicalAddress_DTO)
   {
-    this.appState.openSpinner(`Updating ${AddressType[address.addressType].toLowerCase()} address`)
+    this.appState.openSpinner(`Updating ${AddressType_DTO[address.addressType].toLowerCase()} address`)
     let sub = this.service.UpdatePhysicalAddress(address).subscribe(
       {
         next: (data) =>
         {
           var index: number | undefined
-          this.contact.contactInformation?.physicalAddresses?.forEach((e, i) => {
+          this.contactInformation?.physicalAddresses?.forEach((e, i) => {
             if (e.id == address.id)
             {
               index = i
@@ -455,18 +471,18 @@ export class ViewContactComponent implements OnInit {
           });
           if (index != undefined)
           {
-            this.contact.contactInformation?.physicalAddresses?.splice(index)
+            this.contactInformation?.physicalAddresses?.splice(index)
           }
-          this.contact.contactInformation?.physicalAddresses?.push(data)
+          this.contactInformation?.physicalAddresses?.push(data)
           this.setAddressInputs()
           this.appState.closeSpinner()
-          const message = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been updated.`)
+          const message = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType_DTO[address.addressType].toLowerCase()} address has been updated.`)
           this.appState.sendAlert(message)
         },
         error: (error) =>
         {
           this.appState.closeSpinner()
-          const message = new Message(MessageType.Error, `There was an error and the ${AddressType[address.addressType].toLowerCase()} could not be updated`)
+          const message = new Message(MessageType.Error, `There was an error and the ${AddressType_DTO[address.addressType].toLowerCase()} could not be updated`)
           this.appState.sendAlert(message)
         },
         complete: () =>
@@ -479,14 +495,14 @@ export class ViewContactComponent implements OnInit {
 
   deletePhysicalAddress(address: PhysicalAddress_DTO)
   {
-    this.appState.openSpinner(`Deleting ${AddressType[address.addressType].toLowerCase()} address`)
+    this.appState.openSpinner(`Deleting ${AddressType_DTO[address.addressType].toLowerCase()} address`)
     let sub = this.service.DeletePhysicalAddress(address).subscribe(
       {
         next: () =>
         {
           //Find the address
           var index: number | undefined
-          this.contact.contactInformation?.physicalAddresses?.forEach((e, i) => {
+          this.contactInformation?.physicalAddresses?.forEach((e, i) => {
             if (e.id == address.id)
             {
               index = i
@@ -495,17 +511,17 @@ export class ViewContactComponent implements OnInit {
           //Delete the address if it exists
           if (index != undefined)
           {
-            this.contact.contactInformation?.physicalAddresses?.splice(index, 1)
+            this.contactInformation?.physicalAddresses?.splice(index, 1)
           }
           this.setAddressInputs()
           this.appState.closeSpinner()
-          const message = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType[address.addressType].toLowerCase()} address has been deleted.`)
+          const message = new Message(MessageType.Success, `${this.namePipe.transform(this.contact)}'s ${AddressType_DTO[address.addressType].toLowerCase()} address has been deleted.`)
           this.appState.sendAlert(message)
         },
         error: () =>
         {
           this.appState.closeSpinner()
-          const message = new Message(MessageType.Error, `There was an error and the ${AddressType[address.addressType].toLowerCase()} could not be deleted`)
+          const message = new Message(MessageType.Error, `There was an error and the ${AddressType_DTO[address.addressType].toLowerCase()} could not be deleted`)
           this.appState.sendAlert(message)
         },
         complete: () =>
@@ -543,124 +559,124 @@ export class ViewContactComponent implements OnInit {
     )
   }
 
-  onContactDroppedOnCustomerContacts(event:any)
-  {
-    const id = this.contact.customer?.id
-    if(id != undefined)
-    {
-      this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a customer contact`)
-      let sub = this.service.AddContactToCustomer(event.item.data.id, id).subscribe(
-        {
-          next: () =>
-          {
-            this.updatedContact.next(this.contact);
-            this.getContact()
-            const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a customer contact`, true)
-            this.appState.sendAlert(message);
-          },
-          complete: () =>
-          {
-            sub.unsubscribe
-          }
-        }
-      )
-    }
-  }
+  // onContactDroppedOnCustomerContacts(event:any)
+  // {
+  //   const id = this.contact.customer?.id
+  //   if(id != undefined)
+  //   {
+  //     this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a customer contact`)
+  //     let sub = this.service.AddContactToCustomer(event.item.data.id, id).subscribe(
+  //       {
+  //         next: () =>
+  //         {
+  //           this.updatedContact.next(this.contact);
+  //           this.getContact()
+  //           const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a customer contact`, true)
+  //           this.appState.sendAlert(message);
+  //         },
+  //         complete: () =>
+  //         {
+  //           sub.unsubscribe
+  //         }
+  //       }
+  //     )
+  //   }
+  // }
 
-  onContactDroppedOnCompetitorContacts(event:any)
-  {
-    const id = this.contact.competitor?.id
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a competitor contact`)
+  // onContactDroppedOnCompetitorContacts(event:any)
+  // {
+  //   const id = this.contact.competitor?.id
+  //   this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a competitor contact`)
 
-    if(id != undefined)
-    {
-      let sub = this.service.AddContactToCompetitor(event.item.data.id, id).subscribe(
-        {
-          next: () =>
-          {
-            this.updatedContact.next(this.contact);
-            this.getContact()
-            const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a competitor contact`, true)
-            this.appState.sendAlert(message);
-          },
-          complete: () =>
-          {
-            sub.unsubscribe
-          }
-        }
-      )
-    }
-  }
+  //   if(id != undefined)
+  //   {
+  //     let sub = this.service.AddContactToCompetitor(event.item.data.id, id).subscribe(
+  //       {
+  //         next: () =>
+  //         {
+  //           this.updatedContact.next(this.contact);
+  //           this.getContact()
+  //           const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a competitor contact`, true)
+  //           this.appState.sendAlert(message);
+  //         },
+  //         complete: () =>
+  //         {
+  //           sub.unsubscribe
+  //         }
+  //       }
+  //     )
+  //   }
+  // }
 
-  onContactDroppedOnManufacturerContacts(event:any)
-  {
-    const id = this.contact.manufacturer?.id
-    if(id != undefined)
-    {
-      this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a manufacturer contact`)
-      let sub = this.service.AddContactToManufacturer(event.item.data.id, id).subscribe(
-        {
-          next: () =>
-          {
-            this.updatedContact.next(this.contact);
-            this.getContact()
-            const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a manufacturer contact`, true)
-            this.appState.sendAlert(message);
-          },
-          complete: () =>
-          {
-            sub.unsubscribe
-          }
-        }
-      )
-    }
-  }
+  // onContactDroppedOnManufacturerContacts(event:any)
+  // {
+  //   const id = this.contact.manufacturer?.id
+  //   if(id != undefined)
+  //   {
+  //     this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a manufacturer contact`)
+  //     let sub = this.service.AddContactToManufacturer(event.item.data.id, id).subscribe(
+  //       {
+  //         next: () =>
+  //         {
+  //           this.updatedContact.next(this.contact);
+  //           this.getContact()
+  //           const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a manufacturer contact`, true)
+  //           this.appState.sendAlert(message);
+  //         },
+  //         complete: () =>
+  //         {
+  //           sub.unsubscribe
+  //         }
+  //       }
+  //     )
+  //   }
+  // }
 
-  onContactDroppedOnVendorContacts(event:any)
-  {
-    const id = this.contact.vendor?.id
-    if(id != undefined)
-    {
-      this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a vendor contact`)
-      let sub = this.service.AddContactToVendor(event.item.data.id, id).subscribe(
-        {
-          next: (data) =>
-          {
-            this.updatedContact.next(this.contact);
-            this.getContact()
-            const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a vendor contact`, true)
-            this.appState.sendAlert(message);
-          },
-          complete: () =>
-          {
-            sub.unsubscribe
-          }
-        }
-      )
-    }
-  }
+  // onContactDroppedOnVendorContacts(event:any)
+  // {
+  //   const id = this.contact.vendor?.id
+  //   if(id != undefined)
+  //   {
+  //     this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a vendor contact`)
+  //     let sub = this.service.AddContactToVendor(event.item.data.id, id).subscribe(
+  //       {
+  //         next: (data) =>
+  //         {
+  //           this.updatedContact.next(this.contact);
+  //           this.getContact()
+  //           const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a vendor contact`, true)
+  //           this.appState.sendAlert(message);
+  //         },
+  //         complete: () =>
+  //         {
+  //           sub.unsubscribe
+  //         }
+  //       }
+  //     )
+  //   }
+  // }
 
-  onContactDroppedOnVenueContacts(event:any)
-  {
-    const id = this.contact.venue?.id
-    if(id != undefined)
-    {
-      this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a venue contact`)
-      let sub = this.service.AddContactToVenue(event.item.data.id, id).subscribe(
-        {
-          next: (data) =>
-          {
-            this.updatedContact.next(this.contact);
-            this.getContact()
-            const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a venue contact`, true)
-            this.appState.sendAlert(message);
-          },
-          complete: () =>
-          {
-            sub.unsubscribe
-          }
-        }
-      )
-    }
-  }
+  // onContactDroppedOnVenueContacts(event:any)
+  // {
+  //   const id = this.contact.venue?.id
+  //   if(id != undefined)
+  //   {
+  //     this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a venue contact`)
+  //     let sub = this.service.AddContactToVenue(event.item.data.id, id).subscribe(
+  //       {
+  //         next: (data) =>
+  //         {
+  //           this.updatedContact.next(this.contact);
+  //           this.getContact()
+  //           const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a venue contact`, true)
+  //           this.appState.sendAlert(message);
+  //         },
+  //         complete: () =>
+  //         {
+  //           sub.unsubscribe
+  //         }
+  //       }
+  //     )
+  //   }
+  // }
 }
