@@ -1,0 +1,33 @@
+<div *ngIf="venueId > 0">
+  <div>
+    <mat-list id="customerContacts" cdkDropList (cdkDropListDropped)="onContactDropped($event)">
+      <span class="contactListTitle">Venue Contacts</span>
+      <mat-list-item class="listItem flexItem">
+        <div class="listItemContainer">
+          <div class="flexItem menuItem">Name</div>
+          <div class="flexItem menuItem">Title</div>
+          <div class="flexItem menuItem">Phone Number</div>
+          <div class="menuItem">Delete</div>
+        </div>
+      </mat-list-item>
+
+      <mat-list-item class="listItem flexItem" *ngFor="let c of contacts">
+        <div class="listItemContainer">
+          <div class="flexItem ">{{c.contact!.firstName}} {{c.contact!.lastName}} </div>
+          <div class="flexItem title">{{c.contact!.title ?? 'No Title'}}</div>
+          <div class="flexItem title">{{ getNumber(c.contact!.contactInformationId!)  | phoneNumberToString }}</div>
+          <div class="delete" (click)="onDeleteContactClicked(c)">
+            <i class="fa-solid fa-xmark fa-2xl"></i>
+          </div>
+        </div>
+      </mat-list-item>
+      <mat-list-item class="listItem flexRow">
+        <div class="flexItem flexRow">
+          <span class="autoMargin dropText">Drag a contact here to add</span>
+        </div>
+      </mat-list-item>
+    </mat-list></div>
+</div>
+<div *ngIf="contactId > 0">
+  <div  *ngFor="let c of contacts">{{c.venue?.contact?.businessName}}</div>
+</div>

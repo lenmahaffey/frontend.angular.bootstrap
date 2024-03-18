@@ -37,14 +37,12 @@ export class AddContactModalComponent {
           const validatiors = [Validators.required, Validators.maxLength(50)]
           if(data)
           {
-            console.log('is a business')
             this.firstNameInput.clearValidators()
             this.lastNameInput.clearValidators()
             this.businessNameInput.addValidators(validatiors)
           }
           else
           {
-            console.log('is not a business')
             this.firstNameInput.addValidators(validatiors)
             this.lastNameInput.addValidators(validatiors)
             this.isBusinessInput.clearValidators()

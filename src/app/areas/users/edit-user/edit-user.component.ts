@@ -226,19 +226,16 @@ export class EditUserComponent {
 
   receiveNewMailingAddress(event: any)
   {
-    console.log(event)
     this.mailingAddress = event
   }
 
   receiveNewBillingAddress(event: any)
   {
-    console.log(event)
     this.billingAddress = event
   }
 
   receiveNewShippingAddress(event: any)
   {
-    console.log(event)
     this.shippingAddress = event
   }
 

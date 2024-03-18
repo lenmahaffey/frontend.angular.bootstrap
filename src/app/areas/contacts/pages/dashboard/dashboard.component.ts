@@ -36,6 +36,5 @@ export class DashboardComponent implements OnInit {
   onContactUpdated(updatedContact: Contact_DTO)
   {
     this.list.listAllContacts()
-    console.log(updatedContact)
   }
 }

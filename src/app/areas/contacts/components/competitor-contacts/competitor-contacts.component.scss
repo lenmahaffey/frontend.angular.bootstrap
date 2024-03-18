@@ -1,0 +1,113 @@
+@use '/src/appTheme.scss' as *;
+@use '/src/color-palette.scss' as colors;
+@use "sass:map";
+
+.main{
+  height: 100%;
+  margin: 2%;
+}
+
+.image{
+  height: 150px;
+  margin-bottom: 1%;
+}
+
+.addressContainer{
+  display: flex;
+  flex-direction: column;
+  margin-right: 2%;
+  flex: 1;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.saveButton{
+  flex:1;
+  margin: auto;
+}
+
+.numberList{
+  height: 100%;
+}
+
+.phoneNumberList{
+  margin-top: 2%;
+}
+
+.phoneNumberListItem{
+  flex:1;
+  background-color: white;
+  border: solid 1px #ccc;
+  border-radius: 4px;
+}
+
+.listItem{
+  flex:1;
+  background-color: white;
+  border: solid 1px #ccc;
+  border-radius: 4px;
+}
+
+.listItemContainer{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.phoneNumberContainer{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.phoneNumber{
+  align-self: center;
+}
+
+.newPhoneNumberInputs{
+  display: flex;
+  flex:1;
+  flex-direction: row;
+}
+
+.edit{
+  color: $warn;
+  margin-right: 5%;
+  cursor: pointer;
+}
+
+.delete{
+  font-size: larger;
+  color: $warn;
+  cursor: pointer;
+}
+.name{
+  margin-left: auto;
+  margin-right: auto;
+}
+.title{
+  color: gray;
+  font-style: italic;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.menuItem{
+  font-weight: bolder;
+}
+
+.dropText{
+  font-weight: bolder;
+}
+
+.contactListTitle{
+  font-weight: bolder;
+}
+
+.headingButton{
+  margin-bottom: 1%;
+}
+.headerPlaceHolder
+{
+  visibility: hidden;
+}

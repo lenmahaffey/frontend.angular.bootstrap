@@ -235,17 +235,17 @@ export class ListContactsComponent {
     {
       this.filteredList = (this.filteredList.filter(x => {
         if(customers)
-          if(x.isCustomer)
+          if(x.customerId != null)
           {
             return true
           }
         if(freelancers)
-          if(x.isFreelancer)
+          if(x.freelancerId != null)
           {
             return true
           }
         if(employees)
-          if(x.isEmployee)
+          if(x.employeeId !=  null)
           {
             return true
           }

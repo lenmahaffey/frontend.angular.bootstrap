@@ -59,10 +59,8 @@ export class ViewContactComponent implements OnInit {
       {
         next: (data) =>
         {
-          this.getContactInformation(data.id)
-          console.log(data)
           this.contact = data
-          this.setAddressInputs()
+          this.getContactInformation()
         },
         complete: () =>
         {
@@ -72,13 +70,14 @@ export class ViewContactComponent implements OnInit {
     )
   }
 
-  getContactInformation(id: number)
+  getContactInformation()
   {
     let sub = this.service.getContactInformation(this.contactInputId).subscribe(
       {
         next: (data) =>
         {
           this.contactInformation = data
+          this.setAddressInputs()
           this.appState.closeSpinner()
         },
         complete: () =>
@@ -189,8 +188,6 @@ export class ViewContactComponent implements OnInit {
       {
         next: (data) =>
         {
-          console.log("updated:")
-          console.log(data)
           var i = this.contactInformation?.phoneNumbers?.indexOf(number)
           if (i != undefined)
           {
@@ -401,7 +398,6 @@ export class ViewContactComponent implements OnInit {
 
   onAddressReceived(address: PhysicalAddress_DTO)
   {
-    console.log(address)
     if(address.id > 0)
     {
       this.updatePhysicalAddress(address)
@@ -558,125 +554,4 @@ export class ViewContactComponent implements OnInit {
       }
     )
   }
-
-  // onContactDroppedOnCustomerContacts(event:any)
-  // {
-  //   const id = this.contact.customer?.id
-  //   if(id != undefined)
-  //   {
-  //     this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a customer contact`)
-  //     let sub = this.service.AddContactToCustomer(event.item.data.id, id).subscribe(
-  //       {
-  //         next: () =>
-  //         {
-  //           this.updatedContact.next(this.contact);
-  //           this.getContact()
-  //           const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a customer contact`, true)
-  //           this.appState.sendAlert(message);
-  //         },
-  //         complete: () =>
-  //         {
-  //           sub.unsubscribe
-  //         }
-  //       }
-  //     )
-  //   }
-  // }
-
-  // onContactDroppedOnCompetitorContacts(event:any)
-  // {
-  //   const id = this.contact.competitor?.id
-  //   this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a competitor contact`)
-
-  //   if(id != undefined)
-  //   {
-  //     let sub = this.service.AddContactToCompetitor(event.item.data.id, id).subscribe(
-  //       {
-  //         next: () =>
-  //         {
-  //           this.updatedContact.next(this.contact);
-  //           this.getContact()
-  //           const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a competitor contact`, true)
-  //           this.appState.sendAlert(message);
-  //         },
-  //         complete: () =>
-  //         {
-  //           sub.unsubscribe
-  //         }
-  //       }
-  //     )
-  //   }
-  // }
-
-  // onContactDroppedOnManufacturerContacts(event:any)
-  // {
-  //   const id = this.contact.manufacturer?.id
-  //   if(id != undefined)
-  //   {
-  //     this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a manufacturer contact`)
-  //     let sub = this.service.AddContactToManufacturer(event.item.data.id, id).subscribe(
-  //       {
-  //         next: () =>
-  //         {
-  //           this.updatedContact.next(this.contact);
-  //           this.getContact()
-  //           const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a manufacturer contact`, true)
-  //           this.appState.sendAlert(message);
-  //         },
-  //         complete: () =>
-  //         {
-  //           sub.unsubscribe
-  //         }
-  //       }
-  //     )
-  //   }
-  // }
-
-  // onContactDroppedOnVendorContacts(event:any)
-  // {
-  //   const id = this.contact.vendor?.id
-  //   if(id != undefined)
-  //   {
-  //     this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a vendor contact`)
-  //     let sub = this.service.AddContactToVendor(event.item.data.id, id).subscribe(
-  //       {
-  //         next: (data) =>
-  //         {
-  //           this.updatedContact.next(this.contact);
-  //           this.getContact()
-  //           const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a vendor contact`, true)
-  //           this.appState.sendAlert(message);
-  //         },
-  //         complete: () =>
-  //         {
-  //           sub.unsubscribe
-  //         }
-  //       }
-  //     )
-  //   }
-  // }
-
-  // onContactDroppedOnVenueContacts(event:any)
-  // {
-  //   const id = this.contact.venue?.id
-  //   if(id != undefined)
-  //   {
-  //     this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(this.contact)} as a venue contact`)
-  //     let sub = this.service.AddContactToVenue(event.item.data.id, id).subscribe(
-  //       {
-  //         next: (data) =>
-  //         {
-  //           this.updatedContact.next(this.contact);
-  //           this.getContact()
-  //           const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(this.contact)} as a venue contact`, true)
-  //           this.appState.sendAlert(message);
-  //         },
-  //         complete: () =>
-  //         {
-  //           sub.unsubscribe
-  //         }
-  //       }
-  //     )
-  //   }
-  // }
 }

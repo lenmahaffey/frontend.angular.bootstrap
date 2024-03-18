@@ -21,7 +21,6 @@ export class AddNewTypeComponent {
   constructor(@Inject(MAT_DIALOG_DATA) private data: InventoryItemCategory_DTO)
   {
     this.selectedCategory = data
-    console.log(this.selectedCategory)
   }
 
   addNewType()

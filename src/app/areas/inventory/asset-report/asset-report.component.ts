@@ -35,7 +35,6 @@ export class AssetReportComponent {
       {
         next: (data) =>
         {
-          console.log(data)
           this.values = data
         },
         error: (error) =>

@@ -91,7 +91,6 @@ export class CategoryTreeComponent {
 
   onClick(selection: InventoryItemCategory_DTO | InventoryItemType_DTO | InventoryItemSubType_DTO)
   {
-    console.log(selection)
     this.selection.next(selection)
   }
 }

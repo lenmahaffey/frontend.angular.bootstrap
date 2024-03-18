@@ -89,149 +89,24 @@
               </div>
             </div>
           </mat-tab>
-          <!-- <mat-tab label="{{contact.isBusiness ? 'Contacts' : 'Companies'}}">
+          <mat-tab label="{{contact.isBusiness ? 'Contacts' : 'Companies'}}">
 
-            <div *ngIf="contact.isBusiness == false">
-              <div *ngFor="let customerContact of contact.customerContacts">{{customerContact.customer?.contact?.businessName}}</div>
+            <div *ngIf="!contact.isBusiness">
+              <app-customer-contacts *ngIf="contact.hasCustomerContacts" [contactId]="contact.id"></app-customer-contacts>
+              <app-competitor-contacts *ngIf="contact.hasCompetitorContacts" [contactId]="contact.id"></app-competitor-contacts>
+              <app-manufacturer-contacts *ngIf="contact.hasManufacturerContacts" [contactId]="contact.id"></app-manufacturer-contacts>
+              <app-vendor-contacts *ngIf="contact.hasVendorContacts" [contactId]="contact.id"></app-vendor-contacts>
+              <app-venue-contacts *ngIf="contact.hasVenueContacts" [contactId]="contact.id"></app-venue-contacts>
             </div>
 
             <div *ngIf="contact.isBusiness">
-              <mat-list id="customerContacts" *ngIf="contact.customer" cdkDropList (cdkDropListDropped)="onContactDroppedOnCustomerContacts($event)">
-                <span class="contactListTitle">Customer Contacts</span>
-                <mat-list-item class="listItem flexItem">
-                  <div class="listItemContainer">
-                    <div class="flexItem menuItem">Name</div>
-                    <div class="flexItem menuItem">Title</div>
-                    <div class="flexItem menuItem">Phone Number</div>
-                    <div class="menuItem">Delete</div>
-                  </div>
-                </mat-list-item>
-                <mat-list-item class="listItem flexItem" *ngFor="let cc of contact.customer?.customerContacts">
-                  <div class="listItemContainer">
-                    <div class="flexItem ">{{cc.contact?.firstName}} {{cc.contact?.lastName}} </div>
-                    <div class="flexItem title">{{cc.contact?.title ?? 'No Title'}}</div>
-                    <div class="flexItem ">{{cc.contact?.contactInformation?.phoneNumbers![0] | phoneNumberToString}}</div>
-                    <div class="delete">
-                      <i class="fa-solid fa-xmark fa-2xl"></i>
-                    </div>
-                  </div>
-                </mat-list-item>
-                <mat-list-item class="listItem flexRow">
-                  <div class="flexItem flexRow">
-                    <span class="autoMargin dropText">Drag a contact here to add</span>
-                  </div>
-                </mat-list-item>
-              </mat-list>
-
-              <mat-list id="competitorContacts" class="list" *ngIf="contact.competitor" cdkDropList (cdkDropListDropped)="onContactDroppedOnCompetitorContacts($event)">
-                <div>Competitor Contacts</div>
-                <mat-list-item class="listItem flexItem">
-                  <div class="listItemContainer">
-                    <div class="flexItem menuItem">Name</div>
-                    <div class="flexItem menuItem">Title</div>
-                    <div class="flexItem menuItem">Phone Number</div>
-                    <div class="menuItem">Delete</div>
-                  </div>
-                </mat-list-item>
-                <mat-list-item class="listItem" *ngFor="let cc of contact.competitor.competitorContacts">
-                  <div class="listItemContainer">
-                    <div class="flexItem ">{{cc.contact?.firstName}} {{cc.contact?.lastName}} </div>
-                    <div class="flexItem title">{{cc.contact?.title ?? 'No Title'}}</div>
-                    <div class="flexItem ">{{cc.contact?.contactInformation?.phoneNumbers![0] | phoneNumberToString}}</div>
-                    <div class="delete">
-                      <i class="fa-solid fa-xmark fa-2xl"></i>
-                    </div>
-                  </div>
-                </mat-list-item>
-                <mat-list-item class="listItem flexRow">
-                  <div class="flexItem flexRow">
-                    <span class="autoMargin dropText">Drag a contact here to add</span>
-                  </div>
-                </mat-list-item>
-              </mat-list>
-
-              <mat-list id="manufacturerContacts" class="list" *ngIf="contact.manufacturer" cdkDropList (cdkDropListDropped)="onContactDroppedOnManufacturerContacts($event)">
-                <div>Manufacturer Contacts</div>
-                <mat-list-item class="listItem flexItem">
-                  <div class="listItemContainer">
-                    <div class="flexItem menuItem">Name</div>
-                    <div class="flexItem menuItem">Title</div>
-                    <div class="flexItem menuItem">Phone Number</div>
-                    <div class="menuItem">Delete</div>
-                  </div>
-                </mat-list-item>
-                <mat-list-item class="listItem" *ngFor="let mc of contact.manufacturer.manufacturerContacts">
-                  <div class="listItemContainer">
-                    <div class="flexItem ">{{mc.contact?.firstName}} {{mc.contact?.lastName}} </div>
-                    <div class="flexItem title">{{mc.contact?.title ?? 'No Title'}}</div>
-                    <div class="flexItem ">{{mc.contact?.contactInformation?.phoneNumbers![0] | phoneNumberToString}}</div>
-                    <div class="delete">
-                      <i class="fa-solid fa-xmark fa-2xl"></i>
-                    </div>
-                  </div>
-                </mat-list-item>
-                <mat-list-item class="listItem flexRow">
-                  <div class="flexItem flexRow">
-                    <span class="autoMargin dropText">Drag a contact here to add</span>
-                  </div>
-                </mat-list-item>
-              </mat-list>
-
-              <mat-list id="vendorContacts" class="list" *ngIf="contact.vendor" cdkDropList (cdkDropListDropped)="onContactDroppedOnVendorContacts($event)">
-                <div>Vendor Contacts</div>
-                <mat-list-item class="listItem flexItem">
-                  <div class="listItemContainer">
-                    <div class="flexItem menuItem">Name</div>
-                    <div class="flexItem menuItem">Title</div>
-                    <div class="flexItem menuItem">Phone Number</div>
-                    <div class="menuItem">Delete</div>
-                  </div>
-                </mat-list-item>
-                <mat-list-item class="listItem" *ngFor="let vc of contact.vendor.vendorContacts">
-                  <div class="listItemContainer">
-                    <div class="flexItem ">{{vc.contact?.firstName}} {{vc.contact?.lastName}} </div>
-                    <div class="flexItem title">{{vc.contact?.title ?? 'No Title'}}</div>
-                    <div class="flexItem ">{{vc.contact?.contactInformation?.phoneNumbers![0] | phoneNumberToString}}</div>
-                    <div class="delete">
-                      <i class="fa-solid fa-xmark fa-2xl"></i>
-                    </div>
-                  </div>
-                </mat-list-item>
-                <mat-list-item class="listItem flexRow">
-                  <div class="flexItem flexRow">
-                    <span class="autoMargin dropText">Drag a contact here to add</span>
-                  </div>
-                </mat-list-item>
-              </mat-list>
-
-              <mat-list id="venueContacts" class="list" *ngIf="contact.venue" cdkDropList (cdkDropListDropped)="onContactDroppedOnVenueContacts($event)">
-                <div>Venue Contacts</div>
-                <mat-list-item class="listItem flexItem">
-                  <div class="listItemContainer">
-                    <div class="flexItem menuItem">Name</div>
-                    <div class="flexItem menuItem">Title</div>
-                    <div class="flexItem menuItem">Phone Number</div>
-                    <div class="menuItem">Delete</div>
-                  </div>
-                </mat-list-item>
-                <mat-list-item class="listItem" *ngFor="let vc of contact.venue.venueContacts">
-                  <div class="listItemContainer">
-                    <div class="flexItem ">{{vc.contact?.firstName}} {{vc.contact?.lastName}} </div>
-                    <div class="flexItem title">{{vc.contact?.title ?? 'No Title'}}</div>
-                    <div class="flexItem ">{{vc.contact?.contactInformation?.phoneNumbers![0] | phoneNumberToString}}</div>
-                    <div class="delete">
-                      <i class="fa-solid fa-xmark fa-2xl"></i>
-                    </div>
-                  </div>
-                </mat-list-item>
-                <mat-list-item class="listItem flexRow">
-                  <div class="flexItem flexRow">
-                    <span class="autoMargin dropText">Drag a contact here to add</span>
-                  </div>
-                </mat-list-item>
-              </mat-list>
+              <app-customer-contacts [customerId]="contact.customerId!"></app-customer-contacts>
+              <app-competitor-contacts [competitorId]="contact.competitorId!"></app-competitor-contacts>
+              <app-manufacturer-contacts [manufacturerId]="contact.manufacturerId!"></app-manufacturer-contacts>
+              <app-vendor-contacts [vendorId]="contact.vendorId!"></app-vendor-contacts>
+              <app-venue-contacts [venueId]="contact.venueId!"></app-venue-contacts>
             </div>
-          </mat-tab> -->
+          </mat-tab>
         </mat-tab-group>
       </mat-card-content>
     </mat-card>

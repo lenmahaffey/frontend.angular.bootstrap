@@ -9,6 +9,11 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AddPhoneNumberModalComponent } from './components/phone-number-modal/add-phone-number-modal.component';
 import { AddEmailAddressModalComponent } from './components/email-address-modal/add-email-address-modal.component';
 import { AddAddressFormComponent } from './components/address-form/address-form.component';
+import { CustomerContactsComponent } from './components/customer-contacts/customer-contacts.component';
+import { CompetitorContactsComponent } from './components/competitor-contacts/competitor-contacts.component';
+import { ManufacturerContactsComponent } from './components/manufacturer-contacts/manufacturer-contacts.component';
+import { VendorContactsComponent } from './components/vendor-contacts/vendor-contacts.component';
+import { VenueContactsComponent } from './components/venue-contacts/venue-contacts.component';
 
 
 
@@ -21,6 +26,11 @@ import { AddAddressFormComponent } from './components/address-form/address-form.
     AddAddressFormComponent,
     AddPhoneNumberModalComponent,
     AddEmailAddressModalComponent,
+    CustomerContactsComponent,
+    CompetitorContactsComponent,
+    ManufacturerContactsComponent,
+    VendorContactsComponent,
+    VenueContactsComponent,
   ],
   imports: [
     CommonModule,
