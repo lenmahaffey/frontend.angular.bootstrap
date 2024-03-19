@@ -39,7 +39,7 @@ export class VenueContactsComponent implements OnChanges{
           next: (data) =>
           {
             this.contacts = data
-            this.getPhoneNumbers()
+            this.getPhoneNumbersForContacts()
           },
           complete: () =>
           {
@@ -54,6 +54,7 @@ export class VenueContactsComponent implements OnChanges{
           next: (data) =>
           {
             this.contacts = data
+            this.getPhoneNumbersForVenues()
           },
           complete: () =>
           {
@@ -63,17 +64,43 @@ export class VenueContactsComponent implements OnChanges{
     }
   }
 
-  getPhoneNumbers()
+  getPhoneNumbersForVenues()
+  {
+    this.contacts.forEach(contact => {
+      let sub = this.service.GetPhoneNumbersForContact(contact.venue?.contactId!).subscribe(
+        {
+          next: (data) =>
+          {
+            if(data.length > 0)
+            {
+              data.forEach(d =>
+                {
+                  this.numbers.push(d)
+                })
+            }
+          },
+          complete: () =>
+          {
+            sub.unsubscribe()
+          }
+        })
+    });
+  }
+
+  getPhoneNumbersForContacts()
   {
     this.contacts.forEach(contact => {
       let sub = this.service.GetPhoneNumbersForContact(contact.contactId).subscribe(
         {
           next: (data) =>
           {
+            if(data.length > 0)
+            {
             data.forEach(d =>
               {
                 this.numbers.push(d)
               })
+            }
           },
           complete: () =>
           {
@@ -85,37 +112,35 @@ export class VenueContactsComponent implements OnChanges{
 
   getNumber(id: number) : PhoneNumber_DTO
   {
-    return this.numbers.find(x => x.contactInformationId == id) ??
-      new PhoneNumber_DTO()
+    return this.numbers.find(x => x.contactInformationId == id)!
   }
 
   onContactDropped(event:any)
   {
-    const venue = this.contacts[0].venue
+    const Venue = this.contacts[0].venue
     const contact = event.item.data
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} to ${this.namePipe.transform(venue!.contact!)} as a Venue contact`)
-    if(venue != null)
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(Venue!.contact!)} as a Venue contact`)
+    if(Venue != undefined)
     {
-      let sub = this.service.AddVenueContact(venue.id, contact.id).subscribe(
+    let sub = this.service.AddVenueContact(Venue.id, contact.id).subscribe(
+      {
+        next: () =>
         {
-          next: () =>
-          {
-            this.getVenueContacts()
-            this.appState.closeSpinner()
-            const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(venue!.contact!)} as a Venue contact`, true)
-            this.appState.sendAlert(message);
-          },
-          complete: () =>
-          {
-            sub.unsubscribe
-          }
+          this.appState.closeSpinner()
+          const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(Venue!.contact!)} as a Venue contact`, true)
+          this.appState.sendAlert(message);
+          this.getVenueContacts()
+        },
+        complete: () =>
+        {
+          sub.unsubscribe
         }
-      )
+      })
     }
   }
+
   onDeleteContactClicked(contact: VenueContact_DTO)
   {
-    console.log("click")
     var config = new MatDialogConfig()
     config.data =
     {
@@ -134,7 +159,10 @@ export class VenueContactsComponent implements OnChanges{
       {
         next: (data) =>
         {
-          this.deleteContact(contact)
+          if( data)
+          {
+            this.deleteContact(contact)
+          }
         },
         complete: () =>
         {

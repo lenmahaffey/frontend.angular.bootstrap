@@ -1,4 +1,4 @@
-<div *ngIf="customerId > 0">
+<div *ngIf="customerId != null && customerId > 0">
   <div>
     <mat-list id="customerContacts" cdkDropList (cdkDropListDropped)="onContactDropped($event)">
       <span class="contactListTitle">Customer Contacts</span>
@@ -13,9 +13,9 @@
 
       <mat-list-item class="listItem flexItem" *ngFor="let c of contacts">
         <div class="listItemContainer">
-          <div class="flexItem ">{{c.contact!.firstName}} {{c.contact!.lastName}} </div>
+          <div class="flexItem ">{{c.contact! | contactName }}</div>
           <div class="flexItem title">{{c.contact!.title ?? 'No Title'}}</div>
-          <div class="flexItem title">{{ getNumber(c.contact!.contactInformationId || 0)  | phoneNumberToString }}</div>
+          <div class="flexItem title">{{ getNumber(c.contact!.contactInformationId!)  | phoneNumberToString }}</div>
           <div class="delete" (click)="onDeleteContactClicked(c)">
             <i class="fa-solid fa-xmark fa-2xl"  ></i>
           </div>
@@ -28,6 +28,25 @@
       </mat-list-item>
     </mat-list></div>
 </div>
-<div *ngIf="contactId > 0">
-  <div  *ngFor="let c of contacts">{{c.customer?.contact?.businessName}}</div>
+<div *ngIf="contactId != null && contactId > 0">
+  <mat-list id="customerContacts">
+    <span class="contactListTitle">Customer Contacts</span>
+    <mat-list-item class="listItem flexItem">
+      <div class="listItemContainer">
+        <div class="flexItem menuItem">Name</div>
+        <div class="flexItem menuItem">Phone Number</div>
+        <div class="menuItem">Delete</div>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item class="listItem flexItem" *ngFor="let c of contacts">
+      <div class="listItemContainer">
+        <div class="flexItem ">{{c.customer!.contact! | contactName }}</div>
+        <div class="flexItem title">{{ getNumber(c.customer!.contact!.contactInformationId!)  | phoneNumberToString }}</div>
+        <div class="delete" (click)="onDeleteContactClicked(c)">
+          <i class="fa-solid fa-xmark fa-2xl"  ></i>
+        </div>
+      </div>
+    </mat-list-item>
+  </mat-list>
 </div>

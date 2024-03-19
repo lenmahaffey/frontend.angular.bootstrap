@@ -39,7 +39,7 @@ export class VendorContactsComponent implements OnChanges{
           next: (data) =>
           {
             this.contacts = data
-            this.getPhoneNumbers()
+            this.getPhoneNumbersForContacts()
           },
           complete: () =>
           {
@@ -54,6 +54,7 @@ export class VendorContactsComponent implements OnChanges{
           next: (data) =>
           {
             this.contacts = data
+            this.getPhoneNumbersForVendors()
           },
           complete: () =>
           {
@@ -63,17 +64,43 @@ export class VendorContactsComponent implements OnChanges{
     }
   }
 
-  getPhoneNumbers()
+  getPhoneNumbersForVendors()
+  {
+    this.contacts.forEach(contact => {
+      let sub = this.service.GetPhoneNumbersForContact(contact.vendor?.contactId!).subscribe(
+        {
+          next: (data) =>
+          {
+            if(data.length > 0)
+            {
+              data.forEach(d =>
+                {
+                  this.numbers.push(d)
+                })
+            }
+          },
+          complete: () =>
+          {
+            sub.unsubscribe()
+          }
+        })
+    });
+  }
+
+  getPhoneNumbersForContacts()
   {
     this.contacts.forEach(contact => {
       let sub = this.service.GetPhoneNumbersForContact(contact.contactId).subscribe(
         {
           next: (data) =>
           {
+            if(data.length > 0)
+            {
             data.forEach(d =>
               {
                 this.numbers.push(d)
               })
+            }
           },
           complete: () =>
           {
@@ -85,38 +112,35 @@ export class VendorContactsComponent implements OnChanges{
 
   getNumber(id: number) : PhoneNumber_DTO
   {
-    return this.numbers.find(x => x.contactInformationId == id) ??
-      new PhoneNumber_DTO()
+    return this.numbers.find(x => x.contactInformationId == id)!
   }
 
   onContactDropped(event:any)
   {
     const Vendor = this.contacts[0].vendor
     const contact = event.item.data
-    const id = this.vendorId
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} to ${this.namePipe.transform(Vendor!.contact!)} as a Vendor contact`)
-    if(Vendor != null)
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(Vendor!.contact!)} as a Vendor contact`)
+    if(Vendor != undefined)
     {
-      let sub = this.service.AddVendorContact(Vendor.id, contact.id).subscribe(
+    let sub = this.service.AddVendorContact(Vendor.id, contact.id).subscribe(
+      {
+        next: () =>
         {
-          next: () =>
-          {
-            this.getVendorContacts()
-            this.appState.closeSpinner()
-            const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(Vendor!.contact!)} as a Vendor contact`, true)
-            this.appState.sendAlert(message);
-          },
-          complete: () =>
-          {
-            sub.unsubscribe
-          }
+          this.appState.closeSpinner()
+          const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(Vendor!.contact!)} as a Vendor contact`, true)
+          this.appState.sendAlert(message);
+          this.getVendorContacts()
+        },
+        complete: () =>
+        {
+          sub.unsubscribe
         }
-      )
+      })
     }
   }
+
   onDeleteContactClicked(contact: VendorContact_DTO)
   {
-    console.log("click")
     var config = new MatDialogConfig()
     config.data =
     {
@@ -135,7 +159,10 @@ export class VendorContactsComponent implements OnChanges{
       {
         next: (data) =>
         {
-          this.deleteContact(contact)
+          if( data)
+          {
+            this.deleteContact(contact)
+          }
         },
         complete: () =>
         {
@@ -162,7 +189,6 @@ export class VendorContactsComponent implements OnChanges{
         {
           sub.unsubscribe
         }
-      }
-    )
+      })
   }
 }

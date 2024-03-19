@@ -39,7 +39,7 @@ export class ManufacturerContactsComponent implements OnChanges{
           next: (data) =>
           {
             this.contacts = data
-            this.getPhoneNumbers()
+            this.getPhoneNumbersForContacts()
           },
           complete: () =>
           {
@@ -54,6 +54,7 @@ export class ManufacturerContactsComponent implements OnChanges{
           next: (data) =>
           {
             this.contacts = data
+            this.getPhoneNumbersForManufacturers()
           },
           complete: () =>
           {
@@ -63,17 +64,43 @@ export class ManufacturerContactsComponent implements OnChanges{
     }
   }
 
-  getPhoneNumbers()
+  getPhoneNumbersForManufacturers()
+  {
+    this.contacts.forEach(contact => {
+      let sub = this.service.GetPhoneNumbersForContact(contact.manufacturer?.contactId!).subscribe(
+        {
+          next: (data) =>
+          {
+            if(data.length > 0)
+            {
+              data.forEach(d =>
+                {
+                  this.numbers.push(d)
+                })
+            }
+          },
+          complete: () =>
+          {
+            sub.unsubscribe()
+          }
+        })
+    });
+  }
+
+  getPhoneNumbersForContacts()
   {
     this.contacts.forEach(contact => {
       let sub = this.service.GetPhoneNumbersForContact(contact.contactId).subscribe(
         {
           next: (data) =>
           {
+            if(data.length > 0)
+            {
             data.forEach(d =>
               {
                 this.numbers.push(d)
               })
+            }
           },
           complete: () =>
           {
@@ -85,39 +112,35 @@ export class ManufacturerContactsComponent implements OnChanges{
 
   getNumber(id: number) : PhoneNumber_DTO
   {
-    return this.numbers.find(x => x.contactInformationId == id) ??
-      new PhoneNumber_DTO()
+    return this.numbers.find(x => x.contactInformationId == id)!
   }
 
   onContactDropped(event:any)
   {
-    const manufacturer = this.contacts[0].manufacturer
+    const Manufacturer = this.contacts[0].manufacturer
     const contact = event.item.data
-    const id = this.manufacturerId
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} to ${this.namePipe.transform(manufacturer!.contact!)} as a Manufacturer contact`)
-    if(manufacturer != null)
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(Manufacturer!.contact!)} as a Manufacturer contact`)
+    if(Manufacturer != undefined)
     {
-      let sub = this.service.AddManufacturerContact(manufacturer.id, contact.id).subscribe(
+    let sub = this.service.AddManufacturerContact(Manufacturer.id, contact.id).subscribe(
+      {
+        next: () =>
         {
-          next: () =>
-          {
-            this.getManufacturerContacts()
-            this.appState.closeSpinner()
-            const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(manufacturer!.contact!)} as a Manufacturer contact`, true)
-            this.appState.sendAlert(message);
-          },
-          complete: () =>
-          {
-            sub.unsubscribe
-          }
+          this.appState.closeSpinner()
+          const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(Manufacturer!.contact!)} as a Manufacturer contact`, true)
+          this.appState.sendAlert(message);
+          this.getManufacturerContacts()
+        },
+        complete: () =>
+        {
+          sub.unsubscribe
         }
-      )
+      })
     }
   }
-  
+
   onDeleteContactClicked(contact: ManufacturerContact_DTO)
   {
-    console.log("click")
     var config = new MatDialogConfig()
     config.data =
     {
@@ -136,7 +159,10 @@ export class ManufacturerContactsComponent implements OnChanges{
       {
         next: (data) =>
         {
-          this.deleteContact(contact)
+          if( data)
+          {
+            this.deleteContact(contact)
+          }
         },
         complete: () =>
         {

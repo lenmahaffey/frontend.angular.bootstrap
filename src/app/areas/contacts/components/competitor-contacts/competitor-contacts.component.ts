@@ -19,8 +19,12 @@ export class CompetitorContactsComponent implements OnChanges{
   contacts: CompetitorContact_DTO[] = []
   numbers:PhoneNumber_DTO[] = []
 
-  constructor(private service: ContactService, private appState: AppStateService, private namePipe: ContactNamePipe, private dialog: MatDialog) {
-  }
+  constructor(
+    private service: ContactService,
+    private appState: AppStateService,
+    private namePipe: ContactNamePipe,
+    private dialog: MatDialog)
+  {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.getCompetitorContacts()
@@ -35,7 +39,7 @@ export class CompetitorContactsComponent implements OnChanges{
           next: (data) =>
           {
             this.contacts = data
-            this.getPhoneNumbers()
+            this.getPhoneNumbersForContacts()
           },
           complete: () =>
           {
@@ -50,6 +54,7 @@ export class CompetitorContactsComponent implements OnChanges{
           next: (data) =>
           {
             this.contacts = data
+            this.getPhoneNumbersForCompetitors()
           },
           complete: () =>
           {
@@ -58,18 +63,42 @@ export class CompetitorContactsComponent implements OnChanges{
         })
     }
   }
-
-  getPhoneNumbers()
+  getPhoneNumbersForCompetitors()
+  {
+    this.contacts.forEach(contact => {
+      let sub = this.service.GetPhoneNumbersForContact(contact.competitor?.contactId!).subscribe(
+        {
+          next: (data) =>
+          {
+            if(data != null)
+            {
+              data.forEach(d =>
+                {
+                  this.numbers.push(d)
+                })
+            }
+          },
+          complete: () =>
+          {
+            sub.unsubscribe()
+          }
+        })
+    });
+  }
+  getPhoneNumbersForContacts()
   {
     this.contacts.forEach(contact => {
       let sub = this.service.GetPhoneNumbersForContact(contact.contactId).subscribe(
         {
           next: (data) =>
           {
+            if(data != null)
+            {
             data.forEach(d =>
               {
                 this.numbers.push(d)
               })
+            }
           },
           complete: () =>
           {
@@ -109,6 +138,7 @@ export class CompetitorContactsComponent implements OnChanges{
       )
     }
   }
+
   onDeleteContactClicked(contact: CompetitorContact_DTO)
   {
     console.log("click")
@@ -130,7 +160,10 @@ export class CompetitorContactsComponent implements OnChanges{
       {
         next: (data) =>
         {
-          this.deleteContact(contact)
+          if( data)
+          {
+            this.deleteContact(contact)
+          }
         },
         complete: () =>
         {

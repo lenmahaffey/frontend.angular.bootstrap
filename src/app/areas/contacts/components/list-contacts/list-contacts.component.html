@@ -51,7 +51,7 @@
           </div>
         </mat-radio-group>
       </mat-menu>
-      <button mat-raised-button color="primary" (click)="openModal()">Add New</button>
+      <button mat-raised-button color="primary" (click)="openAddContactModal()">Add New</button>
     </div>
     <div class="list">
       <div *ngFor="let contact of filteredList" class="pointer listItem flexRow" (click)="contactClicked(contact)" cdkDragList cdkDrag [cdkDragData]="contact">

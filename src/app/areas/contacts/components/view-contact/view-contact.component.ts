@@ -117,6 +117,7 @@ export class ViewContactComponent implements OnInit {
         {
           if(data != undefined)
           {
+            console.log(data)
             data.id == 0 ? this.addPhoneNumber(data) : this.updatePhoneNumber(data)
           }
         },
@@ -157,7 +158,7 @@ export class ViewContactComponent implements OnInit {
   addPhoneNumber(number: PhoneNumber_DTO)
   {
     this.appState.openSpinner("Adding phone number")
-    number.contactInformationId = this.contactInformation?.id ?? 0
+    number.contactInformationId = this.contactInformation?.id
     let sub = this.service.AddPhoneNumber(number).subscribe(
       {
         next: (data) =>

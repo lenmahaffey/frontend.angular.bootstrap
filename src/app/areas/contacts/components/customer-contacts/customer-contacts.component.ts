@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ContactService } from '../../contact.service';
 import { CustomerContact_DTO, PhoneNumber_DTO } from 'src/app/shared/api/api.models';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
@@ -25,7 +25,7 @@ export class CustomerContactsComponent implements  OnChanges {
     private appState: AppStateService,
     private namePipe: ContactNamePipe,
     private dialog: MatDialog)
-     {}
+  {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.getCustomerContacts()
@@ -40,7 +40,7 @@ export class CustomerContactsComponent implements  OnChanges {
           next: (data) =>
           {
             this.contacts = data
-            this.getPhoneNumbers()
+            this.getPhoneNumbersForContacts()
           },
           complete: () =>
           {
@@ -55,6 +55,7 @@ export class CustomerContactsComponent implements  OnChanges {
           next: (data) =>
           {
             this.contacts = data
+            this.getPhoneNumbersForCustomers()
           },
           complete: () =>
           {
@@ -64,17 +65,43 @@ export class CustomerContactsComponent implements  OnChanges {
     }
   }
 
-  getPhoneNumbers()
+  getPhoneNumbersForCustomers()
+  {
+    this.contacts.forEach(contact => {
+      let sub = this.service.GetPhoneNumbersForContact(contact.customer?.contactId!).subscribe(
+        {
+          next: (data) =>
+          {
+            if(data.length > 0)
+            {
+              data.forEach(d =>
+                {
+                  this.numbers.push(d)
+                })
+            }
+          },
+          complete: () =>
+          {
+            sub.unsubscribe()
+          }
+        })
+    });
+  }
+
+  getPhoneNumbersForContacts()
   {
     this.contacts.forEach(contact => {
       let sub = this.service.GetPhoneNumbersForContact(contact.contactId).subscribe(
         {
           next: (data) =>
           {
+            if(data.length > 0)
+            {
             data.forEach(d =>
               {
                 this.numbers.push(d)
               })
+            }
           },
           complete: () =>
           {
@@ -86,9 +113,9 @@ export class CustomerContactsComponent implements  OnChanges {
 
   getNumber(id: number) : PhoneNumber_DTO
   {
-    return this.numbers.find(x => x.contactInformationId == id) ??
-      new PhoneNumber_DTO()
+    return this.numbers.find(x => x.contactInformationId == id)!
   }
+
   onContactDropped(event:any)
   {
     const customer = this.contacts[0].customer
@@ -115,7 +142,6 @@ export class CustomerContactsComponent implements  OnChanges {
 
   onDeleteContactClicked(contact: CustomerContact_DTO)
   {
-    console.log("click")
     var config = new MatDialogConfig()
     config.data =
     {
@@ -134,7 +160,10 @@ export class CustomerContactsComponent implements  OnChanges {
       {
         next: (data) =>
         {
-          this.deleteContact(contact)
+          if( data)
+          {
+            this.deleteContact(contact)
+          }
         },
         complete: () =>
         {

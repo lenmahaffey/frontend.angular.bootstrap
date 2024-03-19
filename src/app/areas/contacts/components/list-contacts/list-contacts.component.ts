@@ -73,6 +73,7 @@ export class ListContactsComponent {
             this.filteredList = data
             this.sortContacts()
             this.filterContacts()
+            console.log(this.contactList)
             if(contactId != 0)
             {
               this.contactList.forEach((x, i) =>
@@ -259,7 +260,7 @@ export class ListContactsComponent {
     }
   }
 
-  openModal()
+  openAddContactModal()
   {
     var config = new MatDialogConfig()
     var dto = new Contact_DTO()
@@ -291,10 +292,14 @@ export class ListContactsComponent {
 
   addContact(contact: Contact_DTO)
   {
+    this.appStateService.openSpinner(`Adding ${this.namePipe.transform(contact)} to contact list`);
     const sub = this.service.AddContact(contact).subscribe(
       {
         next: () =>
         {
+          this.appStateService.closeSpinner()
+          const message = new Message(MessageType.Success, `${this.namePipe.transform(contact)} was added to the contact list`)
+          this.appStateService.sendAlert(message)
           this.listAllContacts(false)
         }
       }

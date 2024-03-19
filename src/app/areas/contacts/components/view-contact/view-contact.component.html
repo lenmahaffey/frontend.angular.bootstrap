@@ -6,7 +6,7 @@
           <img class="image" src="../../../../assets/No-Image-Placeholder.svg">
           <div class="flexColumn flexItem">
             <div class="name">
-              <h1>{{ this.contact.businessName }}{{this.contact.firstName}} {{this.contact.lastName}}</h1>
+              <h1>{{ this.contact | contactName}}</h1>
             </div>
             <div class="title">
               <h3>{{ this.contact.title != null ? this.contact.title : "none" }}</h3>
