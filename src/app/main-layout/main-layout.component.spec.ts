@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MainLayoutComponent } from './main-layout.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { SharedModule } from '../shared/shared.module';
+import { MainLayoutModule } from './main-layout.module';
 
 describe('MainLayoutComponent', () => {
   let component: MainLayoutComponent;
@@ -8,7 +11,9 @@ describe('MainLayoutComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MainLayoutComponent]
+      declarations: [MainLayoutComponent],
+      imports: [HttpClientTestingModule, SharedModule, MainLayoutModule],
+      providers: []
     });
     fixture = TestBed.createComponent(MainLayoutComponent);
     component = fixture.componentInstance;

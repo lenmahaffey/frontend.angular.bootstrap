@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FooterComponent } from './footer.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('FooterComponent', () => {
   let component: FooterComponent;
@@ -8,7 +10,9 @@ describe('FooterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FooterComponent]
+      declarations: [FooterComponent],
+      imports: [HttpClientTestingModule, SharedModule],
+      providers: []
     });
     fixture = TestBed.createComponent(FooterComponent);
     component = fixture.componentInstance;

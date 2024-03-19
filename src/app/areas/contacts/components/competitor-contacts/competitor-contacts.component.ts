@@ -5,8 +5,7 @@ import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 
 @Component({
   selector: 'app-competitor-contacts',
@@ -22,8 +21,7 @@ export class CompetitorContactsComponent implements OnChanges{
   constructor(
     private service: ContactService,
     private appState: AppStateService,
-    private namePipe: ContactNamePipe,
-    private dialog: MatDialog)
+    private namePipe: ContactNamePipe)
   {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -141,34 +139,28 @@ export class CompetitorContactsComponent implements OnChanges{
 
   onDeleteContactClicked(contact: CompetitorContact_DTO)
   {
-    console.log("click")
-    var config = new MatDialogConfig()
-    config.data =
-    {
-      title: "Delete Contact?",
-      text: `Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} from ${this.namePipe.transform(contact.competitor?.contact!)} as a customer contact`,
-      noButtonText: "No",
-      yesButtonText: "Yes"
-    }
-    config.disableClose = false;
-    config.position =
-    {
-      top: "5%"
-    }
-    let modalRef = this.dialog.open(ConfirmationDialogComponent, config);
-    const sub = modalRef.componentInstance.response.subscribe(
+    var options = new ConfirmationDialogOptions()
+    options.title = "Delete Contact?"
+    options.text = `Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} from ${this.namePipe.transform(contact.competitor?.contact!)} as a customer contact`
+    const sub = this.appState.openConfirmationDialog(options).subscribe(
       {
         next: (data) =>
         {
-          if( data)
+          if(data)
           {
             this.deleteContact(contact)
           }
+          this.appState.closeConfirmationDialog()
+        },
+        error: () =>
+        {
+          let message = new Message()
+          message.type = MessageType.Error
+          message.text = "There was an error deleting the contact"
         },
         complete: () =>
         {
           sub.unsubscribe()
-          modalRef.close()
         }
       }
     )

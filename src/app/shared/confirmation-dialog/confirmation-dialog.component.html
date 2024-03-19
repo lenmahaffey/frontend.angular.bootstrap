@@ -1,12 +1,12 @@
 <div id="container" (keydown)="onKeyDown($event)">
   <div id="dialog">
-    <div mat-dialog-title>{{ data.title }}</div>
+    <div mat-dialog-title>{{ options.title }}</div>
     <mat-dialog-content>
-      <p>{{ data.text }}</p>
+      <p>{{ options.text }}</p>
     </mat-dialog-content>
     <div id="buttons" mat-dialog-actions>
-      <button mat-raised-button color="warn" type="button" class="" (click)="no()">{{ data.noButtonText }}</button>
-      <button mat-raised-button color="primary" type="button" class="" (click)="yes()">{{ data.yesButtonText }}</button>
+      <button mat-raised-button color="warn" type="button" class="" (click)="no()">{{ options.noButtonText }}</button>
+      <button mat-raised-button color="primary" type="button" class="" (click)="yes()">{{ options.yesButtonText }}</button>
     </div>
   </div>
 </div>

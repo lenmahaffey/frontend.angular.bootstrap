@@ -68,14 +68,7 @@ export class AppStateService {
 
   openConfirmationDialog(options?: ConfirmationDialogOptions) : Observable<boolean | null>
   {
-    const bodyRect = document.body.getBoundingClientRect();
-    var config = new MatDialogConfig()
-    config.data = options
-    config.minWidth = '400px'
-    config.disableClose = true
-    config.autoFocus = false
-    config.position = { left: ((bodyRect.width / 2) - (Number(config.minWidth.replace("px", "")) / 2 )).toString() + "px", top: '7%' }
-    let modalRef = this._dialog.open(ConfirmationDialogComponent, config);
+    let modalRef = this._dialog.open(ConfirmationDialogComponent, {data: {options}});
     return modalRef.componentInstance.response
   }
   closeConfirmationDialog()

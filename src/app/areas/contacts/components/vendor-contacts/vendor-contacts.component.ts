@@ -5,8 +5,7 @@ import { MessageType } from 'src/app/services/message-type.interface';
 import { VendorContact_DTO, PhoneNumber_DTO } from 'src/app/shared/api/api.models';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { ContactService } from '../../contact.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 
 @Component({
   selector: 'app-vendor-contacts',
@@ -22,8 +21,7 @@ export class VendorContactsComponent implements OnChanges{
   constructor(
     private service: ContactService,
     private appState: AppStateService,
-    private namePipe: ContactNamePipe,
-    private dialog: MatDialog)
+    private namePipe: ContactNamePipe)
   {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -141,21 +139,10 @@ export class VendorContactsComponent implements OnChanges{
 
   onDeleteContactClicked(contact: VendorContact_DTO)
   {
-    var config = new MatDialogConfig()
-    config.data =
-    {
-      title: "Delete Contact?",
-      text: `Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} from ${this.namePipe.transform(contact.vendor?.contact!)} as a Vendor contact`,
-      noButtonText: "No",
-      yesButtonText: "Yes"
-    }
-    config.disableClose = false;
-    config.position =
-    {
-      top: "5%"
-    }
-    let modalRef = this.dialog.open(ConfirmationDialogComponent, config);
-    const sub = modalRef.componentInstance.response.subscribe(
+    var config = new ConfirmationDialogOptions()
+    config.title = "Delete Contact?"
+    config.text = `Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} from ${this.namePipe.transform(contact.vendor?.contact!)} as a Vendor contact`
+    const sub = this.appState.openConfirmationDialog(config).subscribe(
       {
         next: (data) =>
         {
@@ -163,11 +150,17 @@ export class VendorContactsComponent implements OnChanges{
           {
             this.deleteContact(contact)
           }
+          this.appState.closeConfirmationDialog()
+        },
+        error: () =>
+        {
+          let message = new Message()
+          message.type = MessageType.Error
+          message.text = "There was an error deleting the contact"
         },
         complete: () =>
         {
           sub.unsubscribe()
-          modalRef.close()
         }
       }
     )

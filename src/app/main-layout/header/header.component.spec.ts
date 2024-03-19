@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderComponent } from './header.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -8,7 +10,9 @@ describe('HeaderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [HeaderComponent]
+      declarations: [HeaderComponent],
+      imports: [HttpClientTestingModule, SharedModule],
+      providers: []
     });
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;

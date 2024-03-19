@@ -7,8 +7,8 @@ export interface ConfirmationDialogOptions {
 
 export class ConfirmationDialogOptions implements ConfirmationDialogOptions
 {
-  title: string = ""
-  text: string = ""
+  title: string = "Confirm"
+  text: string = "Are you sure?"
   noButtonText: string = "Cancel"
   yesButtonText: string = "Ok";
   constructor(title: string = "", text: string = "") {

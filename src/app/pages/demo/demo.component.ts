@@ -1,15 +1,13 @@
 import { Component, OnDestroy, OnInit, isDevMode } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
-import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { LeftSideBarNavLinks } from './left-side-bar-nav-links';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-demo',
@@ -29,10 +27,10 @@ export class DemoComponent implements OnDestroy, OnInit {
     private alertService:AlertService,
     private notificationService: NotificationService,
     private _dialog: MatDialog,
-    private appStateService: AppStateService)
+    private appState: AppStateService)
   {
-    this.appStateService.setLeftSideMenuItems(new LeftSideBarNavLinks())
-    this.appStateService.setLeftSideMenuItems(this.links);
+    this.appState.setLeftSideMenuItems(new LeftSideBarNavLinks())
+    this.appState.setLeftSideMenuItems(this.links);
 
     let temp: any[] = Object.values(this.types).filter(f => !isNaN(Number(f)));
     temp.forEach(key =>{
@@ -58,7 +56,7 @@ export class DemoComponent implements OnDestroy, OnInit {
     console.log("Environemnt Name: " + environment.name + (isDevMode() ? " is a developemnt environemnt" : " is a production environment"));
   }
   ngOnDestroy(): void {
-    this.appStateService.setLeftSideMenuItems(new LeftSideBarNavLinks())
+    this.appState.setLeftSideMenuItems(new LeftSideBarNavLinks())
   }
 
   sendNotification()
@@ -83,29 +81,33 @@ export class DemoComponent implements OnDestroy, OnInit {
 
   openConfirmationDialog()
   {
-    const bodyRect = document.body.getBoundingClientRect();
-    var config = new MatDialogConfig()
-    config.data =
-    {
-      title: "Demostration Modal",
-      text: "This is a modal",
-      yesButtonText: "yes",
-      noButtonText: "no",
-    }
-    config.minWidth = '400px'
-    config.disableClose = true;
-    config.position = { left: ((bodyRect.width / 2) - (Number(config.minWidth.replace("px", "")) / 2 )).toString() + "px", top: '7%' }
-    let modalRef = this._dialog.open(ConfirmationDialogComponent, config);
-    let sub = modalRef.componentInstance.response.subscribe((data: boolean | null) => {
-        this.setConfirmationResponseMessage(data)
-        this._dialog.closeAll()
-        sub.unsubscribe()
+    const options = new ConfirmationDialogOptions()
+    options.text = "This is a modal"
+    options.title = "Confirmation Dialog"
+    let sub = this.appState.openConfirmationDialog(options).subscribe(
+      {
+        next: (data) =>
+        {
+          this.setConfirmationResponseMessage(data)
+          this._dialog.closeAll()
+          sub.unsubscribe()
+        },
+        error: () =>
+        {
+          let message = new Message()
+          message.type = MessageType.Error
+          message.text = "There was an error"
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
+        }
       })
   }
 
   openSpinner()
   {
-    this.appStateService.openSpinner("Fetching Data");
+    this.appState.openSpinner("Fetching Data");
   }
 
   setConfirmationResponseMessage(data: boolean | null)

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Contact_DTO } from 'src/app/shared/api/api.models';
 import { ContactService } from '../../contact.service';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -6,10 +6,10 @@ import { AddContactModalComponent } from '../contact-modal/add-contact.component
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
-import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
+import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 
 @Component({
   selector: 'app-list-contacts',
@@ -38,9 +38,8 @@ export class ListContactsComponent {
   constructor(private alertService: AlertService,
      private service: ContactService,
      private _dialog: MatDialog,
-     private appStateService: AppStateService,
-     private namePipe: ContactNamePipe,
-     private crd: ChangeDetectorRef)
+     private appState: AppStateService,
+     private namePipe: ContactNamePipe)
   {
     this.filterOptions = new  FormGroup(
       {
@@ -63,7 +62,7 @@ export class ListContactsComponent {
   {
     if(spinner)
     {
-      this.appStateService.openSpinner("Getting Contacts")
+      this.appState.openSpinner("Getting Contacts")
     }
     const sub = this.service.listAllContacts(true).subscribe(
       {
@@ -84,7 +83,7 @@ export class ListContactsComponent {
                 }
               })
             }
-            this.appStateService.closeSpinner()
+            this.appState.closeSpinner()
           }
       }
     )
@@ -292,14 +291,14 @@ export class ListContactsComponent {
 
   addContact(contact: Contact_DTO)
   {
-    this.appStateService.openSpinner(`Adding ${this.namePipe.transform(contact)} to contact list`);
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} to contact list`);
     const sub = this.service.AddContact(contact).subscribe(
       {
         next: () =>
         {
-          this.appStateService.closeSpinner()
+          this.appState.closeSpinner()
           const message = new Message(MessageType.Success, `${this.namePipe.transform(contact)} was added to the contact list`)
-          this.appStateService.sendAlert(message)
+          this.appState.sendAlert(message)
           this.listAllContacts(false)
         }
       }
@@ -308,22 +307,10 @@ export class ListContactsComponent {
 
   onDeleteContactClicked(contact: Contact_DTO)
   {
-    var config = new MatDialogConfig()
-    config.data =
-    {
-      title: "Delete Contact?",
-      text: `Are you sure you want to delete ${this.namePipe.transform(contact)}`,
-      dto: this.contact,
-      noButtonText: "No",
-      yesButtonText: "Yes"
-    }
-    config.disableClose = false;
-    config.position =
-    {
-      top: "5%"
-    }
-    let modalRef = this._dialog.open(ConfirmationDialogComponent, config);
-    const sub = modalRef.componentInstance.response.subscribe(
+    var config = new ConfirmationDialogOptions()
+    config.title = "Delete Contact?"
+    config.text = `Are you sure you want to delete ${this.namePipe.transform(contact)}`
+    const sub = this.appState.openConfirmationDialog(config).subscribe(
       {
         next: (data) =>
         {
@@ -332,10 +319,16 @@ export class ListContactsComponent {
             this.deleteContact(contact)
           }
         },
+        error: () =>
+        {
+          let message = new Message()
+          message.type = MessageType.Error
+          message.text = "There was an error deleting the contact"
+          this.appState.sendAlert(message)
+        },
         complete: () =>
         {
           sub.unsubscribe()
-          modalRef.close()
         }
       }
     )
@@ -343,7 +336,7 @@ export class ListContactsComponent {
 
   deleteContact(contact: Contact_DTO)
   {
-    this.appStateService.openSpinner("Deleteing Contact")
+    this.appState.openSpinner("Deleteing Contact")
     const sub = this.service.DeleteContact(contact).subscribe(
       {
         next: (data) =>
@@ -359,7 +352,7 @@ export class ListContactsComponent {
         // },
         complete: () =>
         {
-          this.appStateService.closeSpinner()
+          this.appState.closeSpinner()
           sub.unsubscribe()
         }
       }

@@ -5,8 +5,7 @@ import { MessageType } from 'src/app/services/message-type.interface';
 import { VenueContact_DTO, PhoneNumber_DTO } from 'src/app/shared/api/api.models';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { ContactService } from '../../contact.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 
 @Component({
   selector: 'app-venue-contacts',
@@ -22,8 +21,7 @@ export class VenueContactsComponent implements OnChanges{
   constructor(
     private service: ContactService,
     private appState: AppStateService,
-    private namePipe: ContactNamePipe,
-    private dialog: MatDialog) {
+    private namePipe: ContactNamePipe) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -122,7 +120,7 @@ export class VenueContactsComponent implements OnChanges{
     this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(Venue!.contact!)} as a Venue contact`)
     if(Venue != undefined)
     {
-    let sub = this.service.AddVenueContact(Venue.id, contact.id).subscribe(
+    let sub = this.service.AddVenueContact(this.venueId, contact.id).subscribe(
       {
         next: () =>
         {
@@ -141,21 +139,10 @@ export class VenueContactsComponent implements OnChanges{
 
   onDeleteContactClicked(contact: VenueContact_DTO)
   {
-    var config = new MatDialogConfig()
-    config.data =
-    {
-      title: "Delete Contact?",
-      text: `Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} from ${this.namePipe.transform(contact.venue?.contact!)} as a Venue contact`,
-      noButtonText: "No",
-      yesButtonText: "Yes"
-    }
-    config.disableClose = false;
-    config.position =
-    {
-      top: "5%"
-    }
-    let modalRef = this.dialog.open(ConfirmationDialogComponent, config);
-    const sub = modalRef.componentInstance.response.subscribe(
+    var config = new ConfirmationDialogOptions()
+    config.title = "Delete Contact?"
+    config.text =`Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} from ${this.namePipe.transform(contact.venue?.contact!)} as a Venue contact`
+    const sub = this.appState.openConfirmationDialog().subscribe(
       {
         next: (data) =>
         {
@@ -163,11 +150,11 @@ export class VenueContactsComponent implements OnChanges{
           {
             this.deleteContact(contact)
           }
+          this.appState.closeConfirmationDialog()
         },
         complete: () =>
         {
           sub.unsubscribe()
-          modalRef.close()
         }
       }
     )

@@ -133,11 +133,12 @@ export class ViewContactComponent implements OnInit {
   openDeletePhoneNumberModal(number: PhoneNumber_DTO)
   {
     var options = new ConfirmationDialogOptions()
-    options.title = "Delete Phone Number",
-    options.text = `Are you sure you want to delete ${this.phonePipe.transform(number!)}?`,
-    options.yesButtonText = "yes",
-    options.noButtonText = "no",
-    this.appState.openConfirmationDialog(options).subscribe(
+    options.title = "Delete Phone Number"
+    options.text = `Are you sure you want to delete ${this.phonePipe.transform(number!)}?`
+    options.yesButtonText = "yes"
+    options.noButtonText = "no"
+
+    let sub = this.appState.openConfirmationDialog(options).subscribe(
       {
         next: (response) =>
         {
@@ -145,10 +146,14 @@ export class ViewContactComponent implements OnInit {
         },
         error: () =>
         {
-
+          let message = new Message()
+          message.type = MessageType.Error
+          message.text = "There was an error deleting the phone number"
+          this.appState.sendAlert(message)
         },
         complete: () =>
         {
+          sub.unsubscribe()
           this.appState.closeConfirmationDialog()
         }
       }
