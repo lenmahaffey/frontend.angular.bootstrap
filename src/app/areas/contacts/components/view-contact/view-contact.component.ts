@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ContactInformation_DTO, AddressType_DTO, Contact_DTO, EmailAddress_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
-import { AddPhoneNumberModalComponent } from '../phone-number-modal/add-phone-number-modal.component';
+import { AddOrEditPhoneNumberComponent } from '../add-or-edit-phone-number/add-or-edit-phone-number.component';
 import { ContactService } from '../../contact.service';
 import { PhoneNumberToFormattedStringPipe } from 'src/app/shared/pipes/phone-number-to-formatted-string.pipe';
-import { AddEmailAddressModalComponent } from '../email-address-modal/add-email-address-modal.component';
-import { AddContactModalComponent } from '../contact-modal/add-contact.component';
+import { AddOrEditEmailAddressComponent } from '../add-or-edit-email-address/add-or-edit-email-address.component';
+import { AddOrEditContactComponent } from '../add-or-edit-contact/add-or-edit-contact.component';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { Message } from 'src/app/services/message';
@@ -99,25 +99,13 @@ export class ViewContactComponent implements OnInit {
 
   openAddPhoneNumberModal(number?: PhoneNumber_DTO)
   {
-    var config = new MatDialogConfig()
-    config.data =
-    {
-      dto: number = number
-    }
-    config.disableClose = false;
-    config.position =
-    {
-      top: "5%"
-    }
-    config.autoFocus = false
-    let modalRef = this._dialog.open(AddPhoneNumberModalComponent, config);
+    let modalRef = this._dialog.open(AddOrEditPhoneNumberComponent, {data: {dto: number}});
     let sub = modalRef.componentInstance.response.subscribe(
       {
         next: (data) =>
         {
           if(data != undefined)
           {
-            console.log(data)
             data.id == 0 ? this.addPhoneNumber(data) : this.updatePhoneNumber(data)
           }
         },
@@ -135,8 +123,6 @@ export class ViewContactComponent implements OnInit {
     var options = new ConfirmationDialogOptions()
     options.title = "Delete Phone Number"
     options.text = `Are you sure you want to delete ${this.phonePipe.transform(number!)}?`
-    options.yesButtonText = "yes"
-    options.noButtonText = "no"
 
     let sub = this.appState.openConfirmationDialog(options).subscribe(
       {
@@ -261,7 +247,7 @@ export class ViewContactComponent implements OnInit {
       top: "5%"
     }
     config.autoFocus = false
-    let modalRef = this._dialog.open(AddEmailAddressModalComponent, config);
+    let modalRef = this._dialog.open(AddOrEditEmailAddressComponent, config);
     let sub = modalRef.componentInstance.response.subscribe(
       {
         next: (data) =>
@@ -285,8 +271,6 @@ export class ViewContactComponent implements OnInit {
     var options = new ConfirmationDialogOptions()
     options.title = "Delete Email Address"
     options.text = `Are you sure you want to delete ${address?.address}?`
-    options.yesButtonText = "yes"
-    options.noButtonText = "no"
 
     let sub = this.appState.openConfirmationDialog(options).subscribe(
       {
@@ -546,7 +530,7 @@ export class ViewContactComponent implements OnInit {
     {
       top: "5%"
     }
-    let modalRef = this._dialog.open(AddContactModalComponent, config);
+    let modalRef = this._dialog.open(AddOrEditContactComponent, config);
     let sub = modalRef.componentInstance.response.subscribe(
       {
         next: (data) =>

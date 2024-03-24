@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Contact_DTO } from 'src/app/shared/api/api.models';
 import { ContactService } from '../../contact.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AddContactModalComponent } from '../contact-modal/add-contact.component';
+import { AddOrEditContactComponent } from '../add-or-edit-contact/add-or-edit-contact.component';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
@@ -273,7 +273,7 @@ export class ListContactsComponent {
     {
       top: "5%"
     }
-    let modalRef = this._dialog.open(AddContactModalComponent, config);
+    let modalRef = this._dialog.open(AddOrEditContactComponent, config);
     let sub = modalRef.componentInstance.response.subscribe(
       {
         next: (data) =>
@@ -371,7 +371,7 @@ export class ListContactsComponent {
     {
       top: "5%"
     }
-    let modalRef = this._dialog.open(AddContactModalComponent, config);
+    let modalRef = this._dialog.open(AddOrEditContactComponent, config);
     let sub = modalRef.componentInstance.response.subscribe(
       {
         next: (data) =>

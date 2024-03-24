@@ -5,15 +5,16 @@ import { PhoneNumber_DTO } from 'src/app/shared/api/api.models';
 import { StringToPhoneNumberPipe } from 'src/app/shared/pipes/string-to-phone-number.pipe';
 import { PhoneNumberToFormattedStringPipe } from 'src/app/shared/pipes/phone-number-to-formatted-string.pipe';
 import { StringToFormattedPhoneNumberStringPipe } from 'src/app/shared/pipes/string-to-formatted-phone-number-string.pipe';
-import { DialogConfig } from '@angular/cdk/dialog';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 
 @Component({
   selector: 'app-add-phone-number-modal',
-  templateUrl: './add-phone-number-modal.component.html',
-  styleUrls: ['./add-phone-number-modal.component.scss']
+  templateUrl: './add-or-edit-phone-number.component.html',
+  styleUrls: ['./add-or-edit-phone-number.component.scss']
 })
-export class AddPhoneNumberModalComponent {
+export class AddOrEditPhoneNumberComponent {
   title: string | undefined
   currentNumber: PhoneNumber_DTO
   phoneNumberInput: any
@@ -28,9 +29,11 @@ export class AddPhoneNumberModalComponent {
     private stringPipe: StringToFormattedPhoneNumberStringPipe,
     private phonePipe: PhoneNumberToFormattedStringPipe,
     private stringToPhoneNumber: StringToPhoneNumberPipe,
-    @Inject(MAT_DIALOG_DATA) public data: any)
+    private dialogRef: MatDialogRef<AddOrEditPhoneNumberComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: {dto: PhoneNumber_DTO})
   {
-    let dto = data['dto']
+    let dto = data.dto
+    console.log(dto)
     if(dto == undefined)
     {
       dto = new PhoneNumber_DTO()
@@ -41,7 +44,6 @@ export class AddPhoneNumberModalComponent {
       dto.prefix = ""
       dto.localNumber = ""
     }
-
     this.currentNumber = dto
     this.phoneNumberInput = new FormGroup(
       {
@@ -60,6 +62,19 @@ export class AddPhoneNumberModalComponent {
     )
   }
 
+  ngOnInit(): void {
+    const bodyRect = document.body.getBoundingClientRect();
+    const config: MatDialogConfig = new MatDialogConfig();
+    config.minWidth = 400
+    config.position =
+    {
+      right: ((bodyRect.width / 2) - ( config.minWidth / 2) ).toString() + "px",
+      top: '7%' }
+
+    this.dialogRef.updatePosition(config.position)
+    this.dialogRef.updateSize(`${config.minWidth.toString()}px`)
+    this.dialogRef.disableClose = false;
+  }
   sendResponse(response: any)
   {
     if(response == undefined)

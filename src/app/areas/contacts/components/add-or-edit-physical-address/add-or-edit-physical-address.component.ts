@@ -5,10 +5,10 @@ import { ContactService } from '../../contact.service';
 
 @Component({
   selector: 'app-address-form',
-  templateUrl: './address-form.component.html',
-  styleUrls: ['./address-form.component.scss']
+  templateUrl: './add-or-edit-physical-address.component.html',
+  styleUrls: ['./add-or-edit-physical-address.component.scss']
 })
-export class AddAddressFormComponent implements OnInit, OnChanges {
+export class AddOrEditPhysicalAddressComponent implements OnInit, OnChanges {
 
   addressForm: any
   @Input() address: PhysicalAddress_DTO

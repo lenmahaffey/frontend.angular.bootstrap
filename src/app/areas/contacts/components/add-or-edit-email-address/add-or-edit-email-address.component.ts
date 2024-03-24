@@ -6,10 +6,10 @@ import { EmailAddress_DTO } from 'src/app/shared/api/api.models';
 
 @Component({
   selector: 'app-add-email-address-modal',
-  templateUrl: './add-email-address-modal.component.html',
-  styleUrls: ['./add-email-address-modal.component.scss']
+  templateUrl: './add-or-edit-email-address.component.html',
+  styleUrls: ['./add-or-edit-email-address.component.scss']
 })
-export class AddEmailAddressModalComponent {
+export class AddOrEditEmailAddressComponent {
   addressFormGroup: any
   address: EmailAddress_DTO
   @Output() response: Subject<EmailAddress_DTO | undefined> = new Subject()

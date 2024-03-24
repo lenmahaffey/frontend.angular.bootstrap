@@ -61,6 +61,7 @@ export class CompetitorContactsComponent implements OnChanges{
         })
     }
   }
+
   getPhoneNumbersForCompetitors()
   {
     this.contacts.forEach(contact => {
@@ -83,6 +84,7 @@ export class CompetitorContactsComponent implements OnChanges{
         })
     });
   }
+
   getPhoneNumbersForContacts()
   {
     this.contacts.forEach(contact => {
@@ -114,17 +116,17 @@ export class CompetitorContactsComponent implements OnChanges{
 
   onContactDropped(event:any)
   {
-    const competitor = this.contacts[0].competitor
+    const competitorId = this.competitorId
     const contact = event.item.data
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} to ${this.namePipe.transform(competitor!.contact!)} as a competitor contact`)
-    if(competitor != undefined)
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} to ${competitorId} as a competitor contact`)
+    if(competitorId != undefined)
     {
-      let sub = this.service.AddCompetitorContact(competitor.id, contact.id).subscribe(
+      let sub = this.service.AddCompetitorContact(competitorId, contact.id).subscribe(
         {
           next: () =>
           {
             this.appState.closeSpinner()
-            const message = new Message(MessageType.Success, `${this.namePipe.transform(contact)} was added to ${this.namePipe.transform(competitor!.contact!)} as a competitor contact`, true)
+            const message = new Message(MessageType.Success, `${this.namePipe.transform(contact)} was added to ${competitorId} as a competitor contact`, true)
             this.appState.sendAlert(message);
             this.getCompetitorContacts()
           },
