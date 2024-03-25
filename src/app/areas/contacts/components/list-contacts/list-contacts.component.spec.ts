@@ -20,7 +20,7 @@ describe('ListContactsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ListContactsComponent],
       imports: [ HttpClientTestingModule, SharedModule ],
-      providers:[ ContactService, MatDialog, ContactNamePipe, AppStateService ],
+      providers:[ ContactService, ContactNamePipe, AppStateService ],
     });
 
     // Inject the http service and test controller for each test
@@ -36,4 +36,5 @@ describe('ListContactsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });
