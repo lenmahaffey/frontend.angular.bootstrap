@@ -22,18 +22,17 @@ export class ListContactsComponent {
   searchFormGroup: any
   filteredList: Contact_DTO[] = []
   contactList: Contact_DTO[] = []
+  @Input() private _updatedContact: Contact_DTO = new Contact_DTO()
+  get updatedContact()
+  {
+      return this._updatedContact
+  }
+  set updatedContact(value: Contact_DTO)
+  {
+
+  }
   @Output() contact = new EventEmitter<Contact_DTO>()
 
-  getUpdatedContact()
-  {
-    return this._updatedContact
-  }
-
-  @Input() setUpdatedContact()
-  {
-    this.listAllContacts()
-  }
-  private _updatedContact: Contact_DTO | undefined
   constructor(
      private service: ContactService,
      private appState: AppStateService,
@@ -99,7 +98,8 @@ export class ListContactsComponent {
     this.contact.next(contact)
   }
 
-  searchContacts(){
+  searchContacts()
+  {
     var fName = this.searchFormGroup.value.firstName
     var lName = this.searchFormGroup.value.lastName
     if(fName === "" && lName === "")
@@ -129,7 +129,8 @@ export class ListContactsComponent {
       this.sortContacts();
   }
 
-  sortContacts(){
+  sortContacts()
+  {
     var fName = this.sortOptions === "firstName"
     var lName = this.sortOptions === "lastName"
     var bName = this.sortOptions === "businessName"
@@ -228,7 +229,8 @@ export class ListContactsComponent {
     }
   }
 
-  filterContacts(){
+  filterContacts()
+  {
     var employees = this.filterOptions.value.employees
     var freelancers = this.filterOptions.value.freelancers
     var users = this.filterOptions.value.users
@@ -389,6 +391,7 @@ export class ListContactsComponent {
       {
         next: (data) =>
         {
+          this.updateContact(data)
           this.appState.closeDialog()
         },
         error: () =>
@@ -411,7 +414,8 @@ export class ListContactsComponent {
           let message = new Message(MessageType.Success)
           message.text = `${this.namePipe.transform(data)} was successfully updated.`
           this.appState.sendAlert(message)
-          this.listAllContacts(true, contact.id)
+          const i = this.contactList.findIndex(x => x.id == contact.id)
+          this.contactList[i] = data
         },
         error: () =>
         {
@@ -431,6 +435,7 @@ export class ListContactsComponent {
   {
 
   }
+
   addContactAs(contact: Contact_DTO)
   {
 

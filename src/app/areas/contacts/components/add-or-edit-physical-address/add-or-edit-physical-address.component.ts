@@ -8,7 +8,7 @@ import { ContactService } from '../../contact.service';
   templateUrl: './add-or-edit-physical-address.component.html',
   styleUrls: ['./add-or-edit-physical-address.component.scss']
 })
-export class AddOrEditPhysicalAddressComponent implements OnInit, OnChanges {
+export class AddOrEditPhysicalAddressComponent implements OnChanges {
 
   addressForm: any
   @Input() address: PhysicalAddress_DTO
@@ -63,10 +63,6 @@ export class AddOrEditPhysicalAddressComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.setForm()
-  }
-
-  ngOnInit(): void {
     this.setForm()
   }
 

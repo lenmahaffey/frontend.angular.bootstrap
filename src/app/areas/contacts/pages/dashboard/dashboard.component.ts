@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     if(this.id == undefined)
     {
-      this.router.navigate([`contacts/dashboard/${this.selectedContactId}`])
+      this.router.navigate([`contacts/${this.selectedContactId}`])
     }
     else
     {

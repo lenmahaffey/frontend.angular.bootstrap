@@ -27,7 +27,7 @@ export class HeaderNavLinks implements SideBarNavLinks
         {
           title:"Contacts",
           items:[
-          { href:"contacts/dashboard", text:"Contacts" },
+          { href:"contacts/", text:"Contacts" },
         ]},
       ]
     }
