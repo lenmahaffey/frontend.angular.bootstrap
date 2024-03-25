@@ -1,5 +1,5 @@
 import { Injectable, TemplateRef } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Observable, Subject } from 'rxjs';
 import { SideBarNavLinks } from 'src/app/pages/demo/left-side-bar-nav-links';
 import { MenuItems } from 'src/app/shared/menu-items';
@@ -10,14 +10,15 @@ import { NotificationService } from '../notification/notification.service';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { MessageType } from '../message-type.interface';
+import { Constants } from 'src/app/constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppStateService {
 
-  constructor(private _dialog: MatDialog, private alertService: AlertService, private notificationService: NotificationService){}
-
+  constructor(private dialog: MatDialog, private alertService: AlertService, private notificationService: NotificationService){}
+  currentModalRef: MatDialogRef<any, any> | undefined
   confirmationOptions = new ConfirmationDialogOptions()
   confirmationResponse: Subject<boolean | undefined> = new Subject()
   notificationMessage = new Message()
@@ -48,12 +49,12 @@ export class AppStateService {
       message: message
     }
     options.disableClose = disableClose
-    this._dialog.open(SpinnerComponent, options);
+    this.dialog.open(SpinnerComponent, options);
   }
 
   closeSpinner()
   {
-    this._dialog.closeAll()
+    this.dialog.closeAll()
   }
 
   sendAlert(message: Message)
@@ -66,13 +67,27 @@ export class AppStateService {
     this.notificationService.sendNotification(this.notificationMessage)
   }
 
+  openDialog(component: any, data: any, options?: MatDialogConfig) : Observable<any>
+  {
+    const config: MatDialogConfig = (options != null)  ? options : Constants.GetModalConfig()
+    this.currentModalRef = this.dialog.open(component, {data});
+    this.currentModalRef.updatePosition(config.position)
+    config.minWidth != undefined ? this.currentModalRef.updateSize(`${config.minWidth.toString()}px`) : null
+    this.currentModalRef.disableClose = false;
+    return this.currentModalRef.componentInstance.response
+  }
+
+  closeDialog()
+  {
+    if(this.currentModalRef != undefined)
+    {
+      this.currentModalRef.close()
+    }
+  }
+
   openConfirmationDialog(options?: ConfirmationDialogOptions) : Observable<boolean | null>
   {
-    let modalRef = this._dialog.open(ConfirmationDialogComponent, {data: {options}});
-    return modalRef.componentInstance.response
-  }
-  closeConfirmationDialog()
-  {
-    this._dialog.closeAll()
+    this.currentModalRef = this.dialog.open(ConfirmationDialogComponent, {data: {options}});
+    return this.currentModalRef.componentInstance.response
   }
 }

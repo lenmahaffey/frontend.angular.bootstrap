@@ -150,7 +150,7 @@ export class VenueContactsComponent implements OnChanges{
           {
             this.deleteContact(contact)
           }
-          this.appState.closeConfirmationDialog()
+          this.appState.closeDialog()
         },
         complete: () =>
         {

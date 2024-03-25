@@ -12,11 +12,11 @@ export interface Message{
 
 export class Message implements Message {
 
-  constructor(type?: MessageType, message: string = "There was an error", autoDismiss: boolean = true) {
+  constructor(type?: MessageType, message?: string, autoDismiss: boolean = true) {
     this.type = type ?? MessageType.Error
     this.autoDismiss = autoDismiss
     this.time = new Date()
-    this.text = message
+    this.text = message ?? "There was an error"
     this.duration = 3
     this.isDismissed = false
   }

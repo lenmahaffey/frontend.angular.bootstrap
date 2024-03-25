@@ -150,7 +150,7 @@ export class VendorContactsComponent implements OnChanges{
           {
             this.deleteContact(contact)
           }
-          this.appState.closeConfirmationDialog()
+          this.appState.closeDialog()
         },
         error: () =>
         {

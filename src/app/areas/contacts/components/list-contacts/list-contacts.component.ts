@@ -3,13 +3,12 @@ import { Contact_DTO } from 'src/app/shared/api/api.models';
 import { ContactService } from '../../contact.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AddOrEditContactComponent } from '../add-or-edit-contact/add-or-edit-contact.component';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
-import { AlertService } from 'src/app/services/alert/alert.service';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
+import { Constants } from 'src/app/constants';
 
 @Component({
   selector: 'app-list-contacts',
@@ -35,9 +34,8 @@ export class ListContactsComponent {
     this.listAllContacts()
   }
   private _updatedContact: Contact_DTO | undefined
-  constructor(private alertService: AlertService,
+  constructor(
      private service: ContactService,
-     private _dialog: MatDialog,
      private appState: AppStateService,
      private namePipe: ContactNamePipe)
   {
@@ -72,7 +70,6 @@ export class ListContactsComponent {
             this.filteredList = data
             this.sortContacts()
             this.filterContacts()
-            console.log(this.contactList)
             if(contactId != 0)
             {
               this.contactList.forEach((x, i) =>
@@ -84,7 +81,15 @@ export class ListContactsComponent {
               })
             }
             this.appState.closeSpinner()
-          }
+          },
+        error: () =>
+        {
+          this.appState.sendAlert(new Message())
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
+        }
       }
     )
   }
@@ -261,20 +266,16 @@ export class ListContactsComponent {
 
   openAddContactModal()
   {
-    var config = new MatDialogConfig()
     var dto = new Contact_DTO()
     dto.id = 0
-    config.data =
-    {
-      dto: dto
-    }
-    config.disableClose = false;
+    let config = Constants.GetModalConfig();
     config.position =
     {
-      top: "5%"
+      top: '7%'
     }
-    let modalRef = this._dialog.open(AddOrEditContactComponent, config);
-    let sub = modalRef.componentInstance.response.subscribe(
+    config.minWidth = undefined
+    let modalRef = this.appState.openDialog(AddOrEditContactComponent, dto, config);
+    let sub = modalRef.subscribe(
       {
         next: (data) =>
         {
@@ -282,7 +283,14 @@ export class ListContactsComponent {
           {
             this.addContact(data)
           }
-          modalRef.close()
+          sub.unsubscribe()
+        },
+        error: () =>
+        {
+          this.appState.sendAlert(new Message())
+        },
+        complete: () =>
+        {
           sub.unsubscribe()
         }
       }
@@ -300,6 +308,16 @@ export class ListContactsComponent {
           const message = new Message(MessageType.Success, `${this.namePipe.transform(contact)} was added to the contact list`)
           this.appState.sendAlert(message)
           this.listAllContacts(false)
+        },
+        error: () =>
+        {
+          const message = new Message()
+          message.text = `${this.namePipe.transform(contact)} could not be added.`
+          this.appState.sendAlert(message)
+        },
+        complete: () =>
+        {
+          sub.unsubscribe()
         }
       }
     )
@@ -322,7 +340,6 @@ export class ListContactsComponent {
         error: () =>
         {
           let message = new Message()
-          message.type = MessageType.Error
           message.text = "There was an error deleting the contact"
           this.appState.sendAlert(message)
         },
@@ -343,13 +360,17 @@ export class ListContactsComponent {
         {
           const i = this.contactList.indexOf(contact)
           this.contactList.splice(i, 1)
-          this.alertService.sendAlert(new Message(MessageType.Success, `${this.namePipe.transform(contact)} has been deleted`))
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(contact)} has been deleted`
+          this.appState.sendAlert(message)
           this.contact.next(this.contactList[0])
         },
-        // error: () =>
-        // {
-        //   this.alertService.sendAlert(new Message(MessageType.Error, `${this.namePipe.transform(contact)} could not be deleted`))
-        // },
+        error: () =>
+        {
+          const message = new Message()
+          message.text = `${this.namePipe.transform(contact)} could not be deleted`
+          this.appState.sendAlert(message)
+        },
         complete: () =>
         {
           this.appState.closeSpinner()
@@ -359,52 +380,47 @@ export class ListContactsComponent {
     )
   }
 
-  onEditContactClicked(contact: Contact_DTO){
-    var config = new MatDialogConfig()
-    var dto = contact
-    config.data =
-    {
-      dto: dto
-    }
-    config.disableClose = false;
+  onEditContactClicked(contact: Contact_DTO)
+  {
+    let config = Constants.GetModalConfig();
     config.position =
     {
-      top: "5%"
+      top: '7%'
     }
-    let modalRef = this._dialog.open(AddOrEditContactComponent, config);
-    let sub = modalRef.componentInstance.response.subscribe(
+    config.minWidth = undefined
+    let modalRef = this.appState.openDialog(AddOrEditContactComponent, this.contact, config);
+    let sub = modalRef.subscribe(
       {
         next: (data) =>
         {
-          if(data != null)
-          {
-            this.updateContact(data)
-          }
-          modalRef.close()
+          this.appState.closeDialog()
+        },
+        error: () =>
+        {
+          this.appState.sendAlert(new Message())
+        },
+        complete: () =>
+        {
           sub.unsubscribe()
         }
       }
     )
   }
-
   updateContact(contact: Contact_DTO){
     let sub = this.service.UpdateContact(contact).subscribe(
       {
         next: (data) =>
         {
-          let message = new Message()
-          if(data)
-          {
-            this.listAllContacts(true, contact.id)
-            message.text = `${this.namePipe.transform(data)} was successfully updated.`
-            message.type = MessageType.Success
-            message.autoDismiss = true
-            this.alertService.sendAlert(message)
-          }
-          else
-          {
-
-          }
+          let message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(data)} was successfully updated.`
+          this.appState.sendAlert(message)
+          this.listAllContacts(true, contact.id)
+        },
+        error: () =>
+        {
+          let message = new Message(MessageType.Error)
+          message.text = `There was an error updating ${this.namePipe.transform(contact)}`
+          this.appState.sendAlert(message)
         },
         complete: () =>
         {

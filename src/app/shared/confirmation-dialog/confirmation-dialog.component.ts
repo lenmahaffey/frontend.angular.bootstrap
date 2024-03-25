@@ -38,24 +38,20 @@ export class ConfirmationDialogComponent implements OnInit {
   {
     if (event.key === "Escape") {
       this.response.next(null)
-      this.dialogRef.close()
     }
   }
   yes(){
     this.response.next(true);
-    this.dialogRef.close()
     this.response.complete();
   }
 
   no(){
     this.response.next(false);
-    this.dialogRef.close()
     this.response.complete();
   }
 
   dismiss(){
     this.response.next(null);
-    this.dialogRef.close()
     this.response.complete();
   }
 }

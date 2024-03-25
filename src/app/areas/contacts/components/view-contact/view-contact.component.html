@@ -25,7 +25,7 @@
                     *ngFor="let number of this.contactInformation.phoneNumbers; index as i">
                     <div class="phoneNumberContainer">
                       <div class="phoneNumber flexItem">{{number.label}} : {{number | phoneNumberToString}}</div>
-                      <div class="edit" (click)="openAddPhoneNumberModal(number)"><i class="fa-solid fa-pen fa-xl"></i>
+                      <div class="edit" (click)="openAddOrEditPhoneNumberModal(number)"><i class="fa-solid fa-pen fa-xl"></i>
                       </div>
                       <div class="delete" (click)="openDeletePhoneNumberModal(number)"><i
                           class="fa-solid fa-xmark fa-2xl"></i></div>
@@ -35,7 +35,7 @@
               </div>
               <div class="flexItem flexColumn">
                 <div class="flexItem autoMargin">
-                  <button mat-raised-button color="primary" (click)="openAddPhoneNumberModal()">
+                  <button mat-raised-button color="primary" (click)="openAddOrEditPhoneNumberModal()">
                     Add New Number
                   </button>
                 </div>
@@ -76,7 +76,7 @@
                     *ngFor="let email of this.contactInformation.emailAddresses; index as i">
                     <div class="phoneNumberContainer">
                       <div class="phoneNumber flexItem">{{email.address}}</div>
-                      <div class="edit" (click)="openAddEmailAddressModal(email)"><i class="fa-solid fa-pen fa-xl"></i></div>
+                      <div class="edit" (click)="openAddOrEditEmailAddressModal(email)"><i class="fa-solid fa-pen fa-xl"></i></div>
                       <div class="delete" (click)="openDeleteEmailAddressModal(email)"><i class="fa-solid fa-xmark fa-2xl"></i></div>
                     </div>
                   </mat-list-item>
@@ -84,7 +84,7 @@
               </div>
               <div class="flexItem flexColumn">
                 <div class="flexItem autoMargin">
-                  <button mat-raised-button color="primary" (click)="openAddEmailAddressModal()">Add New Email Address</button>
+                  <button mat-raised-button color="primary" (click)="openAddOrEditEmailAddressModal()">Add New Email Address</button>
                 </div>
               </div>
             </div>

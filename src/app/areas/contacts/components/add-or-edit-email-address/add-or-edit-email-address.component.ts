@@ -1,8 +1,8 @@
-import { Component, Inject, Output } from '@angular/core';
+import { Component, Inject, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
-import { EmailAddress_DTO } from 'src/app/shared/api/api.models';
+import { EmailAddress_DTO, PhoneNumber_DTO } from 'src/app/shared/api/api.models';
 
 @Component({
   selector: 'app-add-email-address-modal',
@@ -11,7 +11,7 @@ import { EmailAddress_DTO } from 'src/app/shared/api/api.models';
 })
 export class AddOrEditEmailAddressComponent {
   addressFormGroup: any
-  address: EmailAddress_DTO
+  @Input() address: EmailAddress_DTO
   @Output() response: Subject<EmailAddress_DTO | undefined> = new Subject()
 
   get addressInput() {
@@ -21,9 +21,9 @@ export class AddOrEditEmailAddressComponent {
     return this.addressFormGroup.get('label')
   }
 
-  constructor( @Inject(MAT_DIALOG_DATA) public data: any)
+  constructor(@Inject(MAT_DIALOG_DATA) data: EmailAddress_DTO)
   {
-    let dto = data['dto']
+    let dto = data
     if(dto == undefined)
     {
       dto = new EmailAddress_DTO()
@@ -47,6 +47,7 @@ export class AddOrEditEmailAddressComponent {
       }
     )
   }
+
   onSubmit(input: any | undefined)
   {
     if(input == undefined)

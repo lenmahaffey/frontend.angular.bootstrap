@@ -152,7 +152,7 @@ export class CompetitorContactsComponent implements OnChanges{
           {
             this.deleteContact(contact)
           }
-          this.appState.closeConfirmationDialog()
+          this.appState.closeDialog()
         },
         error: () =>
         {

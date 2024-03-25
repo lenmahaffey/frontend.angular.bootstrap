@@ -56,26 +56,27 @@ export class AddOrEditContactComponent {
     )
   }
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any){
-    this.contact = data['dto']
+  constructor(@Inject(MAT_DIALOG_DATA) data: Contact_DTO){
+    console.log(data)
+    this.contact = data as Contact_DTO
     this.contactFormGroup = new FormGroup(
       {
-        isBusiness: new FormControl(data['dto'].isBusiness),
-        prefix: new FormControl(data['dto'].prefix),
-        firstName: new FormControl(data['dto'].firstName,[
+        isBusiness: new FormControl(this.contact.isBusiness),
+        prefix: new FormControl(this.contact.prefix),
+        firstName: new FormControl(this.contact.firstName,[
           Validators.required,
           Validators.maxLength(50)
         ]),
-        middleName: new FormControl(data['dto'].middleName),
-        lastName: new FormControl(data['dto'].lastName,[
+        middleName: new FormControl(this.contact.middleName),
+        lastName: new FormControl(this.contact.lastName,[
           Validators.required,
           Validators.maxLength(50)
         ]),
-        suffix: new FormControl(data['dto'].suffix),
-        businessName: new FormControl(data['dto'].businessName),
-        title: new FormControl(data['dto'].title),
-        description: new FormControl(data['dto'].description),
-        preferredName: new FormControl(data['dto'].preferredName),
+        suffix: new FormControl(this.contact.suffix),
+        businessName: new FormControl(this.contact.businessName),
+        title: new FormControl(this.contact.title),
+        description: new FormControl(this.contact.description),
+        preferredName: new FormControl(this.contact.preferredName),
       }
     )
     this.title = this.contact.id == 0 ? "Add New Contact" : "Edit Contact"

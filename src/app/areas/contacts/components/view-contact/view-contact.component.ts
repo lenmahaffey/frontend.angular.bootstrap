@@ -1,5 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ContactInformation_DTO, AddressType_DTO, Contact_DTO, EmailAddress_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
 import { AddOrEditPhoneNumberComponent } from '../add-or-edit-phone-number/add-or-edit-phone-number.component';
 import { ContactService } from '../../contact.service';
@@ -38,7 +37,6 @@ export class ViewContactComponent implements OnInit {
   @Output() updatedContact: EventEmitter<Contact_DTO> = new EventEmitter()
 
   constructor(
-    private _dialog: MatDialog,
     private service: ContactService,
     private phonePipe: PhoneNumberToFormattedStringPipe,
     private namePipe: ContactNamePipe,
@@ -97,10 +95,10 @@ export class ViewContactComponent implements OnInit {
     this.currentShippingAddress.addressType = AddressType_DTO.Shipping
   }
 
-  openAddPhoneNumberModal(number?: PhoneNumber_DTO)
+  openAddOrEditPhoneNumberModal(number?: PhoneNumber_DTO)
   {
-    let modalRef = this._dialog.open(AddOrEditPhoneNumberComponent, {data: {dto: number}});
-    let sub = modalRef.componentInstance.response.subscribe(
+    let modalRef = this.appState.openDialog(AddOrEditPhoneNumberComponent, number);
+    let sub = modalRef.subscribe(
       {
         next: (data) =>
         {
@@ -108,10 +106,10 @@ export class ViewContactComponent implements OnInit {
           {
             data.id == 0 ? this.addPhoneNumber(data) : this.updatePhoneNumber(data)
           }
+          this.appState.closeDialog()
         },
         complete: () =>
         {
-          modalRef.close()
           sub.unsubscribe()
         }
       }
@@ -140,7 +138,7 @@ export class ViewContactComponent implements OnInit {
         complete: () =>
         {
           sub.unsubscribe()
-          this.appState.closeConfirmationDialog()
+          this.appState.closeDialog()
         }
       }
     )
@@ -234,32 +232,21 @@ export class ViewContactComponent implements OnInit {
     )
   }
 
-  openAddEmailAddressModal(address?:EmailAddress_DTO)
+  openAddOrEditEmailAddressModal(address?:EmailAddress_DTO)
   {
-    var config = new MatDialogConfig()
-    config.data =
-    {
-      dto: address
-    }
-    config.disableClose = false;
-    config.position =
-    {
-      top: "5%"
-    }
-    config.autoFocus = false
-    let modalRef = this._dialog.open(AddOrEditEmailAddressComponent, config);
-    let sub = modalRef.componentInstance.response.subscribe(
+    let modalRef = this.appState.openDialog(AddOrEditEmailAddressComponent, address);
+    let sub = modalRef.subscribe(
       {
         next: (data) =>
         {
           if(data != undefined)
           {
             data.id == 0 ? this.addEmailAddress(data) : this.updateEmailAddress(data)
+            this.appState.closeDialog()
           }
         },
         complete: () =>
         {
-          modalRef.close()
           sub.unsubscribe()
         }
       }
@@ -280,7 +267,7 @@ export class ViewContactComponent implements OnInit {
         },
         complete: () =>
         {
-          this.appState.closeConfirmationDialog()
+          this.appState.closeDialog()
           sub.unsubscribe()
         }
       }
@@ -518,30 +505,5 @@ export class ViewContactComponent implements OnInit {
     )
   }
 
-  onEditContactClicked()
-  {
-    var config = new MatDialogConfig()
-    config.data =
-    {
-      dto: this.contact
-    }
-    config.disableClose = false;
-    config.position =
-    {
-      top: "5%"
-    }
-    let modalRef = this._dialog.open(AddOrEditContactComponent, config);
-    let sub = modalRef.componentInstance.response.subscribe(
-      {
-        next: (data) =>
-        {
-          if(data != null)
-          {
-          }
-          modalRef.close()
-          sub.unsubscribe()
-        }
-      }
-    )
-  }
+  
 }

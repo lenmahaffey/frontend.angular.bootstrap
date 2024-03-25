@@ -153,12 +153,12 @@ export class ManufacturerContactsComponent implements OnChanges{
           {
             this.deleteContact(contact)
           }
-          this.appState.closeConfirmationDialog()
+          this.appState.closeDialog()
         },
         complete: () =>
         {
           sub.unsubscribe()
-          this.appState.closeConfirmationDialog()
+          this.appState.closeDialog()
         }
       }
     )

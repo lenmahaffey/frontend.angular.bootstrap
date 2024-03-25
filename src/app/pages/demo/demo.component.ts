@@ -26,7 +26,6 @@ export class DemoComponent implements OnDestroy, OnInit {
   constructor(
     private alertService:AlertService,
     private notificationService: NotificationService,
-    private _dialog: MatDialog,
     private appState: AppStateService)
   {
     this.appState.setLeftSideMenuItems(new LeftSideBarNavLinks())
@@ -89,7 +88,7 @@ export class DemoComponent implements OnDestroy, OnInit {
         next: (data) =>
         {
           this.setConfirmationResponseMessage(data)
-          this._dialog.closeAll()
+          this.appState.closeDialog()
           sub.unsubscribe()
         },
         error: () =>
