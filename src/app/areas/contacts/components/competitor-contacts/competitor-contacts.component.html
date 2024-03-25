@@ -13,7 +13,7 @@
 
       <mat-list-item class="listItem flexItem" *ngFor="let c of contacts">
         <div class="listItemContainer">
-          <div class="flexItem ">{{c.contact!.firstName}} {{c.contact!.lastName}} </div>
+          <div class="flexItem ">{{c.contact! | contactName}} </div>
           <div class="flexItem title">{{c.contact!.title ?? 'No Title'}}</div>
           <div class="flexItem title">{{ getNumber(c.contact!.contactInformationId!)  | phoneNumberToString }}</div>
           <div class="delete" (click)="onDeleteContactClicked(c)">
@@ -28,7 +28,7 @@
       </mat-list-item>
     </mat-list></div>
 </div>
-<div *ngIf="contactId > 0">
+<div *ngIf="contact.id > 0">
   <mat-list cdkDropList (cdkDropListDropped)="onContactDropped($event)">
     <span class="contactListTitle">Competitor Contacts</span>
     <mat-list-item class="listItem flexItem">

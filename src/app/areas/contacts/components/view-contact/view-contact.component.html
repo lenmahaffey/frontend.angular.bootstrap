@@ -92,8 +92,8 @@
           <mat-tab label="{{contact.isBusiness ? 'Contacts' : 'Companies'}}">
 
             <div *ngIf="!contact.isBusiness">
-              <app-customer-contacts *ngIf="contact.hasCustomerContacts" [contactId]="contact.id"></app-customer-contacts>
-              <app-competitor-contacts *ngIf="contact.hasCompetitorContacts" [contactId]="contact.id"></app-competitor-contacts>
+              <app-customer-contacts *ngIf="contact.hasCustomerContacts" [contactId]="contact.id" ></app-customer-contacts>
+              <app-competitor-contacts *ngIf="contact.hasCompetitorContacts" [contact]="contact"></app-competitor-contacts>
               <app-manufacturer-contacts *ngIf="contact.hasManufacturerContacts" [contactId]="contact.id"></app-manufacturer-contacts>
               <app-vendor-contacts *ngIf="contact.hasVendorContacts" [contactId]="contact.id"></app-vendor-contacts>
               <app-venue-contacts *ngIf="contact.hasVenueContacts" [contactId]="contact.id"></app-venue-contacts>

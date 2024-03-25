@@ -5,8 +5,6 @@ import { MessageType } from 'src/app/services/message-type.interface';
 import { ManufacturerContact_DTO, PhoneNumber_DTO } from 'src/app/shared/api/api.models';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { ContactService } from '../../contact.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 
 @Component({
@@ -23,8 +21,7 @@ export class ManufacturerContactsComponent implements OnChanges{
   constructor(
     private service: ContactService,
     private appState: AppStateService,
-    private namePipe: ContactNamePipe,
-    private dialog: MatDialog) {
+    private namePipe: ContactNamePipe) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -42,6 +39,12 @@ export class ManufacturerContactsComponent implements OnChanges{
             this.contacts = data
             this.getPhoneNumbersForContacts()
           },
+          error: () =>
+          {
+            let message = new Message()
+            message.type = MessageType.Error
+            message.text = "There was an error getting the manufacturer contacts."
+          },
           complete: () =>
           {
             sub.unsubscribe()
@@ -56,6 +59,12 @@ export class ManufacturerContactsComponent implements OnChanges{
           {
             this.contacts = data
             this.getPhoneNumbersForManufacturers()
+          },
+          error: () =>
+          {
+            let message = new Message()
+            message.type = MessageType.Error
+            message.text = "There was an error getting the manufacturer contacts."
           },
           complete: () =>
           {
@@ -80,6 +89,12 @@ export class ManufacturerContactsComponent implements OnChanges{
                 })
             }
           },
+          error: () =>
+          {
+            let message = new Message()
+            message.type = MessageType.Error
+            message.text = "There was an error getting the manufacturer contact phone numbers."
+          },
           complete: () =>
           {
             sub.unsubscribe()
@@ -103,6 +118,12 @@ export class ManufacturerContactsComponent implements OnChanges{
               })
             }
           },
+          error: () =>
+          {
+            let message = new Message()
+            message.type = MessageType.Error
+            message.text = "There was an error getting the manufacturer contact phone numbers."
+          },
           complete: () =>
           {
             sub.unsubscribe()
@@ -118,22 +139,28 @@ export class ManufacturerContactsComponent implements OnChanges{
 
   onContactDropped(event:any)
   {
-    const Manufacturer = this.contacts[0].manufacturer
     const contact = event.item.data
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(Manufacturer!.contact!)} as a Manufacturer contact`)
-    if(Manufacturer != undefined)
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} as a manufacturer contact.`)
+    if(this.manufacturerId > 0)
     {
-    let sub = this.service.AddManufacturerContact(Manufacturer.id, contact.id).subscribe(
+    let sub = this.service.AddManufacturerContact(this.manufacturerId, contact.id).subscribe(
       {
         next: () =>
         {
-          this.appState.closeSpinner()
-          const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(Manufacturer!.contact!)} as a Manufacturer contact`, true)
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(event.item.data)} was added as a manufacturer contact.`,
           this.appState.sendAlert(message);
           this.getManufacturerContacts()
         },
+        error: () =>
+        {
+          const message = new Message()
+          message.text = `${this.namePipe.transform(contact)} could not be added as a manufacturer contact.`
+          this.appState.sendAlert(message);
+        },
         complete: () =>
         {
+          this.appState.closeSpinner()
           sub.unsubscribe
         }
       })
@@ -142,10 +169,10 @@ export class ManufacturerContactsComponent implements OnChanges{
 
   onDeleteContactClicked(contact: ManufacturerContact_DTO)
   {
-    var config = new ConfirmationDialogOptions
-    config.title = "Delete Contact?"
-    config.text = `Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} from ${this.namePipe.transform(contact.manufacturer?.contact!)} as a Manufacturer contact`
-    const sub = this.appState.openConfirmationDialog(config).subscribe(
+    var options = new ConfirmationDialogOptions
+    options.title = "Delete Contact?"
+    options.text = `Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} as a manufacturer contact?`
+    const sub = this.appState.openConfirmationDialog(options).subscribe(
       {
         next: (data) =>
         {
@@ -153,12 +180,16 @@ export class ManufacturerContactsComponent implements OnChanges{
           {
             this.deleteContact(contact)
           }
-          this.appState.closeDialog()
+        },
+        error: () =>
+        {
+          let message = new Message()
+          message.type = MessageType.Error
+          message.text = "There was an error deleting the contact."
         },
         complete: () =>
         {
           sub.unsubscribe()
-          this.appState.closeDialog()
         }
       }
     )
@@ -166,18 +197,25 @@ export class ManufacturerContactsComponent implements OnChanges{
 
   deleteContact(contact: ManufacturerContact_DTO)
   {
-    this.appState.openSpinner(`Deleteing ${this.namePipe.transform(contact.contact!)} from ${this.namePipe.transform(contact.manufacturer?.contact!)} as a Manufacturer contact`)
+    this.appState.openSpinner(`Deleteing ${this.namePipe.transform(contact.contact!)} as a manufacturer contact.`)
     let sub = this.service.DeleteManufacturerContact(contact).subscribe(
       {
         next: () =>
         {
-          this.appState.closeSpinner()
-          const message = new Message(MessageType.Success, `${this.namePipe.transform(contact.contact!)} was deleted from ${this.namePipe.transform(contact.manufacturer?.contact!)}'s Manufacturer contacts`, true)
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(contact.contact!)} was deleted as a manufacturer contacts.`
           this.appState.sendAlert(message);
           this.getManufacturerContacts()
         },
+        error: () =>
+        {
+          let message = new Message()
+          message.type = MessageType.Error
+          message.text = "There was an error deleting the contact."
+        },
         complete: () =>
         {
+          this.appState.closeSpinner()
           sub.unsubscribe
         }
       }

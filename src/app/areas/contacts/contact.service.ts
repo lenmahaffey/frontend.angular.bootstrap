@@ -272,7 +272,7 @@ export class ContactService {
     const model = new VenueContact_DTO();
     model.venueId = venueId
     model.contactId = contactId
-    return this.http.post<VenueContact_DTO>(url,model, {headers: this.headers}).pipe(
+    return this.http.post<VenueContact_DTO>(url, model, {headers: this.headers}).pipe(
       catchError(this.handleError.bind(this))
     )
   }

@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
 
   onContactSelected(contactId: number)
   {
-    this.router.navigate([`contacts/dashboard/${contactId}`])
+    this.router.navigate([`contacts/${contactId}`])
     this.selectedContactId = contactId
   }
 

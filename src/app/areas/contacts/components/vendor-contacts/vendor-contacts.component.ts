@@ -39,6 +39,12 @@ export class VendorContactsComponent implements OnChanges{
             this.contacts = data
             this.getPhoneNumbersForContacts()
           },
+          error: () =>
+          {
+            let message = new Message()
+            message.text = "There was an error getting the vendor contacts."
+            this.appState.sendAlert(message);
+          },
           complete: () =>
           {
             sub.unsubscribe()
@@ -53,6 +59,12 @@ export class VendorContactsComponent implements OnChanges{
           {
             this.contacts = data
             this.getPhoneNumbersForVendors()
+          },
+          error: () =>
+          {
+            let message = new Message()
+            message.text = "There was an error getting the vendor contacts."
+            this.appState.sendAlert(message);
           },
           complete: () =>
           {
@@ -77,6 +89,12 @@ export class VendorContactsComponent implements OnChanges{
                 })
             }
           },
+          error: () =>
+          {
+            let message = new Message()
+            message.text = "There was an error getting the vendor contact phone numbers."
+            this.appState.sendAlert(message);
+          },
           complete: () =>
           {
             sub.unsubscribe()
@@ -100,6 +118,12 @@ export class VendorContactsComponent implements OnChanges{
               })
             }
           },
+          error: () =>
+          {
+            let message = new Message()
+            message.text = "There was an error getting the vendor contact phone numbers."
+            this.appState.sendAlert(message);
+          },
           complete: () =>
           {
             sub.unsubscribe()
@@ -115,22 +139,28 @@ export class VendorContactsComponent implements OnChanges{
 
   onContactDropped(event:any)
   {
-    const Vendor = this.contacts[0].vendor
     const contact = event.item.data
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} to ${this.namePipe.transform(Vendor!.contact!)} as a Vendor contact`)
-    if(Vendor != undefined)
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} as a vendor contact.`)
+    if(this.vendorId > 0)
     {
-    let sub = this.service.AddVendorContact(Vendor.id, contact.id).subscribe(
+    let sub = this.service.AddVendorContact(this.vendorId, contact.id).subscribe(
       {
         next: () =>
         {
-          this.appState.closeSpinner()
-          const message = new Message(MessageType.Success, `${this.namePipe.transform(event.item.data)} was added to ${this.namePipe.transform(Vendor!.contact!)} as a Vendor contact`, true)
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(event.item.data)} was added as a vendor contact.`
           this.appState.sendAlert(message);
           this.getVendorContacts()
         },
+        error: () =>
+        {
+          let message = new Message()
+          message.text = "There was an error adding the contact."
+          this.appState.sendAlert(message);
+        },
         complete: () =>
         {
+          this.appState.closeSpinner()
           sub.unsubscribe
         }
       })
@@ -141,22 +171,21 @@ export class VendorContactsComponent implements OnChanges{
   {
     var config = new ConfirmationDialogOptions()
     config.title = "Delete Contact?"
-    config.text = `Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} from ${this.namePipe.transform(contact.vendor?.contact!)} as a Vendor contact`
+    config.text = `Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} as a vendor contact?`
     const sub = this.appState.openConfirmationDialog(config).subscribe(
       {
         next: (data) =>
         {
-          if( data)
+          if(data)
           {
             this.deleteContact(contact)
           }
-          this.appState.closeDialog()
         },
         error: () =>
         {
           let message = new Message()
-          message.type = MessageType.Error
-          message.text = "There was an error deleting the contact"
+          message.text = "There was an error deleting the contact."
+          this.appState.sendAlert(message);
         },
         complete: () =>
         {
@@ -168,18 +197,25 @@ export class VendorContactsComponent implements OnChanges{
 
   deleteContact(contact: VendorContact_DTO)
   {
-    this.appState.openSpinner(`Deleteing ${this.namePipe.transform(contact.contact!)} from ${this.namePipe.transform(contact.vendor?.contact!)} as a Vendor contact`)
+    this.appState.openSpinner(`Deleteing ${this.namePipe.transform(contact.contact!)} as a vendor contact.`)
     let sub = this.service.DeleteVendorContact(contact).subscribe(
       {
         next: () =>
         {
-          this.appState.closeSpinner()
-          const message = new Message(MessageType.Success, `${this.namePipe.transform(contact.contact!)} was deleted from ${this.namePipe.transform(contact.vendor?.contact!)}'s Vendor contacts`, true)
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(contact.contact!)} was deleted as a vendor contact.`
           this.appState.sendAlert(message);
           this.getVendorContacts()
         },
+        error: () =>
+        {
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(contact.contact!)} could not be deleted as a vendor contact.`
+          this.appState.sendAlert(message);
+        },
         complete: () =>
         {
+          this.appState.closeSpinner()
           sub.unsubscribe
         }
       })

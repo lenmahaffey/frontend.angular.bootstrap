@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { CompetitorContact_DTO, PhoneNumber_DTO } from 'src/app/shared/api/api.models';
+import { CompetitorContact_DTO, Contact_DTO, PhoneNumber_DTO } from 'src/app/shared/api/api.models';
 import { ContactService } from '../../contact.service';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
@@ -14,7 +14,7 @@ import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/co
 })
 export class CompetitorContactsComponent implements OnChanges{
   @Input() competitorId: number = 0
-  @Input() contactId: number = 0
+  @Input() contact: Contact_DTO = new Contact_DTO
   contacts: CompetitorContact_DTO[] = []
   numbers:PhoneNumber_DTO[] = []
 
@@ -39,20 +39,32 @@ export class CompetitorContactsComponent implements OnChanges{
             this.contacts = data
             this.getPhoneNumbersForContacts()
           },
+          error: () =>
+          {
+            let message = new Message()
+            message.text = "There was an error getting the competitor contacts."
+            this.appState.sendAlert(message);
+          },
           complete: () =>
           {
             sub.unsubscribe()
           }
         })
     }
-    else if(this.contactId > 0)
+    else if(this.contact.id > 0)
     {
-      let sub = this.service.ListCompetitorContactsForContact(this.contactId).subscribe(
+      let sub = this.service.ListCompetitorContactsForContact(this.contact.id).subscribe(
         {
           next: (data) =>
           {
             this.contacts = data
             this.getPhoneNumbersForCompetitors()
+          },
+          error: () =>
+          {
+            let message = new Message()
+            message.text = "There was an error getting the competitor contacts."
+            this.appState.sendAlert(message);
           },
           complete: () =>
           {
@@ -77,6 +89,12 @@ export class CompetitorContactsComponent implements OnChanges{
                 })
             }
           },
+          error: () =>
+          {
+            let message = new Message()
+            message.text = "There was an error getting the competitor contact phone numbers."
+            this.appState.sendAlert(message);
+          },
           complete: () =>
           {
             sub.unsubscribe()
@@ -100,6 +118,12 @@ export class CompetitorContactsComponent implements OnChanges{
               })
             }
           },
+          error: () =>
+          {
+            let message = new Message()
+            message.text = "There was an error getting the competitor contact phone numbers."
+            this.appState.sendAlert(message);
+          },
           complete: () =>
           {
             sub.unsubscribe()
@@ -116,22 +140,28 @@ export class CompetitorContactsComponent implements OnChanges{
 
   onContactDropped(event:any)
   {
-    const competitorId = this.competitorId
     const contact = event.item.data
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} to ${competitorId} as a competitor contact`)
-    if(competitorId != undefined)
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a competitor contact.`)
+    if(this.competitorId > 0)
     {
-      let sub = this.service.AddCompetitorContact(competitorId, contact.id).subscribe(
+      let sub = this.service.AddCompetitorContact(this.competitorId, contact.id).subscribe(
         {
           next: () =>
           {
-            this.appState.closeSpinner()
-            const message = new Message(MessageType.Success, `${this.namePipe.transform(contact)} was added to ${competitorId} as a competitor contact`, true)
+            const message = new Message(MessageType.Success)
+            message.text = `${this.namePipe.transform(contact)} was added as a competitor contact.`
             this.appState.sendAlert(message);
             this.getCompetitorContacts()
           },
+          error: ()=>
+          {
+            const message = new Message()
+            message.text = `${this.namePipe.transform(contact)} could not be added as a competitor contact.`
+            this.appState.sendAlert(message);
+          },
           complete: () =>
           {
+            this.appState.closeSpinner()
             sub.unsubscribe
           }
         }
@@ -143,7 +173,7 @@ export class CompetitorContactsComponent implements OnChanges{
   {
     var options = new ConfirmationDialogOptions()
     options.title = "Delete Contact?"
-    options.text = `Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} from ${this.namePipe.transform(contact.competitor?.contact!)} as a customer contact`
+    options.text = `Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} as a competitor contact?`
     const sub = this.appState.openConfirmationDialog(options).subscribe(
       {
         next: (data) =>
@@ -152,7 +182,6 @@ export class CompetitorContactsComponent implements OnChanges{
           {
             this.deleteContact(contact)
           }
-          this.appState.closeDialog()
         },
         error: () =>
         {
@@ -170,18 +199,25 @@ export class CompetitorContactsComponent implements OnChanges{
 
   deleteContact(contact: CompetitorContact_DTO)
   {
-    this.appState.openSpinner(`Deleteing ${this.namePipe.transform(contact.contact!)} from ${this.namePipe.transform(contact.competitor?.contact!)} as a customer contact`)
+    this.appState.openSpinner(`Deleteing ${this.namePipe.transform(contact.contact!)} as a competitor contact`)
     let sub = this.service.DeleteCompetitorContact(contact).subscribe(
       {
         next: () =>
         {
-          this.appState.closeSpinner()
-          const message = new Message(MessageType.Success, `${this.namePipe.transform(contact.contact!)} was deleted from ${this.namePipe.transform(contact.competitor?.contact!)}'s customer contacts`, true)
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(contact.contact!)} was deleted as a competitor contact`,
           this.appState.sendAlert(message);
           this.getCompetitorContacts()
         },
+        error: () =>
+        {
+          let message = new Message()
+          message.type = MessageType.Error
+          message.text = "There was an error deleting the contact"
+        },
         complete: () =>
         {
+          this.appState.closeSpinner()
           sub.unsubscribe
         }
       }
