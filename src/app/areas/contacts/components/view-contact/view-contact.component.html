@@ -6,10 +6,10 @@
           <img class="image" src="../../../../assets/No-Image-Placeholder.svg">
           <div class="flexColumn flexItem">
             <div class="name">
-              <h1>{{ this.contact | contactName}}</h1>
+              <h1 *ngIf="this.contact">{{ this.contact | contactName }}</h1>
             </div>
             <div class="title">
-              <h3>{{ this.contact.title != null ? this.contact.title : "none" }}</h3>
+              <h3>{{ this.contact.title != null ? this.contact.title : "" }}</h3>
             </div>
           </div>
           <div class="">

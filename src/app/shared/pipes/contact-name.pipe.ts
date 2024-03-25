@@ -11,7 +11,6 @@ export class ContactNamePipe implements PipeTransform {
     {
       return contact.businessName!
     }
-
     const prefix = contact.prefix != undefined ? contact.prefix : ''
     const firstName = contact.preferredName != undefined ? contact.preferredName : contact.firstName
     const middleName = contact.middleName != undefined ? contact.middleName : ''

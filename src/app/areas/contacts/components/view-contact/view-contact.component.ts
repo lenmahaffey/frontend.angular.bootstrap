@@ -19,7 +19,20 @@ import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/co
 export class ViewContactComponent implements OnInit {
 
   contactInformation: ContactInformation_DTO = new ContactInformation_DTO()
-  contact: Contact_DTO = new Contact_DTO()
+  contact: Contact_DTO = new Contact_DTO(
+    {
+      id: 0,
+      firstName: "",
+      lastName: "",
+      contactInformationId: 0,
+      isBusiness: false,
+      hasCompetitorContacts: false,
+      hasCustomerContacts: false,
+      hasManufacturerContacts: false,
+      hasVenueContacts: false,
+      hasVendorContacts: false,
+      version: 1
+    })
   private _contactInputId = 0
 
   @Input() get contactInputId() : number{
