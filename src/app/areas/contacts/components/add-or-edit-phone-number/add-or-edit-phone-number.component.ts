@@ -29,7 +29,6 @@ export class AddOrEditPhoneNumberComponent {
     private stringToPhoneNumber: StringToPhoneNumberPipe,
     @Inject(MAT_DIALOG_DATA) data: PhoneNumber_DTO)
   {
-    console.log(data)
     let dto = data
     if(dto == undefined)
     {

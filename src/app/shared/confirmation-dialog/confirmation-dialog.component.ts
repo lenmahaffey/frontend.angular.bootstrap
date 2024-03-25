@@ -1,5 +1,4 @@
-import { Component, Inject, Input, OnInit, Output } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Inject, OnInit, Output } from '@angular/core';
 import { ConfirmationDialogOptions } from './confirmation-dialog-options';
 import { Subject } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
@@ -38,20 +37,24 @@ export class ConfirmationDialogComponent implements OnInit {
   {
     if (event.key === "Escape") {
       this.response.next(null)
+      this.dialogRef.close()
     }
   }
   yes(){
     this.response.next(true);
     this.response.complete();
+    this.dialogRef.close()
   }
 
   no(){
     this.response.next(false);
     this.response.complete();
+    this.dialogRef.close()
   }
 
   dismiss(){
     this.response.next(null);
     this.response.complete();
+    this.dialogRef.close()
   }
 }

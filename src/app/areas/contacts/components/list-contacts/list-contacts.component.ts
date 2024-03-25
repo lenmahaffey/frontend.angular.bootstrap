@@ -99,8 +99,7 @@ export class ListContactsComponent {
     this.contact.next(contact)
   }
 
-  searchContacts()
-  {
+  searchContacts(){
     var fName = this.searchFormGroup.value.firstName
     var lName = this.searchFormGroup.value.lastName
     if(fName === "" && lName === "")
@@ -130,8 +129,7 @@ export class ListContactsComponent {
       this.sortContacts();
   }
 
-  sortContacts()
-  {
+  sortContacts(){
     var fName = this.sortOptions === "firstName"
     var lName = this.sortOptions === "lastName"
     var bName = this.sortOptions === "businessName"
@@ -230,8 +228,7 @@ export class ListContactsComponent {
     }
   }
 
-  filterContacts()
-  {
+  filterContacts(){
     var employees = this.filterOptions.value.employees
     var freelancers = this.filterOptions.value.freelancers
     var users = this.filterOptions.value.users
@@ -264,8 +261,7 @@ export class ListContactsComponent {
     }
   }
 
-  openAddContactModal()
-  {
+  openAddContactModal(){
     var dto = new Contact_DTO()
     dto.id = 0
     let config = Constants.GetModalConfig();
@@ -388,7 +384,7 @@ export class ListContactsComponent {
       top: '7%'
     }
     config.minWidth = undefined
-    let modalRef = this.appState.openDialog(AddOrEditContactComponent, this.contact, config);
+    let modalRef = this.appState.openDialog(AddOrEditContactComponent, contact, config);
     let sub = modalRef.subscribe(
       {
         next: (data) =>
@@ -406,6 +402,7 @@ export class ListContactsComponent {
       }
     )
   }
+
   updateContact(contact: Contact_DTO){
     let sub = this.service.UpdateContact(contact).subscribe(
       {

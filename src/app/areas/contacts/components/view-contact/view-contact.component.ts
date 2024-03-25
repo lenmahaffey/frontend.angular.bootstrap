@@ -356,6 +356,7 @@ export class ViewContactComponent implements OnInit {
           {
             this.contactInformation?.emailAddresses?.splice(index ,1)
           }
+          this.appState.closeSpinner()
           const message = new Message(MessageType.Success, `${address.address} has been deleted.`)
           this.appState.sendAlert(message)
         },
@@ -504,6 +505,4 @@ export class ViewContactComponent implements OnInit {
       }
     )
   }
-
-  
 }
