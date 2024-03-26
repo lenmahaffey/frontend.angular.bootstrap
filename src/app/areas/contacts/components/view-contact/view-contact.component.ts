@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { ContactInformation_DTO, AddressType_DTO, Contact_DTO, EmailAddress_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
 import { AddOrEditPhoneNumberComponent } from '../add-or-edit-phone-number/add-or-edit-phone-number.component';
 import { ContactService } from '../../contact.service';
