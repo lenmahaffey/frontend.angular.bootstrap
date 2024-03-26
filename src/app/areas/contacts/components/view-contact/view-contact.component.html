@@ -47,21 +47,21 @@
               <mat-tab label="Mailing">
                 <div class="addressContainer">
                   <div class="address">
-                    <app-address-form [address]="currentMailingAddress" (addressChange)="onAddressReceived($event)" (delete)="deletePhysicalAddress($event)"></app-address-form>
+                    <app-address-form [(address)]="currentMailingAddress" [contact]="contact"></app-address-form>
                   </div>
                 </div>
               </mat-tab>
               <mat-tab label="Billing">
                 <div class="addressContainer">
                   <div class="address">
-                    <app-address-form [address]="currentBillingAddress" (addressChange)="onAddressReceived($event)" (delete)="deletePhysicalAddress($event)"></app-address-form>
+                    <app-address-form [(address)]="currentBillingAddress" [contact]="contact"></app-address-form>
                   </div>
                 </div>
               </mat-tab>
               <mat-tab label="Shipping">
                 <div class="addressContainer">
                   <div class="address">
-                    <app-address-form [address]="currentShippingAddress" (addressChange)="onAddressReceived($event)" (delete)="deletePhysicalAddress($event)"></app-address-form>
+                    <app-address-form [(address)]="currentShippingAddress" [contact]="contact"></app-address-form>
                   </div>
                 </div>
               </mat-tab>

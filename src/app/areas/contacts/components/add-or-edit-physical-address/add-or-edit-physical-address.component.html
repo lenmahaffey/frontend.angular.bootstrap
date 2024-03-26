@@ -1,4 +1,4 @@
-<form [formGroup]="addressForm" (ngSubmit)="sendUpdate()">
+<form [formGroup]="addressForm" (ngSubmit)="addOrUpdatePhysicalAddress()">
   <mat-form-field class="input topLine" appearance="outline">
     <mat-label class="label">Line 1</mat-label>
     <input matInput type="text" name="line1" formControlName="line1" required>
@@ -39,7 +39,7 @@
       <button class="autoMargin" type="submit" mat-raised-button color="primary" [disabled]="addressForm.invalid">Save</button>
     </div>
     <div class="flexItem flexRow">
-      <button class="autoMargin" type="button" mat-raised-button color="warn" (click)="deleteAddress()" [disabled]="address.id == 0">Delete</button>
+      <button class="autoMargin" type="button" mat-raised-button color="warn" (click)="deletePhysicalAddress()" [disabled]="address.id == 0">Delete</button>
     </div>
   </div>
 </form>

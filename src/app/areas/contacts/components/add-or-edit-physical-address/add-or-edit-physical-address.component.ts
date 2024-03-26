@@ -1,7 +1,12 @@
 import { Component, Input, OnInit, Output, AfterViewInit, OnChanges, SimpleChanges, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
+import { AddressType_DTO, Contact_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
 import { ContactService } from '../../contact.service';
+import { AppStateService } from 'src/app/services/app-state/app-state-service';
+import { take } from 'rxjs';
+import { Message } from 'src/app/services/message';
+import { MessageType } from 'src/app/services/message-type.interface';
+import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 
 @Component({
   selector: 'app-address-form',
@@ -11,6 +16,7 @@ import { ContactService } from '../../contact.service';
 export class AddOrEditPhysicalAddressComponent implements OnChanges {
 
   addressForm: any
+  @Input() contact: Contact_DTO = new Contact_DTO()
   @Input() address: PhysicalAddress_DTO
   @Output() addressChange = new EventEmitter<PhysicalAddress_DTO>()
   @Output() delete = new EventEmitter<PhysicalAddress_DTO>()
@@ -36,7 +42,10 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
     return this.addressForm.get('zip')
   }
 
-  constructor(private service: ContactService)
+  constructor(
+    private service: ContactService,
+    private appState: AppStateService,
+    private namePipe: ContactNamePipe,)
   {
     this.address = new PhysicalAddress_DTO()
     this.addressForm = new FormGroup({
@@ -62,7 +71,7 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
     })
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     this.setForm()
   }
 
@@ -78,12 +87,7 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
     }
   }
 
-  deleteAddress()
-  {
-    this.delete.next(this.address)
-  }
-
-  sendUpdate()
+  setAddressFromInput(): PhysicalAddress_DTO
   {
     if(this.addressForm.valid && this.addressForm.dirty)
     {
@@ -94,7 +98,105 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
       addressUpdate.state = this.addressForm.value.state
       addressUpdate.postalCode = this.addressForm.value.zip
       addressUpdate.addressType = this.address.addressType
-      this.addressChange.emit(addressUpdate)
+      return addressUpdate
     }
+    throw Error("Check the form")
+  }
+
+  addOrUpdatePhysicalAddress()
+  {
+    if(this.address.id > 0)
+    {
+      this.updatePhysicalAddress()
+    }
+    else
+    {
+      this.addPhysicalAddress()
+    }
+  }
+
+  addPhysicalAddress()
+  {
+    const address = this.setAddressFromInput()
+    this.appState.openSpinner(`Adding new ${AddressType_DTO[address.addressType].toLowerCase()} address`)
+    address.id = 0
+    address.contactInformationId = this.contact.contactInformationId!
+    this.service.AddPhysicalAddress(address).pipe(take(1)).subscribe(
+      {
+        next: (data) =>
+        {
+          this.address = data
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(this.contact)}'s ${AddressType_DTO[address.addressType].toLowerCase()} address has been added.`
+          this.appState.sendAlert(message)
+        },
+        error: () =>
+        {
+          const message = new Message()
+          message.text = `There was an error and the ${AddressType_DTO[address.addressType].toLowerCase()} could not be added`
+          this.appState.sendAlert(message)
+        }
+      })
+    .add(() =>
+    {
+      this.appState.closeSpinner()
+    })
+  }
+
+  updatePhysicalAddress()
+  {
+    const address = this.setAddressFromInput()
+    this.appState.openSpinner(`Updating ${AddressType_DTO[address.addressType].toLowerCase()} address`)
+    this.service.UpdatePhysicalAddress(address).pipe(take(1)).subscribe(
+      {
+        next: (data) =>
+        {
+          this.address = data
+          this.setForm()
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(this.contact)}'s ${AddressType_DTO[address.addressType].toLowerCase()} address has been updated.`
+          this.appState.sendAlert(message)
+        },
+        error: () =>
+        {
+          const message = new Message()
+          message.text = `There was an error and the ${AddressType_DTO[address.addressType].toLowerCase()} could not be updated`
+          this.appState.sendAlert(message)
+        }
+      }
+    )
+    .add(() =>
+    {
+      this.appState.closeSpinner()
+    })
+  }
+
+  deletePhysicalAddress()
+  {
+    const address = this.address
+    this.appState.openSpinner(`Deleting ${AddressType_DTO[address.addressType].toLowerCase()} address`)
+    this.service.DeletePhysicalAddress(address).pipe(take(1)).subscribe(
+      {
+        next: () =>
+        {
+          const temp = this.address.addressType
+          this.address = new PhysicalAddress_DTO()
+          this.address.addressType = temp
+          this.setForm()
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(this.contact)}'s ${AddressType_DTO[address.addressType].toLowerCase()} address has been deleted.`
+          this.appState.sendAlert(message)
+        },
+        error: () =>
+        {
+          const message = new Message()
+          message.text = `There was an error and the ${AddressType_DTO[address.addressType].toLowerCase()} could not be deleted`
+          this.appState.sendAlert(message)
+        }
+      })
+      .add(() =>
+      {
+        this.appState.closeSpinner()
+      })
   }
 }
