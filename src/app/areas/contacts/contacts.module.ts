@@ -35,8 +35,6 @@ import { VenueContactsComponent } from './components/venue-contacts/venue-contac
   imports: [
     CommonModule,
     RouterModule.forChild([
-      // { path: 'contacts/listcontacts', component: ListContactsComponent },
-      // { path: 'contacts/viewcontact/:id', component: ViewContactComponent },
       { path: 'contacts', component: DashboardComponent },
       { path: 'contacts/:id', component: DashboardComponent },
     ]),
