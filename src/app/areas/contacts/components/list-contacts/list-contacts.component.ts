@@ -22,17 +22,19 @@ export class ListContactsComponent {
   searchFormGroup: any
   filteredList: Contact_DTO[] = []
   contactList: Contact_DTO[] = []
-  @Input() private _updatedContact: Contact_DTO = new Contact_DTO()
+  @Output() contact = new EventEmitter<Contact_DTO>()
+  private _updatedContact: Contact_DTO = new Contact_DTO()
   get updatedContact()
   {
       return this._updatedContact
   }
-  set updatedContact(value: Contact_DTO)
+  @Input() set updatedContact(value: Contact_DTO)
   {
-
+    console.log(value)
+    this._updatedContact = value
+    let i = this.contactList.findIndex(x => x.id == value.id)
+    this.contactList[i] = value
   }
-  @Output() contact = new EventEmitter<Contact_DTO>()
-
   constructor(
      private service: ContactService,
      private appState: AppStateService,

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
@@ -15,6 +15,7 @@ import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/co
 export class VenueContactsComponent implements OnChanges{
   @Input() venueId: number = 0
   @Input() contactId: number = 0
+  @Output() update: EventEmitter<boolean> = new EventEmitter()
   contacts: VenueContact_DTO[] = []
   numbers:PhoneNumber_DTO[] = []
 
@@ -32,7 +33,7 @@ export class VenueContactsComponent implements OnChanges{
   {
     if(this.venueId > 0)
     {
-      let sub = this.service.ListVenueContactsForVenue(this.venueId).subscribe(
+      this.service.ListVenueContactsForVenue(this.venueId).subscribe(
         {
           next: (data) =>
           {
@@ -44,16 +45,16 @@ export class VenueContactsComponent implements OnChanges{
             let message = new Message()
             message.type = MessageType.Error
             message.text = "There was an error getting the venue contacts."
-          },
-          complete: () =>
-          {
-            sub.unsubscribe()
           }
+        })
+        .add(() =>
+        {
+
         })
     }
     else if(this.contactId > 0)
     {
-      let sub = this.service.ListVenueContactsForContact(this.contactId).subscribe(
+      this.service.ListVenueContactsForContact(this.contactId).subscribe(
         {
           next: (data) =>
           {
@@ -65,11 +66,11 @@ export class VenueContactsComponent implements OnChanges{
             let message = new Message()
             message.type = MessageType.Error
             message.text = "There was an error getting the venue contacts."
-          },
-          complete: () =>
-          {
-            sub.unsubscribe()
           }
+        })
+        .add(() =>
+        {
+
         })
     }
   }
@@ -77,7 +78,7 @@ export class VenueContactsComponent implements OnChanges{
   getPhoneNumbersForVenues()
   {
     this.contacts.forEach(contact => {
-      let sub = this.service.GetPhoneNumbersForContact(contact.venue?.contactId!).subscribe(
+      this.service.GetPhoneNumbersForContact(contact.venue?.contactId!).subscribe(
         {
           next: (data) =>
           {
@@ -94,11 +95,11 @@ export class VenueContactsComponent implements OnChanges{
             let message = new Message()
             message.type = MessageType.Error
             message.text = "There was an error getting the venue contact phone numbers."
-          },
-          complete: () =>
-          {
-            sub.unsubscribe()
           }
+        })
+        .add(() =>
+        {
+
         })
     });
   }
@@ -106,7 +107,7 @@ export class VenueContactsComponent implements OnChanges{
   getPhoneNumbersForContacts()
   {
     this.contacts.forEach(contact => {
-      let sub = this.service.GetPhoneNumbersForContact(contact.contactId).subscribe(
+      this.service.GetPhoneNumbersForContact(contact.contactId).subscribe(
         {
           next: (data) =>
           {
@@ -123,11 +124,11 @@ export class VenueContactsComponent implements OnChanges{
             let message = new Message()
             message.type = MessageType.Error
             message.text = "There was an error getting the venue contact phone numbers."
-          },
-          complete: () =>
-          {
-            sub.unsubscribe()
           }
+        })
+        .add(() =>
+        {
+
         })
     });
   }
@@ -143,12 +144,13 @@ export class VenueContactsComponent implements OnChanges{
     this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} as a venue contact`)
     if(this.venueId > 0)
     {
-    let sub = this.service.AddVenueContact(this.venueId, contact.id).subscribe(
+    this.service.AddVenueContact(this.venueId, contact.id).subscribe(
       {
         next: () =>
         {
           const message = new Message(MessageType.Success)
           message.text = `${this.namePipe.transform(event.item.data)} was added as a venue contact.`
+          this.update.next(true)
           this.appState.sendAlert(message);
           this.getVenueContacts()
         },
@@ -157,23 +159,21 @@ export class VenueContactsComponent implements OnChanges{
           const message = new Message()
           message.text = `${this.namePipe.transform(contact.contact!)} could not be added as a venue contact.`
           this.appState.sendAlert(message);
-        },
-        complete: () =>
-        {
-          this.appState.closeSpinner()
-          sub.unsubscribe
         }
+      })
+      .add(() =>
+      {
+        this.appState.closeSpinner()
       })
     }
   }
 
   onDeleteContactClicked(contact: VenueContact_DTO)
   {
-    console.log(contact)
     var options = new ConfirmationDialogOptions()
     options.title = "Delete Contact?"
     options.text =`Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} as a venue contact?`
-    const sub = this.appState.openConfirmationDialog(options).subscribe(
+    this.appState.openConfirmationDialog(options).subscribe(
       {
         next: (data) =>
         {
@@ -187,25 +187,25 @@ export class VenueContactsComponent implements OnChanges{
           let message = new Message()
           message.type = MessageType.Error
           message.text = "There was an error deleting the contact."
-        },
-        complete: () =>
-        {
-          sub.unsubscribe()
         }
-      }
-    )
+      })
+    .add(() =>
+    {
+
+    })
   }
 
   deleteContact(contact: VenueContact_DTO)
   {
     this.appState.openSpinner(`Deleteing ${this.namePipe.transform(contact.contact!)} as a venue contact`)
-    let sub = this.service.DeleteVenueContact(contact).subscribe(
+    this.service.DeleteVenueContact(contact).subscribe(
       {
         next: () =>
         {
           const message = new Message(MessageType.Success)
           message.text = `${this.namePipe.transform(contact.contact!)} was deleted as a venue contact.`
           this.appState.sendAlert(message);
+          this.update.next(true)
           this.getVenueContacts()
         },
         error: () =>
@@ -213,13 +213,11 @@ export class VenueContactsComponent implements OnChanges{
           const message = new Message()
           message.text = `${this.namePipe.transform(contact.contact!)} could not be deleted as a venue contact.`
           this.appState.sendAlert(message);
-        },
-        complete: () =>
-        {
-          this.appState.closeSpinner()
-          sub.unsubscribe
         }
-      }
-    )
+      })
+      .add(() =>
+      {
+        this.appState.closeSpinner()
+      })
   }
 }

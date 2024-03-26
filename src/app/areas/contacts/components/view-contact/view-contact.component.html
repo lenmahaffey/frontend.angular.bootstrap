@@ -92,7 +92,7 @@
           <mat-tab label="{{contact.isBusiness ? 'Contacts' : 'Companies'}}">
 
             <div *ngIf="!contact.isBusiness">
-              <app-customer-contacts *ngIf="contact.hasCustomerContacts" [contactId]="contact.id" ></app-customer-contacts>
+              <app-customer-contacts *ngIf="contact.hasCustomerContacts" [contactId]="contact.id"></app-customer-contacts>
               <app-competitor-contacts *ngIf="contact.hasCompetitorContacts" [contact]="contact"></app-competitor-contacts>
               <app-manufacturer-contacts *ngIf="contact.hasManufacturerContacts" [contactId]="contact.id"></app-manufacturer-contacts>
               <app-vendor-contacts *ngIf="contact.hasVendorContacts" [contactId]="contact.id"></app-vendor-contacts>
@@ -100,11 +100,11 @@
             </div>
 
             <div *ngIf="contact.isBusiness">
-              <app-customer-contacts [customerId]="contact.customerId!"></app-customer-contacts>
-              <app-competitor-contacts [competitorId]="contact.competitorId!"></app-competitor-contacts>
-              <app-manufacturer-contacts [manufacturerId]="contact.manufacturerId!"></app-manufacturer-contacts>
-              <app-vendor-contacts [vendorId]="contact.vendorId!"></app-vendor-contacts>
-              <app-venue-contacts [venueId]="contact.venueId!"></app-venue-contacts>
+              <app-customer-contacts [customerId]="contact.customerId!" (update)="emitUpdatedContact()"></app-customer-contacts>
+              <app-competitor-contacts [competitorId]="contact.competitorId!" (update)="emitUpdatedContact()"></app-competitor-contacts>
+              <app-manufacturer-contacts [manufacturerId]="contact.manufacturerId!" (update)="emitUpdatedContact()"></app-manufacturer-contacts>
+              <app-vendor-contacts [vendorId]="contact.vendorId!" (update)="emitUpdatedContact()"></app-vendor-contacts>
+              <app-venue-contacts [venueId]="contact.venueId!" (update)="emitUpdatedContact()"></app-venue-contacts>
             </div>
           </mat-tab>
         </mat-tab-group>

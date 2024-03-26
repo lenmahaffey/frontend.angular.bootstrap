@@ -22,7 +22,6 @@ export class ContactService {
     return this.http.get<Contact_DTO>(url, { headers: this.headers, params: params }).pipe(
       catchError(this.handleError.bind(this)))
   }
-
   getContactInformation(id: number) : Observable<ContactInformation_DTO>
   {
     const url = `${this.apiUrl}/getcontactinformation`
@@ -30,7 +29,6 @@ export class ContactService {
     return this.http.get<ContactInformation_DTO>(url, { headers: this.headers, params: params }).pipe(
       catchError(this.handleError.bind(this)))
   }
-
   listAllContacts(info: boolean) : Observable<Contact_DTO[]>
   {
     const url = `${this.apiUrl}/listcontacts`
@@ -38,7 +36,6 @@ export class ContactService {
     return this.http.get<Contact_DTO[]>(url, {headers: this.headers, params: params}).pipe(
       catchError(this.handleError.bind(this)))
   }
-
   AddContact(contact: Contact_DTO)
   {
     const url = `${this.apiUrl}/addcontact`
@@ -47,7 +44,6 @@ export class ContactService {
       catchError(this.handleError.bind(this))
     )
   }
-
   AddPhoneNumber(number: PhoneNumber_DTO) : Observable<PhoneNumber_DTO>
   {
     const url = `${this.apiUrl}/addphonenumber`
@@ -55,7 +51,6 @@ export class ContactService {
     return this.http.post<PhoneNumber_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
-
   GetPhoneNumbersForContact(contactId: number) : Observable<PhoneNumber_DTO[]>
   {
     const url = `${this.apiUrl}/listphonenumbersforcontact`
@@ -70,7 +65,6 @@ export class ContactService {
     return this.http.post<PhoneNumber_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
-
   DeletePhoneNumber(number: PhoneNumber_DTO)
   {
     const url = `${this.apiUrl}/deletephonenumber`
@@ -78,7 +72,6 @@ export class ContactService {
     return this.http.delete(url, {headers: this.headers, body: number.id }).pipe(
       catchError(this.handleError.bind(this)))
   }
-
   AddEmailAddress(address:EmailAddress_DTO) : Observable<EmailAddress_DTO>
   {
     const url = `${this.apiUrl}/addemailaddress`
@@ -86,7 +79,6 @@ export class ContactService {
     return this.http.post<EmailAddress_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
-
   UpdateEmailAddress(address:EmailAddress_DTO) : Observable<EmailAddress_DTO>
   {
     const url = `${this.apiUrl}/updateemailaddress`
@@ -94,7 +86,6 @@ export class ContactService {
     return this.http.post<EmailAddress_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
-
   DeleteEmailAddress(address:EmailAddress_DTO)
   {
     const url = `${this.apiUrl}/deleteemailaddress`
@@ -102,7 +93,6 @@ export class ContactService {
     return this.http.delete(url, {headers: this.headers, body: address.id }).pipe(
       catchError(this.handleError.bind(this)))
   }
-
   AddPhysicalAddress(address: PhysicalAddress_DTO): Observable<PhysicalAddress_DTO>
   {
     const url = `${this.apiUrl}/addphysicaladdress`
@@ -110,7 +100,6 @@ export class ContactService {
     return this.http.post<PhysicalAddress_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
-
   UpdatePhysicalAddress(address: PhysicalAddress_DTO) : Observable<PhysicalAddress_DTO>
   {
     const url = `${this.apiUrl}/updatephysicaladdress`
@@ -118,14 +107,12 @@ export class ContactService {
     return this.http.post<PhysicalAddress_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
   }
-
   DeletePhysicalAddress(address: PhysicalAddress_DTO)
   {
     const url = `${this.apiUrl}/deletephysicaladdress`
     return this.http.delete(url, { headers: this.headers, body: address.id }).pipe(
       catchError(this.handleError.bind(this)))
   }
-
   DeleteContact(contact:Contact_DTO)
   {
     const url = `${this.apiUrl}/deletecontact`
@@ -133,7 +120,6 @@ export class ContactService {
       catchError(this.handleError.bind(this))
     )
   }
-
   UpdateContact(contact:Contact_DTO) : Observable<Contact_DTO>
   {
     const url = `${this.apiUrl}/updatecontact`

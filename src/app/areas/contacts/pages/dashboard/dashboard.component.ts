@@ -14,8 +14,8 @@ export class DashboardComponent implements OnInit {
   selectedContactId = 100
 
   constructor(private router: Router)
-  {
-  }
+  {}
+
   ngOnInit(): void {
     if(this.id == undefined)
     {
@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
     this.selectedContactId = contactId
   }
 
-  onContactUpdated(updatedContact: Contact_DTO)
+  onContactUpdated()
   {
     this.list.listAllContacts()
   }
