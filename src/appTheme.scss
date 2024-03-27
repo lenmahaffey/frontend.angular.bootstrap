@@ -2,6 +2,7 @@
 @use './color-palette.scss' as colors;
 @use "sass:map";
 
+
 $black: map.get(colors.$black, 500); //#353535;
 $white: #FFFCFF;
 $orange: map.get(colors.$orange, 500);//#F26430;
@@ -40,6 +41,34 @@ $warn: $red;
   background-color: $warn;
 }
 
+.employee{
+  background-color:  #1d4ed8;
+}
+
+.customer{
+  background-color:  $green;
+}
+
+.competitor{
+  background-color: $gray;
+}
+
 .freelancer{
-  background-color: purple;
+  background-color: #5b21b6;
+}
+
+.manufacturer{
+  background-color:  #0ea5e9;
+}
+
+.user{
+  background-color:  $black;
+}
+
+.venue{
+  background-color: $yellow;
+}
+
+.vendor{
+  background-color: #dc2626;
 }
