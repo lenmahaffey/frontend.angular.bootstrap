@@ -14,11 +14,11 @@ import { CompetitorContactsComponent } from './components/competitor-contacts/co
 import { ManufacturerContactsComponent } from './components/manufacturer-contacts/manufacturer-contacts.component';
 import { VendorContactsComponent } from './components/vendor-contacts/vendor-contacts.component';
 import { VenueContactsComponent } from './components/venue-contacts/venue-contacts.component';
-
-
+import { AddContactAsComponent } from './components/add-contact-as/add-contact-as.component';
 
 @NgModule({
   declarations: [
+    AddContactAsComponent,
     ListContactsComponent,
     ViewContactComponent,
     AddOrEditContactComponent,

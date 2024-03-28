@@ -5,7 +5,7 @@ import { Constants } from 'src/app/constants';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { CompetitorContact_DTO, ContactInformation_DTO, Contact_DTO, CustomerContact_DTO, EmailAddress_DTO, ManufacturerContact_DTO, Manufacturer_DTO, PhoneNumber_DTO, PhysicalAddress_DTO, VendorContact_DTO, VenueContact_DTO } from 'src/app/shared/api/api.models';
+import { CompetitorContact_DTO, ContactInformation_DTO, Contact_DTO, CustomerContact_DTO, Customer_DTO, EmailAddress_DTO, ManufacturerContact_DTO, Manufacturer_DTO, PhoneNumber_DTO, PhysicalAddress_DTO, VendorContact_DTO, VenueContact_DTO } from 'src/app/shared/api/api.models';
 
 @Injectable({
   providedIn: 'root'
@@ -283,6 +283,7 @@ export class ContactService {
     return this.http.delete(url, {headers: this.headers, body: body}).pipe(
       catchError(this.handleError.bind(this)))
   }
+
   private handleError(err: HttpErrorResponse) {
     let errorMessage = ''
     if (err.error.length > 0) {

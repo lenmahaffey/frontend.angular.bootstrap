@@ -8,28 +8,9 @@
           <mat-label class="label">Business Name</mat-label>
           <input matInput id="businessName" type="text" name="businessName" formControlName="businessName">
         </mat-form-field>
-        <!-- <mat-form-field class="padding flexItem" appearance="outline">
-          <mat-label class="label">Business Type</mat-label>
-          <mat-select>
-            <mat-option [value]="'customer'">Customer</mat-option>
-            <mat-option [value]="'competitor'">Competitor</mat-option>
-            <mat-option [value]="'manufacturer'">Manufacturer</mat-option>
-            <mat-option [value]="'vendor'">Vendor</mat-option>
-            <mat-option [value]="'venue'">Venue</mat-option>
-          </mat-select>
-        </mat-form-field> -->
       </div>
     </div>
     <div *ngIf="!contactFormGroup.value.isBusiness">
-      <!-- <mat-form-field class="padding flexItem" appearance="outline">
-        <mat-label class="label">Contact Type</mat-label>
-        <mat-select>
-          <mat-option [value]="'customer'">User</mat-option>
-          <mat-option [value]="'competitor'">Employee</mat-option>
-          <mat-option [value]="'manufacturer'">Freelancer</mat-option>
-          <mat-option [value]="'none'">None</mat-option>
-        </mat-select>
-      </mat-form-field> -->
       <div class="flexRow">
         <mat-form-field class="padding flexItem" appearance="outline">
           <mat-label class="label">Prefix</mat-label>

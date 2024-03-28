@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UsersService } from '../users.service';
+import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { User_DTO } from 'src/app/shared/api/api.models';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
@@ -19,7 +19,7 @@ export class ListUsersComponent {
   users = []
   displayedColumns: string[] = ['id', 'username','firstname', 'lastname'];
   data:User_DTO[] = []
-  constructor(private api: UsersService,
+  constructor(private api: UserService,
               private router: Router,
               private appStateService: AppStateService,
               private notificationService: NotificationService)

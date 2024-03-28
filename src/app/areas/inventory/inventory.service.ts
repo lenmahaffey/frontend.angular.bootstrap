@@ -1,19 +1,20 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { Constants } from 'src/app/constants';
-import { Message } from 'src/app/services/message';
-import { MessageType } from 'src/app/services/message-type.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_DTO, InventoryItem_DTO, ListInventoryItemsViewModel } from 'src/app/shared/api/api.models';
+import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_DTO, InventoryItem_DTO, ListInventoryItemsViewModel, Manufacturer_DTO, Vendor_DTO } from 'src/app/shared/api/api.models';
+import { ServiceBase } from 'src/app/shared/serviceBase';
 
 @Injectable()
-export class InventoryService {
+export class InventoryService extends ServiceBase {
 
   apiUrl = `${Constants.apiRootUrl}/inventory`
-  headers = Constants.headers
 
-  constructor(private notificationService: NotificationService, private http: HttpClient) { }
+  constructor(private notificationService: NotificationService, private http: HttpClient)
+  {
+     super (notificationService)
+  }
 
   ListInventoryItems(category: InventoryItemCategory_DTO | undefined,
                      type: InventoryItemType_DTO | undefined,
@@ -82,27 +83,23 @@ export class InventoryService {
       catchError(this.handleError.bind(this)))
   }
 
-  private handleError(err: HttpErrorResponse) {
-    let errorMessage = ''
-    if (err.error.length > 0) {
-      console.log(err.error)
-      err.error.forEach((x: any) => {
-        errorMessage = `An error occured: ${x.errorMessage}`
-        const message = new Message()
-        message.type = MessageType.Error
-        message.title = "Error"
-        message.text = errorMessage
-        this.notificationService.sendNotification(message)
-      });
-    }
-    else {
-        errorMessage = `Server returned code ${err.status}, error message is ${err.message}`
-        const message = new Message()
-        message.type = MessageType.Error
-        message.title = "Error"
-        message.text = errorMessage
-        this.notificationService.sendNotification(message)
-    }
-    return throwError(() => errorMessage)
+  CreateNewManufacturer(contactId: number) : Observable<Manufacturer_DTO>
+  {
+    const url = `${this.apiUrl}/addNewManufacturer`
+    const model = new Manufacturer_DTO()
+    model.contactId = contactId
+    const body = JSON.stringify(model)
+    return this.http.post<Manufacturer_DTO>(url, body, {headers: this.headers}).pipe(
+      catchError(this.handleError.bind(this)))
+  }
+
+  CreateNewVendor(contactId: number) : Observable<Vendor_DTO>
+  {
+    const url = `${this.apiUrl}/addNewVendor`
+    const model = new Vendor_DTO()
+    model.contactId = contactId
+    const body = JSON.stringify(model)
+    return this.http.post<Vendor_DTO>(url, body, {headers: this.headers}).pipe(
+      catchError(this.handleError.bind(this)))
   }
 }

@@ -1,20 +1,20 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { Constants } from 'src/app/constants';
-import { Message } from 'src/app/services/message';
-import { MessageType } from 'src/app/services/message-type.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { PhysicalAddress_DTO, User_DTO } from 'src/app/shared/api/api.models';
+import { ServiceBase } from 'src/app/shared/serviceBase';
 
 @Injectable()
-export class UsersService {
+export class UserService extends ServiceBase {
 
   apiUrl = `${Constants.apiRootUrl}/user`
-  headers = Constants.headers
 
   constructor(private notificationService: NotificationService, private http: HttpClient)
-  {}
+  {
+    super(notificationService)
+  }
 
   ListAllUsers() : Observable<User_DTO[]>
   {
@@ -45,27 +45,5 @@ export class UsersService {
     let body = JSON.stringify(address)
     return this.http.post<User_DTO>(url, body, { headers: this.headers }).pipe(
       catchError(this.handleError.bind(this)))
-  }
-
-
-  private handleError(err: HttpErrorResponse) {
-    let errorMessage = ''
-    if (err.error instanceof ErrorEvent) {
-        errorMessage = `An error occured: ${err.error.message}`
-        let message = new Message()
-        message.type = MessageType.Error
-        message.title = "Error"
-        message.text = errorMessage
-        this.notificationService.sendNotification(message)
-    }
-    else {
-        errorMessage = `Server returned code ${err.status}, error message is ${err.message}`
-        let message = new Message()
-        message.type = MessageType.Error
-        message.title = "Error"
-        message.text = errorMessage
-        this.notificationService.sendNotification(message)
-    }
-    return throwError(() => errorMessage)
   }
 }

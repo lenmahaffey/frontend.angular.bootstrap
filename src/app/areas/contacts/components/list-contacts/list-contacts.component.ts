@@ -9,6 +9,15 @@ import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 import { Constants } from 'src/app/constants';
+import { take } from 'rxjs';
+import { AddContactAsComponent } from '../add-contact-as/add-contact-as.component';
+import { CustomerService } from 'src/app/areas/customers/customer.service';
+import { FreelancerService } from 'src/app/areas/freelancers/freelancer.service';
+import { EmployeesService } from 'src/app/areas/employees/employees.service';
+import { UserService } from 'src/app/areas/users/user.service';
+import { SalesService } from 'src/app/areas/sales/sales.service';
+import { InventoryService } from 'src/app/areas/inventory/inventory.service';
+import { EventsService } from 'src/app/areas/events/events.service';
 
 @Component({
   selector: 'app-list-contacts',
@@ -38,7 +47,13 @@ export class ListContactsComponent {
   constructor(
      private service: ContactService,
      private appState: AppStateService,
-     private namePipe: ContactNamePipe)
+     private namePipe: ContactNamePipe,
+     private customerService: CustomerService,
+     private freelancerService: FreelancerService,
+     private employeeService: EmployeesService,
+     private salesService: SalesService,
+     private eventService: EventsService,
+     private inventoryService: InventoryService)
   {
     this.filterOptions = new  FormGroup(
       {
@@ -63,7 +78,7 @@ export class ListContactsComponent {
     {
       this.appState.openSpinner("Getting Contacts")
     }
-    const sub = this.service.listAllContacts(true).subscribe(
+    this.service.listAllContacts(true).pipe(take(1)).subscribe(
       {
         next: (data) =>
           {
@@ -81,18 +96,16 @@ export class ListContactsComponent {
                 }
               })
             }
-            this.appState.closeSpinner()
           },
         error: () =>
         {
           this.appState.sendAlert(new Message())
-        },
-        complete: () =>
-        {
-          sub.unsubscribe()
         }
-      }
-    )
+      })
+      .add(() =>
+      {
+        this.appState.closeSpinner()
+      })
   }
 
   contactClicked(contact:Contact_DTO)
@@ -275,7 +288,7 @@ export class ListContactsComponent {
     }
     config.minWidth = undefined
     let modalRef = this.appState.openDialog(AddOrEditContactComponent, dto, config);
-    let sub = modalRef.subscribe(
+    modalRef.pipe(take(1)).subscribe(
       {
         next: (data) =>
         {
@@ -283,28 +296,21 @@ export class ListContactsComponent {
           {
             this.addContact(data)
           }
-          sub.unsubscribe()
         },
         error: () =>
         {
           this.appState.sendAlert(new Message())
-        },
-        complete: () =>
-        {
-          sub.unsubscribe()
         }
-      }
-    )
+      })
   }
 
   addContact(contact: Contact_DTO)
   {
     this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} to contact list`);
-    const sub = this.service.AddContact(contact).subscribe(
+    this.service.AddContact(contact).pipe(take(1)).subscribe(
       {
         next: () =>
         {
-          this.appState.closeSpinner()
           const message = new Message(MessageType.Success, `${this.namePipe.transform(contact)} was added to the contact list`)
           this.appState.sendAlert(message)
           this.listAllContacts(false)
@@ -314,13 +320,12 @@ export class ListContactsComponent {
           const message = new Message()
           message.text = `${this.namePipe.transform(contact)} could not be added.`
           this.appState.sendAlert(message)
-        },
-        complete: () =>
-        {
-          sub.unsubscribe()
         }
-      }
-    )
+      })
+      .add(() =>
+      {
+        this.appState.closeSpinner()
+      })
   }
 
   onDeleteContactClicked(contact: Contact_DTO)
@@ -328,7 +333,7 @@ export class ListContactsComponent {
     var config = new ConfirmationDialogOptions()
     config.title = "Delete Contact?"
     config.text = `Are you sure you want to delete ${this.namePipe.transform(contact)}`
-    const sub = this.appState.openConfirmationDialog(config).subscribe(
+    this.appState.openConfirmationDialog(config).pipe(take(1)).subscribe(
       {
         next: (data) =>
         {
@@ -342,21 +347,16 @@ export class ListContactsComponent {
           let message = new Message()
           message.text = "There was an error deleting the contact"
           this.appState.sendAlert(message)
-        },
-        complete: () =>
-        {
-          sub.unsubscribe()
         }
-      }
-    )
+      })
   }
 
   deleteContact(contact: Contact_DTO)
   {
     this.appState.openSpinner("Deleteing Contact")
-    const sub = this.service.DeleteContact(contact).subscribe(
+    this.service.DeleteContact(contact).pipe(take(1)).subscribe(
       {
-        next: (data) =>
+        next: () =>
         {
           const i = this.contactList.indexOf(contact)
           this.contactList.splice(i, 1)
@@ -370,14 +370,13 @@ export class ListContactsComponent {
           const message = new Message()
           message.text = `${this.namePipe.transform(contact)} could not be deleted`
           this.appState.sendAlert(message)
-        },
-        complete: () =>
-        {
-          this.appState.closeSpinner()
-          sub.unsubscribe()
         }
-      }
-    )
+      })
+      .add(() =>
+      {
+        this.appState.closeSpinner()
+
+      })
   }
 
   onEditContactClicked(contact: Contact_DTO)
@@ -389,7 +388,7 @@ export class ListContactsComponent {
     }
     config.minWidth = undefined
     let modalRef = this.appState.openDialog(AddOrEditContactComponent, contact, config);
-    let sub = modalRef.subscribe(
+    modalRef.pipe(take(1)).subscribe(
       {
         next: (data) =>
         {
@@ -399,17 +398,13 @@ export class ListContactsComponent {
         error: () =>
         {
           this.appState.sendAlert(new Message())
-        },
-        complete: () =>
-        {
-          sub.unsubscribe()
         }
-      }
-    )
+      })
   }
 
   updateContact(contact: Contact_DTO){
-    let sub = this.service.UpdateContact(contact).subscribe(
+    this.appState.openSpinner("Updating Contact")
+    this.service.UpdateContact(contact).subscribe(
       {
         next: (data) =>
         {
@@ -424,22 +419,239 @@ export class ListContactsComponent {
           let message = new Message(MessageType.Error)
           message.text = `There was an error updating ${this.namePipe.transform(contact)}`
           this.appState.sendAlert(message)
-        },
-        complete: () =>
-        {
-          sub.unsubscribe()
         }
-      }
-    )
+      })
+      .add(() =>
+      {
+        this.appState.closeSpinner()
+      })
   }
 
   onAddContactAsClicked(contact: Contact_DTO)
   {
-
+    this.appState.openDialog(AddContactAsComponent, contact).pipe(take(1)).subscribe(
+      {
+        next: (data) =>
+        {
+          if(data)
+          {
+            this.addContactAs(contact, data)
+          }
+            this.appState.closeDialog()
+        },
+        error: () =>
+        {
+          this.appState.sendAlert(new Message())
+        }
+      })
   }
 
-  addContactAs(contact: Contact_DTO)
+  addContactAs(contact: Contact_DTO, type: string)
   {
+    console.log(type)
+    switch (type){
+      case "Customer":
+        this.createNewCustomer(contact)
+        break
+      case "Competitor":
+        this.createNewCompetitor(contact)
+        break
+      case "Employee":
+        this.createNewEmployee(contact)
+        break
+      case "Freelancer":
+        this.createNewFreelancer(contact)
+        break
+      case "Manufacturer":
+        this.createNewManufacturer(contact)
+        break
+      case "User":
+        break
+      case "Vendor":
+        this.createNewVendor(contact)
+        break
+      case "Venue":
+        this.createNewVenue(contact)
+        break
 
+
+      default:
+        break
+    }
+  }
+  createNewCustomer(contact:Contact_DTO)
+  {
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new customer`)
+    var contactIndex = this.contactList.findIndex(x => x.id === contact.id)
+    this.customerService.CreateNewCustomer(contact.id).pipe(take(1)).subscribe(
+      {
+        next: (data) =>
+        {
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(contact)} was added as a new customer`
+
+          this.contactList[contactIndex].customerId = data.id
+          console.log(this.contactList[contactIndex])
+        },
+        error: () =>
+        {
+          const message = new Message()
+          message.text = `${this.namePipe.transform(contact)} could not be added as a new customer`
+        }
+      })
+      .add(() =>
+      {
+        this.appState.closeSpinner()
+      })
+  }
+  createNewFreelancer(contact:Contact_DTO)
+  {
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new freelancer`)
+    var contactIndex = this.contactList.findIndex(x => x.id === contact.id)
+    this.freelancerService.CreateNewFreelancer(contact.id).pipe(take(1)).subscribe(
+      {
+        next: (data) =>
+        {
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(contact)} was added as a new freelancer`
+
+          this.contactList[contactIndex].freelancerId = data.id
+          console.log(this.contactList[contactIndex])
+        },
+        error: () =>
+        {
+          const message = new Message()
+          message.text = `${this.namePipe.transform(contact)} could not be added as a new freelancer`
+        }
+      })
+      .add(() =>
+      {
+        this.appState.closeSpinner()
+      })
+  }
+  createNewEmployee(contact:Contact_DTO)
+  {
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new employee`)
+    var contactIndex = this.contactList.findIndex(x => x.id === contact.id)
+    this.employeeService.CreateNewEmployee(contact.id).pipe(take(1)).subscribe(
+      {
+        next: (data) =>
+        {
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(contact)} was added as a new Employee`
+
+          this.contactList[contactIndex].employeeId = data.id
+          console.log(this.contactList[contactIndex])
+        },
+        error: () =>
+        {
+          const message = new Message()
+          message.text = `${this.namePipe.transform(contact)} could not be added as a new Employee`
+        }
+      })
+      .add(() =>
+      {
+        this.appState.closeSpinner()
+      })
+  }
+  createNewCompetitor(contact:Contact_DTO)
+  {
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new competitor`)
+    var contactIndex = this.contactList.findIndex(x => x.id === contact.id)
+    this.salesService.createNewCompetitor(contact.id).pipe(take(1)).subscribe(
+      {
+        next: (data) =>
+        {
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(contact)} was added as a new competitor`
+
+          this.contactList[contactIndex].competitorId = data.id
+          console.log(this.contactList[contactIndex])
+        },
+        error: () =>
+        {
+          const message = new Message()
+          message.text = `${this.namePipe.transform(contact)} could not be added as a new competitor`
+        }
+      })
+      .add(() =>
+      {
+        this.appState.closeSpinner()
+      })
+  }
+  createNewManufacturer(contact:Contact_DTO)
+  {
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new manufacturer`)
+    var contactIndex = this.contactList.findIndex(x => x.id === contact.id)
+    this.inventoryService.CreateNewManufacturer(contact.id).pipe(take(1)).subscribe(
+      {
+        next: (data) =>
+        {
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(contact)} was added as a new manufacturer`
+
+          this.contactList[contactIndex].manufacturerId = data.id
+          console.log(this.contactList[contactIndex])
+        },
+        error: () =>
+        {
+          const message = new Message()
+          message.text = `${this.namePipe.transform(contact)} could not be added as a new manufacturer`
+        }
+      })
+      .add(() =>
+      {
+        this.appState.closeSpinner()
+      })
+  }
+  createNewVendor(contact:Contact_DTO)
+  {
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new vendor`)
+    var contactIndex = this.contactList.findIndex(x => x.id === contact.id)
+    this.inventoryService.CreateNewVendor(contact.id).pipe(take(1)).subscribe(
+      {
+        next: (data) =>
+        {
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(contact)} was added as a new vendor`
+
+          this.contactList[contactIndex].vendorId = data.id
+          console.log(this.contactList[contactIndex])
+        },
+        error: () =>
+        {
+          const message = new Message()
+          message.text = `${this.namePipe.transform(contact)} could not be added as a new vendor`
+        }
+      })
+      .add(() =>
+      {
+        this.appState.closeSpinner()
+      })
+  }
+  createNewVenue(contact:Contact_DTO)
+  {
+    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new Venue`)
+    var contactIndex = this.contactList.findIndex(x => x.id === contact.id)
+    this.eventService.CreateNewVenue(contact.id).pipe(take(1)).subscribe(
+      {
+        next: (data) =>
+        {
+          const message = new Message(MessageType.Success)
+          message.text = `${this.namePipe.transform(contact)} was added as a new Venue`
+
+          this.contactList[contactIndex].venueId = data.id
+          console.log(this.contactList[contactIndex])
+        },
+        error: () =>
+        {
+          const message = new Message()
+          message.text = `${this.namePipe.transform(contact)} could not be added as a new Venue`
+        }
+      })
+      .add(() =>
+      {
+        this.appState.closeSpinner()
+      })
   }
 }

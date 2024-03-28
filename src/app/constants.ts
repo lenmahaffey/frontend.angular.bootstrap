@@ -19,6 +19,7 @@ export class Constants
       right: ((bodyRect.width / 2) - ( config.minWidth / 2) ).toString() + "px",
       top: '7%'
     }
+    config.disableClose = true;
     return config
   }
 }

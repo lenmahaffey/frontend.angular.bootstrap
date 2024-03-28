@@ -1,0 +1,30 @@
+<div mat-dialog-title>Add {{contact | contactName }} as</div>
+<div mat-dialog-content>
+
+  <ng-container [ngTemplateOutlet]="contact.isBusiness == true ? business : person">
+  </ng-container>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button color="accent" (click)="closeModal()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="ok()">Ok</button>
+</div>
+
+<ng-template #person>
+  <mat-form-field class="padding flexItem" appearance="outline">
+    <mat-label class="label">Add to</mat-label>
+    <mat-select [(value)]="personTypeSelection">
+      <mat-option *ngFor="let type of personContactTypes" [value]="type">{{type}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-template>
+
+<ng-template #business>
+  <mat-form-field class="padding flexItem" appearance="outline">
+    <mat-label class="label">Business Type</mat-label>
+    <mat-select [(value)]="businessTypeSelection">
+      <mat-option *ngFor="let type of businessContactTypes" [value]="type">{{type}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-template>
+
