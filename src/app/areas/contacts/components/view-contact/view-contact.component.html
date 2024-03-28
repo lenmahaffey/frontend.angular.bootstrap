@@ -1,7 +1,7 @@
-<div *ngIf="(this.contact != undefined)" class="page flexColumn h-100">
+<div class="flexColumn h-100">
   <div class="main flexRow">
-    <mat-card class="flexItem">
-      <mat-card-content class="fullHeight">
+    <mat-card class="flexItem overflow-scroll">
+      <mat-card-content class=" mb-2">
         <div class="flexRow heading">
           <img class="image" src="../../../../assets/No-Image-Placeholder.svg">
           <div class="flexColumn flexItem">
@@ -90,7 +90,6 @@
             </div>
           </mat-tab>
           <mat-tab label="{{contact.isBusiness ? 'Contacts' : 'Companies'}}">
-
             <div *ngIf="!contact.isBusiness">
               <app-customer-contacts *ngIf="contact.hasCustomerContacts" [contactId]="contact.id"></app-customer-contacts>
               <app-competitor-contacts *ngIf="contact.hasCompetitorContacts" [contact]="contact"></app-competitor-contacts>
