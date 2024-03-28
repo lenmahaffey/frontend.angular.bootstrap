@@ -75,7 +75,7 @@ export class CompetitorContactsComponent implements OnChanges{
         {
           next: (data) =>
           {
-            if(data != null)
+            if(data != undefined)
             {
               data.forEach(d =>
                 {
@@ -100,7 +100,7 @@ export class CompetitorContactsComponent implements OnChanges{
         {
           next: (data) =>
           {
-            if(data != null)
+            if(data != undefined)
             {
             data.forEach(d =>
               {

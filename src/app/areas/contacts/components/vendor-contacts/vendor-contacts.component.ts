@@ -75,7 +75,7 @@ export class VendorContactsComponent implements OnChanges{
         {
           next: (data) =>
           {
-            if(data.length > 0)
+            if(data != undefined)
             {
               data.forEach(d =>
                 {
@@ -99,7 +99,7 @@ export class VendorContactsComponent implements OnChanges{
       this.service.GetPhoneNumbersForContact(contact.contactId).pipe(take(1)).subscribe({
         next: (data) =>
         {
-          if(data.length > 0)
+          if(data != undefined)
           {
           data.forEach(d =>
             {

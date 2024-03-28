@@ -74,7 +74,7 @@ export class VenueContactsComponent implements OnChanges{
         {
           next: (data) =>
           {
-            if(data.length > 0)
+            if(data != undefined)
             {
               data.forEach(d =>
                 {
@@ -99,7 +99,7 @@ export class VenueContactsComponent implements OnChanges{
         {
           next: (data) =>
           {
-            if(data.length > 0)
+            if(data != undefined)
             {
             data.forEach(d =>
               {
