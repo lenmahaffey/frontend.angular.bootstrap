@@ -71,8 +71,8 @@
             <span class="badge customer" *ngIf="contact.hasCustomerContacts && !contact.customerId">CustomerContact</span>
             <span class="badge competitor" *ngIf="contact.hasCompetitorContacts && !contact.competitorId">CompetitorContact</span>
             <span class="badge manufacturer" *ngIf="contact.hasManufacturerContacts && !contact.manufacturerId">ManufacturerContact</span>
-            <span class="badge vendor" *ngIf="contact.hasVenueContacts && !contact.venueId">VenueContact</span>
-            <span class="badge vendue" *ngIf="contact.hasVendorContacts && !contact.vendorId">VendorContact</span>
+            <span class="badge venue" *ngIf="contact.hasVenueContacts && !contact.venueId">VenueContact</span>
+            <span class="badge vendor" *ngIf="contact.hasVendorContacts && !contact.vendorId">VendorContact</span>
           </div>
         </div>
         <div class="contactButtons flexRow" (click)="$event.stopPropagation()">

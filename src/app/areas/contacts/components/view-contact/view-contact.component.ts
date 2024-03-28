@@ -153,10 +153,6 @@ export class ViewContactComponent implements OnChanges {
           this.appState.sendAlert(message)
         }
       })
-    .add(() =>
-    {
-
-    })
   }
 
   addPhoneNumber(number: PhoneNumber_DTO)

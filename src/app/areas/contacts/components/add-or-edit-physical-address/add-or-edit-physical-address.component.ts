@@ -7,6 +7,7 @@ import { take } from 'rxjs';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
+import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 
 @Component({
   selector: 'app-address-form',
@@ -17,7 +18,7 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
 
   addressForm: any
   @Input() contact: Contact_DTO = new Contact_DTO()
-  @Input() address: PhysicalAddress_DTO
+  @Input() address: PhysicalAddress_DTO = new PhysicalAddress_DTO()
   @Output() addressChange = new EventEmitter<PhysicalAddress_DTO>()
   @Output() delete = new EventEmitter<PhysicalAddress_DTO>()
 
@@ -77,14 +78,12 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
 
   setForm()
   {
-    if(this.address != null)
-    {
+      this.addressForm.reset()
       this.addressForm.controls['line1'].setValue(this.address.line1)
       this.addressForm.controls['line2'].setValue(this.address.line2)
       this.addressForm.controls['city'].setValue(this.address.city)
       this.addressForm.controls['state'].setValue(this.address.state)
       this.addressForm.controls['zip'].setValue(this.address.postalCode)
-    }
   }
 
   setAddressFromInput(): PhysicalAddress_DTO
@@ -171,26 +170,46 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
     })
   }
 
+  openDeleteAddressModal()
+  {
+    var options = new ConfirmationDialogOptions()
+    options.title = "Delete Address?"
+    options.text = `Are you sure you want to delete ${this.namePipe.transform(this.contact)}'s ${AddressType_DTO[this.address.addressType].toLowerCase()} address?`
+
+    this.appState.openConfirmationDialog(options).pipe(take(1)).subscribe(
+      {
+        next: (response) =>
+        {
+          if (response) this.deletePhysicalAddress()
+        },
+        error: () =>
+        {
+          let message = new Message()
+          message.text = `There was an error with the dialog.`
+          this.appState.sendAlert(message)
+        }
+      })
+  }
   deletePhysicalAddress()
   {
-    const address = this.address
-    this.appState.openSpinner(`Deleting ${AddressType_DTO[address.addressType].toLowerCase()} address`)
-    this.service.DeletePhysicalAddress(address).pipe(take(1)).subscribe(
+    this.appState.openSpinner(`Deleting ${AddressType_DTO[this.address.addressType].toLowerCase()} address`)
+    this.service.DeletePhysicalAddress(this.address).pipe(take(1)).subscribe(
       {
         next: () =>
         {
+          this.addressForm.reset()
           const temp = this.address.addressType
           this.address = new PhysicalAddress_DTO()
           this.address.addressType = temp
           this.setForm()
           const message = new Message(MessageType.Success)
-          message.text = `${this.namePipe.transform(this.contact)}'s ${AddressType_DTO[address.addressType].toLowerCase()} address has been deleted.`
+          message.text = `${this.namePipe.transform(this.contact)}'s ${AddressType_DTO[this.address.addressType].toLowerCase()} address has been deleted.`
           this.appState.sendAlert(message)
         },
         error: () =>
         {
           const message = new Message()
-          message.text = `There was an error and the ${AddressType_DTO[address.addressType].toLowerCase()} could not be deleted`
+          message.text = `There was an error and the ${AddressType_DTO[this.address.addressType].toLowerCase()} could not be deleted`
           this.appState.sendAlert(message)
         }
       })

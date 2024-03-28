@@ -34,7 +34,7 @@ export class ManufacturerContactsComponent implements OnChanges{
   {
     if(this.manufacturerId > 0)
     {
-      let sub = this.service.ListManufacturerContactsForManufacturer(this.manufacturerId).pipe(take(1)).subscribe(
+      this.service.ListManufacturerContactsForManufacturer(this.manufacturerId).pipe(take(1)).subscribe(
         {
           next: (data) =>
           {
@@ -48,14 +48,10 @@ export class ManufacturerContactsComponent implements OnChanges{
             message.text = "There was an error getting the manufacturer contacts."
           }
         })
-        .add(() =>
-        {
-
-        })
     }
     else if(this.contactId > 0)
     {
-      let sub = this.service.ListManufacturerContactsForContact(this.contactId).pipe(take(1)).subscribe(
+      this.service.ListManufacturerContactsForContact(this.contactId).pipe(take(1)).subscribe(
         {
           next: (data) =>
           {
@@ -69,17 +65,13 @@ export class ManufacturerContactsComponent implements OnChanges{
             message.text = "There was an error getting the manufacturer contacts."
           }
         })
-        .add(() =>
-        {
-
-        })
     }
   }
 
   getPhoneNumbersForManufacturers()
   {
     this.contacts.forEach(contact => {
-      let sub = this.service.GetPhoneNumbersForContact(contact.manufacturer?.contactId!).pipe(take(1)).subscribe(
+      this.service.GetPhoneNumbersForContact(contact.manufacturer?.contactId!).pipe(take(1)).subscribe(
         {
           next: (data) =>
           {
@@ -98,17 +90,13 @@ export class ManufacturerContactsComponent implements OnChanges{
             message.text = "There was an error getting the manufacturer contact phone numbers."
           }
         })
-        .add(() =>
-        {
-
-        })
     });
   }
 
   getPhoneNumbersForContacts()
   {
     this.contacts.forEach(contact => {
-      let sub = this.service.GetPhoneNumbersForContact(contact.contactId).pipe(take(1)).subscribe(
+      this.service.GetPhoneNumbersForContact(contact.contactId).pipe(take(1)).subscribe(
         {
           next: (data) =>
           {
@@ -127,10 +115,6 @@ export class ManufacturerContactsComponent implements OnChanges{
             message.text = "There was an error getting the manufacturer contact phone numbers."
           }
         })
-        .add(() =>
-        {
-
-        })
     });
   }
 
@@ -142,10 +126,24 @@ export class ManufacturerContactsComponent implements OnChanges{
   onContactDropped(event:any)
   {
     const contact = event.item.data
+    if(contact.isBusiness)
+    {
+      const message = new Message()
+      message.text = `${this.namePipe.transform(contact)} is a business. Businesses can not be contacts for other businesses.`
+      this.appState.sendAlert(message);
+      return
+    }
+    if(this.contacts.findIndex(x => x.contactId == contact.id) > -1)
+    {
+      const message = new Message()
+      message.text = `${this.namePipe.transform(contact)} is already a contact.`
+      this.appState.sendAlert(message);
+      return
+    }
     this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} as a manufacturer contact.`)
     if(this.manufacturerId > 0)
     {
-    let sub = this.service.AddManufacturerContact(this.manufacturerId, contact.id).pipe(take(1)).subscribe(
+    this.service.AddManufacturerContact(this.manufacturerId, contact.id).pipe(take(1)).subscribe(
       {
         next: () =>
         {
@@ -199,7 +197,7 @@ export class ManufacturerContactsComponent implements OnChanges{
   deleteContact(contact: ManufacturerContact_DTO)
   {
     this.appState.openSpinner(`Deleteing ${this.namePipe.transform(contact.contact!)} as a manufacturer contact.`)
-    let sub = this.service.DeleteManufacturerContact(contact).pipe(take(1)).subscribe(
+    this.service.DeleteManufacturerContact(contact).pipe(take(1)).subscribe(
       {
         next: () =>
         {

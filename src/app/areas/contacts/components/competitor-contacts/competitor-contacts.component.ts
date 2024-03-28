@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { CompetitorContact_DTO, Contact_DTO, PhoneNumber_DTO } from 'src/app/shared/api/api.models';
 import { ContactService } from '../../contact.service';
 import { Message } from 'src/app/services/message';
@@ -48,10 +48,6 @@ export class CompetitorContactsComponent implements OnChanges{
             this.appState.sendAlert(message);
           },
         })
-        .add(() =>
-        {
-
-        })
     }
     else if(this.contact.id > 0)
     {
@@ -68,10 +64,6 @@ export class CompetitorContactsComponent implements OnChanges{
             message.text = "There was an error getting the competitor contacts."
             this.appState.sendAlert(message);
           },
-        })
-        .add(() =>
-        {
-
         })
     }
   }
@@ -98,10 +90,6 @@ export class CompetitorContactsComponent implements OnChanges{
             this.appState.sendAlert(message);
           },
         })
-        .add(() =>
-        {
-
-        })
     });
   }
 
@@ -127,10 +115,6 @@ export class CompetitorContactsComponent implements OnChanges{
             this.appState.sendAlert(message);
           },
         })
-        .add(() =>
-        {
-
-        })
     });
   }
 
@@ -143,6 +127,21 @@ export class CompetitorContactsComponent implements OnChanges{
   onContactDropped(event:any)
   {
     const contact = event.item.data
+    if(contact.isBusiness)
+    {
+      const message = new Message()
+      message.text = `${this.namePipe.transform(contact)} is a business. Businesses can not be contacts for other businesses.`
+      this.appState.sendAlert(message);
+      return
+    }
+
+    if(this.contacts.findIndex(x => x.contactId == contact.id) > -1)
+    {
+      const message = new Message()
+      message.text = `${this.namePipe.transform(contact)} is already a contact.`
+      this.appState.sendAlert(message);
+      return
+    }
     this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a competitor contact.`)
     if(this.competitorId > 0)
     {
@@ -190,10 +189,6 @@ export class CompetitorContactsComponent implements OnChanges{
           message.type = MessageType.Error
           message.text = "There was an error deleting the contact"
         }
-      })
-      .add(() =>
-      {
-
       })
   }
 

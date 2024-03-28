@@ -473,8 +473,6 @@ export class ListContactsComponent {
       case "Venue":
         this.createNewVenue(contact)
         break
-
-
       default:
         break
     }

@@ -10,8 +10,8 @@ import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
   styleUrls: ['./add-contact-as.component.css']
 })
 export class AddContactAsComponent {
-  businessContactTypes = Object.values(BusinessContactType).filter(value => typeof value === 'string')
-  personContactTypes = Object.values(PersonContactType).filter(value => typeof value === 'string')
+  businessContactTypes = BusinessContactType
+  personContactTypes = PersonContactType
   @Input() contact: Contact_DTO = new Contact_DTO()
   @Output() response: EventEmitter<string | undefined> = new EventEmitter()
   businessTypeSelection: BusinessContactType = BusinessContactType.Customer

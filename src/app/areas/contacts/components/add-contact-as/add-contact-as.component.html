@@ -14,7 +14,9 @@
   <mat-form-field class="padding flexItem" appearance="outline">
     <mat-label class="label">Add to</mat-label>
     <mat-select [(value)]="personTypeSelection">
-      <mat-option *ngFor="let type of personContactTypes" [value]="type">{{type}}</mat-option>
+      <mat-option [value]="personContactTypes.Customer" [disabled]="contact.customerId! > 0">Customer</mat-option>
+      <mat-option [value]="personContactTypes.Employee" [disabled]="contact.employeeId! > 0">Employee</mat-option>
+      <mat-option [value]="personContactTypes.Freelancer" [disabled]="contact.customerId! > 0">Freelancer</mat-option>
     </mat-select>
   </mat-form-field>
 </ng-template>
@@ -23,7 +25,11 @@
   <mat-form-field class="padding flexItem" appearance="outline">
     <mat-label class="label">Business Type</mat-label>
     <mat-select [(value)]="businessTypeSelection">
-      <mat-option *ngFor="let type of businessContactTypes" [value]="type">{{type}}</mat-option>
+      <mat-option [value]="businessContactTypes.Customer" [disabled]="contact.customerId! > 0">Customer</mat-option>
+      <mat-option [value]="businessContactTypes.Competitor" [disabled]="contact.competitorId! > 0">Competitor</mat-option>
+      <mat-option [value]="businessContactTypes.Manufacturer" [disabled]="contact.manufacturerId! > 0">Manufacturer</mat-option>
+      <mat-option [value]="businessContactTypes.Vendor" [disabled]="contact.vendorId! > 0">Vendor</mat-option>
+      <mat-option [value]="businessContactTypes.Venue" [disabled]="contact.venueId! > 0">Venue</mat-option>
     </mat-select>
   </mat-form-field>
 </ng-template>

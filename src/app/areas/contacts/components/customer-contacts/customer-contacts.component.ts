@@ -48,10 +48,6 @@ export class CustomerContactsComponent implements  OnChanges {
             this.appState.sendAlert(message)
           }
         })
-        .add(() =>
-        {
-
-        })
     }
     else if(this.contactId > 0)
     {
@@ -67,10 +63,6 @@ export class CustomerContactsComponent implements  OnChanges {
           message.text = "There was an error getting the customer contacts."
           this.appState.sendAlert(message)
         }
-      })
-      .add(() =>
-      {
-
       })
     }
   }
@@ -95,10 +87,6 @@ export class CustomerContactsComponent implements  OnChanges {
           message.text = "There was an error getting the phone numbers for the customer contacts."
           this.appState.sendAlert(message)
         }
-      })
-      .add(() =>
-      {
-
       })
     });
   }
@@ -126,10 +114,6 @@ export class CustomerContactsComponent implements  OnChanges {
           this.appState.sendAlert(message)
         }
       })
-      .add(() =>
-      {
-
-      })
     });
   }
 
@@ -141,6 +125,21 @@ export class CustomerContactsComponent implements  OnChanges {
   onContactDropped(event:any)
   {
     const contact = event.item.data
+    if(contact.isBusiness)
+    {
+      const message = new Message()
+      message.text = `${this.namePipe.transform(contact)} is a business. Businesses can not be contacts for other businesses.`
+      this.appState.sendAlert(message);
+      return
+    }
+    if(this.contacts.findIndex(x => x.contactId == contact.id) > -1)
+    {
+      const message = new Message()
+      message.text = `${this.namePipe.transform(contact)} is already a contact.`
+      this.appState.sendAlert(message);
+      return
+    }
+
     this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} as a customer contact`)
     if(this.customerId > 0)
     {
@@ -187,10 +186,6 @@ export class CustomerContactsComponent implements  OnChanges {
         message.type = MessageType.Error
         message.text = "There was an error deleting the contact"
       }
-    })
-    .add(() =>
-    {
-
     })
   }
 

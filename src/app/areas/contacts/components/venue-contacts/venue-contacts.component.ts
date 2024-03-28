@@ -25,7 +25,7 @@ export class VenueContactsComponent implements OnChanges{
     private namePipe: ContactNamePipe) {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     this.getVenueContacts()
   }
 
@@ -47,10 +47,6 @@ export class VenueContactsComponent implements OnChanges{
             message.text = "There was an error getting the venue contacts."
           }
         })
-        .add(() =>
-        {
-
-        })
     }
     else if(this.contactId > 0)
     {
@@ -67,10 +63,6 @@ export class VenueContactsComponent implements OnChanges{
             message.type = MessageType.Error
             message.text = "There was an error getting the venue contacts."
           }
-        })
-        .add(() =>
-        {
-
         })
     }
   }
@@ -97,10 +89,6 @@ export class VenueContactsComponent implements OnChanges{
             message.text = "There was an error getting the venue contact phone numbers."
           }
         })
-        .add(() =>
-        {
-
-        })
     });
   }
 
@@ -126,10 +114,6 @@ export class VenueContactsComponent implements OnChanges{
             message.text = "There was an error getting the venue contact phone numbers."
           }
         })
-        .add(() =>
-        {
-
-        })
     });
   }
 
@@ -141,6 +125,22 @@ export class VenueContactsComponent implements OnChanges{
   onContactDropped(event:any)
   {
     const contact = event.item.data
+    if(contact.isBusiness)
+    {
+      const message = new Message()
+      message.text = `${this.namePipe.transform(contact)} is a business. Businesses can not be contacts for other businesses.`
+      this.appState.sendAlert(message);
+      return
+    }
+
+    if(this.contacts.findIndex(x => x.contactId == contact.id) > -1)
+    {
+      const message = new Message()
+      message.text = `${this.namePipe.transform(contact)} is already a contact.`
+      this.appState.sendAlert(message);
+      return
+    }
+
     this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} as a venue contact`)
     if(this.venueId > 0)
     {
@@ -189,10 +189,6 @@ export class VenueContactsComponent implements OnChanges{
           message.text = "There was an error deleting the contact."
         }
       })
-    .add(() =>
-    {
-
-    })
   }
 
   deleteContact(contact: VenueContact_DTO)

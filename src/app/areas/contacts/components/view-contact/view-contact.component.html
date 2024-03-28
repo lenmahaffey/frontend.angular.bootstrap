@@ -90,20 +90,22 @@
             </div>
           </mat-tab>
           <mat-tab label="{{contact.isBusiness ? 'Contacts' : 'Companies'}}">
-            <div *ngIf="!contact.isBusiness">
-              <app-customer-contacts *ngIf="contact.hasCustomerContacts" [contactId]="contact.id"></app-customer-contacts>
-              <app-competitor-contacts *ngIf="contact.hasCompetitorContacts" [contact]="contact"></app-competitor-contacts>
-              <app-manufacturer-contacts *ngIf="contact.hasManufacturerContacts" [contactId]="contact.id"></app-manufacturer-contacts>
-              <app-vendor-contacts *ngIf="contact.hasVendorContacts" [contactId]="contact.id"></app-vendor-contacts>
-              <app-venue-contacts *ngIf="contact.hasVenueContacts" [contactId]="contact.id"></app-venue-contacts>
-            </div>
+            <div class="h-100">
+              <div *ngIf="!contact.isBusiness">
+                <app-customer-contacts *ngIf="contact.hasCustomerContacts" [contactId]="contact.id"></app-customer-contacts>
+                <app-competitor-contacts *ngIf="contact.hasCompetitorContacts" [contact]="contact"></app-competitor-contacts>
+                <app-manufacturer-contacts *ngIf="contact.hasManufacturerContacts" [contactId]="contact.id"></app-manufacturer-contacts>
+                <app-vendor-contacts *ngIf="contact.hasVendorContacts" [contactId]="contact.id"></app-vendor-contacts>
+                <app-venue-contacts *ngIf="contact.hasVenueContacts" [contactId]="contact.id"></app-venue-contacts>
+              </div>
 
-            <div *ngIf="contact.isBusiness">
-              <app-customer-contacts [customerId]="contact.customerId!" (update)="emitUpdatedContact()"></app-customer-contacts>
-              <app-competitor-contacts [competitorId]="contact.competitorId!" (update)="emitUpdatedContact()"></app-competitor-contacts>
-              <app-manufacturer-contacts [manufacturerId]="contact.manufacturerId!" (update)="emitUpdatedContact()"></app-manufacturer-contacts>
-              <app-vendor-contacts [vendorId]="contact.vendorId!" (update)="emitUpdatedContact()"></app-vendor-contacts>
-              <app-venue-contacts [venueId]="contact.venueId!" (update)="emitUpdatedContact()"></app-venue-contacts>
+              <div *ngIf="contact.isBusiness">
+                <app-customer-contacts [customerId]="contact.customerId!" (update)="emitUpdatedContact()"></app-customer-contacts>
+                <app-competitor-contacts [competitorId]="contact.competitorId!" (update)="emitUpdatedContact()"></app-competitor-contacts>
+                <app-manufacturer-contacts [manufacturerId]="contact.manufacturerId!" (update)="emitUpdatedContact()"></app-manufacturer-contacts>
+                <app-vendor-contacts [vendorId]="contact.vendorId!" (update)="emitUpdatedContact()"></app-vendor-contacts>
+                <app-venue-contacts [venueId]="contact.venueId!" (update)="emitUpdatedContact()"></app-venue-contacts>
+              </div>
             </div>
           </mat-tab>
         </mat-tab-group>
