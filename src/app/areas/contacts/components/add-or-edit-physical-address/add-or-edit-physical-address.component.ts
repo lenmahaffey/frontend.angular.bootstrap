@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, Output, AfterViewInit, OnChanges, SimpleChanges, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, Output, OnChanges, EventEmitter, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { AddressType_DTO, Contact_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
 import { ContactService } from '../../contact.service';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
@@ -15,8 +15,8 @@ import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/co
   styleUrls: ['./add-or-edit-physical-address.component.scss']
 })
 export class AddOrEditPhysicalAddressComponent implements OnChanges {
-
-  addressForm: any
+  @ViewChild('form') addressForm!: any
+  addressFormGroup: any
   @Input() contact: Contact_DTO = new Contact_DTO()
   @Input() address: PhysicalAddress_DTO = new PhysicalAddress_DTO()
   @Output() addressChange = new EventEmitter<PhysicalAddress_DTO>()
@@ -24,23 +24,23 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
 
   get line1()
   {
-    return this.addressForm.get('line1')
+    return this.addressFormGroup.get('line1')
   }
   get line2()
   {
-    return this.addressForm.get('line2')
+    return this.addressFormGroup.get('line2')
   }
   get city()
   {
-    return this.addressForm.get('city')
+    return this.addressFormGroup.get('city')
   }
   get state()
   {
-    return this.addressForm.get('state')
+    return this.addressFormGroup.get('state')
   }
   get zip()
   {
-    return this.addressForm.get('zip')
+    return this.addressFormGroup.get('zip')
   }
 
   constructor(
@@ -49,7 +49,7 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
     private namePipe: ContactNamePipe,)
   {
     this.address = new PhysicalAddress_DTO()
-    this.addressForm = new FormGroup({
+    this.addressFormGroup = new FormGroup({
       line1: new FormControl('',[
         Validators.required,
         Validators.maxLength(75),
@@ -78,24 +78,23 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
 
   setForm()
   {
-      this.addressForm.reset()
-      this.addressForm.controls['line1'].setValue(this.address.line1)
-      this.addressForm.controls['line2'].setValue(this.address.line2)
-      this.addressForm.controls['city'].setValue(this.address.city)
-      this.addressForm.controls['state'].setValue(this.address.state)
-      this.addressForm.controls['zip'].setValue(this.address.postalCode)
+      this.addressFormGroup.controls['line1'].setValue(this.address.line1)
+      this.addressFormGroup.controls['line2'].setValue(this.address.line2)
+      this.addressFormGroup.controls['city'].setValue(this.address.city)
+      this.addressFormGroup.controls['state'].setValue(this.address.state)
+      this.addressFormGroup.controls['zip'].setValue(this.address.postalCode)
   }
 
   setAddressFromInput(): PhysicalAddress_DTO
   {
-    if(this.addressForm.valid && this.addressForm.dirty)
+    if(this.addressFormGroup.valid && this.addressFormGroup.dirty)
     {
       let addressUpdate = JSON.parse(JSON.stringify(this.address))
-      addressUpdate.line1 = this.addressForm.value.line1
-      addressUpdate.line2 = this.addressForm.value.line2
-      addressUpdate.city = this.addressForm.value.city
-      addressUpdate.state = this.addressForm.value.state
-      addressUpdate.postalCode = this.addressForm.value.zip
+      addressUpdate.line1 = this.addressFormGroup.value.line1
+      addressUpdate.line2 = this.addressFormGroup.value.line2
+      addressUpdate.city = this.addressFormGroup.value.city
+      addressUpdate.state = this.addressFormGroup.value.state
+      addressUpdate.postalCode = this.addressFormGroup.value.zip
       addressUpdate.addressType = this.address.addressType
       return addressUpdate
     }
@@ -125,6 +124,8 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
         next: (data) =>
         {
           this.address = data
+          this.addressFormGroup.reset()
+          this.setForm()
           const message = new Message(MessageType.Success)
           message.text = `${this.namePipe.transform(this.contact)}'s ${AddressType_DTO[address.addressType].toLowerCase()} address has been added.`
           this.appState.sendAlert(message)
@@ -190,6 +191,7 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
         }
       })
   }
+
   deletePhysicalAddress()
   {
     this.appState.openSpinner(`Deleting ${AddressType_DTO[this.address.addressType].toLowerCase()} address`)
@@ -197,11 +199,10 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
       {
         next: () =>
         {
-          this.addressForm.reset()
           const temp = this.address.addressType
           this.address = new PhysicalAddress_DTO()
           this.address.addressType = temp
-          this.setForm()
+          this.addressForm.resetForm()
           const message = new Message(MessageType.Success)
           message.text = `${this.namePipe.transform(this.contact)}'s ${AddressType_DTO[this.address.addressType].toLowerCase()} address has been deleted.`
           this.appState.sendAlert(message)

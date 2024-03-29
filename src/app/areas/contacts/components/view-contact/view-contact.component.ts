@@ -70,9 +70,6 @@ export class ViewContactComponent implements OnChanges {
             this.appState.sendAlert(message)
           }
         })
-        .add(() =>
-        {
-        })
   }
 
   getContactInformation()
@@ -127,10 +124,6 @@ export class ViewContactComponent implements OnChanges {
           message.text = `There was an error with the dialog.`
           this.appState.sendAlert(message)
         }
-      })
-      .add(() =>
-      {
-
       })
   }
 
@@ -258,10 +251,6 @@ export class ViewContactComponent implements OnChanges {
           this.appState.sendAlert(message)
         }
       })
-    .add(() =>
-    {
-
-    })
   }
 
   openDeleteEmailAddressModal(address:EmailAddress_DTO | undefined)
@@ -283,10 +272,6 @@ export class ViewContactComponent implements OnChanges {
           this.appState.sendAlert(message)
         }
       })
-    .add(() =>
-    {
-
-    })
   }
 
   addEmailAddress(address:EmailAddress_DTO)

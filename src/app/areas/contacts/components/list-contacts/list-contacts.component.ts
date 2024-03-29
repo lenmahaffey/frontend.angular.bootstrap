@@ -39,7 +39,6 @@ export class ListContactsComponent {
   }
   @Input() set updatedContact(value: Contact_DTO)
   {
-    console.log(value)
     this._updatedContact = value
     let i = this.contactList.findIndex(x => x.id == value.id)
     this.contactList[i] = value
@@ -448,7 +447,6 @@ export class ListContactsComponent {
 
   addContactAs(contact: Contact_DTO, type: string)
   {
-    console.log(type)
     switch (type){
       case "Customer":
         this.createNewCustomer(contact)
@@ -488,8 +486,9 @@ export class ListContactsComponent {
           const message = new Message(MessageType.Success)
           message.text = `${this.namePipe.transform(contact)} was added as a new customer`
 
+          contact.customerId = data.id
+          this.contact.next(contact)
           this.contactList[contactIndex].customerId = data.id
-          console.log(this.contactList[contactIndex])
         },
         error: () =>
         {
@@ -513,8 +512,9 @@ export class ListContactsComponent {
           const message = new Message(MessageType.Success)
           message.text = `${this.namePipe.transform(contact)} was added as a new freelancer`
 
+          contact.freelancerId = data.id
+          this.contact.next(contact)
           this.contactList[contactIndex].freelancerId = data.id
-          console.log(this.contactList[contactIndex])
         },
         error: () =>
         {
@@ -538,8 +538,9 @@ export class ListContactsComponent {
           const message = new Message(MessageType.Success)
           message.text = `${this.namePipe.transform(contact)} was added as a new Employee`
 
+          contact.employeeId = data.id
+          this.contact.next(contact)
           this.contactList[contactIndex].employeeId = data.id
-          console.log(this.contactList[contactIndex])
         },
         error: () =>
         {
@@ -552,6 +553,7 @@ export class ListContactsComponent {
         this.appState.closeSpinner()
       })
   }
+
   createNewCompetitor(contact:Contact_DTO)
   {
     this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new competitor`)
@@ -563,8 +565,9 @@ export class ListContactsComponent {
           const message = new Message(MessageType.Success)
           message.text = `${this.namePipe.transform(contact)} was added as a new competitor`
 
+          contact.competitorId = data.id
+          this.contact.next(contact)
           this.contactList[contactIndex].competitorId = data.id
-          console.log(this.contactList[contactIndex])
         },
         error: () =>
         {
@@ -577,6 +580,7 @@ export class ListContactsComponent {
         this.appState.closeSpinner()
       })
   }
+
   createNewManufacturer(contact:Contact_DTO)
   {
     this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new manufacturer`)
@@ -588,8 +592,9 @@ export class ListContactsComponent {
           const message = new Message(MessageType.Success)
           message.text = `${this.namePipe.transform(contact)} was added as a new manufacturer`
 
+          contact.manufacturerId = data.id
+          this.contact.next(contact)
           this.contactList[contactIndex].manufacturerId = data.id
-          console.log(this.contactList[contactIndex])
         },
         error: () =>
         {
@@ -602,6 +607,7 @@ export class ListContactsComponent {
         this.appState.closeSpinner()
       })
   }
+
   createNewVendor(contact:Contact_DTO)
   {
     this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new vendor`)
@@ -612,9 +618,9 @@ export class ListContactsComponent {
         {
           const message = new Message(MessageType.Success)
           message.text = `${this.namePipe.transform(contact)} was added as a new vendor`
-
+          contact.vendorId = data.id
+          this.contact.next(contact)
           this.contactList[contactIndex].vendorId = data.id
-          console.log(this.contactList[contactIndex])
         },
         error: () =>
         {
@@ -627,6 +633,7 @@ export class ListContactsComponent {
         this.appState.closeSpinner()
       })
   }
+
   createNewVenue(contact:Contact_DTO)
   {
     this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new Venue`)
@@ -638,8 +645,9 @@ export class ListContactsComponent {
           const message = new Message(MessageType.Success)
           message.text = `${this.namePipe.transform(contact)} was added as a new Venue`
 
+          contact.venueId = data.id
+          this.contact.next(contact)
           this.contactList[contactIndex].venueId = data.id
-          console.log(this.contactList[contactIndex])
         },
         error: () =>
         {

@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
-import { Contact_DTO, PhoneNumber_DTO } from 'src/app/shared/api/api.models';
-import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
+import { Contact_DTO } from 'src/app/shared/api/api.models';
 
 @Component({
   selector: 'app-add-contact-as',
@@ -25,13 +23,11 @@ export class AddContactAsComponent {
   {
     if(this.contact.isBusiness === true)
     {
-      console.log(`Selected Type: ${this.businessTypeSelection}` )
-      this.response.next(this.businessTypeSelection.toString());
+      this.response.next(BusinessContactType[this.businessTypeSelection]);
     }
     else
     {
-      console.log(`Selected Type: ${this.personTypeSelection}` )
-      this.response.next(this.personTypeSelection.toString());
+      this.response.next(PersonContactType[this.personTypeSelection]);
     }
   }
 

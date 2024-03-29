@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Contact_DTO } from 'src/app/shared/api/api.models';
 import { ListContactsComponent } from '../../components/list-contacts/list-contacts.component';
@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit {
   @Input() id: undefined | number
   selectedContactId = 100
 
-  constructor(private router: Router)
+  constructor(private router: Router, private cdr: ChangeDetectorRef)
   {}
 
   ngOnInit(): void {
@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
   {
     this.router.navigate([`contacts/${contactId}`])
     this.selectedContactId = contactId
+    this.cdr.detectChanges()
   }
 
   onContactUpdated()

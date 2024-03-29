@@ -57,7 +57,6 @@ export class AddOrEditContactComponent {
   }
 
   constructor(@Inject(MAT_DIALOG_DATA) data: Contact_DTO){
-    console.log(data)
     this.contact = data as Contact_DTO
     this.contactFormGroup = new FormGroup(
       {
