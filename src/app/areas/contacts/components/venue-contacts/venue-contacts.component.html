@@ -16,7 +16,7 @@
           <div class="flexItem ">{{c.contact! | contactName }} </div>
           <div class="flexItem title">{{c.contact!.title ?? 'No Title'}}</div>
           <div class="flexItem title">{{ getNumber(c.contact!.contactInformationId!)  | phoneNumberToString }}</div>
-          <div class="delete" (click)="onDeleteContactClicked(c)">
+          <div class="delete" (click)="openDeleteContactDialog(c)">
             <i class="fa-solid fa-xmark fa-2xl"></i>
           </div>
         </div>
@@ -46,7 +46,7 @@
         <div class="flexItem ">{{c.venue!.contact! | contactName}} </div>
         <div class="flexItem title">{{c.contact!.title ?? 'No Title'}}</div>
         <div class="flexItem title">{{ getNumber(c.venue!.contact!.contactInformationId!)  | phoneNumberToString }}</div>
-        <div class="delete" (click)="onDeleteContactClicked(c)">
+        <div class="delete" (click)="openDeleteContactDialog(c)">
           <i class="fa-solid fa-xmark fa-2xl"></i>
         </div>
       </div>

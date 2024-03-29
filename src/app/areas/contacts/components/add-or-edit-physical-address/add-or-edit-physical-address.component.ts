@@ -182,12 +182,6 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
         next: (response) =>
         {
           if (response) this.deletePhysicalAddress()
-        },
-        error: () =>
-        {
-          let message = new Message()
-          message.text = `There was an error with the dialog.`
-          this.appState.sendAlert(message)
         }
       })
   }

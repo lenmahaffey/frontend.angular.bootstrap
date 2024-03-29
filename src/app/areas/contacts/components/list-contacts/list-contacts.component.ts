@@ -295,10 +295,6 @@ export class ListContactsComponent {
           {
             this.addContact(data)
           }
-        },
-        error: () =>
-        {
-          this.appState.sendAlert(new Message())
         }
       })
   }
@@ -327,7 +323,7 @@ export class ListContactsComponent {
       })
   }
 
-  onDeleteContactClicked(contact: Contact_DTO)
+  openDeleteContactModal(contact: Contact_DTO)
   {
     var config = new ConfirmationDialogOptions()
     config.title = "Delete Contact?"
@@ -340,12 +336,6 @@ export class ListContactsComponent {
           {
             this.deleteContact(contact)
           }
-        },
-        error: () =>
-        {
-          let message = new Message()
-          message.text = "There was an error deleting the contact"
-          this.appState.sendAlert(message)
         }
       })
   }
@@ -378,7 +368,7 @@ export class ListContactsComponent {
       })
   }
 
-  onEditContactClicked(contact: Contact_DTO)
+  openEditContactModal(contact: Contact_DTO)
   {
     let config = Constants.GetModalConfig();
     config.position =
@@ -393,10 +383,6 @@ export class ListContactsComponent {
         {
           this.updateContact(data)
           this.appState.closeDialog()
-        },
-        error: () =>
-        {
-          this.appState.sendAlert(new Message())
         }
       })
   }
@@ -426,7 +412,7 @@ export class ListContactsComponent {
       })
   }
 
-  onAddContactAsClicked(contact: Contact_DTO)
+  openAddContactAsModal(contact: Contact_DTO)
   {
     this.appState.openDialog(AddContactAsComponent, contact).pipe(take(1)).subscribe(
       {

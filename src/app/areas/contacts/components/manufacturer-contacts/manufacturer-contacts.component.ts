@@ -167,7 +167,7 @@ export class ManufacturerContactsComponent implements OnChanges{
     }
   }
 
-  onDeleteContactClicked(contact: ManufacturerContact_DTO)
+  openDeleteContactDialog(contact: ManufacturerContact_DTO)
   {
     var options = new ConfirmationDialogOptions
     options.title = "Delete Contact?"
@@ -180,12 +180,6 @@ export class ManufacturerContactsComponent implements OnChanges{
           {
             this.deleteContact(contact)
           }
-        },
-        error: () =>
-        {
-          let message = new Message()
-          message.type = MessageType.Error
-          message.text = "There was an error deleting the contact."
         }
       })
     .add(() =>

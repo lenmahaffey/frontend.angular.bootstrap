@@ -166,7 +166,7 @@ export class VendorContactsComponent implements OnChanges{
     }
   }
 
-  onDeleteContactClicked(contact: VendorContact_DTO)
+  openDeleteContactDialog(contact: VendorContact_DTO)
   {
     var config = new ConfirmationDialogOptions()
     config.title = "Delete Contact?"
@@ -179,12 +179,6 @@ export class VendorContactsComponent implements OnChanges{
           {
             this.deleteContact(contact)
           }
-        },
-        error: () =>
-        {
-          let message = new Message()
-          message.text = "There was an error deleting the contact."
-          this.appState.sendAlert(message);
         }
       })
     .add(() =>

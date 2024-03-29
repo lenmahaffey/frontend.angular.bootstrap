@@ -106,7 +106,7 @@ export class ViewContactComponent implements OnChanges {
     this.currentShippingAddress.addressType = AddressType_DTO.Shipping
   }
 
-  openAddOrEditPhoneNumberModal(number?: PhoneNumber_DTO)
+  openAddOrEditPhoneNumberDialog(number?: PhoneNumber_DTO)
   {
     let modalRef = this.appState.openDialog(AddOrEditPhoneNumberComponent, number);
     modalRef.pipe(take(1)).subscribe(
@@ -117,17 +117,11 @@ export class ViewContactComponent implements OnChanges {
           {
             data.id == 0 ? this.addPhoneNumber(data) : this.updatePhoneNumber(data)
           }
-        },
-        error: () =>
-        {
-          let message = new Message()
-          message.text = `There was an error with the dialog.`
-          this.appState.sendAlert(message)
         }
       })
   }
 
-  openDeletePhoneNumberModal(number: PhoneNumber_DTO)
+  openDeletePhoneNumberDialog(number: PhoneNumber_DTO)
   {
     var options = new ConfirmationDialogOptions()
     options.title = "Delete Phone Number"
@@ -138,12 +132,6 @@ export class ViewContactComponent implements OnChanges {
         next: (response) =>
         {
           (response) ? this.deletePhoneNumber(number) : null
-        },
-        error: () =>
-        {
-          let message = new Message()
-          message.text = `There was an error with the dialog.`
-          this.appState.sendAlert(message)
         }
       })
   }
@@ -232,7 +220,7 @@ export class ViewContactComponent implements OnChanges {
     })
   }
 
-  openAddOrEditEmailAddressModal(address?:EmailAddress_DTO)
+  openAddOrEditEmailAddressDialog(address?:EmailAddress_DTO)
   {
     let modalRef = this.appState.openDialog(AddOrEditEmailAddressComponent, address);
     modalRef.pipe(take(1)).subscribe(
@@ -243,17 +231,11 @@ export class ViewContactComponent implements OnChanges {
           {
             data.id == 0 ? this.addEmailAddress(data) : this.updateEmailAddress(data)
           }
-        },
-        error: () =>
-        {
-          let message = new Message()
-          message.text = `There was an error with the dialog.`
-          this.appState.sendAlert(message)
         }
       })
   }
 
-  openDeleteEmailAddressModal(address:EmailAddress_DTO | undefined)
+  openDeleteEmailAddressDialog(address:EmailAddress_DTO | undefined)
   {
     var options = new ConfirmationDialogOptions()
     options.title = "Delete Email Address"
@@ -264,12 +246,6 @@ export class ViewContactComponent implements OnChanges {
         next: (response) =>
         {
           response == true ? this.deleteEmailAddress(address!) : null
-        },
-        error: () =>
-        {
-          let message = new Message()
-          message.text = `There was an error with the dialog.`
-          this.appState.sendAlert(message)
         }
       })
   }
@@ -341,7 +317,7 @@ export class ViewContactComponent implements OnChanges {
     this.appState.openSpinner("Deleting email address")
     this.service.DeleteEmailAddress(address).pipe(take(1)).subscribe(
       {
-        next: (data) =>
+        next: () =>
         {
           var index: number | undefined
           this.contactInformation?.emailAddresses?.forEach((e, i) => {

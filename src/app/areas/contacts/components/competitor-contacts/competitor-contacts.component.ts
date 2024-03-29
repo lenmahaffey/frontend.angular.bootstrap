@@ -169,7 +169,7 @@ export class CompetitorContactsComponent implements OnChanges{
     }
   }
 
-  onDeleteContactClicked(contact: CompetitorContact_DTO)
+  openDeleteContactModal(contact: CompetitorContact_DTO)
   {
     var options = new ConfirmationDialogOptions()
     options.title = "Delete Contact?"
@@ -182,12 +182,6 @@ export class CompetitorContactsComponent implements OnChanges{
           {
             this.deleteContact(contact)
           }
-        },
-        error: () =>
-        {
-          let message = new Message()
-          message.type = MessageType.Error
-          message.text = "There was an error deleting the contact"
         }
       })
   }

@@ -168,7 +168,7 @@ export class VenueContactsComponent implements OnChanges{
     }
   }
 
-  onDeleteContactClicked(contact: VenueContact_DTO)
+  openDeleteContactDialog(contact: VenueContact_DTO)
   {
     var options = new ConfirmationDialogOptions()
     options.title = "Delete Contact?"

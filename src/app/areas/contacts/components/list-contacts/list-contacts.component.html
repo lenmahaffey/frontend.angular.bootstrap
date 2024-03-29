@@ -76,9 +76,9 @@
           </div>
         </div>
         <div class="contactButtons flexRow" (click)="$event.stopPropagation()">
-          <span class="up" (click)="onAddContactAsClicked(contact)"><i class="fa-solid fa-arrow-up fa-xl"></i></span>
-          <span class="edit" (click)="onEditContactClicked(contact)"><i class="fa-solid fa-pen fa-xl"></i></span>
-          <span class="delete" (click)="onDeleteContactClicked(contact)"><i class="fa-solid fa-xmark fa-xl"></i></span>
+          <span class="up" (click)="openAddContactAsModal(contact)"><i class="fa-solid fa-arrow-up fa-xl"></i></span>
+          <span class="edit" (click)="openEditContactModal(contact)"><i class="fa-solid fa-pen fa-xl"></i></span>
+          <span class="delete" (click)="openDeleteContactModal(contact)"><i class="fa-solid fa-xmark fa-xl"></i></span>
         </div>
       </div>
     </div>

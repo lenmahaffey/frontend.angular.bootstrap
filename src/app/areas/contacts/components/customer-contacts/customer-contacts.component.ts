@@ -167,7 +167,7 @@ export class CustomerContactsComponent implements  OnChanges {
     }
   }
 
-  onDeleteContactClicked(contact: CustomerContact_DTO)
+  openDeleteContactModal(contact: CustomerContact_DTO)
   {
     var config = new ConfirmationDialogOptions()
     config.title = "Delete Contact?"
@@ -179,12 +179,6 @@ export class CustomerContactsComponent implements  OnChanges {
         {
           this.deleteContact(contact)
         }
-      },
-      error: () =>
-      {
-        let message = new Message()
-        message.type = MessageType.Error
-        message.text = "There was an error deleting the contact"
       }
     })
   }
