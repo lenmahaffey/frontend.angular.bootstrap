@@ -2,10 +2,10 @@ import { Component, Inject, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
-import { EmailAddress_DTO, PhoneNumber_DTO } from 'src/app/shared/api/api.models';
+import { EmailAddress_DTO } from 'src/app/shared/api/api.models';
 
 @Component({
-  selector: 'app-add-email-address-modal',
+  selector: 'app-add-email-address',
   templateUrl: './add-or-edit-email-address.component.html',
   styleUrls: ['./add-or-edit-email-address.component.scss']
 })

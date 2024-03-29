@@ -167,7 +167,7 @@ export class CustomerContactsComponent implements  OnChanges {
     }
   }
 
-  openDeleteContactModal(contact: CustomerContact_DTO)
+  openDeleteContactDialog(contact: CustomerContact_DTO)
   {
     var config = new ConfirmationDialogOptions()
     config.title = "Delete Contact?"

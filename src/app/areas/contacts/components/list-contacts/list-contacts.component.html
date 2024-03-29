@@ -51,7 +51,7 @@
           </div>
         </mat-radio-group>
       </mat-menu>
-      <button mat-raised-button color="primary" (click)="openAddContactModal()">Add New</button>
+      <button mat-raised-button color="primary" (click)="openAddContactDialog()">Add New</button>
     </div>
     <div class="list">
       <div *ngFor="let contact of filteredList" class="pointer listItem flexRow" (click)="contactClicked(contact)" cdkDragList cdkDrag [cdkDragData]="contact">
@@ -76,9 +76,9 @@
           </div>
         </div>
         <div class="contactButtons flexRow" (click)="$event.stopPropagation()">
-          <span class="up" (click)="openAddContactAsModal(contact)"><i class="fa-solid fa-arrow-up fa-xl"></i></span>
-          <span class="edit" (click)="openEditContactModal(contact)"><i class="fa-solid fa-pen fa-xl"></i></span>
-          <span class="delete" (click)="openDeleteContactModal(contact)"><i class="fa-solid fa-xmark fa-xl"></i></span>
+          <span class="up" (click)="openAddContactAsDialog(contact)"><i class="fa-solid fa-arrow-up fa-xl"></i></span>
+          <span class="edit" (click)="openEditContactDialog(contact)"><i class="fa-solid fa-pen fa-xl"></i></span>
+          <span class="delete" (click)="openDeleteContactDialog(contact)"><i class="fa-solid fa-xmark fa-xl"></i></span>
         </div>
       </div>
     </div>

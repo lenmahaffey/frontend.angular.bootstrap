@@ -9,7 +9,7 @@ export class Constants
         'Content-Type': 'application/json'
     })
 
-  public static GetModalConfig(): MatDialogConfig
+  public static GetDialogConfig(): MatDialogConfig
   {
     const bodyRect = document.body.getBoundingClientRect();
     const config: MatDialogConfig = new MatDialogConfig();

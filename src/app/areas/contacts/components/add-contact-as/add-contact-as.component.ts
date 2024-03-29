@@ -31,7 +31,7 @@ export class AddContactAsComponent {
     }
   }
 
-  closeModal(){
+  closeDialog(){
     this.response.next(undefined);
   }
 }

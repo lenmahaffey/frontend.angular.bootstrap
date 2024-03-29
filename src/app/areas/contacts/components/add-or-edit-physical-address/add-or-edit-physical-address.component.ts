@@ -171,7 +171,7 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
     })
   }
 
-  openDeleteAddressModal()
+  openDeleteAddressDialog()
   {
     var options = new ConfirmationDialogOptions()
     options.title = "Delete Address?"

@@ -18,7 +18,7 @@ import { Constants } from 'src/app/constants';
 export class AppStateService {
 
   constructor(private dialog: MatDialog, private alertService: AlertService, private notificationService: NotificationService){}
-  currentModalRef: MatDialogRef<any, any> | undefined
+  currentDialogRef: MatDialogRef<any, any> | undefined
   confirmationOptions = new ConfirmationDialogOptions()
   confirmationResponse: Subject<boolean | undefined> = new Subject()
   notificationMessage = new Message()
@@ -69,25 +69,25 @@ export class AppStateService {
 
   openDialog(component: any, data: any, options?: MatDialogConfig) : Observable<any>
   {
-    const config: MatDialogConfig = (options != null)  ? options : Constants.GetModalConfig()
-    this.currentModalRef = this.dialog.open(component, {data});
-    this.currentModalRef.updatePosition(config.position)
-    config.minWidth != undefined ? this.currentModalRef.updateSize(`${config.minWidth.toString()}px`) : null
-    this.currentModalRef.disableClose = false;
-    return this.currentModalRef.componentInstance.response
+    const config: MatDialogConfig = (options != null)  ? options : Constants.GetDialogConfig()
+    this.currentDialogRef = this.dialog.open(component, {data});
+    this.currentDialogRef.updatePosition(config.position)
+    config.minWidth != undefined ? this.currentDialogRef.updateSize(`${config.minWidth.toString()}px`) : null
+    this.currentDialogRef.disableClose = false;
+    return this.currentDialogRef.componentInstance.response
   }
 
   closeDialog()
   {
-    if(this.currentModalRef != undefined)
+    if(this.currentDialogRef != undefined)
     {
-      this.currentModalRef.close()
+      this.currentDialogRef.close()
     }
   }
 
   openConfirmationDialog(options?: ConfirmationDialogOptions) : Observable<boolean | null>
   {
-    this.currentModalRef = this.dialog.open(ConfirmationDialogComponent, {data: {options}});
-    return this.currentModalRef.componentInstance.response
+    this.currentDialogRef = this.dialog.open(ConfirmationDialogComponent, {data: {options}});
+    return this.currentDialogRef.componentInstance.response
   }
 }

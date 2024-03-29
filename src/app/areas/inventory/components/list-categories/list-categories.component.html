@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="button">
-        <button mat-raised-button color="primary" (click)="openCategoryModal()">Add Category</button>
+        <button mat-raised-button color="primary" (click)="openCategoryDialog()">Add Category</button>
       </div>
     </div>
   </mat-card>
@@ -20,7 +20,7 @@
         </ng-container>
       </div>
       <div class="button">
-        <button [disabled]="selectedCategory === undefined" (click)="openTypeModal()" mat-raised-button color="primary">Add Type</button>
+        <button [disabled]="selectedCategory === undefined" (click)="openTypeDialog()" mat-raised-button color="primary">Add Type</button>
       </div>
     </div>
   </mat-card>
@@ -31,7 +31,7 @@
         <ng-container *ngIf="selectedType === undefined; then unselectedSubType; else subTypeList"></ng-container>
       </div>
       <div class="button">
-        <button [disabled]="selectedType === undefined" (click)="openSubTypeModal()"  mat-raised-button color="primary">Add Sub Type</button>
+        <button [disabled]="selectedType === undefined" (click)="openSubTypeDialog()"  mat-raised-button color="primary">Add Sub Type</button>
       </div>
     </div>
   </mat-card>

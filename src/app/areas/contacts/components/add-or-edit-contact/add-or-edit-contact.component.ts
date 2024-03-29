@@ -104,7 +104,7 @@ export class AddOrEditContactComponent {
     this.response.next(this.contact);
   }
 
-  closeModal(){
+  closeDialog(){
     this.response.next(null);
   }
 }

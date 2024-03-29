@@ -169,7 +169,7 @@ export class CompetitorContactsComponent implements OnChanges{
     }
   }
 
-  openDeleteContactModal(contact: CompetitorContact_DTO)
+  openDeleteContactDialog(contact: CompetitorContact_DTO)
   {
     var options = new ConfirmationDialogOptions()
     options.title = "Delete Contact?"

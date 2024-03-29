@@ -277,17 +277,17 @@ export class ListContactsComponent {
     }
   }
 
-  openAddContactModal(){
+  openAddContactDialog(){
     var dto = new Contact_DTO()
     dto.id = 0
-    let config = Constants.GetModalConfig();
+    let config = Constants.GetDialogConfig();
     config.position =
     {
       top: '7%'
     }
     config.minWidth = undefined
-    let modalRef = this.appState.openDialog(AddOrEditContactComponent, dto, config);
-    modalRef.pipe(take(1)).subscribe(
+    let dialogRef = this.appState.openDialog(AddOrEditContactComponent, dto, config);
+    dialogRef.pipe(take(1)).subscribe(
       {
         next: (data) =>
         {
@@ -323,7 +323,7 @@ export class ListContactsComponent {
       })
   }
 
-  openDeleteContactModal(contact: Contact_DTO)
+  openDeleteContactDialog(contact: Contact_DTO)
   {
     var config = new ConfirmationDialogOptions()
     config.title = "Delete Contact?"
@@ -368,16 +368,16 @@ export class ListContactsComponent {
       })
   }
 
-  openEditContactModal(contact: Contact_DTO)
+  openEditContactDialog(contact: Contact_DTO)
   {
-    let config = Constants.GetModalConfig();
+    let config = Constants.GetDialogConfig();
     config.position =
     {
       top: '7%'
     }
     config.minWidth = undefined
-    let modalRef = this.appState.openDialog(AddOrEditContactComponent, contact, config);
-    modalRef.pipe(take(1)).subscribe(
+    let dialogRef = this.appState.openDialog(AddOrEditContactComponent, contact, config);
+    dialogRef.pipe(take(1)).subscribe(
       {
         next: (data) =>
         {
@@ -412,7 +412,7 @@ export class ListContactsComponent {
       })
   }
 
-  openAddContactAsModal(contact: Contact_DTO)
+  openAddContactAsDialog(contact: Contact_DTO)
   {
     this.appState.openDialog(AddContactAsComponent, contact).pipe(take(1)).subscribe(
       {

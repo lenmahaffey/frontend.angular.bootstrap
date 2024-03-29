@@ -108,8 +108,8 @@ export class ViewContactComponent implements OnChanges {
 
   openAddOrEditPhoneNumberDialog(number?: PhoneNumber_DTO)
   {
-    let modalRef = this.appState.openDialog(AddOrEditPhoneNumberComponent, number);
-    modalRef.pipe(take(1)).subscribe(
+    let dialogRef = this.appState.openDialog(AddOrEditPhoneNumberComponent, number);
+    dialogRef.pipe(take(1)).subscribe(
       {
         next: (data) =>
         {
@@ -222,8 +222,8 @@ export class ViewContactComponent implements OnChanges {
 
   openAddOrEditEmailAddressDialog(address?:EmailAddress_DTO)
   {
-    let modalRef = this.appState.openDialog(AddOrEditEmailAddressComponent, address);
-    modalRef.pipe(take(1)).subscribe(
+    let dialogRef = this.appState.openDialog(AddOrEditEmailAddressComponent, address);
+    dialogRef.pipe(take(1)).subscribe(
       {
         next: (data) =>
         {

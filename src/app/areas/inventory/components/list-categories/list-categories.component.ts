@@ -82,7 +82,7 @@ export class ListCategoriesComponent {
     this.selectedSubType = subType
   }
 
-  openCategoryModal()
+  openCategoryDialog()
   {
     const dialogRef = this._dialog.open(AddNewCategoryComponent)
     const sub = dialogRef.componentInstance.nameOutput.subscribe(
@@ -99,7 +99,7 @@ export class ListCategoriesComponent {
       })
   }
 
-  openTypeModal()
+  openTypeDialog()
   {
     const config = new MatDialogConfig()
     config.data = this.selectedCategory
@@ -118,7 +118,7 @@ export class ListCategoriesComponent {
       })
   }
 
-  openSubTypeModal()
+  openSubTypeDialog()
   {
     const config = new MatDialogConfig()
     config.data = this.selectedType

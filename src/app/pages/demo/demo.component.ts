@@ -81,7 +81,7 @@ export class DemoComponent implements OnDestroy, OnInit {
   openConfirmationDialog()
   {
     const options = new ConfirmationDialogOptions()
-    options.text = "This is a modal"
+    options.text = "This is a dialog"
     options.title = "Confirmation Dialog"
     let sub = this.appState.openConfirmationDialog(options).subscribe(
       {
