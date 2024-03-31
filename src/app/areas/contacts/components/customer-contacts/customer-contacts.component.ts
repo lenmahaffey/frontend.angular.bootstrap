@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ContactService } from '../../contact.service';
 import { CustomerContact_DTO, PhoneNumber_DTO } from 'src/app/shared/api/api.models';
-import { AppStateService } from 'src/app/services/app-state/app-state-service';
+import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { Message } from 'src/app/services/message';

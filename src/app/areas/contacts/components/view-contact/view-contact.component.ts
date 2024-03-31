@@ -5,7 +5,7 @@ import { ContactService } from '../../contact.service';
 import { PhoneNumberToFormattedStringPipe } from 'src/app/shared/pipes/phone-number-to-formatted-string.pipe';
 import { AddOrEditEmailAddressComponent } from '../add-or-edit-email-address/add-or-edit-email-address.component';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
-import { AppStateService } from 'src/app/services/app-state/app-state-service';
+import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';

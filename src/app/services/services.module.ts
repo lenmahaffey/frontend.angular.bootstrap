@@ -5,7 +5,6 @@ import { AlertManagerComponent } from './alert/alert-manager/alert-manager.compo
 import { NotificationComponent } from './notification/notification/notification.component';
 import { SharedModule } from '../shared/shared.module';
 import { MatDialog } from '@angular/material/dialog';
-import { SpinnerComponent } from '../shared/spinner/spinner.component';
 
 @NgModule({
   providers:[

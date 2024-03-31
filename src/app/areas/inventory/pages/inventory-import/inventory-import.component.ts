@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { AppStateService } from 'src/app/services/app-state/app-state-service';
-import { InventoryService } from '../inventory.service';
+import { AppStateService } from 'src/app/services/app-state/app-state.service';
+import { InventoryService } from '../../inventory.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { HttpEventType } from '@angular/common/http';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { AlertService } from 'src/app/services/alert/alert.service';
-import { InventorySideBarNavLinks } from '../inventory-side-bar-links';
+import { InventorySideBarNavLinks } from '../../inventory-side-bar-links';
 
 @Component({
   selector: 'app-inventory-import',

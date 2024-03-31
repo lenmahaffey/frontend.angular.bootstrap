@@ -2,7 +2,7 @@ import { Component, Input, Output, OnChanges, EventEmitter, ViewChild } from '@a
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { AddressType_DTO, Contact_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
 import { ContactService } from '../../contact.service';
-import { AppStateService } from 'src/app/services/app-state/app-state-service';
+import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { take } from 'rxjs';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';

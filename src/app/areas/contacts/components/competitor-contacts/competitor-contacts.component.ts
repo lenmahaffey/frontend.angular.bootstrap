@@ -3,7 +3,7 @@ import { CompetitorContact_DTO, Contact_DTO, PhoneNumber_DTO } from 'src/app/sha
 import { ContactService } from '../../contact.service';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
-import { AppStateService } from 'src/app/services/app-state/app-state-service';
+import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 import { take } from 'rxjs';

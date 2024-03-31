@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { AppStateService } from 'src/app/services/app-state/app-state-service';
+import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { InventorySideBarNavLinks } from '../inventory-side-bar-links';
+import { InventorySideBarNavLinks } from '../../inventory-side-bar-links';
 import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_DTO } from 'src/app/shared/api/api.models';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  templateUrl: './inventory-dashboard.component.html',
+  styleUrls: ['./inventory-dashboard.component.scss']
 })
-export class DashboardComponent {
+export class InventoryDashboardComponent {
 
   columns: string[] = []
 
@@ -43,7 +43,7 @@ export class DashboardComponent {
       this.selectSubType(s as InventoryItemSubType_DTO)
     }
   }
-  
+
   selectCategory(catagory: InventoryItemCategory_DTO | undefined)
   {
     this.selectedCategory = catagory

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ContactService } from '../../contact.service';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
-import { AppStateService } from 'src/app/services/app-state/app-state-service';
+import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AddOrEditEmailAddressComponent } from './add-or-edit-email-address.component';
 

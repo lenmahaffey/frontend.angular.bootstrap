@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, isDevMode } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert/alert.service';
-import { AppStateService } from 'src/app/services/app-state/app-state-service';
+import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';

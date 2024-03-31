@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { InventoryItemCategory_DTO } from 'src/app/shared/api/api.models';
-import { InventoryService } from '../inventory.service';
+import { InventoryService } from '../../inventory.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/services/alert/alert.service';
-import { AppStateService } from 'src/app/services/app-state/app-state-service';
+import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { InventorySideBarNavLinks } from '../inventory-side-bar-links';
+import { InventorySideBarNavLinks } from '../../inventory-side-bar-links';
 
 @Component({
   selector: 'app-asset-report',

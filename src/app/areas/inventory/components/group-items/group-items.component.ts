@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { AppStateService } from 'src/app/services/app-state/app-state-service';
+import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_DTO, InventoryItem_DTO } from 'src/app/shared/api/api.models';
 import { InventoryService } from '../../inventory.service';

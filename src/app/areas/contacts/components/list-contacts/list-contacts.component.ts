@@ -3,7 +3,7 @@ import { Contact_DTO } from 'src/app/shared/api/api.models';
 import { ContactService } from '../../contact.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AddOrEditContactComponent } from '../add-or-edit-contact/add-or-edit-contact.component';
-import { AppStateService } from 'src/app/services/app-state/app-state-service';
+import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';

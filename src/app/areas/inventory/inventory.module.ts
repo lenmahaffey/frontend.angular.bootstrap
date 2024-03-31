@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { InventoryDashboardComponent } from './pages/inventory-dashboard/inventory-dashboard.component';
 import { AddItemComponent } from './components/add-item/add-item.component';
-import { EditItemComponent } from './edit-item/edit-item.component';
+import { EditItemComponent } from './pages/edit-item/edit-item.component';
 import { ViewItemComponent } from './components/view-item/view-item.component';
 import { ListItemsComponent } from './components/list-items/list-items.component';
 import { InventoryService } from './inventory.service';
@@ -12,16 +12,16 @@ import { ListCategoriesComponent } from './components/list-categories/list-categ
 import { AddNewCategoryComponent } from './components/add-new-category/add-new-category.component';
 import { AddNewTypeComponent } from './components/add-new-type/add-new-type.component';
 import { AddNewSubTypeComponent } from './components/add-new-sub-type/add-new-sub-type.component';
-import { InventoryImportComponent } from './inventory-import/inventory-import.component';
+import { InventoryImportComponent } from './pages/inventory-import/inventory-import.component';
 import { GroupItemsComponent } from './components/group-items/group-items.component';
-import { AssetReportComponent } from './asset-report/asset-report.component';
+import { AssetReportComponent } from './pages/asset-report/asset-report.component';
 import { CategoryTreeComponent } from './components/category-tree/category-tree.component';
 
 
 
 @NgModule({
   declarations: [
-    DashboardComponent,
+    InventoryDashboardComponent,
     AddItemComponent,
     EditItemComponent,
     ViewItemComponent,
@@ -44,7 +44,7 @@ import { CategoryTreeComponent } from './components/category-tree/category-tree.
   imports: [
     CommonModule,
     RouterModule.forChild([
-      { path: 'inventory/dashboard', component: DashboardComponent },
+      { path: 'inventory/dashboard', component: InventoryDashboardComponent },
       { path: 'inventory/listitems', component:  ListItemsComponent},
       { path: 'inventory/additem', component: AddItemComponent },
       { path: 'inventory/edititem/:id', component: EditItemComponent },
