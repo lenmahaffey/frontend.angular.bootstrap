@@ -5,7 +5,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { ViewContactComponent } from './components/view-contact/view-contact.component';
 import { AddOrEditContactComponent } from './components/add-or-edit-contact/add-or-edit-contact.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { ContactsDashboardComponent } from './pages/dashboard/contacts-dashboard.component';
 import { AddOrEditPhoneNumberComponent } from './components/add-or-edit-phone-number/add-or-edit-phone-number.component';
 import { AddOrEditEmailAddressComponent } from './components/add-or-edit-email-address/add-or-edit-email-address.component';
 import { AddOrEditPhysicalAddressComponent } from './components/add-or-edit-physical-address/add-or-edit-physical-address.component';
@@ -22,7 +22,7 @@ import { AddContactAsComponent } from './components/add-contact-as/add-contact-a
     ListContactsComponent,
     ViewContactComponent,
     AddOrEditContactComponent,
-    DashboardComponent,
+    ContactsDashboardComponent,
     AddOrEditPhysicalAddressComponent,
     AddOrEditPhoneNumberComponent,
     AddOrEditEmailAddressComponent,
@@ -35,8 +35,8 @@ import { AddContactAsComponent } from './components/add-contact-as/add-contact-a
   imports: [
     CommonModule,
     RouterModule.forChild([
-      { path: 'contacts', component: DashboardComponent },
-      { path: 'contacts/:id', component: DashboardComponent },
+      { path: 'contacts', component: ContactsDashboardComponent },
+      { path: 'contacts/:id', component: ContactsDashboardComponent },
     ]),
     SharedModule
   ]

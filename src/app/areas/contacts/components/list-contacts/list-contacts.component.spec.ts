@@ -3,9 +3,7 @@ import { ListContactsComponent } from './list-contacts.component';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ContactService } from '../../contact.service';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
-import { MaterialModule } from 'src/app/shared/material/material.module';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { SharedModule } from 'src/app/shared/shared.module';
 

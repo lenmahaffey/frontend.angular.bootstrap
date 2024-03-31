@@ -5,18 +5,18 @@ import { ContactService } from '../../contact.service';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { AppStateService } from 'src/app/services/app-state/app-state-service';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { CompetitorContactsComponent } from './competitor-contacts.component';
+import { ViewContactComponent } from './view-contact.component';
 
-describe('ListContactsComponent', () => {
-  let component: CompetitorContactsComponent;
-  let fixture: ComponentFixture<CompetitorContactsComponent>;
+describe('ViewContactsComponent', () => {
+  let component: ViewContactComponent;
+  let fixture: ComponentFixture<ViewContactComponent>;
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let service: ContactService
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CompetitorContactsComponent],
+      declarations: [ViewContactComponent],
       imports: [ HttpClientTestingModule, SharedModule ],
       providers:[ ContactService, ContactNamePipe, AppStateService ],
     });
@@ -26,7 +26,7 @@ describe('ListContactsComponent', () => {
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(ContactService)
 
-    fixture = TestBed.createComponent(CompetitorContactsComponent);
+    fixture = TestBed.createComponent(ViewContactComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

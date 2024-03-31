@@ -1,14 +1,13 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Contact_DTO } from 'src/app/shared/api/api.models';
 import { ListContactsComponent } from '../../components/list-contacts/list-contacts.component';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  selector: 'app-contacts-dashboard',
+  templateUrl: './contacts-dashboard.component.html',
+  styleUrls: ['./contacts-dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class ContactsDashboardComponent implements OnInit {
   @ViewChild(ListContactsComponent) list!: ListContactsComponent
   @Input() id: undefined | number
   selectedContactId = 100
