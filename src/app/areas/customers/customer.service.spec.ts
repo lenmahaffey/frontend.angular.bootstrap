@@ -1,12 +1,23 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CustomerService } from './customer.service';
+import { HttpClient } from '@angular/common/http';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import { ContactService } from '../contacts/contact.service';
 
-describe('CustomersService', () => {
+describe('CustomerService', () => {
   let service: CustomerService;
-
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      declarations: [],
+      imports: [ HttpClientTestingModule ],
+      providers:[ ContactService ],
+    });
+    // Inject the http service and test controller for each test
+    httpClient = TestBed.inject(HttpClient);
+    httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(CustomerService);
   });
 
