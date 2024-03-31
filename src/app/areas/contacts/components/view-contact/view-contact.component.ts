@@ -117,6 +117,9 @@ export class ViewContactComponent implements OnChanges {
           {
             data.id == 0 ? this.addPhoneNumber(data) : this.updatePhoneNumber(data)
           }
+          else{
+            this.appState.closeDialog()
+          }
         }
       })
   }
@@ -230,6 +233,9 @@ export class ViewContactComponent implements OnChanges {
           if(data != undefined)
           {
             data.id == 0 ? this.addEmailAddress(data) : this.updateEmailAddress(data)
+          }
+          else{
+            this.appState.closeDialog()
           }
         }
       })

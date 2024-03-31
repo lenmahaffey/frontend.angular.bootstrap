@@ -295,6 +295,9 @@ export class ListContactsComponent {
           {
             this.addContact(data)
           }
+          else{
+            this.appState.closeDialog()
+          }
         }
       })
   }
@@ -381,8 +384,14 @@ export class ListContactsComponent {
       {
         next: (data) =>
         {
-          this.updateContact(data)
-          this.appState.closeDialog()
+          if(data != undefined)
+          {
+            this.updateContact(data)
+            this.appState.closeDialog()
+          }
+          else{
+            this.appState.closeDialog()
+          }
         }
       })
   }

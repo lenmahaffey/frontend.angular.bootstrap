@@ -18,19 +18,19 @@
         <form [formGroup]="filterOptions">
           <div class="flexRow selection" (click)="$event.stopPropagation();filterContacts()">
             <mat-checkbox formControlName="employees" [value]="filterOptions.value.employees"></mat-checkbox>
-            <div mat-menu-item><span class="badge bg-primary" >Employee</span></div>
+            <div mat-menu-item><span class="badge employee" >Employee</span></div>
           </div>
           <div class="flexRow selection" (click)="$event.stopPropagation();filterContacts()">
             <mat-checkbox formControlName="freelancers" [value]="filterOptions.value.freelancers"></mat-checkbox>
-            <div mat-menu-item><span class="badge bg-warning">Freelancer</span></div>
+            <div mat-menu-item><span class="badge freelancer">Freelancer</span></div>
           </div>
           <div class="flexRow selection" (click)="$event.stopPropagation();filterContacts()">
             <mat-checkbox formControlName="customers" [value]="filterOptions.value.customers"></mat-checkbox>
-            <div mat-menu-item><span class="badge bg-success">Customer</span></div>
+            <div mat-menu-item><span class="badge customer">Customer</span></div>
           </div>
           <div class="flexRow selection" (click)="$event.stopPropagation();filterContacts()">
             <mat-checkbox formControlName="users" [value]="filterOptions.value.users"></mat-checkbox>
-            <div mat-menu-item><span class="badge bg-danger">User</span></div>
+            <div mat-menu-item><span class="badge user">User</span></div>
           </div>
         </form>
       </mat-menu>
