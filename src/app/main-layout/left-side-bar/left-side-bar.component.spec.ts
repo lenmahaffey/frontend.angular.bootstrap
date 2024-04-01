@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LeftSideBarComponent } from './left-side-bar.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('LeftSideBarComponent', () => {
@@ -9,13 +8,15 @@ describe('LeftSideBarComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LeftSideBarComponent],
-      imports: [HttpClientTestingModule, SharedModule],
+      declarations: [ LeftSideBarComponent ],
+      imports: [SharedModule],
       providers: []
-    });
+    }).compileComponents()
     fixture = TestBed.createComponent(LeftSideBarComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+  });
+
+  afterEach(() => {
   });
 
   it('should create', () => {

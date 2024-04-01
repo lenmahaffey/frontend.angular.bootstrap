@@ -12,20 +12,24 @@ describe('InventoryImportComponent', () => {
   let httpTestingController: HttpTestingController;
   let service: InventoryService
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [InventoryImportComponent],
+      declarations: [],
       imports: [ HttpClientTestingModule, SharedModule],
-      providers:[ InventoryService,
-     ],
+      providers:[ InventoryService ],
+    }).compileComponents().then(() =>
+    {
+      httpTestingController = TestBed.inject(HttpTestingController);
+      httpClient = TestBed.inject(HttpClient);
+      service = TestBed.inject(InventoryService)
+      fixture = TestBed.createComponent(InventoryImportComponent);
+      component = fixture.componentInstance;
     });
-    httpClient = TestBed.inject(HttpClient);
-    httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(InventoryService)
+  });
 
-    fixture = TestBed.createComponent(InventoryImportComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  afterEach(() => {
+    // After every test, assert that there are no more pending requests.
+    httpTestingController.verify();
   });
 
   it('should create', () => {

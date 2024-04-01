@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatDialog } from '@angular/material/dialog';
 import { ColorSwatchesComponent } from './color-swatches.component';
-import { PagesModule } from '../../pages.module';
+import { SwatchComponent } from './swatch/swatch.component';
 
 describe('ColorSwatchesComponent', () => {
   let component: ColorSwatchesComponent;
@@ -11,13 +9,15 @@ describe('ColorSwatchesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ColorSwatchesComponent],
-      imports:[HttpClientTestingModule, SharedModule, PagesModule],
-      providers: [ MatDialog ]
-    });
+      declarations: [ SwatchComponent ],
+      imports:[ SharedModule ],
+      providers: []
+    }).compileComponents()
     fixture = TestBed.createComponent(ColorSwatchesComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+  });
+
+  afterEach(() => {
   });
 
   it('should create', () => {

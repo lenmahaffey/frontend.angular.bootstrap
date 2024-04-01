@@ -1,13 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AssetReportComponent } from './asset-report.component';
-import { InventoryService } from '../../inventory.service';
+import { ViewItemComponent } from './view-item.component';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { InventoryService } from '../../inventory.service';
+import { AppStateService } from 'src/app/services/app-state/app-state.service';
+import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
 
-describe('AssetReportComponent', () => {
-  let component: AssetReportComponent;
-  let fixture: ComponentFixture<AssetReportComponent>;
+describe('ViewItemComponent', () => {
+  let component: ViewItemComponent;
+  let fixture: ComponentFixture<ViewItemComponent>;
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let service: InventoryService;
@@ -16,25 +18,22 @@ describe('AssetReportComponent', () => {
     TestBed.configureTestingModule({
       declarations: [],
       imports: [ HttpClientTestingModule, SharedModule ],
-      providers:[ InventoryService ],
+      providers:[ InventoryService ]
     }).compileComponents().then(() =>
     {
       httpTestingController = TestBed.inject(HttpTestingController);
       httpClient = TestBed.inject(HttpClient);
       service = TestBed.inject(InventoryService);
-      fixture = TestBed.createComponent(AssetReportComponent);
+      fixture = TestBed.createComponent(ViewItemComponent);
       component = fixture.componentInstance;
     });
+
   });
 
   afterEach(() => {
-    // After every test, assert that there are no more pending requests.
-    httpTestingController.verify();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    httpTestingController.expectOne('http://localhost:5001/inventory/listallitemcategories');
-    httpTestingController.expectOne('http://localhost:5001/inventory/getInventoryValue');
   });
 });

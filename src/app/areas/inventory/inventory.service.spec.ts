@@ -2,23 +2,27 @@ import { TestBed } from '@angular/core/testing';
 import { InventoryService } from './inventory.service';
 import { HttpClient } from '@angular/common/http';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
-import { ContactService } from '../contacts/contact.service';
 
 describe('InventoryService', () => {
   let service: InventoryService;
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [],
       imports: [ HttpClientTestingModule ],
       providers:[ InventoryService ],
+    }).compileComponents().then(() =>    {
+      httpTestingController = TestBed.inject(HttpTestingController);
+      httpClient = TestBed.inject(HttpClient);
+      service = TestBed.inject(InventoryService);
     });
-    // Inject the http service and test controller for each test
-    httpClient = TestBed.inject(HttpClient);
-    httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(InventoryService);
+  });
+
+  afterEach(() => {
+    // After every test, assert that there are no more pending requests.
+    httpTestingController.verify();
   });
 
   it('should be created', () => {

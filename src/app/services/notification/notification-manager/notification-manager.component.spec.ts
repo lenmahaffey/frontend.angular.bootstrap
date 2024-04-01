@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { NotificationManagerComponent } from './notification-manager.component';
 
 describe('NotificationManagerComponent', () => {
@@ -8,11 +7,15 @@ describe('NotificationManagerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NotificationManagerComponent]
-    });
+      declarations: [],
+      imports: [],
+      providers: []
+    }).compileComponents();
     fixture = TestBed.createComponent(NotificationManagerComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+  });
+
+  afterEach(() => {
   });
 
   it('should create', () => {

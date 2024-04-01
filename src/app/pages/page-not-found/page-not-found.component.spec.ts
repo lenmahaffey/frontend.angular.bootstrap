@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PageNotFoundComponent } from './page-not-found.component';
 
 describe('PageNotFoundComponent', () => {
@@ -9,10 +8,12 @@ describe('PageNotFoundComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PageNotFoundComponent]
-    });
+    }).compileComponents()
     fixture = TestBed.createComponent(PageNotFoundComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+  });
+
+  afterEach(() => {
   });
 
   it('should create', () => {

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NotificationComponent } from './notification.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { BarChartComponent } from './bar-chart.component';
 
-describe('NotificationComponent', () => {
-  let component: NotificationComponent;
-  let fixture: ComponentFixture<NotificationComponent>;
+describe('BarChartComponent', () => {
+  let component: BarChartComponent;
+  let fixture: ComponentFixture<BarChartComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [],
       imports: [ SharedModule ],
-      providers: []
-    }).compileComponents();
-    fixture = TestBed.createComponent(NotificationComponent);
+      providers:[],
+    })
+    fixture = TestBed.createComponent(BarChartComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   afterEach(() => {

@@ -5,7 +5,6 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { UserService } from '../user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ActivatedRoute, RouterModule, convertToParamMap } from '@angular/router';
-import { Observable, of } from 'rxjs';
 
 describe('EditUserComponent', () => {
   let component: EditUserComponent;
@@ -13,10 +12,11 @@ describe('EditUserComponent', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let service: UserService;
-  let route: ActivatedRoute
-  beforeEach(() => {
+  let route: ActivatedRoute;
+
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [EditUserComponent],
+      declarations: [],
       imports: [ HttpClientTestingModule, SharedModule, RouterModule ],
       providers:[ UserService,
         { provide:  ActivatedRoute, useValue:{
@@ -24,20 +24,24 @@ describe('EditUserComponent', () => {
             paramMap: convertToParamMap({ id: '123' }) // Mocking route parameter
         } } }
       ],
+    }).compileComponents().then(() =>
+    {
+      httpTestingController = TestBed.inject(HttpTestingController);
+      httpClient = TestBed.inject(HttpClient);
+      service = TestBed.inject(UserService);
+      route = TestBed.inject(ActivatedRoute)
+      fixture = TestBed.createComponent(EditUserComponent);
+      component = fixture.componentInstance;
     });
+  });
 
-    // Inject the http service and test controller for each test
-    httpClient = TestBed.inject(HttpClient);
-    httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(UserService);
-    route = TestBed.inject(ActivatedRoute)
-
-    fixture = TestBed.createComponent(EditUserComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  afterEach(() => {
+    // After every test, assert that there are no more pending requests.
+    httpTestingController.verify();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    httpTestingController.expectOne('http://localhost:5001/user/getuser/123');
   });
 });

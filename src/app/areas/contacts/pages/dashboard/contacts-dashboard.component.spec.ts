@@ -2,12 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ContactService } from '../../contact.service';
-import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
-import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ContactsDashboardComponent } from './contacts-dashboard.component';
-import { ViewContactComponent } from '../../components/view-contact/view-contact.component';
-import { AddOrEditPhysicalAddressComponent } from '../../components/add-or-edit-physical-address/add-or-edit-physical-address.component';
 
 describe('ContactsDashboardComponent', () => {
   let component: ContactsDashboardComponent;
@@ -16,25 +12,27 @@ describe('ContactsDashboardComponent', () => {
   let httpTestingController: HttpTestingController;
   let service: ContactService
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [ContactsDashboardComponent, ViewContactComponent, AddOrEditPhysicalAddressComponent],
+      declarations: [],
       imports: [ HttpClientTestingModule, SharedModule ],
-      providers:[ ContactService, ContactNamePipe, AppStateService ],
+      providers:[ ],
+    }).compileComponents().then(() =>
+    {
+      httpTestingController = TestBed.inject(HttpTestingController);
+      httpClient = TestBed.inject(HttpClient);
+      service = TestBed.inject(ContactService)
+      fixture = TestBed.createComponent(ContactsDashboardComponent);
+      component = fixture.componentInstance;
     });
+  });
 
-    // Inject the http service and test controller for each test
-    httpClient = TestBed.inject(HttpClient);
-    httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(ContactService)
-
-    fixture = TestBed.createComponent(ContactsDashboardComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  afterEach(() => {
+    // After every test, assert that there are no more pending requests.
+    httpTestingController.verify();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
 });

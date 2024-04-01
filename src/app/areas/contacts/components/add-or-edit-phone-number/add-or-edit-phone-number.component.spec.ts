@@ -15,23 +15,26 @@ describe('AddOrEditPhoneNumberComponent', () => {
   let httpTestingController: HttpTestingController;
   let service: ContactService
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [AddOrEditPhoneNumberComponent],
+      declarations: [],
       imports: [ HttpClientTestingModule, SharedModule ],
       providers:[ ContactService, ContactNamePipe, AppStateService,
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} } ],
+    }).compileComponents().then(() =>
+    {
+      httpTestingController = TestBed.inject(HttpTestingController);
+      httpClient = TestBed.inject(HttpClient);
+      service = TestBed.inject(ContactService)
+      fixture = TestBed.createComponent(AddOrEditPhoneNumberComponent);
+      component = fixture.componentInstance;
     });
+  });
 
-    // Inject the http service and test controller for each test
-    httpClient = TestBed.inject(HttpClient);
-    httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(ContactService)
-
-    fixture = TestBed.createComponent(AddOrEditPhoneNumberComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  afterEach(() => {
+    // After every test, assert that there are no more pending requests.
+    httpTestingController.verify();
   });
 
   it('should create', () => {

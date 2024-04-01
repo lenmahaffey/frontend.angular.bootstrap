@@ -1,12 +1,13 @@
-import { TestBed } from '@angular/core/testing';
 import { ContactNamePipe } from './contact-name.pipe';
 
 describe('ContactNamePipe', () => {
   let pipe: ContactNamePipe;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
     pipe = new ContactNamePipe();
+  });
+
+  afterEach(() => {
   });
 
   it('should be created', () => {

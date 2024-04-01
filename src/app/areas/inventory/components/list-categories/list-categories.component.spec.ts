@@ -10,22 +10,30 @@ describe('ListCategoriesComponent', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let fixture: ComponentFixture<ListCategoriesComponent>;
+  let service: InventoryService
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [ListCategoriesComponent],
+      declarations: [],
       imports: [HttpClientTestingModule, SharedModule],
       providers: [InventoryService]
+    }).compileComponents().then(() =>
+    {
+      httpTestingController = TestBed.inject(HttpTestingController);
+      httpClient = TestBed.inject(HttpClient);
+      service = TestBed.inject(InventoryService);
+      fixture = TestBed.createComponent(ListCategoriesComponent);
+      component = fixture.componentInstance;
     });
-    // Inject the http service and test controller for each test
-    httpClient = TestBed.inject(HttpClient);
-    httpTestingController = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(ListCategoriesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  })
+
+  afterEach(() => {
+    // After every test, assert that there are no more pending requests.
+    httpTestingController.verify();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    httpTestingController.expectOne('http://localhost:5001/inventory/listallitemcategories');
   });
 });

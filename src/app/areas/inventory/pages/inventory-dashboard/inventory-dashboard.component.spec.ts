@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InventoryDashboardComponent } from './inventory-dashboard.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ContactService } from 'src/app/areas/contacts/contact.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { InventoryService } from '../../inventory.service';
 import { HttpClient } from '@angular/common/http';
@@ -16,25 +14,29 @@ describe('InventoryDashboardComponent', () => {
   let httpTestingController: HttpTestingController;
   let service: InventoryService;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [InventoryDashboardComponent, CategoryTreeComponent, GroupItemsComponent],
-      imports: [ HttpClientTestingModule, SharedModule],
-      providers:[ InventoryService, MatDialog,
-        { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialogRef, useValue: {} }
-     ],
+      imports: [ HttpClientTestingModule, SharedModule ],
+      providers:[ InventoryService ],
+    }).compileComponents().then(() =>
+    {
+      httpTestingController = TestBed.inject(HttpTestingController);
+      httpClient = TestBed.inject(HttpClient);
+      service = TestBed.inject(InventoryService)
+      fixture = TestBed.createComponent(InventoryDashboardComponent);
+      component = fixture.componentInstance;
     });
-    httpClient = TestBed.inject(HttpClient);
-    httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(InventoryService)
+  });
 
-    fixture = TestBed.createComponent(InventoryDashboardComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  afterEach(() => {
+    // After every test, assert that there are no more pending requests.
+    httpTestingController.verify();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    httpTestingController.expectOne('http://localhost:5001/inventory/listInventoryItems');
+    httpTestingController.expectOne('http://localhost:5001/inventory/listallitemcategories');
   });
 });

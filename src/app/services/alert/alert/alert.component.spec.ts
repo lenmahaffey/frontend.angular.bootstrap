@@ -1,25 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FooterComponent } from './footer.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AlertComponent } from './alert.component';
 
-describe('FooterComponent', () => {
-  let component: FooterComponent;
-  let fixture: ComponentFixture<FooterComponent>;
+describe('AlertComponent', () => {
+  let component: AlertComponent;
+  let fixture: ComponentFixture<AlertComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [],
       imports: [ SharedModule ],
-      providers: []
-    }).compileComponents()
-    fixture = TestBed.createComponent(FooterComponent);
+      providers:[],
+    }).compileComponents();
+    fixture = TestBed.createComponent(AlertComponent);
     component = fixture.componentInstance;
   });
 
-  afterEach(() => {
-  });
-
-  it('should create', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
 });

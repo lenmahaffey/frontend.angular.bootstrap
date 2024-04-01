@@ -7,17 +7,22 @@ describe('ContactService', () => {
   let service: ContactService;
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
-  beforeEach(() => {
+
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [],
       imports: [ HttpClientTestingModule ],
-      providers:[ ContactService ],
+      providers:[],
+    }).compileComponents().then(() => {
+      httpTestingController = TestBed.inject(HttpTestingController);
+      httpClient = TestBed.inject(HttpClient);
+      service = TestBed.inject(ContactService);
     });
-    // Inject the http service and test controller for each test
-    httpClient = TestBed.inject(HttpClient);
-    httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(ContactService);
+  });
 
+  afterEach(() => {
+    // After every test, assert that there are no more pending requests.
+    httpTestingController.verify();
   });
 
   it('should be created', () => {

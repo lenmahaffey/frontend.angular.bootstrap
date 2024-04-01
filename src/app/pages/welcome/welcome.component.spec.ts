@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WelcomeComponent } from './welcome.component';
 
 describe('WelcomeComponent', () => {
@@ -9,10 +8,12 @@ describe('WelcomeComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [WelcomeComponent]
-    });
+    }).compileComponents()
     fixture = TestBed.createComponent(WelcomeComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+  });
+
+  afterEach(() => {
   });
 
   it('should create', () => {

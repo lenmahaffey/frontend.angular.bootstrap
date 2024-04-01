@@ -12,21 +12,28 @@ describe('AddContactAsComponent', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let service: ContactService;
-  beforeEach(() => {
+
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [AddContactAsComponent],
-      imports: [ HttpClientTestingModule, SharedModule],
+      declarations: [ AddContactAsComponent ],
+      imports: [ HttpClientTestingModule, SharedModule ],
       providers:[ ContactService,
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} }
      ],
+    }).compileComponents().then(() =>
+    {
+      httpTestingController = TestBed.inject(HttpTestingController);
+      httpClient = TestBed.inject(HttpClient);
+      service = TestBed.inject(ContactService)
+      fixture = TestBed.createComponent(AddContactAsComponent);
+      component = fixture.componentInstance;
     });
-    httpClient = TestBed.inject(HttpClient);
-    httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(ContactService)
-    fixture = TestBed.createComponent(AddContactAsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    // After every test, assert that there are no more pending requests.
+    httpTestingController.verify();
   });
 
   it('should create', () => {

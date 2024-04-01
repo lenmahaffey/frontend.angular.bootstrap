@@ -15,27 +15,28 @@ describe('GroupItemsComponent', () => {
   let httpTestingController: HttpTestingController;
   let service: InventoryService;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [GroupItemsComponent],
       imports: [ HttpClientTestingModule, SharedModule ],
-      providers:[ InventoryService, ContactNamePipe, AppStateService,
-        { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialogRef, useValue: {} }
-      ],
+      providers:[ InventoryService ],
+    }).compileComponents().then(() =>
+    {
+      httpTestingController = TestBed.inject(HttpTestingController);
+      httpClient = TestBed.inject(HttpClient);
+      service = TestBed.inject(InventoryService);
+      fixture = TestBed.createComponent(GroupItemsComponent);
+      component = fixture.componentInstance;
     });
+  });
 
-    // Inject the http service and test controller for each test
-    httpClient = TestBed.inject(HttpClient);
-    httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(InventoryService);
-
-    fixture = TestBed.createComponent(GroupItemsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  afterEach(() => {
+    // After every test, assert that there are no more pending requests.
+    httpTestingController.verify();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    httpTestingController.expectOne('http://localhost:5001/inventory/listInventoryItems');
   });
 });

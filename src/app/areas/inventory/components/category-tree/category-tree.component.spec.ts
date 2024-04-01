@@ -3,7 +3,6 @@ import { CategoryTreeComponent } from './category-tree.component';
 import { InventoryService } from '../../inventory.service';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('CategoryTreeComponent', () => {
@@ -13,26 +12,28 @@ describe('CategoryTreeComponent', () => {
   let httpTestingController: HttpTestingController;
   let service: InventoryService;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [CategoryTreeComponent],
       imports: [ HttpClientTestingModule, SharedModule ],
-      providers:[ InventoryService,
-        { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialogRef, useValue: {} }
-      ],
+      providers:[ InventoryService ],
+    }).compileComponents().then(() =>
+    {
+      httpTestingController = TestBed.inject(HttpTestingController);
+      httpClient = TestBed.inject(HttpClient);
+      service = TestBed.inject(InventoryService)
+      fixture = TestBed.createComponent(CategoryTreeComponent);
+      component = fixture.componentInstance;
     });
-    // Inject the http service and test controller for each test
-    httpClient = TestBed.inject(HttpClient);
-    httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(InventoryService)
+  });
 
-    fixture = TestBed.createComponent(CategoryTreeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  afterEach(() => {
+    // After every test, assert that there are no more pending requests.
+    httpTestingController.verify();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    httpTestingController.expectOne('http://localhost:5001/inventory/listallitemcategories');
   });
 });
