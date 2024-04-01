@@ -7,7 +7,7 @@ import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { VendorContactsComponent } from './vendor-contacts.component';
 
-describe('ListContactsComponent', () => {
+describe('VendorContactsComponent', () => {
   let component: VendorContactsComponent;
   let fixture: ComponentFixture<VendorContactsComponent>;
   let httpClient: HttpClient;

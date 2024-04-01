@@ -6,6 +6,8 @@ import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ViewContactComponent } from './view-contact.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AddOrEditPhysicalAddressComponent } from '../add-or-edit-physical-address/add-or-edit-physical-address.component';
 
 describe('ViewContactsComponent', () => {
   let component: ViewContactComponent;
@@ -16,9 +18,12 @@ describe('ViewContactsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ViewContactComponent],
+      declarations: [ViewContactComponent, AddOrEditPhysicalAddressComponent],
       imports: [ HttpClientTestingModule, SharedModule ],
-      providers:[ ContactService, ContactNamePipe, AppStateService ],
+      providers:[ ContactService, ContactNamePipe, AppStateService,
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: {} }
+      ],
     });
 
     // Inject the http service and test controller for each test

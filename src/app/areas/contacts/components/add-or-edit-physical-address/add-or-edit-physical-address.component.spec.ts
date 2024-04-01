@@ -7,7 +7,7 @@ import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AddOrEditPhysicalAddressComponent } from './add-or-edit-physical-address.component';
 
-describe('ListContactsComponent', () => {
+describe('AddOrEditPhysicalAddressComponent', () => {
   let component: AddOrEditPhysicalAddressComponent;
   let fixture: ComponentFixture<AddOrEditPhysicalAddressComponent>;
   let httpClient: HttpClient;

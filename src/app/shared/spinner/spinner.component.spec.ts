@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SpinnerComponent } from './spinner.component';
-import { PagesModule } from 'src/app/pages/pages.module';
 
 describe('SpinnerComponent', () => {
   let component: SpinnerComponent;
@@ -12,8 +11,11 @@ describe('SpinnerComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SpinnerComponent],
-      imports:[HttpClientTestingModule, SharedModule, PagesModule],
-      providers: [ MatDialog ]
+      imports: [ HttpClientTestingModule, SharedModule ],
+      providers:[
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: {} }
+      ],
     });
     fixture = TestBed.createComponent(SpinnerComponent);
     component = fixture.componentInstance;

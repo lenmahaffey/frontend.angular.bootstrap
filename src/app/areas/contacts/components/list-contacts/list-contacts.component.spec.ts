@@ -6,6 +6,8 @@ import { ContactService } from '../../contact.service';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { InventoryService } from 'src/app/areas/inventory/inventory.service';
 
 describe('ListContactsComponent', () => {
   let component: ListContactsComponent;
@@ -18,7 +20,10 @@ describe('ListContactsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ListContactsComponent],
       imports: [ HttpClientTestingModule, SharedModule ],
-      providers:[ ContactService, ContactNamePipe, AppStateService ],
+      providers:[ ContactService, ContactNamePipe, AppStateService, InventoryService,
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: {} }
+      ],
     });
 
     // Inject the http service and test controller for each test

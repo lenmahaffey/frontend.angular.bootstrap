@@ -6,8 +6,9 @@ import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AddOrEditEmailAddressComponent } from './add-or-edit-email-address.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-describe('ListContactsComponent', () => {
+describe('AddOrEditEmailAddressComponent', () => {
   let component: AddOrEditEmailAddressComponent;
   let fixture: ComponentFixture<AddOrEditEmailAddressComponent>;
   let httpClient: HttpClient;
@@ -18,7 +19,10 @@ describe('ListContactsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AddOrEditEmailAddressComponent],
       imports: [ HttpClientTestingModule, SharedModule ],
-      providers:[ ContactService, ContactNamePipe, AppStateService ],
+      providers:[ ContactService, ContactNamePipe, AppStateService,
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: {} }
+      ],
     });
 
     // Inject the http service and test controller for each test

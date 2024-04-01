@@ -6,8 +6,10 @@ import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ContactsDashboardComponent } from './contacts-dashboard.component';
+import { ViewContactComponent } from '../../components/view-contact/view-contact.component';
+import { AddOrEditPhysicalAddressComponent } from '../../components/add-or-edit-physical-address/add-or-edit-physical-address.component';
 
-describe('DashboardComponent', () => {
+describe('ContactsDashboardComponent', () => {
   let component: ContactsDashboardComponent;
   let fixture: ComponentFixture<ContactsDashboardComponent>;
   let httpClient: HttpClient;
@@ -16,7 +18,7 @@ describe('DashboardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ContactsDashboardComponent],
+      declarations: [ContactsDashboardComponent, ViewContactComponent, AddOrEditPhysicalAddressComponent],
       imports: [ HttpClientTestingModule, SharedModule ],
       providers:[ ContactService, ContactNamePipe, AppStateService ],
     });
