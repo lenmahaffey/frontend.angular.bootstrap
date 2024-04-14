@@ -13,11 +13,16 @@ export class HeaderNavLinks implements SideBarNavLinks
         //   items:[
         //   { href:"users/listusers", text:"Users" },
         // ]},
-        // {
-        //   title:"Inventory",
-        //   items:[
-        //   { href:"inventory/dashboard", text:"Inventory" },
-        // ]},
+        {
+          title:"Inventory",
+          items:[
+          { href:"inventory/dashboard", text:"Inventory" },
+        ]},
+        {
+          title:"Events",
+          items:[
+          { href:"events/", text:"Events" },
+        ]},
         // {
         //   title:"Sales",
         //   items:[

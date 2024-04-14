@@ -4,6 +4,7 @@ import { UsersModule } from './users/users.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { SalesModule } from './sales/sales.module';
 import { ContactsModule } from './contacts/contacts.module';
+import { EventsModule } from './events/events.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { ContactsModule } from './contacts/contacts.module';
     UsersModule,
     InventoryModule,
     SalesModule,
-    ContactsModule
+    ContactsModule,
+    EventsModule
   ]
 })
 
