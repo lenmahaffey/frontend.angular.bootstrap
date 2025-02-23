@@ -14,8 +14,8 @@ import { take } from 'rxjs';
   styleUrls: ['./manufacturer-contacts.component.scss']
 })
 export class ManufacturerContactsComponent implements OnChanges{
-  @Input() manufacturerId: number = 0
-  @Input() contactId: number = 0
+  @Input() manufacturerId = 0
+  @Input() contactId = 0
   @Output() update: EventEmitter<boolean> = new EventEmitter()
   contacts: ManufacturerContact_DTO[] = []
   numbers:PhoneNumber_DTO[] = []
@@ -43,7 +43,7 @@ export class ManufacturerContactsComponent implements OnChanges{
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.type = MessageType.Error
             message.text = "There was an error getting the manufacturer contacts."
           }
@@ -60,7 +60,7 @@ export class ManufacturerContactsComponent implements OnChanges{
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.type = MessageType.Error
             message.text = "There was an error getting the manufacturer contacts."
           }
@@ -71,7 +71,7 @@ export class ManufacturerContactsComponent implements OnChanges{
   getPhoneNumbersForManufacturers()
   {
     this.contacts.forEach(contact => {
-      this.service.GetPhoneNumbersForContact(contact.manufacturer?.contactId!).pipe(take(1)).subscribe(
+      this.service.GetPhoneNumbersForContact(contact.manufacturer!.contactId!).pipe(take(1)).subscribe(
         {
           next: (data) =>
           {
@@ -85,7 +85,7 @@ export class ManufacturerContactsComponent implements OnChanges{
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.type = MessageType.Error
             message.text = "There was an error getting the manufacturer contact phone numbers."
           }
@@ -110,7 +110,7 @@ export class ManufacturerContactsComponent implements OnChanges{
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.type = MessageType.Error
             message.text = "There was an error getting the manufacturer contact phone numbers."
           }
@@ -120,7 +120,7 @@ export class ManufacturerContactsComponent implements OnChanges{
 
   getNumber(id: number) : PhoneNumber_DTO
   {
-    return this.numbers.find(x => x.contactInformationId == id)!
+    return this.numbers.find(x => x.contactId == id)!
   }
 
   onContactDropped(event:any)
@@ -169,7 +169,7 @@ export class ManufacturerContactsComponent implements OnChanges{
 
   openDeleteContactDialog(contact: ManufacturerContact_DTO)
   {
-    var options = new ConfirmationDialogOptions
+    const options = new ConfirmationDialogOptions
     options.title = "Delete Contact?"
     options.text = `Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} as a manufacturer contact?`
     const sub = this.appState.openConfirmationDialog(options).pipe(take(1)).subscribe(
@@ -203,7 +203,7 @@ export class ManufacturerContactsComponent implements OnChanges{
         },
         error: () =>
         {
-          let message = new Message()
+          const message = new Message()
           message.type = MessageType.Error
           message.text = "There was an error deleting the contact."
         }

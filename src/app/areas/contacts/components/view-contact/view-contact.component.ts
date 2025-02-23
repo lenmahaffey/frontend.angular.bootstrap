@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { ContactInformation_DTO, AddressType_DTO, Contact_DTO, EmailAddress_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
+import { AddressType_DTO, Contact_DTO, EmailAddress_DTO, PhoneNumber_DTO, PhysicalAddress_DTO } from 'src/app/shared/api/api.models';
 import { AddOrEditPhoneNumberComponent } from '../add-or-edit-phone-number/add-or-edit-phone-number.component';
 import { ContactService } from '../../contact.service';
 import { PhoneNumberToFormattedStringPipe } from 'src/app/shared/pipes/phone-number-to-formatted-string.pipe';
@@ -17,12 +17,10 @@ import { take } from 'rxjs';
   styleUrls: ['./view-contact.component.scss']
 })
 export class ViewContactComponent implements OnChanges {
-  contactInformation: ContactInformation_DTO = new ContactInformation_DTO()
   contact: Contact_DTO = new Contact_DTO({
       id: 0,
       firstName: "",
       lastName: "",
-      contactInformationId: 0,
       isBusiness: false,
       hasCompetitorContacts: false,
       hasCustomerContacts: false,
@@ -48,7 +46,7 @@ export class ViewContactComponent implements OnChanges {
     this.getContact()
   }
 
-  getContact(withSpinner:boolean = false)
+  getContact(withSpinner = false)
   {
     if(withSpinner)
     {
@@ -61,46 +59,46 @@ export class ViewContactComponent implements OnChanges {
           next: (data) =>
           {
             this.contact = data
-            this.getContactInformation()
+            // this.getContactInformation()
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.text = `There was an error getting the contact for Contact#: ${this.contactInputId}`
             this.appState.sendAlert(message)
           }
         })
   }
 
-  getContactInformation()
-  {
-    this.service.getContactInformation(this.contactInputId)
-      .pipe(take(1))
-      .subscribe(
-      {
-        next: (data) =>
-        {
-          this.contactInformation = data
-          this.setAddressInputs()
-        },
-        error: () =>
-        {
-          let message = new Message()
-          message.text = `There was an error getting the contactInformation for Contact#: ${this.contactInputId}`
-          this.appState.sendAlert(message)
-        }
-      })
-      .add(() =>
-      {
-        this.appState.closeSpinner()
-      })
-  }
+  // getContactInformation()
+  // {
+  //   this.service.getContactInformation(this.contactInputId)
+  //     .pipe(take(1))
+  //     .subscribe(
+  //     {
+  //       next: (data) =>
+  //       {
+  //         this.contactInformation = data
+  //         this.setAddressInputs()
+  //       },
+  //       error: () =>
+  //       {
+  //         let message = new Message()
+  //         message.text = `There was an error getting the contactInformation for Contact#: ${this.contactInputId}`
+  //         this.appState.sendAlert(message)
+  //       }
+  //     })
+  //     .add(() =>
+  //     {
+  //       this.appState.closeSpinner()
+  //     })
+  // }
 
   setAddressInputs()
   {
-    this.currentMailingAddress = this.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType_DTO.Mailing) ?? new PhysicalAddress_DTO
-    this.currentBillingAddress = this.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType_DTO.Billing) ?? new PhysicalAddress_DTO
-    this.currentShippingAddress = this.contactInformation?.physicalAddresses?.find(x => x.addressType == AddressType_DTO.Shipping) ?? new PhysicalAddress_DTO
+    this.currentMailingAddress = this.contact?.physicalAddresses?.find(x => x.addressType == AddressType_DTO.Mailing) ?? new PhysicalAddress_DTO
+    this.currentBillingAddress = this.contact?.physicalAddresses?.find(x => x.addressType == AddressType_DTO.Billing) ?? new PhysicalAddress_DTO
+    this.currentShippingAddress = this.contact?.physicalAddresses?.find(x => x.addressType == AddressType_DTO.Shipping) ?? new PhysicalAddress_DTO
     this.currentMailingAddress.addressType = AddressType_DTO.Mailing
     this.currentBillingAddress.addressType = AddressType_DTO.Billing
     this.currentShippingAddress.addressType = AddressType_DTO.Shipping
@@ -108,7 +106,7 @@ export class ViewContactComponent implements OnChanges {
 
   openAddOrEditPhoneNumberDialog(number?: PhoneNumber_DTO)
   {
-    let dialogRef = this.appState.openDialog(AddOrEditPhoneNumberComponent, number);
+    const dialogRef = this.appState.openDialog(AddOrEditPhoneNumberComponent, number);
     dialogRef.pipe(take(1)).subscribe(
       {
         next: (data) =>
@@ -126,7 +124,7 @@ export class ViewContactComponent implements OnChanges {
 
   openDeletePhoneNumberDialog(number: PhoneNumber_DTO)
   {
-    var options = new ConfirmationDialogOptions()
+    const options = new ConfirmationDialogOptions()
     options.title = "Delete Phone Number"
     options.text = `Are you sure you want to delete ${this.phonePipe.transform(number!)}?`
 
@@ -142,12 +140,12 @@ export class ViewContactComponent implements OnChanges {
   addPhoneNumber(number: PhoneNumber_DTO)
   {
     this.appState.openSpinner("Adding phone number")
-    number.contactInformationId = this.contactInformation?.id
+    number.contactId = this.contact?.id
     this.service.AddPhoneNumber(number).pipe(take(1)).subscribe(
       {
         next: (data) =>
         {
-          this.contactInformation?.phoneNumbers?.push(data)
+          this.contact?.phoneNumbers?.push(data)
           const message = new Message(MessageType.Success)
           message.text =`${this.phonePipe.transform(number)} has been added to ${this.namePipe.transform(this.contact)}'s phone numbers.`
           this.appState.sendAlert(message)
@@ -172,12 +170,12 @@ export class ViewContactComponent implements OnChanges {
       {
         next: (data) =>
         {
-          var i = this.contactInformation?.phoneNumbers?.indexOf(number)
+          const i = this.contact?.phoneNumbers?.indexOf(number)
           if (i != undefined)
           {
-            this.contactInformation?.phoneNumbers?.splice(i ,1)
+            this.contact?.phoneNumbers?.splice(i ,1)
           }
-          this.contactInformation?.phoneNumbers?.push(data)
+          this.contact?.phoneNumbers?.push(data)
           const message = new Message(MessageType.Success)
           message.text = `${this.namePipe.transform(this.contact)}'s phone numbers have been updated.`
           this.appState.sendAlert(message)
@@ -202,10 +200,10 @@ export class ViewContactComponent implements OnChanges {
       {
         next: () =>
         {
-          var i = this.contactInformation?.phoneNumbers?.indexOf(number)
+          const i = this.contact?.phoneNumbers?.indexOf(number)
           if (i != undefined)
           {
-            this.contactInformation?.phoneNumbers?.splice(i ,1)
+            this.contact?.phoneNumbers?.splice(i ,1)
             const message = new Message(MessageType.Success, `${this.phonePipe.transform(number)} has been deleted.`)
             this.appState.sendAlert(message)
           }
@@ -225,7 +223,7 @@ export class ViewContactComponent implements OnChanges {
 
   openAddOrEditEmailAddressDialog(address?:EmailAddress_DTO)
   {
-    let dialogRef = this.appState.openDialog(AddOrEditEmailAddressComponent, address);
+    const dialogRef = this.appState.openDialog(AddOrEditEmailAddressComponent, address);
     dialogRef.pipe(take(1)).subscribe(
       {
         next: (data) =>
@@ -243,7 +241,7 @@ export class ViewContactComponent implements OnChanges {
 
   openDeleteEmailAddressDialog(address:EmailAddress_DTO | undefined)
   {
-    var options = new ConfirmationDialogOptions()
+    const options = new ConfirmationDialogOptions()
     options.title = "Delete Email Address"
     options.text = `Are you sure you want to delete ${address?.address}?`
 
@@ -259,12 +257,12 @@ export class ViewContactComponent implements OnChanges {
   addEmailAddress(address:EmailAddress_DTO)
   {
     this.appState.openSpinner("Adding email address")
-    address.contactInformationId = this.contactInformation?.id!
+    address.contactId = this.contact!.id!
     this.service.AddEmailAddress(address).pipe(take(1)).subscribe(
       {
         next: (data) =>
         {
-          this.contactInformation?.emailAddresses?.push(data)
+          this.contact?.emailAddresses?.push(data)
           const message = new Message(MessageType.Success)
           message.text =  `${address.address} has been added to ${this.namePipe.transform(this.contact)}.`
           this.appState.sendAlert(message)
@@ -289,8 +287,8 @@ export class ViewContactComponent implements OnChanges {
       {
         next: (data) =>
         {
-          var index: number | undefined
-          this.contactInformation?.emailAddresses?.forEach((e, i) => {
+          let index: number | undefined
+          this.contact?.emailAddresses?.forEach((e, i) => {
             if (e.id == address.id)
             {
               index = i
@@ -298,9 +296,9 @@ export class ViewContactComponent implements OnChanges {
           })
           if (index != undefined)
           {
-            this.contactInformation?.emailAddresses?.splice(index)
+            this.contact?.emailAddresses?.splice(index)
           }
-          this.contactInformation?.emailAddresses?.push(data)
+          this.contact?.emailAddresses?.push(data)
           const message = new Message(MessageType.Success)
           message.text = `${address.address} has been updated.`
           this.appState.sendAlert(message)
@@ -325,8 +323,8 @@ export class ViewContactComponent implements OnChanges {
       {
         next: () =>
         {
-          var index: number | undefined
-          this.contactInformation?.emailAddresses?.forEach((e, i) => {
+          let index: number | undefined
+          this.contact?.emailAddresses?.forEach((e, i) => {
             if (e.id == address.id)
             {
               index = i
@@ -334,7 +332,7 @@ export class ViewContactComponent implements OnChanges {
           });
           if (index != undefined)
           {
-            this.contactInformation?.emailAddresses?.splice(index ,1)
+            this.contact?.emailAddresses?.splice(index ,1)
           }
           const message = new Message(MessageType.Success)
           message.text = `${address.address} has been deleted.`

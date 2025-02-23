@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { Constants } from 'src/app/constants';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { Competitor_DTO, CreateNewInventorySalesItemViewModel, SalesItem_DTO } from 'src/app/shared/api/api.models';
+import { Competitor_DTO, SalesItem_DTO } from 'src/app/shared/api/api.models';
 import { ServiceBase } from 'src/app/shared/serviceBase';
 
 @Injectable({
@@ -34,13 +34,13 @@ export class SalesService extends ServiceBase{
       catchError(this.handleError.bind(this)))
   }
 
-  addNewSalesItem(model: CreateNewInventorySalesItemViewModel)
-  {
-    const url = `${this.apiUrl}/addSalesItem`
-    const body = JSON.stringify(model);
-    return this.http.post<SalesItem_DTO>(url, body, { headers: this.headers }).pipe(
-      catchError(this.handleError.bind(this)))
-  }
+  // addNewSalesItem(model: CreateNewInventorySalesItemViewModel)
+  // {
+  //   const url = `${this.apiUrl}/addSalesItem`
+  //   const body = JSON.stringify(model);
+  //   return this.http.post<SalesItem_DTO>(url, body, { headers: this.headers }).pipe(
+  //     catchError(this.handleError.bind(this)))
+  // }
 
   updateInventoryItem(item: SalesItem_DTO)
   {

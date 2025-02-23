@@ -14,7 +14,6 @@ import { AddContactAsComponent } from '../add-contact-as/add-contact-as.componen
 import { CustomerService } from 'src/app/areas/customers/customer.service';
 import { FreelancerService } from 'src/app/areas/freelancers/freelancer.service';
 import { EmployeesService } from 'src/app/areas/employees/employees.service';
-import { UserService } from 'src/app/areas/users/user.service';
 import { SalesService } from 'src/app/areas/sales/sales.service';
 import { InventoryService } from 'src/app/areas/inventory/inventory.service';
 import { EventsService } from 'src/app/areas/events/events.service';
@@ -27,7 +26,7 @@ import { EventsService } from 'src/app/areas/events/events.service';
 export class ListContactsComponent {
 
   filterOptions: any
-  sortOptions: string = ""
+  sortOptions = ""
   searchFormGroup: any
   filteredList: Contact_DTO[] = []
   contactList: Contact_DTO[] = []
@@ -40,7 +39,7 @@ export class ListContactsComponent {
   @Input() set updatedContact(value: Contact_DTO)
   {
     this._updatedContact = value
-    let i = this.contactList.findIndex(x => x.id == value.id)
+    const i = this.contactList.findIndex(x => x.id == value.id)
     this.contactList[i] = value
   }
   constructor(
@@ -71,7 +70,7 @@ export class ListContactsComponent {
     this.listAllContacts(true)
   }
 
-  listAllContacts(spinner: boolean = false, contactId: number = 0)
+  listAllContacts(spinner = false, contactId = 0)
   {
     if(spinner)
     {
@@ -114,8 +113,8 @@ export class ListContactsComponent {
 
   searchContacts()
   {
-    var fName = this.searchFormGroup.value.firstName
-    var lName = this.searchFormGroup.value.lastName
+    const fName = this.searchFormGroup.value.firstName
+    const lName = this.searchFormGroup.value.lastName
     if(fName === "" && lName === "")
     {
       this.filteredList = this.contactList;
@@ -145,9 +144,9 @@ export class ListContactsComponent {
 
   sortContacts()
   {
-    var fName = this.sortOptions === "firstName"
-    var lName = this.sortOptions === "lastName"
-    var bName = this.sortOptions === "businessName"
+    const fName = this.sortOptions === "firstName"
+    const lName = this.sortOptions === "lastName"
+    const bName = this.sortOptions === "businessName"
 
     if(fName)
     {
@@ -245,10 +244,10 @@ export class ListContactsComponent {
 
   filterContacts()
   {
-    var employees = this.filterOptions.value.employees
-    var freelancers = this.filterOptions.value.freelancers
-    var users = this.filterOptions.value.users
-    var customers = this.filterOptions.value.customers
+    const employees = this.filterOptions.value.employees
+    const freelancers = this.filterOptions.value.freelancers
+    const users = this.filterOptions.value.users
+    const customers = this.filterOptions.value.customers
     if(customers | freelancers | users | employees)
     {
       this.filteredList = (this.filteredList.filter(x => {
@@ -278,15 +277,15 @@ export class ListContactsComponent {
   }
 
   openAddContactDialog(){
-    var dto = new Contact_DTO()
+    const dto = new Contact_DTO()
     dto.id = 0
-    let config = Constants.GetDialogConfig();
+    const config = Constants.GetDialogConfig();
     config.position =
     {
       top: '7%'
     }
     config.minWidth = undefined
-    let dialogRef = this.appState.openDialog(AddOrEditContactComponent, dto, config);
+    const dialogRef = this.appState.openDialog(AddOrEditContactComponent, dto, config);
     dialogRef.pipe(take(1)).subscribe(
       {
         next: (data) =>
@@ -328,7 +327,7 @@ export class ListContactsComponent {
 
   openDeleteContactDialog(contact: Contact_DTO)
   {
-    var config = new ConfirmationDialogOptions()
+    const config = new ConfirmationDialogOptions()
     config.title = "Delete Contact?"
     config.text = `Are you sure you want to delete ${this.namePipe.transform(contact)}`
     this.appState.openConfirmationDialog(config).pipe(take(1)).subscribe(
@@ -373,13 +372,13 @@ export class ListContactsComponent {
 
   openEditContactDialog(contact: Contact_DTO)
   {
-    let config = Constants.GetDialogConfig();
+    const config = Constants.GetDialogConfig();
     config.position =
     {
       top: '7%'
     }
     config.minWidth = undefined
-    let dialogRef = this.appState.openDialog(AddOrEditContactComponent, contact, config);
+    const dialogRef = this.appState.openDialog(AddOrEditContactComponent, contact, config);
     dialogRef.pipe(take(1)).subscribe(
       {
         next: (data) =>
@@ -402,7 +401,7 @@ export class ListContactsComponent {
       {
         next: (data) =>
         {
-          let message = new Message(MessageType.Success)
+          const message = new Message(MessageType.Success)
           message.text = `${this.namePipe.transform(data)} was successfully updated.`
           this.appState.sendAlert(message)
           const i = this.contactList.findIndex(x => x.id == contact.id)
@@ -410,7 +409,7 @@ export class ListContactsComponent {
         },
         error: () =>
         {
-          let message = new Message(MessageType.Error)
+          const message = new Message(MessageType.Error)
           message.text = `There was an error updating ${this.namePipe.transform(contact)}`
           this.appState.sendAlert(message)
         }
@@ -473,7 +472,7 @@ export class ListContactsComponent {
   createNewCustomer(contact:Contact_DTO)
   {
     this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new customer`)
-    var contactIndex = this.contactList.findIndex(x => x.id === contact.id)
+    const contactIndex = this.contactList.findIndex(x => x.id === contact.id)
     this.customerService.CreateNewCustomer(contact.id).pipe(take(1)).subscribe(
       {
         next: (data) =>
@@ -499,7 +498,7 @@ export class ListContactsComponent {
   createNewFreelancer(contact:Contact_DTO)
   {
     this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new freelancer`)
-    var contactIndex = this.contactList.findIndex(x => x.id === contact.id)
+    const contactIndex = this.contactList.findIndex(x => x.id === contact.id)
     this.freelancerService.CreateNewFreelancer(contact.id).pipe(take(1)).subscribe(
       {
         next: (data) =>
@@ -525,7 +524,7 @@ export class ListContactsComponent {
   createNewEmployee(contact:Contact_DTO)
   {
     this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new employee`)
-    var contactIndex = this.contactList.findIndex(x => x.id === contact.id)
+    const contactIndex = this.contactList.findIndex(x => x.id === contact.id)
     this.employeeService.CreateNewEmployee(contact.id).pipe(take(1)).subscribe(
       {
         next: (data) =>
@@ -552,7 +551,7 @@ export class ListContactsComponent {
   createNewCompetitor(contact:Contact_DTO)
   {
     this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new competitor`)
-    var contactIndex = this.contactList.findIndex(x => x.id === contact.id)
+    const contactIndex = this.contactList.findIndex(x => x.id === contact.id)
     this.salesService.createNewCompetitor(contact.id).pipe(take(1)).subscribe(
       {
         next: (data) =>
@@ -579,7 +578,7 @@ export class ListContactsComponent {
   createNewManufacturer(contact:Contact_DTO)
   {
     this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new manufacturer`)
-    var contactIndex = this.contactList.findIndex(x => x.id === contact.id)
+    const contactIndex = this.contactList.findIndex(x => x.id === contact.id)
     this.inventoryService.CreateNewManufacturer(contact.id).pipe(take(1)).subscribe(
       {
         next: (data) =>
@@ -606,7 +605,7 @@ export class ListContactsComponent {
   createNewVendor(contact:Contact_DTO)
   {
     this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new vendor`)
-    var contactIndex = this.contactList.findIndex(x => x.id === contact.id)
+    const contactIndex = this.contactList.findIndex(x => x.id === contact.id)
     this.inventoryService.CreateNewVendor(contact.id).pipe(take(1)).subscribe(
       {
         next: (data) =>
@@ -632,7 +631,7 @@ export class ListContactsComponent {
   createNewVenue(contact:Contact_DTO)
   {
     this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new Venue`)
-    var contactIndex = this.contactList.findIndex(x => x.id === contact.id)
+    const contactIndex = this.contactList.findIndex(x => x.id === contact.id)
     this.eventService.CreateNewVenue(contact.id).pipe(take(1)).subscribe(
       {
         next: (data) =>

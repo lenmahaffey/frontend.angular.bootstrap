@@ -14,7 +14,7 @@ import { take } from 'rxjs';
   styleUrls: ['./competitor-contacts.component.scss']
 })
 export class CompetitorContactsComponent implements OnChanges{
-  @Input() competitorId: number = 0
+  @Input() competitorId = 0
   @Input() contact: Contact_DTO = new Contact_DTO
   @Output() update: EventEmitter<boolean> = new EventEmitter()
   contacts: CompetitorContact_DTO[] = []
@@ -43,7 +43,7 @@ export class CompetitorContactsComponent implements OnChanges{
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.text = "There was an error getting the competitor contacts."
             this.appState.sendAlert(message);
           },
@@ -60,7 +60,7 @@ export class CompetitorContactsComponent implements OnChanges{
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.text = "There was an error getting the competitor contacts."
             this.appState.sendAlert(message);
           },
@@ -71,7 +71,7 @@ export class CompetitorContactsComponent implements OnChanges{
   getPhoneNumbersForCompetitors()
   {
     this.contacts.forEach(contact => {
-      this.service.GetPhoneNumbersForContact(contact.competitor?.contactId!).pipe(take(1)).subscribe(
+      this.service.GetPhoneNumbersForContact(contact.competitor!.contactId).pipe(take(1)).subscribe(
         {
           next: (data) =>
           {
@@ -85,7 +85,7 @@ export class CompetitorContactsComponent implements OnChanges{
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.text = "There was an error getting the competitor contact phone numbers."
             this.appState.sendAlert(message);
           },
@@ -110,7 +110,7 @@ export class CompetitorContactsComponent implements OnChanges{
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.text = "There was an error getting the competitor contact phone numbers."
             this.appState.sendAlert(message);
           },
@@ -120,7 +120,7 @@ export class CompetitorContactsComponent implements OnChanges{
 
   getNumber(id: number) : PhoneNumber_DTO
   {
-    return this.numbers.find(x => x.contactInformationId == id) ??
+    return this.numbers.find(x => x.contactId == id) ??
       new PhoneNumber_DTO()
   }
 
@@ -171,7 +171,7 @@ export class CompetitorContactsComponent implements OnChanges{
 
   openDeleteContactDialog(contact: CompetitorContact_DTO)
   {
-    var options = new ConfirmationDialogOptions()
+    const options = new ConfirmationDialogOptions()
     options.title = "Delete Contact?"
     options.text = `Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} as a competitor contact?`
     this.appState.openConfirmationDialog(options).pipe(take(1)).subscribe(
@@ -201,7 +201,7 @@ export class CompetitorContactsComponent implements OnChanges{
         },
         error: () =>
         {
-          let message = new Message()
+          const message = new Message()
           message.type = MessageType.Error
           message.text = "There was an error deleting the contact"
         }

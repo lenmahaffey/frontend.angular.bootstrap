@@ -34,7 +34,7 @@ export class AddOrEditPhoneNumberComponent {
     {
       dto = new PhoneNumber_DTO()
       dto.id = 0
-      dto.contactInformationId = 0
+      dto.contactId = 0
       dto.label = ""
       dto.areaCode = ""
       dto.prefix = ""
@@ -66,10 +66,10 @@ export class AddOrEditPhoneNumberComponent {
     }
     else
     {
-      let newNumber = this.stringToPhoneNumber.transform(response.number)
+      const newNumber = this.stringToPhoneNumber.transform(response.number)
       newNumber.label = this.phoneNumberInput.value.label
       newNumber.id =  this.currentNumber.id
-      newNumber.contactInformationId = this.currentNumber.contactInformationId
+      newNumber.contactId = this.currentNumber.contactId
       this.response.next(newNumber)
     }
     this.response.complete()

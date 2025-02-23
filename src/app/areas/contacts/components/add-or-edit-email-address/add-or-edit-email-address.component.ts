@@ -56,7 +56,7 @@ export class AddOrEditEmailAddressComponent {
       this.response.complete()
       return
     }
-    var dto = new EmailAddress_DTO(this.address)
+    const dto = new EmailAddress_DTO(this.address)
     dto.address = this.addressFormGroup.value.address
     dto.label = this.addressFormGroup.value.label
     this.response.next(dto)
