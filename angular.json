@@ -115,16 +115,16 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "MeetingManager.Frontend.Angular:build:production"
+              "buildTarget": "MeetingManager.Frontend.Angular:build:production"
             },
             "development": {
-              "browserTarget": "MeetingManager.Frontend.Angular:build:development"
+              "buildTarget": "MeetingManager.Frontend.Angular:build:development"
             },
             "qa": {
-              "browserTarget": "MeetingManager.Frontend.Angular:build:qa"
+              "buildTarget": "MeetingManager.Frontend.Angular:build:qa"
             },
             "stage": {
-              "browserTarget": "MeetingManager.Frontend.Angular:build:stage"
+              "buildTarget": "MeetingManager.Frontend.Angular:build:stage"
             }
           },
           "defaultConfiguration": "development"
@@ -132,7 +132,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "MeetingManager.Frontend.Angular:build"
+            "buildTarget": "MeetingManager.Frontend.Angular:build"
           }
         },
         "test": {
