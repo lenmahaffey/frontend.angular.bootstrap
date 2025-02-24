@@ -12,9 +12,10 @@ import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/co
 import { take } from 'rxjs';
 
 @Component({
-  selector: 'app-view-contact',
-  templateUrl: './view-contact.component.html',
-  styleUrls: ['./view-contact.component.scss']
+    selector: 'app-view-contact',
+    templateUrl: './view-contact.component.html',
+    styleUrls: ['./view-contact.component.scss'],
+    standalone: false
 })
 export class ViewContactComponent implements OnChanges {
   contact: Contact_DTO = new Contact_DTO({

@@ -10,9 +10,10 @@ import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 
 @Component({
-  selector: 'app-address-form',
-  templateUrl: './add-or-edit-physical-address.component.html',
-  styleUrls: ['./add-or-edit-physical-address.component.scss']
+    selector: 'app-address-form',
+    templateUrl: './add-or-edit-physical-address.component.html',
+    styleUrls: ['./add-or-edit-physical-address.component.scss'],
+    standalone: false
 })
 export class AddOrEditPhysicalAddressComponent implements OnChanges {
   @ViewChild('form') addressForm!: any

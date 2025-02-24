@@ -4,27 +4,24 @@ import { MessageType } from '../../message-type.interface';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
-  selector: 'app-alert',
-  templateUrl: './alert.component.html',
-  styleUrls: ['./alert.component.scss'],
-  animations:[
-    trigger('visible', [
-    state('visible',
-      style({
-        transform: 'translateY(-0%)',
-        opacity: 1
-      })
-    ),
-    state('void, hidden',
-      style({
-        transform: 'translateY(-20%)',
-        opacity: 0,
-      })
-    ),
-    transition('* => visible', animate('500ms')),
-    transition('* => void, * => hidden', animate('500ms'))
-  ])
-  ]
+    selector: 'app-alert',
+    templateUrl: './alert.component.html',
+    styleUrls: ['./alert.component.scss'],
+    animations: [
+        trigger('visible', [
+            state('visible', style({
+                transform: 'translateY(-0%)',
+                opacity: 1
+            })),
+            state('void, hidden', style({
+                transform: 'translateY(-20%)',
+                opacity: 0,
+            })),
+            transition('* => visible', animate('500ms')),
+            transition('* => void, * => hidden', animate('500ms'))
+        ])
+    ],
+    standalone: false
 })
 export class AlertComponent implements AfterViewInit{
 

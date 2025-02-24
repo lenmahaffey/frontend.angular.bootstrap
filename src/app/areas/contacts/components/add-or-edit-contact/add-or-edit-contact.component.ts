@@ -5,9 +5,10 @@ import { Subject } from 'rxjs';
 import { Contact_DTO } from 'src/app/shared/api/api.models';
 
 @Component({
-  selector: 'app-add-contact',
-  templateUrl: './add-or-edit-contact.component.html',
-  styleUrls: ['./add-or-edit-contact.component.scss']
+    selector: 'app-add-contact',
+    templateUrl: './add-or-edit-contact.component.html',
+    styleUrls: ['./add-or-edit-contact.component.scss'],
+    standalone: false
 })
 export class AddOrEditContactComponent {
   @Input() contact: Contact_DTO

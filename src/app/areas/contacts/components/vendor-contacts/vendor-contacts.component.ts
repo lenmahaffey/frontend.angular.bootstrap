@@ -9,9 +9,10 @@ import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/co
 import { take } from 'rxjs';
 
 @Component({
-  selector: 'app-vendor-contacts',
-  templateUrl: './vendor-contacts.component.html',
-  styleUrls: ['./vendor-contacts.component.scss']
+    selector: 'app-vendor-contacts',
+    templateUrl: './vendor-contacts.component.html',
+    styleUrls: ['./vendor-contacts.component.scss'],
+    standalone: false
 })
 export class VendorContactsComponent implements OnChanges{
   @Input() vendorId = 0

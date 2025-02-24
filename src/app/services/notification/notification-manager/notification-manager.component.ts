@@ -4,9 +4,10 @@ import { Message } from '../../message';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-notification-manager',
-  templateUrl: './notification-manager.component.html',
-  styleUrls: ['./notification-manager.component.scss']
+    selector: 'app-notification-manager',
+    templateUrl: './notification-manager.component.html',
+    styleUrls: ['./notification-manager.component.scss'],
+    standalone: false
 })
 export class NotificationManagerComponent implements OnDestroy{
 

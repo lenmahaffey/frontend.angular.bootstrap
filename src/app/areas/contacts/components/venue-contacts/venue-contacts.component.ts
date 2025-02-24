@@ -8,9 +8,10 @@ import { ContactService } from '../../contact.service';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 
 @Component({
-  selector: 'app-venue-contacts',
-  templateUrl: './venue-contacts.component.html',
-  styleUrls: ['./venue-contacts.component.scss']
+    selector: 'app-venue-contacts',
+    templateUrl: './venue-contacts.component.html',
+    styleUrls: ['./venue-contacts.component.scss'],
+    standalone: false
 })
 export class VenueContactsComponent implements OnChanges{
   @Input() venueId = 0

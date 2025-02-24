@@ -10,9 +10,10 @@ import { LeftSideBarNavLinks } from './left-side-bar-nav-links';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 @Component({
-  selector: 'app-demo',
-  templateUrl: './demo.component.html',
-  styleUrls: ['./demo.component.scss']
+    selector: 'app-demo',
+    templateUrl: './demo.component.html',
+    styleUrls: ['./demo.component.scss'],
+    standalone: false
 })
 export class DemoComponent implements OnDestroy, OnInit {
 

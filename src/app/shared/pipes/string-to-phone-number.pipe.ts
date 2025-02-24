@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { PhoneNumber_DTO } from '../api/api.models';
 
 @Pipe({
-  name: 'stringToPhoneNumber'
+    name: 'stringToPhoneNumber',
+    standalone: false
 })
 export class StringToPhoneNumberPipe implements PipeTransform {
 

@@ -3,9 +3,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Contact_DTO } from 'src/app/shared/api/api.models';
 
 @Component({
-  selector: 'app-add-contact-as',
-  templateUrl: './add-contact-as.component.html',
-  styleUrls: ['./add-contact-as.component.css']
+    selector: 'app-add-contact-as',
+    templateUrl: './add-contact-as.component.html',
+    styleUrls: ['./add-contact-as.component.css'],
+    standalone: false
 })
 export class AddContactAsComponent {
   businessContactTypes = BusinessContactType

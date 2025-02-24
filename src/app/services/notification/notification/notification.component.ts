@@ -4,30 +4,28 @@ import { MessageType } from '../../message-type.interface';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
-  selector: 'app-notification',
-  templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss'],
-  animations:[
-    trigger('visible', [
-      state('visible',
-        style({
-          transform: 'translateY(0%)',
-          opacity: 1
-        })),
-      state('void, hidden',
-        style({
-          transform: 'translateY(-20%)',
-          opacity: 0,
-        })),
-      state('dismissed',
-        style({
-          transform: 'translateX(100%)',
-          opacity: 0,
-        })),
-      transition('* => visible', animate('500ms')),
-      transition('visible => dismissed', animate('500ms')),
-    ])
-  ]
+    selector: 'app-notification',
+    templateUrl: './notification.component.html',
+    styleUrls: ['./notification.component.scss'],
+    animations: [
+        trigger('visible', [
+            state('visible', style({
+                transform: 'translateY(0%)',
+                opacity: 1
+            })),
+            state('void, hidden', style({
+                transform: 'translateY(-20%)',
+                opacity: 0,
+            })),
+            state('dismissed', style({
+                transform: 'translateX(100%)',
+                opacity: 0,
+            })),
+            transition('* => visible', animate('500ms')),
+            transition('visible => dismissed', animate('500ms')),
+        ])
+    ],
+    standalone: false
 })
 export class NotificationComponent implements AfterViewInit {
 

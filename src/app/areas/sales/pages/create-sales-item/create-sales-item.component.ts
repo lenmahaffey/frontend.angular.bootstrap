@@ -11,9 +11,10 @@ interface InventoryNode{
 }
 
 @Component({
-  selector: 'app-create-sales-item',
-  templateUrl: './create-sales-item.component.html',
-  styleUrls: ['./create-sales-item.component.scss']
+    selector: 'app-create-sales-item',
+    templateUrl: './create-sales-item.component.html',
+    styleUrls: ['./create-sales-item.component.scss'],
+    standalone: false
 })
 
 export class CreateSalesItemComponent {

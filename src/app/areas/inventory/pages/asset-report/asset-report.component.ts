@@ -8,9 +8,10 @@ import { NotificationService } from 'src/app/services/notification/notification.
 import { InventorySideBarNavLinks } from '../../inventory-side-bar-links';
 
 @Component({
-  selector: 'app-asset-report',
-  templateUrl: './asset-report.component.html',
-  styleUrls: ['./asset-report.component.scss']
+    selector: 'app-asset-report',
+    templateUrl: './asset-report.component.html',
+    styleUrls: ['./asset-report.component.scss'],
+    standalone: false
 })
 export class AssetReportComponent {
 

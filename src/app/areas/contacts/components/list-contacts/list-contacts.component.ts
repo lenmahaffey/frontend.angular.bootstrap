@@ -19,9 +19,10 @@ import { InventoryService } from 'src/app/areas/inventory/inventory.service';
 import { EventsService } from 'src/app/areas/events/events.service';
 
 @Component({
-  selector: 'app-list-contacts',
-  templateUrl: './list-contacts.component.html',
-  styleUrls: ['./list-contacts.component.scss']
+    selector: 'app-list-contacts',
+    templateUrl: './list-contacts.component.html',
+    styleUrls: ['./list-contacts.component.scss'],
+    standalone: false
 })
 export class ListContactsComponent {
 

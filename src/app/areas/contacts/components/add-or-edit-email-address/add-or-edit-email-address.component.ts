@@ -5,9 +5,10 @@ import { Subject } from 'rxjs';
 import { EmailAddress_DTO } from 'src/app/shared/api/api.models';
 
 @Component({
-  selector: 'app-add-email-address',
-  templateUrl: './add-or-edit-email-address.component.html',
-  styleUrls: ['./add-or-edit-email-address.component.scss']
+    selector: 'app-add-email-address',
+    templateUrl: './add-or-edit-email-address.component.html',
+    styleUrls: ['./add-or-edit-email-address.component.scss'],
+    standalone: false
 })
 export class AddOrEditEmailAddressComponent {
   addressFormGroup: any

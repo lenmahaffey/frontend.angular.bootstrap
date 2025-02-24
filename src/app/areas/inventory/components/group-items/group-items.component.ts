@@ -9,9 +9,10 @@ import { CurrencyFormatterPipe } from 'src/app/shared/pipes/currency-formatter.p
 import { DragDropService } from 'src/app/services/dragDrop/drag-drop.service';
 
 @Component({
-  selector: 'app-group-items',
-  templateUrl: './group-items.component.html',
-  styleUrls: ['./group-items.component.scss']
+    selector: 'app-group-items',
+    templateUrl: './group-items.component.html',
+    styleUrls: ['./group-items.component.scss'],
+    standalone: false
 })
 export class GroupItemsComponent {
   inventory: InventoryItem_DTO[] = []

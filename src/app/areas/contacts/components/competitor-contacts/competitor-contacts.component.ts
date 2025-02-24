@@ -9,9 +9,10 @@ import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/co
 import { take } from 'rxjs';
 
 @Component({
-  selector: 'app-competitor-contacts',
-  templateUrl: './competitor-contacts.component.html',
-  styleUrls: ['./competitor-contacts.component.scss']
+    selector: 'app-competitor-contacts',
+    templateUrl: './competitor-contacts.component.html',
+    styleUrls: ['./competitor-contacts.component.scss'],
+    standalone: false
 })
 export class CompetitorContactsComponent implements OnChanges{
   @Input() competitorId = 0

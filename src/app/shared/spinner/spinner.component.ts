@@ -5,9 +5,10 @@ import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
-  selector: 'app-spinner',
-  templateUrl: './spinner.component.html',
-  styleUrls: ['./spinner.component.scss']
+    selector: 'app-spinner',
+    templateUrl: './spinner.component.html',
+    styleUrls: ['./spinner.component.scss'],
+    standalone: false
 })
 export class SpinnerComponent {
 

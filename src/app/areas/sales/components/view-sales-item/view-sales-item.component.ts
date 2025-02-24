@@ -3,9 +3,10 @@ import { SalesItem_DTO } from 'src/app/shared/api/api.models';
 import { SalesService } from '../../sales.service';
 
 @Component({
-  selector: 'app-view-sales-item',
-  templateUrl: './view-sales-item.component.html',
-  styleUrls: ['./view-sales-item.component.scss']
+    selector: 'app-view-sales-item',
+    templateUrl: './view-sales-item.component.html',
+    styleUrls: ['./view-sales-item.component.scss'],
+    standalone: false
 })
 export class ViewSalesItemComponent {
 

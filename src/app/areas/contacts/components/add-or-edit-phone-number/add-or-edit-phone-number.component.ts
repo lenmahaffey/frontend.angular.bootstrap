@@ -7,9 +7,10 @@ import { PhoneNumberToFormattedStringPipe } from 'src/app/shared/pipes/phone-num
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-add-phone-number',
-  templateUrl: './add-or-edit-phone-number.component.html',
-  styleUrls: ['./add-or-edit-phone-number.component.scss']
+    selector: 'app-add-phone-number',
+    templateUrl: './add-or-edit-phone-number.component.html',
+    styleUrls: ['./add-or-edit-phone-number.component.scss'],
+    standalone: false
 })
 export class AddOrEditPhoneNumberComponent {
 

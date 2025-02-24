@@ -9,9 +9,10 @@ import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/co
 import { take } from 'rxjs';
 
 @Component({
-  selector: 'app-customer-contacts',
-  templateUrl: './customer-contacts.component.html',
-  styleUrls: ['./customer-contacts.component.scss']
+    selector: 'app-customer-contacts',
+    templateUrl: './customer-contacts.component.html',
+    styleUrls: ['./customer-contacts.component.scss'],
+    standalone: false
 })
 export class CustomerContactsComponent implements  OnChanges {
 
