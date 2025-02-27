@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, OnInit } from '@angular/core';
 import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
@@ -14,7 +14,7 @@ import { take } from 'rxjs';
     styleUrls: ['./manufacturer-contacts.component.scss'],
     standalone: false
 })
-export class ManufacturerContactsComponent implements OnChanges{
+export class ManufacturerContactsComponent implements OnChanges, OnInit{
   @Input() manufacturerId = 0
   @Input() contactId = 0
   @Output() update: EventEmitter<boolean> = new EventEmitter()
@@ -26,7 +26,11 @@ export class ManufacturerContactsComponent implements OnChanges{
     private appState: AppStateService,
     private namePipe: ContactNamePipe) {
   }
-
+  
+  ngOnInit(): void {
+    // Initialization logic goes here
+    console.log(this.manufacturerId);
+  }
   ngOnChanges(): void {
     this.getManufacturerContacts()
   }

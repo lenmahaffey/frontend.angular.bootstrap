@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 @use "./appTheme.scss" as *;
-@import "@angular/material/theming";
+// @use "@angular/material/theming";
 @include mat.elevation-classes();
 @include mat.app-background();
 @include mat.all-component-themes($app-theme);

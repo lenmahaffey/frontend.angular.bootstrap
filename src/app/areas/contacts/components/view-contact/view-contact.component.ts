@@ -60,7 +60,7 @@ export class ViewContactComponent implements OnChanges {
           next: (data) =>
           {
             this.contact = data
-            // this.getContactInformation()
+            this.setAddressInputs()
           },
           error: () =>
           {
