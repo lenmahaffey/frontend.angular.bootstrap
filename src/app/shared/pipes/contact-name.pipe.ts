@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Contact_DTO } from '../api/api.models';
 
 @Pipe({
-  name: 'contactName'
+    name: 'contactName',
+    standalone: false
 })
 export class ContactNamePipe implements PipeTransform {
 

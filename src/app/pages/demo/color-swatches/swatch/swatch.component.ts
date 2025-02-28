@@ -1,9 +1,10 @@
 import { Component, ElementRef, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-swach',
-  templateUrl: './swatch.component.html',
-  styleUrls: ['./swatch.component.scss']
+    selector: 'app-swach',
+    templateUrl: './swatch.component.html',
+    styleUrls: ['./swatch.component.scss'],
+    standalone: false
 })
 export class SwatchComponent {
 

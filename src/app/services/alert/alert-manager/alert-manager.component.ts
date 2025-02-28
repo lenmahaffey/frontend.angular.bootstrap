@@ -5,9 +5,10 @@ import { AlertService } from '../alert.service';
 import { MessageType } from '../../message-type.interface';
 
 @Component({
-  selector: 'app-alert-manager',
-  templateUrl: './alert-manager.component.html',
-  styleUrls: ['./alert-manager.component.scss']
+    selector: 'app-alert-manager',
+    templateUrl: './alert-manager.component.html',
+    styleUrls: ['./alert-manager.component.scss'],
+    standalone: false
 })
 export class AlertManagerComponent implements OnDestroy {
 

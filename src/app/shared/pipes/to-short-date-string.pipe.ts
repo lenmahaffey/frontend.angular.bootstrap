@@ -2,7 +2,8 @@ import { DatePipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'toShortDateString'
+    name: 'toShortDateString',
+    standalone: false
 })
 export class ToShortDateStringPipe extends DatePipe implements PipeTransform {
 

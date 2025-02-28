@@ -3,9 +3,10 @@ import { Subscription } from 'rxjs';
 import { AppStateService } from 'src/app/services/app-state/app-state.service';
 
 @Component({
-  selector: 'app-right-side-bar',
-  templateUrl: './right-side-bar.component.html',
-  styleUrls: ['./right-side-bar.component.scss']
+    selector: 'app-right-side-bar',
+    templateUrl: './right-side-bar.component.html',
+    styleUrls: ['./right-side-bar.component.scss'],
+    standalone: false
 })
 export class RightSideBarComponent implements OnDestroy{
 

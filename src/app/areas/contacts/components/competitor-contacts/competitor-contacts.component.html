@@ -15,7 +15,7 @@
         <div class="listItemContainer">
           <div class="flexItem ">{{c.contact! | contactName}} </div>
           <div class="flexItem title">{{c.contact!.title ?? 'No Title'}}</div>
-          <div class="flexItem title">{{ getNumber(c.contact!.contactInformationId!)  | phoneNumberToString }}</div>
+          <div class="flexItem title">{{ getNumber(c.contact!.id!)  | phoneNumberToString }}</div>
           <div class="delete" (click)="openDeleteContactDialog(c)">
             <i class="fa-solid fa-xmark fa-2xl"></i>
           </div>
@@ -42,7 +42,7 @@
     <mat-list-item class="listItem flexItem" *ngFor="let c of contacts">
       <div class="listItemContainer">
         <div class="flexItem ">{{c.competitor?.contact! | contactName}} </div>
-        <div class="flexItem title">{{ getNumber(c.competitor?.contact!.contactInformationId!)  | phoneNumberToString }}</div>
+        <div class="flexItem title">{{ getNumber(c.competitor?.contact!.id!)  | phoneNumberToString }}</div>
         <div class="delete" (click)="openDeleteContactDialog(c)">
           <i class="fa-solid fa-xmark fa-2xl"></i>
         </div>

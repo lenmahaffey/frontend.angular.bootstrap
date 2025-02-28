@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-main-layout',
-  templateUrl: './main-layout.component.html',
-  styleUrls: ['./main-layout.component.scss']
+    selector: 'app-main-layout',
+    templateUrl: './main-layout.component.html',
+    styleUrls: ['./main-layout.component.scss'],
+    standalone: false
 })
 export class MainLayoutComponent {
   envName: string

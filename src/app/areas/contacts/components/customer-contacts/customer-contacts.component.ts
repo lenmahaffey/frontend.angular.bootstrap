@@ -9,14 +9,15 @@ import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/co
 import { take } from 'rxjs';
 
 @Component({
-  selector: 'app-customer-contacts',
-  templateUrl: './customer-contacts.component.html',
-  styleUrls: ['./customer-contacts.component.scss']
+    selector: 'app-customer-contacts',
+    templateUrl: './customer-contacts.component.html',
+    styleUrls: ['./customer-contacts.component.scss'],
+    standalone: false
 })
 export class CustomerContactsComponent implements  OnChanges {
 
-  @Input() customerId: number = 0
-  @Input() contactId: number = 0
+  @Input() customerId = 0
+  @Input() contactId = 0
   @Output() update: EventEmitter<boolean> = new EventEmitter()
   contacts: CustomerContact_DTO[] = []
   numbers:PhoneNumber_DTO[] = []
@@ -43,7 +44,7 @@ export class CustomerContactsComponent implements  OnChanges {
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.text = "There was an error getting the customer contacts."
             this.appState.sendAlert(message)
           }
@@ -59,7 +60,7 @@ export class CustomerContactsComponent implements  OnChanges {
         },
         error: () =>
         {
-          let message = new Message()
+          const message = new Message()
           message.text = "There was an error getting the customer contacts."
           this.appState.sendAlert(message)
         }
@@ -70,7 +71,7 @@ export class CustomerContactsComponent implements  OnChanges {
   getPhoneNumbersForCustomers()
   {
     this.contacts.forEach(contact => {
-      this.service.GetPhoneNumbersForContact(contact.customer?.contactId!).pipe(take(1)).subscribe({
+      this.service.GetPhoneNumbersForContact(contact.customer!.contactId).pipe(take(1)).subscribe({
         next: (data) =>
         {
           if(data != undefined)
@@ -83,7 +84,7 @@ export class CustomerContactsComponent implements  OnChanges {
         },
         error: () =>
         {
-          let message = new Message()
+          const message = new Message()
           message.text = "There was an error getting the phone numbers for the customer contacts."
           this.appState.sendAlert(message)
         }
@@ -109,7 +110,7 @@ export class CustomerContactsComponent implements  OnChanges {
         },
         error: () =>
         {
-          let message = new Message()
+          const message = new Message()
           message.text = "There was an error getting the phone numbers for the customer contacts."
           this.appState.sendAlert(message)
         }
@@ -119,7 +120,7 @@ export class CustomerContactsComponent implements  OnChanges {
 
   getNumber(id: number) : PhoneNumber_DTO
   {
-    return this.numbers.find(x => x.contactInformationId == id)!
+    return this.numbers.find(x => x.contactId == id)!
   }
 
   onContactDropped(event:any)
@@ -169,7 +170,7 @@ export class CustomerContactsComponent implements  OnChanges {
 
   openDeleteContactDialog(contact: CustomerContact_DTO)
   {
-    var config = new ConfirmationDialogOptions()
+    const config = new ConfirmationDialogOptions()
     config.title = "Delete Contact?"
     config.text = `Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} as a customer contact`
     const sub = this.appState.openConfirmationDialog(config).pipe(take(1)).subscribe({

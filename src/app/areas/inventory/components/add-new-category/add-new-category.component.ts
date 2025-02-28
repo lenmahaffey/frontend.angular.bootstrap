@@ -3,9 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-add-new-category',
-  templateUrl: './add-new-category.component.html',
-  styleUrls: ['./add-new-category.component.scss']
+    selector: 'app-add-new-category',
+    templateUrl: './add-new-category.component.html',
+    styleUrls: ['./add-new-category.component.scss'],
+    standalone: false
 })
 export class AddNewCategoryComponent {
 

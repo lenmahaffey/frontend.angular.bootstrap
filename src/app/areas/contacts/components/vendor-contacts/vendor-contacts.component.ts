@@ -9,13 +9,14 @@ import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/co
 import { take } from 'rxjs';
 
 @Component({
-  selector: 'app-vendor-contacts',
-  templateUrl: './vendor-contacts.component.html',
-  styleUrls: ['./vendor-contacts.component.scss']
+    selector: 'app-vendor-contacts',
+    templateUrl: './vendor-contacts.component.html',
+    styleUrls: ['./vendor-contacts.component.scss'],
+    standalone: false
 })
 export class VendorContactsComponent implements OnChanges{
-  @Input() vendorId: number = 0
-  @Input() contactId: number = 0
+  @Input() vendorId = 0
+  @Input() contactId = 0
   @Output() update: EventEmitter<boolean> = new EventEmitter()
   contacts: VendorContact_DTO[] = []
   numbers:PhoneNumber_DTO[] = []
@@ -43,7 +44,7 @@ export class VendorContactsComponent implements OnChanges{
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.text = "There was an error getting the vendor contacts."
             this.appState.sendAlert(message);
           }
@@ -60,7 +61,7 @@ export class VendorContactsComponent implements OnChanges{
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.text = "There was an error getting the vendor contacts."
             this.appState.sendAlert(message);
           }
@@ -71,7 +72,7 @@ export class VendorContactsComponent implements OnChanges{
   getPhoneNumbersForVendors()
   {
     this.contacts.forEach(contact => {
-      this.service.GetPhoneNumbersForContact(contact.vendor?.contactId!).pipe(take(1)).subscribe(
+      this.service.GetPhoneNumbersForContact(contact.vendor!.contactId!).pipe(take(1)).subscribe(
         {
           next: (data) =>
           {
@@ -85,7 +86,7 @@ export class VendorContactsComponent implements OnChanges{
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.text = "There was an error getting the vendor contact phone numbers."
             this.appState.sendAlert(message);
           }
@@ -109,7 +110,7 @@ export class VendorContactsComponent implements OnChanges{
         },
         error: () =>
         {
-          let message = new Message()
+          const message = new Message()
           message.text = "There was an error getting the vendor contact phone numbers."
           this.appState.sendAlert(message);
         }
@@ -119,7 +120,7 @@ export class VendorContactsComponent implements OnChanges{
 
   getNumber(id: number) : PhoneNumber_DTO
   {
-    return this.numbers.find(x => x.contactInformationId == id)!
+    return this.numbers.find(x => x.contactId == id)!
   }
 
   onContactDropped(event:any)
@@ -154,7 +155,7 @@ export class VendorContactsComponent implements OnChanges{
         },
         error: () =>
         {
-          let message = new Message()
+          const message = new Message()
           message.text = "There was an error adding the contact."
           this.appState.sendAlert(message);
         }
@@ -168,7 +169,7 @@ export class VendorContactsComponent implements OnChanges{
 
   openDeleteContactDialog(contact: VendorContact_DTO)
   {
-    var config = new ConfirmationDialogOptions()
+    const config = new ConfirmationDialogOptions()
     config.title = "Delete Contact?"
     config.text = `Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} as a vendor contact?`
     this.appState.openConfirmationDialog(config).pipe(take(1)).subscribe(

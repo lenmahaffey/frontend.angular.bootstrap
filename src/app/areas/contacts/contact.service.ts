@@ -5,7 +5,7 @@ import { Constants } from 'src/app/constants';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { CompetitorContact_DTO, ContactInformation_DTO, Contact_DTO, CustomerContact_DTO, Customer_DTO, EmailAddress_DTO, ManufacturerContact_DTO, Manufacturer_DTO, PhoneNumber_DTO, PhysicalAddress_DTO, VendorContact_DTO, VenueContact_DTO } from 'src/app/shared/api/api.models';
+import { CompetitorContact_DTO, Contact_DTO, CustomerContact_DTO, Customer_DTO, EmailAddress_DTO, ManufacturerContact_DTO, Manufacturer_DTO, PhoneNumber_DTO, PhysicalAddress_DTO, VendorContact_DTO, VenueContact_DTO } from 'src/app/shared/api/api.models';
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +22,13 @@ export class ContactService {
     return this.http.get<Contact_DTO>(url, { headers: this.headers, params: params }).pipe(
       catchError(this.handleError.bind(this)))
   }
-  getContactInformation(id: number) : Observable<ContactInformation_DTO>
-  {
-    const url = `${this.apiUrl}/getcontactinformation`
-    const params = new HttpParams().set("id", id)
-    return this.http.get<ContactInformation_DTO>(url, { headers: this.headers, params: params }).pipe(
-      catchError(this.handleError.bind(this)))
-  }
+  // getContactInformation(id: number) : Observable<ContactInformation_DTO>
+  // {
+  //   const url = `${this.apiUrl}/getcontactinformation`
+  //   const params = new HttpParams().set("id", id)
+  //   return this.http.get<ContactInformation_DTO>(url, { headers: this.headers, params: params }).pipe(
+  //     catchError(this.handleError.bind(this)))
+  // }
   listAllContacts(info: boolean) : Observable<Contact_DTO[]>
   {
     const url = `${this.apiUrl}/listcontacts`

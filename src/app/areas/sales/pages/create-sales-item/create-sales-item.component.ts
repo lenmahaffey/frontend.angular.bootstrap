@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { InventoryService } from 'src/app/areas/inventory/inventory.service';
-import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_DTO, SalesItem_DTO, InventoryItem_DTO, InventorySalesItem_DTO, CreateNewInventorySalesItemViewModel } from 'src/app/shared/api/api.models';
+import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_DTO, SalesItem_DTO, InventoryItem_DTO, InventorySalesItem_DTO } from 'src/app/shared/api/api.models';
 import { SalesService } from '../../sales.service';
 import { FormControl, FormGroup } from '@angular/forms';
 
@@ -11,9 +11,10 @@ interface InventoryNode{
 }
 
 @Component({
-  selector: 'app-create-sales-item',
-  templateUrl: './create-sales-item.component.html',
-  styleUrls: ['./create-sales-item.component.scss']
+    selector: 'app-create-sales-item',
+    templateUrl: './create-sales-item.component.html',
+    styleUrls: ['./create-sales-item.component.scss'],
+    standalone: false
 })
 
 export class CreateSalesItemComponent {
@@ -91,7 +92,7 @@ export class CreateSalesItemComponent {
     }
     else
     {
-      let node = {item: item, quantity: 1, price: item.dailyRentalRate * 1}
+      const node = {item: item, quantity: 1, price: item.dailyRentalRate * 1}
       this.inventoryItems.push(node)
     }
   }
@@ -104,40 +105,40 @@ export class CreateSalesItemComponent {
 
   addOrUpdateItem()
   {
-    const model = new CreateNewInventorySalesItemViewModel()
-    model.categoryId = this.salesItemInput.get('category').value.id
-    model.typeId = this.salesItemInput.get('type').value.id
-    model.subTypeId = this.salesItemInput.get('subType').value.id
-    model.name = this.salesItemInput.get('name').value
-    model.description = this.salesItemInput.get('description').value
-    model.inventoryItemQuantities = {}
-    this.inventoryItems.forEach(x =>
-    {
-      model.inventoryItemQuantities[x.item.id.toString()] = x.quantity
-    })
-    this.addItem(model)
+    // const model = new CreateNewInventorySalesItemViewModel()
+    // model.categoryId = this.salesItemInput.get('category').value.id
+    // model.typeId = this.salesItemInput.get('type').value.id
+    // model.subTypeId = this.salesItemInput.get('subType').value.id
+    // model.name = this.salesItemInput.get('name').value
+    // model.description = this.salesItemInput.get('description').value
+    // model.inventoryItemQuantities = {}
+    // this.inventoryItems.forEach(x =>
+    // {
+    //   model.inventoryItemQuantities[x.item.id.toString()] = x.quantity
+    // })
+    // this.addItem(model)
   }
 
-  addItem(model: CreateNewInventorySalesItemViewModel)
-  {
-    const sub = this.salesService.addNewSalesItem(model).subscribe(
-    {
-      next: (data) =>
-      {
-        console.log(data)
-      }
-    })
-  }
+  // addItem(model: CreateNewInventorySalesItemViewModel)
+  // {
+  //   const sub = this.salesService.addNewSalesItem(model).subscribe(
+  //   {
+  //     next: (data) =>
+  //     {
+  //       console.log(data)
+  //     }
+  //   })
+  // }
 
-  updateItem(item: SalesItem_DTO)
-  {
+  // updateItem(item: SalesItem_DTO)
+  // {
 
-  }
+  // }
 
-  resetItem()
-  {
+  // resetItem()
+  // {
 
-  }
+  // }
 
   setTypes(category: InventoryItemCategory_DTO)
   {

@@ -12,9 +12,10 @@ import { AddNewTypeComponent } from '../add-new-type/add-new-type.component';
 import { InventorySideBarNavLinks } from '../../inventory-side-bar-links';
 
 @Component({
-  selector: 'app-view-categories',
-  templateUrl: './list-categories.component.html',
-  styleUrls: ['./list-categories.component.scss']
+    selector: 'app-view-categories',
+    templateUrl: './list-categories.component.html',
+    styleUrls: ['./list-categories.component.scss'],
+    standalone: false
 })
 export class ListCategoriesComponent {
 

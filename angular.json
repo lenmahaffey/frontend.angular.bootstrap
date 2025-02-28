@@ -10,11 +10,12 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/frontend.angular",
+            "outputPath": {
+              "base": "dist/frontend.angular"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -34,7 +35,13 @@
             "scripts": [
               "node_modules/@fortawesome/fontawesome-free/js/all.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js"
-            ]
+            ],
+            "browser": "src/main.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "."
+              ]
+            }
           },
           "configurations": {
             "production": {
@@ -59,9 +66,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -115,16 +120,16 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "MeetingManager.Frontend.Angular:build:production"
+              "buildTarget": "MeetingManager.Frontend.Angular:build:production"
             },
             "development": {
-              "browserTarget": "MeetingManager.Frontend.Angular:build:development"
+              "buildTarget": "MeetingManager.Frontend.Angular:build:development"
             },
             "qa": {
-              "browserTarget": "MeetingManager.Frontend.Angular:build:qa"
+              "buildTarget": "MeetingManager.Frontend.Angular:build:qa"
             },
             "stage": {
-              "browserTarget": "MeetingManager.Frontend.Angular:build:stage"
+              "buildTarget": "MeetingManager.Frontend.Angular:build:stage"
             }
           },
           "defaultConfiguration": "development"
@@ -132,7 +137,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "MeetingManager.Frontend.Angular:build"
+            "buildTarget": "MeetingManager.Frontend.Angular:build"
           }
         },
         "test": {
