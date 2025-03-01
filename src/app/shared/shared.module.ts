@@ -16,9 +16,11 @@ import { CurrencyFormatterPipe } from './pipes/currency-formatter.pipe';
 import { MonthNameFromDatePipe } from './pipes/month-name-from-date.pipe';
 import { StringToFormattedPhoneNumberStringPipe } from './pipes/string-to-formatted-phone-number-string.pipe';
 import { ContactNamePipe } from './pipes/contact-name.pipe';
+import { UtcToLocalPipe } from './pipes/utc-to-local.pipe';
 
 @NgModule({
   declarations: [
+    UtcToLocalPipe,
     ToShortTimeStringPipe,
     ToShortDateStringPipe,
     PhoneNumberToFormattedStringPipe,
@@ -34,6 +36,7 @@ import { ContactNamePipe } from './pipes/contact-name.pipe';
     MaterialModule
   ],
   exports:[
+    UtcToLocalPipe,
     CurrencyFormatterPipe,
     ToShortDateStringPipe,
     ToShortTimeStringPipe,
@@ -50,6 +53,7 @@ import { ContactNamePipe } from './pipes/contact-name.pipe';
     HttpClientModule
   ],
   providers:[
+    UtcToLocalPipe,
     ToShortDateStringPipe,
     ToShortTimeStringPipe,
     PhoneNumberToFormattedStringPipe,

@@ -1084,6 +1084,278 @@ export interface IVenue_DTO {
     venueContacts?: VenueContact_DTO[] | undefined;
 }
 
+export class Conference_DTO implements IConference_DTO {
+    id!: number;
+    name!: string;
+    description?: string | undefined;
+    startDate!: Date;
+    endDate!: Date;
+    conferenceVenues?: ConferenceVenue_DTO[] | undefined;
+    events?: Event_DTO[] | undefined;
+    version!: number;
+
+    constructor(data?: IConference_DTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.description = _data["description"];
+            this.startDate = _data["startDate"] ? new Date(_data["startDate"].toString()) : <any>undefined;
+            this.endDate = _data["endDate"] ? new Date(_data["endDate"].toString()) : <any>undefined;
+            if (Array.isArray(_data["conferenceVenues"])) {
+                this.conferenceVenues = [] as any;
+                for (let item of _data["conferenceVenues"])
+                    this.conferenceVenues!.push(ConferenceVenue_DTO.fromJS(item));
+            }
+            if (Array.isArray(_data["events"])) {
+                this.events = [] as any;
+                for (let item of _data["events"])
+                    this.events!.push(Event_DTO.fromJS(item));
+            }
+            this.version = _data["version"];
+        }
+    }
+
+    static fromJS(data: any): Conference_DTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new Conference_DTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+        if (Array.isArray(this.conferenceVenues)) {
+            data["conferenceVenues"] = [];
+            for (let item of this.conferenceVenues)
+                data["conferenceVenues"].push(item.toJSON());
+        }
+        if (Array.isArray(this.events)) {
+            data["events"] = [];
+            for (let item of this.events)
+                data["events"].push(item.toJSON());
+        }
+        data["version"] = this.version;
+        return data;
+    }
+}
+
+export interface IConference_DTO {
+    id: number;
+    name: string;
+    description?: string | undefined;
+    startDate: Date;
+    endDate: Date;
+    conferenceVenues?: ConferenceVenue_DTO[] | undefined;
+    events?: Event_DTO[] | undefined;
+    version: number;
+}
+
+export class ConferenceVenue_DTO implements IConferenceVenue_DTO {
+    conferenceId!: number;
+    venueId!: number;
+    conference?: Conference_DTO | undefined;
+    venue?: Venue_DTO | undefined;
+
+    constructor(data?: IConferenceVenue_DTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.conferenceId = _data["conferenceId"];
+            this.venueId = _data["venueId"];
+            this.conference = _data["conference"] ? Conference_DTO.fromJS(_data["conference"]) : <any>undefined;
+            this.venue = _data["venue"] ? Venue_DTO.fromJS(_data["venue"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ConferenceVenue_DTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConferenceVenue_DTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["conferenceId"] = this.conferenceId;
+        data["venueId"] = this.venueId;
+        data["conference"] = this.conference ? this.conference.toJSON() : <any>undefined;
+        data["venue"] = this.venue ? this.venue.toJSON() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IConferenceVenue_DTO {
+    conferenceId: number;
+    venueId: number;
+    conference?: Conference_DTO | undefined;
+    venue?: Venue_DTO | undefined;
+}
+
+export class Event_DTO implements IEvent_DTO {
+    id!: number;
+    name!: string;
+    description?: string | undefined;
+    startDate!: Date;
+    endDate!: Date;
+    conferenceId!: number;
+    roomId?: number | undefined;
+    conference?: Conference_DTO | undefined;
+    room?: Room_DTO | undefined;
+    version!: number;
+
+    constructor(data?: IEvent_DTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.description = _data["description"];
+            this.startDate = _data["startDate"] ? new Date(_data["startDate"].toString()) : <any>undefined;
+            this.endDate = _data["endDate"] ? new Date(_data["endDate"].toString()) : <any>undefined;
+            this.conferenceId = _data["conferenceId"];
+            this.roomId = _data["roomId"];
+            this.conference = _data["conference"] ? Conference_DTO.fromJS(_data["conference"]) : <any>undefined;
+            this.room = _data["room"] ? Room_DTO.fromJS(_data["room"]) : <any>undefined;
+            this.version = _data["version"];
+        }
+    }
+
+    static fromJS(data: any): Event_DTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new Event_DTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+        data["conferenceId"] = this.conferenceId;
+        data["roomId"] = this.roomId;
+        data["conference"] = this.conference ? this.conference.toJSON() : <any>undefined;
+        data["room"] = this.room ? this.room.toJSON() : <any>undefined;
+        data["version"] = this.version;
+        return data;
+    }
+}
+
+export interface IEvent_DTO {
+    id: number;
+    name: string;
+    description?: string | undefined;
+    startDate: Date;
+    endDate: Date;
+    conferenceId: number;
+    roomId?: number | undefined;
+    conference?: Conference_DTO | undefined;
+    room?: Room_DTO | undefined;
+    version: number;
+}
+
+export class Room_DTO implements IRoom_DTO {
+    id!: number;
+    name!: string;
+    description?: string | undefined;
+    maximumCapacity!: number;
+    venueId!: number;
+    venue?: Venue_DTO | undefined;
+    events?: Event_DTO[] | undefined;
+    version!: number;
+
+    constructor(data?: IRoom_DTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.description = _data["description"];
+            this.maximumCapacity = _data["maximumCapacity"];
+            this.venueId = _data["venueId"];
+            this.venue = _data["venue"] ? Venue_DTO.fromJS(_data["venue"]) : <any>undefined;
+            if (Array.isArray(_data["events"])) {
+                this.events = [] as any;
+                for (let item of _data["events"])
+                    this.events!.push(Event_DTO.fromJS(item));
+            }
+            this.version = _data["version"];
+        }
+    }
+
+    static fromJS(data: any): Room_DTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new Room_DTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["maximumCapacity"] = this.maximumCapacity;
+        data["venueId"] = this.venueId;
+        data["venue"] = this.venue ? this.venue.toJSON() : <any>undefined;
+        if (Array.isArray(this.events)) {
+            data["events"] = [];
+            for (let item of this.events)
+                data["events"].push(item.toJSON());
+        }
+        data["version"] = this.version;
+        return data;
+    }
+}
+
+export interface IRoom_DTO {
+    id: number;
+    name: string;
+    description?: string | undefined;
+    maximumCapacity: number;
+    venueId: number;
+    venue?: Venue_DTO | undefined;
+    events?: Event_DTO[] | undefined;
+    version: number;
+}
+
 export class InventoryItem_DTO implements IInventoryItem_DTO {
     id!: number;
     assetId?: string | undefined;

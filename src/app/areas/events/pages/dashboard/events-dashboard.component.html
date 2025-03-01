@@ -1,1 +1,27 @@
-<p>dashboard works!</p>
+<p *ngFor="let item of conferences">{{ item.name }}</p>
+<table mat-table [dataSource]="conferences" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let conference"> {{conference.name}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="startDate">
+      <th mat-header-cell *matHeaderCellDef> Start Date </th>
+      <td mat-cell *matCellDef="let conference"> {{conference.startDate | utcToLocal }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="endDate">
+      <th mat-header-cell *matHeaderCellDef> End Date </th>
+      <td mat-cell *matCellDef="let conference"> {{conference.endDate | utcToLocal }} </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <!-- <ng-container matColumnDef="symbol">
+      <th mat-header-cell *matHeaderCellDef> Symbol </th>
+      <td mat-cell *matCellDef="let element"> {{conferences.symbol}} </td>
+    </ng-container> -->
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
