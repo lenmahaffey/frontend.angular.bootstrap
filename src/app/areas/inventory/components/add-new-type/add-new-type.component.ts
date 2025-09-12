@@ -5,9 +5,10 @@ import { Subject } from 'rxjs';
 import { InventoryItemCategory_DTO } from 'src/app/shared/api/api.models';
 
 @Component({
-  selector: 'app-add-new-type',
-  templateUrl: './add-new-type.component.html',
-  styleUrls: ['./add-new-type.component.scss']
+    selector: 'app-add-new-type',
+    templateUrl: './add-new-type.component.html',
+    styleUrls: ['./add-new-type.component.scss'],
+    standalone: false
 })
 export class AddNewTypeComponent {
 

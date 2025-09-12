@@ -19,9 +19,10 @@ interface FlatNode {
 const TREE_DATA: TreeNode[] = [];
 
 @Component({
-  selector: 'app-category-tree',
-  templateUrl: './category-tree.component.html',
-  styleUrls: ['./category-tree.component.scss']
+    selector: 'app-category-tree',
+    templateUrl: './category-tree.component.html',
+    styleUrls: ['./category-tree.component.scss'],
+    standalone: false
 })
 export class CategoryTreeComponent {
 

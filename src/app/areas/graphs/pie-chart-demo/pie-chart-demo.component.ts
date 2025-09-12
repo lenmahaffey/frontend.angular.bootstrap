@@ -2,10 +2,11 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { PieChartData } from 'src/app/shared/d3/pie-chart/pie-chart-data.interface';
 
 @Component({
-  selector: 'app-pie-chart-demo',
-  templateUrl: './pie-chart-demo.component.html',
-  styleUrls: ['./pie-chart-demo.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-pie-chart-demo',
+    templateUrl: './pie-chart-demo.component.html',
+    styleUrls: ['./pie-chart-demo.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class PieChartDemoComponent {
   chartTitle = "Pie Chart Demo"

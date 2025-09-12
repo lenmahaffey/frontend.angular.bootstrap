@@ -1,51 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs';
+import { Component } from '@angular/core';
+import { EventsSideBarNavLinks } from '../../event-side-bar-links';
 import { AppStateService } from 'src/app/services/app-state/app-state.service';
-import { Message } from 'src/app/services/message';
-import { Conference_DTO } from 'src/app/shared/api/api.models';
 import { EventsService } from '../../events.service';
-import { Router } from '@angular/router';
+import { Conference_DTO } from 'src/app/shared/api/api.models';
+import { UtcToLocalPipe } from 'src/app/shared/pipes/utc-to-local.pipe';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './events-dashboard.component.html',
-  styleUrls: ['./events-dashboard.component.css']
+  styleUrls: ['./events-dashboard.component.css'],
+  standalone: false
 })
-export class EventsDashboardComponent implements OnInit{
-
+export class EventsDashboardComponent {
+  links: EventsSideBarNavLinks = new EventsSideBarNavLinks()
   conferences: Conference_DTO[] = []
-
-  constructor( private service: EventsService,
-    private appState: AppStateService,
-    private router: Router,) {
+  constructor(private appStateService: AppStateService,
+              private eventService: EventsService,
+              private datePipe: UtcToLocalPipe) {
+    this.appStateService.setLeftSideMenuItems(this.links)
+    this.getConferences()
   }
-  ngOnInit(): void {
-    this.listAllConferences()
-  }
-
-  listAllConferences()
-  {
-    this.appState.openSpinner("Getting Conferences")
-
-    this.service.ListAllConferences().pipe(take(1)).subscribe(
+  displayedColumns: string[] = ['name', 'startDate', 'endDate'];
+  getConferences(){
+    this.appStateService.openSpinner("Getting Conferences");
+    const sub = this.eventService.ListConferences().subscribe({
+      next: (data) =>
       {
-        next: (data) =>
-          {
-            this.conferences = data
-          },
-        error: () =>
-        {
-          this.appState.sendAlert(new Message())
-        }
-      })
-      .add(() =>
+        this.conferences = data
+      },
+      error: () =>
       {
-        this.appState.closeSpinner()
-      })
-  }
-
-  viewConferenceClicked(id: number)
-  {
-    this.router.navigate([`events/${id}`])
+        this.appStateService.closeSpinner();
+      },
+      complete: () =>
+      {
+        sub.unsubscribe();
+        this.appStateService.closeSpinner()
+      }
+    })
   }
 }

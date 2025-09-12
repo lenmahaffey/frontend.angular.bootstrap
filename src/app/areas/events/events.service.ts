@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { Constants } from 'src/app/constants';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { Conference_DTO, Contact_DTO, Venue_DTO } from 'src/app/shared/api/api.models';
+import { Conference_DTO, Venue_DTO } from 'src/app/shared/api/api.models';
 import { ServiceBase } from 'src/app/shared/serviceBase';
 
 @Injectable({
@@ -27,18 +27,10 @@ export class EventsService extends ServiceBase {
       catchError(this.handleError.bind(this)))
   }
 
-  ListAllConferences() : Observable<Conference_DTO[]>
+  ListConferences(): Observable<Conference_DTO[]>
   {
-    const url = `${this.apiUrl}/listAllConferences`
-    return this.http.get<Conference_DTO[]>(url, { headers: this.headers }).pipe(
-      catchError(this.handleError.bind(this)))
-  }
-
-  GetConference(id: number): Observable<Conference_DTO>
-  {
-    const url = `${this.apiUrl}/getConference`
-    const params = new HttpParams().set("id", id)
-    return this.http.get<Conference_DTO>(url, { headers: this.headers, params: params }).pipe(
+    const url = `${this.apiUrl}/listconferences`
+    return this.http.get<Conference_DTO[]>(url, {headers: this.headers}).pipe(
       catchError(this.handleError.bind(this)))
   }
 }

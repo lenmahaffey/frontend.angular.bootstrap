@@ -7,9 +7,10 @@ import { PhoneNumberToFormattedStringPipe } from 'src/app/shared/pipes/phone-num
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-add-phone-number',
-  templateUrl: './add-or-edit-phone-number.component.html',
-  styleUrls: ['./add-or-edit-phone-number.component.scss']
+    selector: 'app-add-phone-number',
+    templateUrl: './add-or-edit-phone-number.component.html',
+    styleUrls: ['./add-or-edit-phone-number.component.scss'],
+    standalone: false
 })
 export class AddOrEditPhoneNumberComponent {
 
@@ -34,7 +35,7 @@ export class AddOrEditPhoneNumberComponent {
     {
       dto = new PhoneNumber_DTO()
       dto.id = 0
-      dto.contactInformationId = 0
+      dto.contactId = 0
       dto.label = ""
       dto.areaCode = ""
       dto.prefix = ""
@@ -66,10 +67,10 @@ export class AddOrEditPhoneNumberComponent {
     }
     else
     {
-      let newNumber = this.stringToPhoneNumber.transform(response.number)
+      const newNumber = this.stringToPhoneNumber.transform(response.number)
       newNumber.label = this.phoneNumberInput.value.label
       newNumber.id =  this.currentNumber.id
-      newNumber.contactInformationId = this.currentNumber.contactInformationId
+      newNumber.contactId = this.currentNumber.contactId
       this.response.next(newNumber)
     }
     this.response.complete()

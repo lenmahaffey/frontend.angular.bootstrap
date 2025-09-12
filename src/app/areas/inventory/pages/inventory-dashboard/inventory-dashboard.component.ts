@@ -5,9 +5,10 @@ import { InventorySideBarNavLinks } from '../../inventory-side-bar-links';
 import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_DTO } from 'src/app/shared/api/api.models';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './inventory-dashboard.component.html',
-  styleUrls: ['./inventory-dashboard.component.scss']
+    selector: 'app-dashboard',
+    templateUrl: './inventory-dashboard.component.html',
+    styleUrls: ['./inventory-dashboard.component.scss'],
+    standalone: false
 })
 export class InventoryDashboardComponent {
 

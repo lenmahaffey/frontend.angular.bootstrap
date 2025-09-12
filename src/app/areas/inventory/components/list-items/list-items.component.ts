@@ -7,9 +7,10 @@ import { InventoryService } from '../../inventory.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-list-items',
-  templateUrl: './list-items.component.html',
-  styleUrls: ['./list-items.component.scss']
+    selector: 'app-list-items',
+    templateUrl: './list-items.component.html',
+    styleUrls: ['./list-items.component.scss'],
+    standalone: false
 })
 export class ListItemsComponent {
   columns: string[] = ['assetId', 'name'];

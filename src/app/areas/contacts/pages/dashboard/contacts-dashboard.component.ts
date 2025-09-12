@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { ListContactsComponent } from '../../components/list-contacts/list-contacts.component';
 
 @Component({
-  selector: 'app-contacts-dashboard',
-  templateUrl: './contacts-dashboard.component.html',
-  styleUrls: ['./contacts-dashboard.component.scss'],
+    selector: 'app-contacts-dashboard',
+    templateUrl: './contacts-dashboard.component.html',
+    styleUrls: ['./contacts-dashboard.component.scss'],
+    standalone: false
 })
 export class ContactsDashboardComponent implements OnInit {
   @ViewChild(ListContactsComponent) list!: ListContactsComponent

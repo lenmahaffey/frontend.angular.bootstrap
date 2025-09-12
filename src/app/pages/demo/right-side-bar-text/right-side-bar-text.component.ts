@@ -2,9 +2,10 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AppStateService } from 'src/app/services/app-state/app-state.service';
 
 @Component({
-  selector: 'app-right-side-bar-text',
-  templateUrl: './right-side-bar-text.component.html',
-  styleUrls: ['./right-side-bar-text.component.scss']
+    selector: 'app-right-side-bar-text',
+    templateUrl: './right-side-bar-text.component.html',
+    styleUrls: ['./right-side-bar-text.component.scss'],
+    standalone: false
 })
 export class RightSideBarTextComponent implements OnInit {
   @ViewChild('sideNavText', {static : true}) sideNavText : TemplateRef<any> | undefined;

@@ -8,13 +8,14 @@ import { ContactService } from '../../contact.service';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 
 @Component({
-  selector: 'app-venue-contacts',
-  templateUrl: './venue-contacts.component.html',
-  styleUrls: ['./venue-contacts.component.scss']
+    selector: 'app-venue-contacts',
+    templateUrl: './venue-contacts.component.html',
+    styleUrls: ['./venue-contacts.component.scss'],
+    standalone: false
 })
 export class VenueContactsComponent implements OnChanges{
-  @Input() venueId: number = 0
-  @Input() contactId: number = 0
+  @Input() venueId = 0
+  @Input() contactId = 0
   @Output() update: EventEmitter<boolean> = new EventEmitter()
   contacts: VenueContact_DTO[] = []
   numbers:PhoneNumber_DTO[] = []
@@ -42,7 +43,7 @@ export class VenueContactsComponent implements OnChanges{
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.type = MessageType.Error
             message.text = "There was an error getting the venue contacts."
           }
@@ -59,7 +60,7 @@ export class VenueContactsComponent implements OnChanges{
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.type = MessageType.Error
             message.text = "There was an error getting the venue contacts."
           }
@@ -70,7 +71,7 @@ export class VenueContactsComponent implements OnChanges{
   getPhoneNumbersForVenues()
   {
     this.contacts.forEach(contact => {
-      this.service.GetPhoneNumbersForContact(contact.venue?.contactId!).subscribe(
+      this.service.GetPhoneNumbersForContact(contact.venue!.contactId!).subscribe(
         {
           next: (data) =>
           {
@@ -84,7 +85,7 @@ export class VenueContactsComponent implements OnChanges{
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.type = MessageType.Error
             message.text = "There was an error getting the venue contact phone numbers."
           }
@@ -109,7 +110,7 @@ export class VenueContactsComponent implements OnChanges{
           },
           error: () =>
           {
-            let message = new Message()
+            const message = new Message()
             message.type = MessageType.Error
             message.text = "There was an error getting the venue contact phone numbers."
           }
@@ -119,7 +120,7 @@ export class VenueContactsComponent implements OnChanges{
 
   getNumber(id: number) : PhoneNumber_DTO
   {
-    return this.numbers.find(x => x.contactInformationId == id)!
+    return this.numbers.find(x => x.contactId == id)!
   }
 
   onContactDropped(event:any)
@@ -170,7 +171,7 @@ export class VenueContactsComponent implements OnChanges{
 
   openDeleteContactDialog(contact: VenueContact_DTO)
   {
-    var options = new ConfirmationDialogOptions()
+    const options = new ConfirmationDialogOptions()
     options.title = "Delete Contact?"
     options.text =`Are you sure you want to delete ${this.namePipe.transform(contact.contact!)} as a venue contact?`
     this.appState.openConfirmationDialog(options).subscribe(
@@ -184,7 +185,7 @@ export class VenueContactsComponent implements OnChanges{
         },
         error: () =>
         {
-          let message = new Message()
+          const message = new Message()
           message.type = MessageType.Error
           message.text = "There was an error deleting the contact."
         }

@@ -9,9 +9,10 @@ import { NotificationService } from 'src/app/services/notification/notification.
 import { Message } from 'src/app/services/message';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './list-users.component.html',
-  styleUrls: ['./list-users.component.scss']
+    selector: 'app-users',
+    templateUrl: './list-users.component.html',
+    styleUrls: ['./list-users.component.scss'],
+    standalone: false
 })
 
 export class ListUsersComponent {

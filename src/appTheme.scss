@@ -14,10 +14,10 @@ $green: map.get(colors.$green, 500);//#0C8346;
 $gray: map.get(colors.$gray, 500);//#424651;
 $purple: map.get(colors.$purple, 500);//#5b1144;
 
-$app-theme-primary: mat.define-palette(colors.$darkBlue, 500);
-$app-theme-accent: mat.define-palette(colors.$orange, 500);
-$app-theme-warn: mat.define-palette(mat.$red-palette, 500);
-$app-theme: mat.define-light-theme((
+$app-theme-primary: mat.m2-define-palette(colors.$darkBlue, 500);
+$app-theme-accent: mat.m2-define-palette(colors.$orange, 500);
+$app-theme-warn: mat.m2-define-palette(mat.$m2-red-palette, 500);
+$app-theme: mat.m2-define-light-theme((
   color:(
     primary: $app-theme-primary,
     accent: $app-theme-accent,

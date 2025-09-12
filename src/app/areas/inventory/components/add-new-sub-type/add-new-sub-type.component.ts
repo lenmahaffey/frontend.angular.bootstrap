@@ -5,9 +5,10 @@ import { Subject } from 'rxjs';
 import { InventoryItemType_DTO } from 'src/app/shared/api/api.models';
 
 @Component({
-  selector: 'app-add-new-sub-type',
-  templateUrl: './add-new-sub-type.component.html',
-  styleUrls: ['./add-new-sub-type.component.scss']
+    selector: 'app-add-new-sub-type',
+    templateUrl: './add-new-sub-type.component.html',
+    styleUrls: ['./add-new-sub-type.component.scss'],
+    standalone: false
 })
 export class AddNewSubTypeComponent {
 

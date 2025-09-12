@@ -9,9 +9,10 @@ import { AlertService } from 'src/app/services/alert/alert.service';
 import { InventorySideBarNavLinks } from '../../inventory-side-bar-links';
 
 @Component({
-  selector: 'app-inventory-import',
-  templateUrl: './inventory-import.component.html',
-  styleUrls: ['./inventory-import.component.scss']
+    selector: 'app-inventory-import',
+    templateUrl: './inventory-import.component.html',
+    styleUrls: ['./inventory-import.component.scss'],
+    standalone: false
 })
 export class InventoryImportComponent {
 

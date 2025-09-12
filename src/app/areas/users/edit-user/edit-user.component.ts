@@ -13,9 +13,10 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 
 @Component({
-  selector: 'app-edit-user',
-  templateUrl: './edit-user.component.html',
-  styleUrls: ['./edit-user.component.scss']
+    selector: 'app-edit-user',
+    templateUrl: './edit-user.component.html',
+    styleUrls: ['./edit-user.component.scss'],
+    standalone: false
 })
 export class EditUserComponent {
   config = new MatDialogConfig()

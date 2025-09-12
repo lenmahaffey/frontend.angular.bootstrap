@@ -10,9 +10,10 @@ import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 
 @Component({
-  selector: 'app-address-form',
-  templateUrl: './add-or-edit-physical-address.component.html',
-  styleUrls: ['./add-or-edit-physical-address.component.scss']
+    selector: 'app-address-form',
+    templateUrl: './add-or-edit-physical-address.component.html',
+    styleUrls: ['./add-or-edit-physical-address.component.scss'],
+    standalone: false
 })
 export class AddOrEditPhysicalAddressComponent implements OnChanges {
   @ViewChild('form') addressForm!: any
@@ -89,7 +90,7 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
   {
     if(this.addressFormGroup.valid && this.addressFormGroup.dirty)
     {
-      let addressUpdate = JSON.parse(JSON.stringify(this.address))
+      const addressUpdate = JSON.parse(JSON.stringify(this.address))
       addressUpdate.line1 = this.addressFormGroup.value.line1
       addressUpdate.line2 = this.addressFormGroup.value.line2
       addressUpdate.city = this.addressFormGroup.value.city
@@ -118,7 +119,7 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
     const address = this.setAddressFromInput()
     this.appState.openSpinner(`Adding new ${AddressType_DTO[address.addressType].toLowerCase()} address`)
     address.id = 0
-    address.contactInformationId = this.contact.contactInformationId!
+    address.contactId = this.contact.id
     this.service.AddPhysicalAddress(address).pipe(take(1)).subscribe(
       {
         next: (data) =>
@@ -173,7 +174,7 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
 
   openDeleteAddressDialog()
   {
-    var options = new ConfirmationDialogOptions()
+    const options = new ConfirmationDialogOptions()
     options.title = "Delete Address?"
     options.text = `Are you sure you want to delete ${this.namePipe.transform(this.contact)}'s ${AddressType_DTO[this.address.addressType].toLowerCase()} address?`
 
