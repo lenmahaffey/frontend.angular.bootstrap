@@ -1,1 +1,4 @@
-<p>dashboard works!</p>
+<div *ngFor="let conference of conferences">
+  <p (click)="viewConferenceClicked(conference.id)" class="conference">{{ conference.name }}</p>
+</div>
+<button mat-raised-button color="primary">Add New</button>
