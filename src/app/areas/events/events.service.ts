@@ -33,4 +33,11 @@ export class EventsService extends ServiceBase {
     return this.http.get<Conference_DTO[]>(url, {headers: this.headers}).pipe(
       catchError(this.handleError.bind(this)))
   }
+
+  GetConference(conferenceId: number): Observable<Conference_DTO>
+  {
+const url = `${this.apiUrl}/getconference`
+    return this.http.get<Conference_DTO>(url, {headers: this.headers}).pipe(
+      catchError(this.handleError.bind(this)))
+  }
 }

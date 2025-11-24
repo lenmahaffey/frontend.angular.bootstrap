@@ -1,67 +1,16 @@
-<div id="container">
-  <mat-accordion class="example-headers-align" multi="true">
-    <ng-container
-      *ngFor="let item of menuItems?.itemGroups"
-      [ngTemplateOutlet]="item.items.length == 1 ? singleLink : dropDown"
-      [ngTemplateOutletContext]="{ $implicit: true ? item : item }">
-    </ng-container>
-  </mat-accordion>
+<div id="leftSideBarContainer" class="row align-items-center justify-content-center me-3">
+    <div class="h-100 w-100 bg-primary text-light">
+        <div *ngFor="let group of menuItems?.itemGroups" class="sidenav mt-4">
+          <a *ngIf="group.items.length === 1; else elseBlock" href="{{ group.items[0].href }}" class="">{{ group.title }}</a>
+          <ng-template #elseBlock>
+            <button #button class="dropdown-btn" (click)="toggleDislay(button)">
+              {{ group.title }}
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+              <a *ngFor="let link of group.items" href="{{ link.href }}" class="ms-3">{{ link.text }}</a>
+            </div>
+          </ng-template>
+        </div>
+    </div>
 </div>
-
-<ng-template #singleLink let-item>
-  <mat-expansion-panel hideToggle="true" disabled="true">
-    <mat-expansion-panel-header>
-      <a class="link" href="{{item.items[0].href}}"><h4>{{ item.title }}</h4></a>
-    </mat-expansion-panel-header>
-  </mat-expansion-panel>
-</ng-template>
-
-<ng-template #dropDown let-item>
-
-  <mat-expansion-panel hideToggle="true">
-    <mat-expansion-panel-header>
-      <a class="link" href="{{item.href}}"><h4>{{ item.title}}</h4></a>
-    </mat-expansion-panel-header>
-
-    <ng-template  matExpansionPanelContent>
-      <div *ngFor="let item of item.items">
-        <a href="{{item.href}}">
-          <mat-expansion-panel hideToggle="true" disabled="true">
-              <mat-expansion-panel-header class="subLink">
-                <h5>{{ item.text }}</h5>
-              </mat-expansion-panel-header>
-          </mat-expansion-panel>
-        </a>
-      </div>
-    </ng-template>
-  </mat-expansion-panel>
-</ng-template>
-
-<!-- <div id="menu">
-  <ul>
-      <ng-container
-        *ngFor="let item of menuItems?.itemGroups"
-        [ngTemplateOutlet]="item.items.length == 1 ? singleLink : dropDown"
-        [ngTemplateOutletContext]="{ $implicit: true ? item : item }">
-      </ng-container>
-  </ul>
-</div>
-
-<ng-template #singleLink let-item>
-  <li class="">
-    <a class="link">{{ item.items[0].text }}</a>
-  </li>
-</ng-template>
-
-<ng-template #dropDown let-item>
-  <li class="">
-    <a class="link" href="#" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + item.id">{{ item.title }}</a>
-    <ul id="collapse{{item.id}}" class="collapse">
-      <div *ngFor="let item of item.items">
-        <li>
-          <a class="subLink" href="#">{{ item.text }}</a>
-        </li>
-      </div>
-    </ul>
-  </li>
-</ng-template> -->

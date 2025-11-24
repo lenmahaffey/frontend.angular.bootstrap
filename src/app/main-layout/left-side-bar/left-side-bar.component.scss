@@ -1,33 +1,83 @@
-@use "../../../appTheme.scss" as *;
-mat-expansion-panel{
-  background-color: $primary;
-  box-shadow: none !important;
+// @import '../../Styles/_theme.scss';
+
+#leftSideBarContainer{
+    height: 100%;
 }
 
-mat-expansion-panel-header:hover{
-  background-color: $accent !important;
+ul {
+    list-style-type: none;
 }
 
-#container{
-  margin-top: 20%;
+
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: var(--bs-light);
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
 }
 
-a{
-  text-decoration: none;
+/* On mouse-over */
+.sidenav a:hover, .dropdown-btn:hover {
+    color: var(--bs-accent1);
 }
 
-.link{
-  color: $white !important;
+/* Add an active class to the active dropdown button */
+.active {
+    color: var(--bs-accent1);
 }
 
-.subLink{
-  color: $white !important;
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+    display: none;
+    padding-left: 8px;
 }
 
-.link:hover{
-  color: $gray;
+.dropdown-container a{
+    font-size: 20px;
 }
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+    float: right;
+    padding-right: 8px;
+}
+// @use "/src/styles//appTheme.scss" as *;
+// mat-expansion-panel{
+//   background-color: $primary;
+//   box-shadow: none !important;
+// }
 
-.subLink:hover{
-  color: $gray;
-}
+// mat-expansion-panel-header:hover{
+//   background-color: $accent !important;
+// }
+
+// #container{
+//   margin-top: 20%;
+// }
+
+// a{
+//   text-decoration: none;
+// }
+
+// .link{
+//   color: $white !important;
+// }
+
+// .subLink{
+//   color: $white !important;
+// }
+
+// .link:hover{
+//   color: $gray;
+// }
+
+// .subLink:hover{
+//   color: $gray;
+// }

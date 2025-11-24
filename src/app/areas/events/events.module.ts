@@ -4,6 +4,7 @@ import { EventsDashboardComponent } from './pages/dashboard/events-dashboard.com
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EventsService } from './events.service';
+import { ViewEventComponent } from './pages/view-event/view-event.component';
 
 
 

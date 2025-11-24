@@ -1,5 +1,5 @@
-@use '/src/appTheme.scss' as *;
-@use '/src/color-palette.scss' as colors;
+@use '/src/styles/appTheme.scss' as *;
+@use '/src/styles/color-palette.scss' as colors;
 @use "sass:map";
 
 .contacts{

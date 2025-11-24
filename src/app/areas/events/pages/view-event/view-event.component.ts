@@ -9,7 +9,8 @@ import { Message } from 'src/app/services/message';
 @Component({
   selector: 'app-view-event',
   templateUrl: './view-event.component.html',
-  styleUrls: ['./view-event.component.css']
+  styleUrls: ['./view-event.component.css'],
+  standalone: false
 })
 export class ViewEventComponent implements OnInit {
 

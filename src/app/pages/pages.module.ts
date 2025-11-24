@@ -5,8 +5,8 @@ import { DemoComponent } from './demo/demo.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { RightSideBarTextComponent } from './demo/right-side-bar-text/right-side-bar-text.component';
-import { ColorSwatchesComponent } from './demo/color-swatches/color-swatches.component';
-import { SwatchComponent } from './demo/color-swatches/swatch/swatch.component';
+import { SwatchComponent } from './demo/swatch/swatch.component';
+import { ServicesModule } from "src/app/services/services.module";
 
 
 
@@ -16,15 +16,15 @@ import { SwatchComponent } from './demo/color-swatches/swatch/swatch.component';
     PageNotFoundComponent,
     DemoComponent,
     RightSideBarTextComponent,
-    ColorSwatchesComponent,
     SwatchComponent,
   ],
   imports: [
     SharedModule,
     RouterModule.forRoot([
-      { path: 'welcome', component: WelcomeComponent },
-      { path: 'demo', component: DemoComponent },
+        { path: 'welcome', component: WelcomeComponent },
+        { path: 'demo', component: DemoComponent },
     ]),
-  ]
+    ServicesModule
+]
 })
 export class PagesModule { }

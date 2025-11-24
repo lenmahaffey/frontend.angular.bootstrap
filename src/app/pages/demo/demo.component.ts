@@ -34,7 +34,7 @@ export class DemoComponent implements OnDestroy, OnInit {
 
     let temp: any[] = Object.values(this.types).filter(f => !isNaN(Number(f)));
     temp.forEach(key =>{
-      this.keys.push(parseInt(key))
+      this.keys.push(this.types[key])
     })
 
     this.alertMessageFormData = new FormGroup({

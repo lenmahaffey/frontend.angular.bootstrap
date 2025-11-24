@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AppStateService } from 'src/app/services/app-state/app-state.service';
+import { MenuItems } from 'src/app/shared/menu-items';
 
 @Component({
     selector: 'app-left-side-bar',
@@ -11,15 +12,27 @@ import { AppStateService } from 'src/app/services/app-state/app-state.service';
 export class LeftSideBarComponent implements OnDestroy{
 
   appStateSubscription: Subscription
-  menuItems: any
+  menuItems?: MenuItems
 
   constructor(private appStateService: AppStateService)
   {
     this. appStateSubscription = this.appStateService.leftSideNavMenuItems.subscribe(data => {
       this.menuItems = data
+      console.log(this.menuItems)
     })
   }
   ngOnDestroy(): void {
     this.appStateSubscription.unsubscribe;
+  }
+
+  toggleDislay(e: HTMLElement){
+    if(e.classList.contains('active')){
+      e.classList.remove('active');
+      (e.nextElementSibling as HTMLElement).style.display = "none"
+    }
+    else{
+      e.classList.add('active');
+      (e.nextElementSibling as HTMLElement).style.display = "block"
+    }
   }
 }

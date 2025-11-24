@@ -1,28 +1,28 @@
 <div id="envBorder" [ngClass]="getEnvironmentBorderName()">
   <div *ngIf="(envName !== 'production')" class="text-center borderText ">{{envName}}  </div>
 </div>
-<div id="flexContainer">
-  <div id="headerContainer">
+<div id="mainContainer" class="vh-100">
+  <div id="headerContainer" class="">
     <app-header></app-header>
   </div>
-  <mat-sidenav-container  id="centerContainer">
-    <div id="alertsContainer">
+    <div id="alertsContainer" class="bg-danger">
       <app-alert-manager></app-alert-manager>
     </div>
-    <mat-sidenav id="leftSideBarContainer" opened mode="side" color="primary">
-      <app-left-side-bar></app-left-side-bar>
-    </mat-sidenav>
-    <mat-sidenav id="rightSideBarContainer" closed mode="side" position="end">
-      <app-right-side-bar></app-right-side-bar>
-    </mat-sidenav>
-      <div id="mainBodyContainer">
-        <router-outlet></router-outlet>
-      </div>
-  </mat-sidenav-container>
   <div id="notificationsContainer">
       <app-notification-manager></app-notification-manager>
   </div>
-  <div id="footerContainer">
+  <div id="centerContainer" class="">
+    <div id="leftContainer" class="">
+      <app-left-side-bar></app-left-side-bar>
+    </div>
+    <div id="bodyContainer" class="">
+        <router-outlet></router-outlet>
+    </div>
+    <div id="rightContainer" class="">
+      <app-right-side-bar></app-right-side-bar>
+    </div>
+</div>
+  <div id="footerContainer" class="">
     <app-footer></app-footer>
   </div>
 </div>

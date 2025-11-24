@@ -1,111 +1,167 @@
-<div id="container">
-  <h1>Component demo</h1>
-  <div id="components">
-    <div id="dialogs" class="componentContainer">
-      <mat-card class="demoContainer">
-          <div id="confimation">
-            <div>{{ confirmationResponseMessage }}</div>
-            <button mat-raised-button
-              color="primary"
-              #tooltip="matTooltip"
-              matTooltip="Click here to open a confimation dialog"
-              [matTooltipPosition]="'right'"
-              aria-label="Click here to open a confimation dialog"
-              (click)="openConfirmationDialog()">
-              Open Confirmation Demo
-            </button>
+<div class="border border-2 border-black ms-2 me-2 mt-4 card">
+    <div class="h1 text-center">Component Demo</div>
+    <div class="card-body row">
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-body">
+            <form class="h-100">
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" id="spinnerText"/>
+                  <div class="form-text">Message to display</div>
+                </div>
+              </div>
+              <div class="row mt-1">
+                <div class="col">
+                  <input type="number" class="form-control" id="displayTime"/>
+                  <div class="form-text">Display Time</div>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" id="countDownTime"/>
+                    <div class="form-text">Countdown Time</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col text-center">
+                  <button type="submit" class="btn btn-primary">Open Spinner</button>
+                </div>
+              </div>
+            </form>
           </div>
-          <mat-divider></mat-divider>
-          <div id="spinner">
-            <button mat-raised-button
-              color="primary"
-              #tooltip="matTooltip"
-              matTooltip="Click here to open a spinner dialog"
-              [matTooltipPosition]="'right'"
-              aria-label="Click here to open a spinner dialog"
-              (click)="openSpinner()">
-              Open Spinner Demo
-            </button>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-body">
+            <form>
+              <div>
+                <input type="text" class="form-control" id="confirmationTitle"/>
+                <div class="form-text">Title</div>
+              </div>
+              <div>
+                <input type="text" class="form-control" id="confirmationText"/>
+                <div class="form-text">Text</div>
+              </div>
+              <div class="row mt-1">
+                <div class="col">
+                  <input type="text" class="form-control" id="okText"/>
+                  <div class="form-text">Ok text</div>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" id="cancelText"/>
+                    <div class="form-text">Cancel text</div>
+                </div>
+              </div>
+              <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary">Open Confirmation</button>
+              </div>
+            </form>
           </div>
-      </mat-card>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-body">
+            <form>
+              <div>
+                <select class="form-select" id="notificationType">
+                  <option *ngFor="let t of keys">{{ t }}</option>
+                </select>
+                <div class="form-text">Type</div>
+              </div>
+              <div>
+                <input type="text" class="form-control" id="spinnerText"/>
+                <div class="form-text">Text</div>
+              </div>
+              <div class="row mt-1">
+                <div class="col">
+                  <input type="text" class="form-control" id="spinnerText"/>
+                  <div class="form-text">Ok text</div>
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" id="spinnerText"/>
+                  <div class="form-text">Cancel text</div>
+                </div>
+              </div>
+              <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary">Open Alert</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-body">
+            <form>
+              <div>
+                <div>
+                  <select class="form-select" id="alertType">
+                    <option *ngFor="let t of keys">{{ t }}</option>
+                  </select>
+                  <div class="form-text">Type</div>
+                </div>
+                <div>
+                  <input type="text" class="form-control" id="alertText"/>
+                  <div class="form-text">Message to display</div>
+                </div>
+                <div class="row mt-1">
+                  <div class="col">
+                    <div class="form-check form-switch">
+                      <input type="checkbox" class="form-check-input" id="alertDismiss"/>
+                      <div class="form-text">Auto-dismiss</div>
+                    </div>
+                  </div>
+                  <div class="col">
+                      <input type="number" class="form-control" id="alertDisplay"/>
+                      <div class="form-text">Display Time</div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary">Open Spinner</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="notification"  class="componentContainer">
-      <mat-card class="demoContainer">
-        <form [formGroup]="notificationMessageFormData" (ngSubmit)="sendNotification()">
-          <div>
-            <mat-form-field>
-              <mat-label>Type</mat-label>
-              <mat-select id="type" name="type" formControlName="type">
-                <mat-option *ngFor="let n of keys" [value]="n">{{ types[n] }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field>
-              <mat-label>Title</mat-label>
-              <input matInput type="text" id="title" formControlName="title" value="{{notificationMessageFormData.title}}">
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field>
-              <mat-label>Text</mat-label>
-              <input matInput type="text" id="text" formControlName="text" value="{{notificationMessageFormData.text}}"/>
-            </mat-form-field>
-          </div>
-          <div>
-            <button
-              mat-raised-button
-              color="primary"
-              type="submit"
-              #tooltip="matTooltip"
-              matTooltip="Click here to open a new notification"
-              [matTooltipPosition]="'right'"
-              aria-label="Click here to open a new notification">
-              Open Notification Demo
-            </button>
-          </div>
-        </form>
-      </mat-card>
+</div>
+<hr />
+<div class="card border border-2 border-black me-2 ms-2">
+  <div class="card-body">
+    <div class="h2 text-center">Palette</div>
+    <div class="row ms-0">
+      <div class="col">
+        <app-swach [Name]="'Dark'" [BackgroundClass]="'dark'"></app-swach>
+      </div>
+      <div class="col">
+        <app-swach [Name]="'Light'"[BackgroundClass]="'light'"></app-swach>
+      </div>
+      <div class="col">
+        <app-swach [Name]="'Primary'" [BackgroundClass]="'primary'"></app-swach>
+      </div>
+      <div class="col">
+        <app-swach [Name]="'Secondary'" [BackgroundClass]="'secondary'"></app-swach>
+      </div>
+      <div class="col">
+        <app-swach [Name]="'Accent1'" [BackgroundClass]="'accent1'"></app-swach>
+      </div>
+      <div class="col">
+        <app-swach [Name]="'Accent2'" [BackgroundClass]="'accent2'"></app-swach>
+      </div>
+      <div class="col">
+        <app-swach [Name]="'Success'" [BackgroundClass]="'success'"></app-swach>
+      </div>
+      <div class="col">
+        <app-swach [Name]="'Warning'" [BackgroundClass]="'warning'"></app-swach>
+      </div>
+      <div class="col">
+        <app-swach [Name]="'Danger'" [BackgroundClass]="'danger'"></app-swach>
+      </div>
+      <div class="col">
+        <app-swach [Name]="'Info'" [BackgroundClass]="'info'"></app-swach>
+      </div>
     </div>
-    <div id="alert" class="componentContainer">
-      <mat-card class="demoContainer">
-        <form [formGroup]="alertMessageFormData" (ngSubmit)="sendAlert()">
-          <div>
-            <mat-form-field>
-              <mat-label>Type</mat-label>
-              <mat-select id="type" name="type" formControlName="type">
-                <mat-option *ngFor="let n of keys" [value]="n">{{ types[n] }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div>
-          <mat-form-field>
-              <mat-label>Text</mat-label>
-              <input matInput type="text" id="text" formControlName="text" value="{{alertMessageFormData.text}}"/>
-            </mat-form-field>
-          </div>
-          <div id="dismissRow">
-              <mat-slide-toggle (change)="toggleDuration()" type="checkbox" id="dismiss" name="dismiss" formControlName="dismiss">Autodismiss:</mat-slide-toggle>
-              <mat-form-field>
-                <mat-label>Display Time (in seconds)</mat-label>
-                <input matInput type="text" id="text" formControlName="duration" value="{{ alertMessageFormData.duration }}"/>
-              </mat-form-field>
-          </div>
-          <button mat-raised-button
-            color="primary"
-            type="submit"
-            #tooltip="matTooltip"
-            matTooltip="Click here to open a new alert"
-            [matTooltipPosition]="'right'"
-            aria-label="Click here to open a new alert">
-            Open Alert Demo
-          </button>
-        </form>
-      </mat-card>
-    </div>
-  </div>
-  <mat-divider></mat-divider>
-  <div id="colors">
-    <app-color-swatches></app-color-swatches>
   </div>
 </div>

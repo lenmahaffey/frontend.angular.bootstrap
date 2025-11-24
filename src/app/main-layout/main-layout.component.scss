@@ -1,54 +1,45 @@
-@use '../../appTheme.scss' as *;
-
-#flexContainer{
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+// @use 'src/styles/appTheme.scss' as *;
+#mainContainer {
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
-#headerContainer{
-  box-shadow: 0px 0px 25px black;
+#headerContainer {
+    height: 7%;
 }
 
-#centerContainer{
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  box-shadow: 0px 0px 5px black;
-  // background-color: rosybrown;
+#centerContainer {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    overflow: hidden;
 }
 
-#leftSideBarContainer{
-  width: 12.5%;
-  background-color: $primary;
-  box-shadow: 0px 0px 25px black;
-  // background-color: crimson;
+#footerContainer {
+    height: 7%;
 }
 
-#mainBodyContainer{
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
-  // background-color: mediumpurple;
+#leftContainer {
+    flex: 1;
 }
 
-#rightSideBarContainer{
-  width: 15%;
-  background-color: $white;
-  // background-color: slateblue;
+#bodyContainer {
+    flex: 5;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
-#footerContainer{
-  box-shadow: 10px 10px 25px black;
-  // background-color: cadetblue;
+#rightContainer {
+    flex: 1;
 }
-
 #notificationsContainer{
   z-index: 1000;
   position: fixed;
   right: 0;
   bottom: 7%;
-  height: 88%;
+  height: 86%;
   width: 25%;
   pointer-events: none;
   // background-color: cadetblue;
@@ -60,9 +51,8 @@
   width: 85%;
   top: 7%;
   pointer-events: none;
-  //background-color: rgb(95, 160, 117);
+  background-color: rgb(95, 160, 117);
 }
-
 .borderText{
   margin-top: -23px;
   text-align: center;
