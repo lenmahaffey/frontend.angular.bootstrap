@@ -1,5 +1,7 @@
-  <div class="me-2 row align-content-center text-center colorSwatch bg-{{ Name.toLowerCase() }}">
-    <p class="text-light text-center fw-bolder {{ Name.toLowerCase() === 'light' ? 'text-dark' : 'text-light' }}">{{ Name.toLowerCase() }}</p>
-    <p class="text-light text-center fw-bolder {{ Name.toLowerCase() === 'light' ? 'text-dark' : 'text-light' }}">{{ rgbString.replace(" ", "") }}</p>
-    <p class="text-light text-center fw-bolder {{ Name.toLowerCase() === 'light' ? 'text-dark' : 'text-light' }}">{{ hexString }}</p>
+  <div class="me-1 row align-content-center text-center colorSwatch bg-{{ Name.toLowerCase() }}">
+    <div class="{{ Name.toLowerCase() === 'light' ? 'text-dark' : 'text-light' }}">
+      <p class="text-center">{{ Name | titlecase }}</p>
+      <p class="text-center">{{ rgbString.replace(" ", "") }}</p>
+      <p class="text-center">{{ hexString }}</p>
+    </div>
   </div>

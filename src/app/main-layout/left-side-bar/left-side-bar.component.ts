@@ -18,7 +18,6 @@ export class LeftSideBarComponent implements OnDestroy{
   {
     this. appStateSubscription = this.appStateService.leftSideNavMenuItems.subscribe(data => {
       this.menuItems = data
-      console.log(this.menuItems)
     })
   }
   ngOnDestroy(): void {

@@ -4,7 +4,7 @@
       <div class="col">
         <div class="card h-100">
           <div class="card-body">
-            <form class="h-100">
+            <form class="h-100 d-flex flex-column">
               <div class="row">
                 <div class="col">
                   <input type="text" class="form-control" id="spinnerText"/>
@@ -21,8 +21,8 @@
                     <div class="form-text">Countdown Time</div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col text-center">
+              <div class="row mt-auto">
+                <div class="col text-center mt-2">
                   <button type="submit" class="btn btn-primary">Open Spinner</button>
                 </div>
               </div>
@@ -33,7 +33,7 @@
       <div class="col">
         <div class="card h-100">
           <div class="card-body">
-            <form>
+            <form class="h-100 d-flex flex-column">
               <div>
                 <input type="text" class="form-control" id="confirmationTitle"/>
                 <div class="form-text">Title</div>
@@ -52,8 +52,10 @@
                     <div class="form-text">Cancel text</div>
                 </div>
               </div>
-              <div class="text-center mt-3">
-                <button type="submit" class="btn btn-primary">Open Confirmation</button>
+              <div class="row mt-auto">
+                <div class="col text-center mt-2">
+                  <button type="submit" class="btn btn-primary">Open Confirmation</button>
+                </div>
               </div>
             </form>
           </div>
@@ -62,7 +64,7 @@
       <div class="col">
         <div class="card h-100">
           <div class="card-body">
-            <form>
+            <form class="d-flex flex-column h-100">
               <div>
                 <select class="form-select" id="notificationType">
                   <option *ngFor="let t of keys">{{ t }}</option>
@@ -83,8 +85,10 @@
                   <div class="form-text">Cancel text</div>
                 </div>
               </div>
-              <div class="text-center mt-3">
-                <button type="submit" class="btn btn-primary">Open Alert</button>
+              <div class="row mt-auto">
+                <div class="col text-center">
+                  <button type="submit" class="btn btn-primary">Open Alert</button>
+                </div>
               </div>
             </form>
           </div>
@@ -93,7 +97,7 @@
       <div class="col">
         <div class="card h-100">
           <div class="card-body">
-            <form>
+            <form class="d-flex flex-column h-100">
               <div>
                 <div>
                   <select class="form-select" id="alertType">
@@ -118,8 +122,10 @@
                   </div>
                 </div>
               </div>
-              <div class="text-center mt-3">
-                <button type="submit" class="btn btn-primary">Open Spinner</button>
+              <div class="row mt-auto">
+                <div class="col text-center">
+                  <button type="submit" class="btn btn-primary">Open Notification</button>
+                </div>
               </div>
             </form>
           </div>
@@ -130,8 +136,8 @@
 <hr />
 <div class="card border border-2 border-black me-2 ms-2">
   <div class="card-body">
-    <div class="h2 text-center">Palette</div>
-    <div class="row ms-0">
+    <div class="h1 mb-2 text-center">Palette</div>
+    <div class="row ms-0 mt-2">
       <div class="col">
         <app-swach [Name]="'Dark'" [BackgroundClass]="'dark'"></app-swach>
       </div>
