@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<!-- <mat-toolbar color="primary">
   <a id="logo" href="/">Meeting <br> Manager</a>
   <ng-container
     *ngFor="let item of links.links.itemGroups"
@@ -30,4 +30,30 @@
       </a>
     </div>
   </mat-menu>
-</ng-template>
+</ng-template> -->
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <div *ngFor="let group of links.links.itemGroups">
+                <li *ngIf="group.items.length === 1; else multi" class="nav-item">
+                    <a class="nav-link active" href="{{ group.items[0].href }}">{{ group.title }}</a>
+                </li>
+                <ng-template #multi>
+                  <li class="nav-item dropdown">
+                      <div class="dropdown show">
+                          <a class="nav-link " href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              {{ group }}
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a *ngFor="let link of group.items" class="dropdown-item text-dark" href="">{{ link.text }}</a>
+                          </div>
+                      </div>
+                  </li>
+                </ng-template>
+              </div>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -13,6 +13,7 @@ export class RightSideBarComponent implements OnDestroy{
   appStateSubscription: Subscription
   sideBarTemplate: any
   animation: string = "hidden"
+  isActive: boolean = false
 
   constructor(private _appStateService: AppStateService) {
     this.appStateSubscription = this._appStateService.rightSideText.subscribe(data =>
@@ -26,6 +27,7 @@ export class RightSideBarComponent implements OnDestroy{
 
   toggleVisibility()
   {
-    this.animation =  (this.animation == "showContainer") ? "hideContainer" : "showContainer"
+    this.isActive = !this.isActive
+    // this.animation =  (this.animation == "showContainer") ? "hideContainer" : "showContainer"
   }
 }

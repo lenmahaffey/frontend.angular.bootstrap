@@ -9,4 +9,11 @@ import { HeaderNavLinks } from 'src/app/header-nav-links';
 })
 export class HeaderComponent {
   links: HeaderNavLinks = new HeaderNavLinks()
+
+  /**
+   *
+   */
+  constructor() {
+    console.log(this.links)
+  }
 }

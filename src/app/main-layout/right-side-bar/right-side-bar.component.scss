@@ -1,51 +1,57 @@
-@keyframes show{
-  0%{
-    transform: translateX(90%);
-  }
-  100%{
-    transform: translateX(0);
-  }
+// @keyframes show{
+//   0%{
+//     transform: translateX(90%);
+//   }
+//   100%{
+//     transform: translateX(0);
+//   }
+// }
+
+// @keyframes hide{
+//   0%{
+//     transform: translateX(0);
+//   }
+//   100%{
+//     transform: translateX(90%);
+//   }
+// }
+
+// .hidden{
+//   animation: hide 0s ease-out 0s 1;
+//   animation-fill-mode: forwards;
+// }
+
+// .hideContainer{
+//   animation: hide .75s ease-out 0s 1;
+//   animation-fill-mode: forwards;
+// }
+
+// .showContainer {
+//   animation: show .75s ease-out 0s 1;
+//     animation-fill-mode: forwards;
+// }
+
+#sideBarContainer {
+    height: 100%;
+    transform: translateX(262px);
+    opacity: 1;
+    transition: transform .5s, opacity .5s;
 }
 
-@keyframes hide{
-  0%{
-    transform: translateX(0);
-  }
-  100%{
-    transform: translateX(90%);
-  }
+#sideBarContainer.active {
+    transform: translateX(-10px);
+    opacity: 1;
 }
 
-.hidden{
-  animation: hide 0s ease-out 0s 1;
-  animation-fill-mode: forwards;
+#rightSideBar {
+    height: 90%;
+    border-radius: 5px;
 }
 
-.hideContainer{
-  animation: hide .75s ease-out 0s 1;
-  animation-fill-mode: forwards;
-}
-
-.showContainer {
-  animation: show .75s ease-out 0s 1;
-    animation-fill-mode: forwards;
-}
-
-#container{
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  // background-color: hotpink;
-}
-
-#rightSideBar{
-  height: 85%;
-  width: 100%;
-  overflow-y: auto;
-  // background-color: aqua;
-}
-#toggleButton{
-  transform: translateY(100);
+#toggleButton {
+    cursor: pointer;
+    margin: -10px;
+    display: inline-block;
+    border-radius: 100%;
+    opacity: 1;
 }

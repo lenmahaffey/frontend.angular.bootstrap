@@ -1,11 +1,8 @@
 @use '/src/styles/appTheme.scss' as *;
 
-a{
-  color: $white;
-}
- .linkText{
-  font-size: x-large;
-  font-weight: bold;
+nav {
+    font-size: 25px;
+    box-shadow: 0px 3px 5px 1px;
 }
  #logo{
   padding-left: .5%;
