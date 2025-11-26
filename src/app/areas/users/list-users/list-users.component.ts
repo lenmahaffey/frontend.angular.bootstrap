@@ -7,6 +7,7 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { Message } from 'src/app/services/message';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
     selector: 'app-users',
@@ -25,7 +26,7 @@ export class ListUsersComponent {
               private appStateService: AppStateService,
               private notificationService: NotificationService)
   {
-    appStateService.openSpinner("Getting Users")
+    appStateService.openSpinner(new SpinnerOptions("Getting Users"))
     this.api.ListAllUsers().subscribe({
       next: (data) =>
       {

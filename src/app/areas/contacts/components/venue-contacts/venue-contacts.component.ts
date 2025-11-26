@@ -6,6 +6,7 @@ import { VenueContact_DTO, PhoneNumber_DTO } from 'src/app/shared/api/api.models
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { ContactService } from '../../contact.service';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
     selector: 'app-venue-contacts',
@@ -142,7 +143,7 @@ export class VenueContactsComponent implements OnChanges{
       return
     }
 
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} as a venue contact`)
+    this.appState.openSpinner(new SpinnerOptions(`Adding ${this.namePipe.transform(event.item.data)} as a venue contact`))
     if(this.venueId > 0)
     {
     this.service.AddVenueContact(this.venueId, contact.id).subscribe(
@@ -194,7 +195,7 @@ export class VenueContactsComponent implements OnChanges{
 
   deleteContact(contact: VenueContact_DTO)
   {
-    this.appState.openSpinner(`Deleteing ${this.namePipe.transform(contact.contact!)} as a venue contact`)
+    this.appState.openSpinner(new SpinnerOptions(`Deleteing ${this.namePipe.transform(contact.contact!)} as a venue contact`))
     this.service.DeleteVenueContact(contact).subscribe(
       {
         next: () =>

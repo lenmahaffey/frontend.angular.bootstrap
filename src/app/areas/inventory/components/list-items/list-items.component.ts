@@ -5,6 +5,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
 import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_DTO, InventoryItem_DTO } from 'src/app/shared/api/api.models';
 import { InventoryService } from '../../inventory.service';
 import { MatDialogConfig } from '@angular/material/dialog';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
     selector: 'app-list-items',
@@ -74,7 +75,7 @@ export class ListItemsComponent {
 
   getInventoryItems()
   {
-    this.appStateService.openSpinner("Getting Inventory");
+    this.appStateService.openSpinner(new SpinnerOptions("Getting Inventory"));
     const sub = this.api.ListInventoryItems(this.category, undefined, this.subType).subscribe({
       next: (data) =>
       {

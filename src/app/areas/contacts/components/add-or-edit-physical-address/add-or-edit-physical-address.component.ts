@@ -8,6 +8,7 @@ import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
     selector: 'app-address-form',
@@ -117,7 +118,7 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
   addPhysicalAddress()
   {
     const address = this.setAddressFromInput()
-    this.appState.openSpinner(`Adding new ${AddressType_DTO[address.addressType].toLowerCase()} address`)
+    this.appState.openSpinner(new SpinnerOptions(`Adding new ${AddressType_DTO[address.addressType].toLowerCase()} address`))
     address.id = 0
     address.contactId = this.contact.id
     this.service.AddPhysicalAddress(address).pipe(take(1)).subscribe(
@@ -147,7 +148,7 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
   updatePhysicalAddress()
   {
     const address = this.setAddressFromInput()
-    this.appState.openSpinner(`Updating ${AddressType_DTO[address.addressType].toLowerCase()} address`)
+    this.appState.openSpinner(new SpinnerOptions(`Updating ${AddressType_DTO[address.addressType].toLowerCase()} address`))
     this.service.UpdatePhysicalAddress(address).pipe(take(1)).subscribe(
       {
         next: (data) =>
@@ -189,7 +190,7 @@ export class AddOrEditPhysicalAddressComponent implements OnChanges {
 
   deletePhysicalAddress()
   {
-    this.appState.openSpinner(`Deleting ${AddressType_DTO[this.address.addressType].toLowerCase()} address`)
+    this.appState.openSpinner(new SpinnerOptions(`Deleting ${AddressType_DTO[this.address.addressType].toLowerCase()} address`))
     this.service.DeletePhysicalAddress(this.address).pipe(take(1)).subscribe(
       {
         next: () =>

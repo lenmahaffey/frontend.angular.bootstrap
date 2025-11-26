@@ -11,6 +11,7 @@ import { MessageType } from 'src/app/services/message-type.interface';
 import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
     selector: 'app-edit-user',
@@ -75,7 +76,7 @@ export class EditUserComponent {
     this.id = Number(this.route.snapshot.paramMap.get('id')) || 0;
     if(this.id != 0)
     {
-      this.appStateService.openSpinner("Fetching User Data",);
+      this.appStateService.openSpinner(new SpinnerOptions("Fetching User Data"));
       this.api.getUser(this.id).subscribe(
         {
           next: (data) =>
@@ -197,7 +198,7 @@ export class EditUserComponent {
 
   updateUser()
   {
-    this.appStateService.openSpinner("Updating Profile")
+    this.appStateService.openSpinner(new SpinnerOptions("Updating Profile"))
     let userUpdate = this.user
 
     this.updateUserWithNameFormValues(userUpdate)

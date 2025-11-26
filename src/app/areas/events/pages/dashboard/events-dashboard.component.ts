@@ -4,6 +4,7 @@ import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { EventsService } from '../../events.service';
 import { Conference_DTO } from 'src/app/shared/api/api.models';
 import { UtcToLocalPipe } from 'src/app/shared/pipes/utc-to-local.pipe';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,7 +23,7 @@ export class EventsDashboardComponent {
   }
   displayedColumns: string[] = ['name', 'startDate', 'endDate'];
   getConferences(){
-    this.appStateService.openSpinner("Getting Conferences");
+    this.appStateService.openSpinner(new SpinnerOptions("Getting Conferences"));
     const sub = this.eventService.ListConferences().subscribe({
       next: (data) =>
       {

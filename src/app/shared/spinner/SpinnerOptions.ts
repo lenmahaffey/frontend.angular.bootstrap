@@ -1,11 +1,13 @@
-export class SpinnerOptions
-{
-  title: string
+export interface SpinnerOptions{
   message: string
+  disableClose: boolean
+}
 
-  constructor(title: "", message: "")
+export class SpinnerOptions implements SpinnerOptions
+{
+  constructor(message: string = "Spinning the spinner", disableClose: boolean = false)
   {
-    this.title = title
     this.message = message
+    this.disableClose = disableClose
   }
 }

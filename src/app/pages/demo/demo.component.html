@@ -2,69 +2,15 @@
     <div class="h1 text-center">Component Demo</div>
     <div class="card-body row">
       <div class="col">
-        <div class="card h-100">
-          <div class="card-body">
-            <form class="h-100 d-flex flex-column">
-              <div class="row">
-                <div class="col">
-                  <input type="text" class="form-control" id="spinnerText"/>
-                  <div class="form-text">Message to display</div>
-                </div>
-              </div>
-              <div class="row mt-1">
-                <div class="col">
-                  <input type="number" class="form-control" id="displayTime"/>
-                  <div class="form-text">Display Time</div>
-                </div>
-                <div class="col">
-                    <input type="number" class="form-control" id="countDownTime"/>
-                    <div class="form-text">Countdown Time</div>
-                </div>
-              </div>
-              <div class="row mt-auto">
-                <div class="col text-center mt-2">
-                  <button type="submit" class="btn btn-primary">Open Spinner</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
+        <app-spinner-demo></app-spinner-demo>
+      </div>
+      <div class="col">
+        <app-confirmation-demo></app-confirmation-demo>
       </div>
       <div class="col">
         <div class="card h-100">
           <div class="card-body">
-            <form class="h-100 d-flex flex-column">
-              <div>
-                <input type="text" class="form-control" id="confirmationTitle"/>
-                <div class="form-text">Title</div>
-              </div>
-              <div>
-                <input type="text" class="form-control" id="confirmationText"/>
-                <div class="form-text">Text</div>
-              </div>
-              <div class="row mt-1">
-                <div class="col">
-                  <input type="text" class="form-control" id="okText"/>
-                  <div class="form-text">Ok text</div>
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" id="cancelText"/>
-                    <div class="form-text">Cancel text</div>
-                </div>
-              </div>
-              <div class="row mt-auto">
-                <div class="col text-center mt-2">
-                  <button type="submit" class="btn btn-primary">Open Confirmation</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-body">
-            <form class="d-flex flex-column h-100">
+            <form #notification class="d-flex flex-column h-100">
               <div>
                 <select class="form-select" id="notificationType">
                   <option *ngFor="let t of keys">{{ t }}</option>
@@ -87,7 +33,7 @@
               </div>
               <div class="row mt-auto">
                 <div class="col text-center">
-                  <button type="submit" class="btn btn-primary">Open Alert</button>
+                  <button (click)="sendNotification()" type="submit" class="btn btn-primary">Open Notification</button>
                 </div>
               </div>
             </form>
@@ -97,7 +43,7 @@
       <div class="col">
         <div class="card h-100">
           <div class="card-body">
-            <form class="d-flex flex-column h-100">
+            <form #alert class="d-flex flex-column h-100">
               <div>
                 <div>
                   <select class="form-select" id="alertType">
@@ -124,7 +70,7 @@
               </div>
               <div class="row mt-auto">
                 <div class="col text-center">
-                  <button type="submit" class="btn btn-primary">Open Notification</button>
+                  <button (click)="sendAlert()" type="submit" class="btn btn-primary">Open Alert</button>
                 </div>
               </div>
             </form>

@@ -10,6 +10,7 @@ import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 import { take } from 'rxjs';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
     selector: 'app-view-contact',
@@ -51,7 +52,7 @@ export class ViewContactComponent implements OnChanges {
   {
     if(withSpinner)
     {
-      this.appState.openSpinner();
+      this.appState.openSpinner(new SpinnerOptions("Getting Contact"));
     }
     this.service.getContact(this.contactInputId, true)
       .pipe(take(1))
@@ -140,7 +141,7 @@ export class ViewContactComponent implements OnChanges {
 
   addPhoneNumber(number: PhoneNumber_DTO)
   {
-    this.appState.openSpinner("Adding phone number")
+    this.appState.openSpinner(new SpinnerOptions("Adding phone number"))
     number.contactId = this.contact?.id
     this.service.AddPhoneNumber(number).pipe(take(1)).subscribe(
       {
@@ -166,7 +167,7 @@ export class ViewContactComponent implements OnChanges {
 
   updatePhoneNumber(number: PhoneNumber_DTO)
   {
-    this.appState.openSpinner("Updating phone number")
+    this.appState.openSpinner(new SpinnerOptions("Updating phone number"))
     this.service.UpdatePhoneNumber(number).pipe(take(1)).subscribe(
       {
         next: (data) =>
@@ -196,7 +197,7 @@ export class ViewContactComponent implements OnChanges {
 
   deletePhoneNumber(number: PhoneNumber_DTO)
   {
-    this.appState.openSpinner("Deleting phone number")
+    this.appState.openSpinner(new SpinnerOptions("Deleting phone number"))
     this.service.DeletePhoneNumber(number).pipe(take(1)).subscribe(
       {
         next: () =>
@@ -257,7 +258,7 @@ export class ViewContactComponent implements OnChanges {
 
   addEmailAddress(address:EmailAddress_DTO)
   {
-    this.appState.openSpinner("Adding email address")
+    this.appState.openSpinner(new SpinnerOptions("Adding email address"))
     address.contactId = this.contact!.id!
     this.service.AddEmailAddress(address).pipe(take(1)).subscribe(
       {
@@ -283,7 +284,7 @@ export class ViewContactComponent implements OnChanges {
 
   updateEmailAddress(address:EmailAddress_DTO)
   {
-    this.appState.openSpinner("Updating email address")
+    this.appState.openSpinner(new SpinnerOptions("Updating email address"))
     this.service.UpdateEmailAddress(address).pipe(take(1)).subscribe(
       {
         next: (data) =>
@@ -319,7 +320,7 @@ export class ViewContactComponent implements OnChanges {
 
   deleteEmailAddress(address:EmailAddress_DTO)
   {
-    this.appState.openSpinner("Deleting email address")
+    this.appState.openSpinner(new SpinnerOptions("Deleting email address"))
     this.service.DeleteEmailAddress(address).pipe(take(1)).subscribe(
       {
         next: () =>

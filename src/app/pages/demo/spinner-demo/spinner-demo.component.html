@@ -1,0 +1,25 @@
+<div class="card h-100">
+  <div class="card-body">
+    <form #spinnerForm="ngForm" (ngSubmit)="openSpinner()" class="h-100 d-flex flex-column">
+      <div class="row">
+        <div class="col">
+          <input name="spinnerText" [(ngModel)]="message" type="text" class="form-control" id="spinnerText"/>
+          <div class="form-text">Message to display</div>
+        </div>
+      </div>
+      <div class="row mt-1">
+        <div class="col">
+          <div class="form-check form-switch">
+            <input name="disableClose" [(ngModel)]="disableClose" type="checkbox" class="form-check-input" id="alertDismiss"/>
+            <div class="form-text">Disable Close</div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-auto">
+        <div class="col text-center mt-2">
+          <button type="submit" class="btn btn-primary">Open Spinner</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

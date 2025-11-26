@@ -10,6 +10,7 @@ import { InventoryItemCategory_DTO, InventoryItemType_DTO, InventoryItemSubType_
 import { AddNewCategoryComponent } from '../add-new-category/add-new-category.component';
 import { AddNewTypeComponent } from '../add-new-type/add-new-type.component';
 import { InventorySideBarNavLinks } from '../../inventory-side-bar-links';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
     selector: 'app-view-categories',
@@ -140,7 +141,7 @@ export class ListCategoriesComponent {
 
   addNewCategory(name: string)
   {
-    this.appStateService.openSpinner("Creating Category")
+    this.appStateService.openSpinner(new SpinnerOptions("Creating Category"))
     const newCat = new InventoryItemCategory_DTO();
     newCat.name = name
     const sub = this.api.AddNewCategory(newCat).subscribe(
@@ -170,7 +171,7 @@ export class ListCategoriesComponent {
 
   addNewType(name: string)
   {
-    this.appStateService.openSpinner("Creating Type")
+    this.appStateService.openSpinner(new SpinnerOptions("Creating Type"))
     const newType = new InventoryItemType_DTO();
     newType.name = name
     newType.categoryId = this.selectedCategory!.id
@@ -200,7 +201,7 @@ export class ListCategoriesComponent {
 
   addNewSubType(name: string)
   {
-    this.appStateService.openSpinner("Creating SubType")
+    this.appStateService.openSpinner(new SpinnerOptions("Creating SubType"))
     const newSubType = new InventoryItemSubType_DTO();
     newSubType.name = name
     newSubType.typeId = this.selectedType!.id

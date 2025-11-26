@@ -7,6 +7,7 @@ import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { ContactService } from '../../contact.service';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 import { take } from 'rxjs';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
     selector: 'app-manufacturer-contacts',
@@ -26,7 +27,7 @@ export class ManufacturerContactsComponent implements OnChanges, OnInit{
     private appState: AppStateService,
     private namePipe: ContactNamePipe) {
   }
-  
+
   ngOnInit(): void {
     // Initialization logic goes here
     console.log(this.manufacturerId);
@@ -145,7 +146,7 @@ export class ManufacturerContactsComponent implements OnChanges, OnInit{
       this.appState.sendAlert(message);
       return
     }
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} as a manufacturer contact.`)
+    this.appState.openSpinner(new SpinnerOptions(`Adding ${this.namePipe.transform(event.item.data)} as a manufacturer contact.`))
     if(this.manufacturerId > 0)
     {
     this.service.AddManufacturerContact(this.manufacturerId, contact.id).pipe(take(1)).subscribe(
@@ -195,7 +196,7 @@ export class ManufacturerContactsComponent implements OnChanges, OnInit{
 
   deleteContact(contact: ManufacturerContact_DTO)
   {
-    this.appState.openSpinner(`Deleteing ${this.namePipe.transform(contact.contact!)} as a manufacturer contact.`)
+    this.appState.openSpinner(new SpinnerOptions(`Deleteing ${this.namePipe.transform(contact.contact!)} as a manufacturer contact.`))
     this.service.DeleteManufacturerContact(contact).pipe(take(1)).subscribe(
       {
         next: () =>

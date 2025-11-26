@@ -7,14 +7,15 @@ import { MessageType } from 'src/app/services/message-type.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 import { LeftSideBarNavLinks } from './left-side-bar-nav-links';
-import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
+
 @Component({
     selector: 'app-demo',
     templateUrl: './demo.component.html',
     styleUrls: ['./demo.component.scss'],
     standalone: false
 })
+
 export class DemoComponent implements OnDestroy, OnInit {
 
   keys: any[] = []
@@ -103,11 +104,6 @@ export class DemoComponent implements OnDestroy, OnInit {
           sub.unsubscribe()
         }
       })
-  }
-
-  openSpinner()
-  {
-    this.appState.openSpinner("Fetching Data");
   }
 
   setConfirmationResponseMessage(data: boolean | null)

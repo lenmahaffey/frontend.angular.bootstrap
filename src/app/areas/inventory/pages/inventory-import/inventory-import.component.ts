@@ -7,6 +7,7 @@ import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { InventorySideBarNavLinks } from '../../inventory-side-bar-links';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
     selector: 'app-inventory-import',
@@ -30,7 +31,7 @@ export class InventoryImportComponent {
 
   ImportInventoryItems(file: File)
   {
-    this.appStateService.openSpinner("Uploading File");
+    this.appStateService.openSpinner(new SpinnerOptions("Uploading File"));
     this.api.ImportInventoryItems(file).subscribe(
       {
         next: (event) =>

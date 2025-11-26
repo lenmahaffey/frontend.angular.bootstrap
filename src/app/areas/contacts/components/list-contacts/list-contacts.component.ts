@@ -17,6 +17,7 @@ import { EmployeesService } from 'src/app/areas/employees/employees.service';
 import { SalesService } from 'src/app/areas/sales/sales.service';
 import { InventoryService } from 'src/app/areas/inventory/inventory.service';
 import { EventsService } from 'src/app/areas/events/events.service';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
     selector: 'app-list-contacts',
@@ -75,7 +76,7 @@ export class ListContactsComponent {
   {
     if(spinner)
     {
-      this.appState.openSpinner("Getting Contacts")
+      this.appState.openSpinner(new SpinnerOptions("Getting Contacts"))
     }
     this.service.listAllContacts(true).pipe(take(1)).subscribe(
       {
@@ -304,7 +305,7 @@ export class ListContactsComponent {
 
   addContact(contact: Contact_DTO)
   {
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} to contact list`);
+    this.appState.openSpinner(new SpinnerOptions(`Adding ${this.namePipe.transform(contact)} to contact list`))
     this.service.AddContact(contact).pipe(take(1)).subscribe(
       {
         next: () =>
@@ -345,7 +346,7 @@ export class ListContactsComponent {
 
   deleteContact(contact: Contact_DTO)
   {
-    this.appState.openSpinner("Deleteing Contact")
+    this.appState.openSpinner(new SpinnerOptions("Deleteing Contact"))
     this.service.DeleteContact(contact).pipe(take(1)).subscribe(
       {
         next: () =>
@@ -397,7 +398,7 @@ export class ListContactsComponent {
   }
 
   updateContact(contact: Contact_DTO){
-    this.appState.openSpinner("Updating Contact")
+    this.appState.openSpinner(new SpinnerOptions("Updating Contact"))
     this.service.UpdateContact(contact).subscribe(
       {
         next: (data) =>
@@ -472,7 +473,7 @@ export class ListContactsComponent {
   }
   createNewCustomer(contact:Contact_DTO)
   {
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new customer`)
+    this.appState.openSpinner(new SpinnerOptions(`Adding ${this.namePipe.transform(contact)} as a new customer`))
     const contactIndex = this.contactList.findIndex(x => x.id === contact.id)
     this.customerService.CreateNewCustomer(contact.id).pipe(take(1)).subscribe(
       {
@@ -498,7 +499,7 @@ export class ListContactsComponent {
   }
   createNewFreelancer(contact:Contact_DTO)
   {
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new freelancer`)
+    this.appState.openSpinner(new SpinnerOptions(`Adding ${this.namePipe.transform(contact)} as a new freelancer`))
     const contactIndex = this.contactList.findIndex(x => x.id === contact.id)
     this.freelancerService.CreateNewFreelancer(contact.id).pipe(take(1)).subscribe(
       {
@@ -524,7 +525,7 @@ export class ListContactsComponent {
   }
   createNewEmployee(contact:Contact_DTO)
   {
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new employee`)
+    this.appState.openSpinner(new SpinnerOptions(`Adding ${this.namePipe.transform(contact)} as a new employee`))
     const contactIndex = this.contactList.findIndex(x => x.id === contact.id)
     this.employeeService.CreateNewEmployee(contact.id).pipe(take(1)).subscribe(
       {
@@ -551,7 +552,7 @@ export class ListContactsComponent {
 
   createNewCompetitor(contact:Contact_DTO)
   {
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new competitor`)
+    this.appState.openSpinner(new SpinnerOptions(`Adding ${this.namePipe.transform(contact)} as a new competitor`))
     const contactIndex = this.contactList.findIndex(x => x.id === contact.id)
     this.salesService.createNewCompetitor(contact.id).pipe(take(1)).subscribe(
       {
@@ -578,7 +579,7 @@ export class ListContactsComponent {
 
   createNewManufacturer(contact:Contact_DTO)
   {
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new manufacturer`)
+    this.appState.openSpinner(new SpinnerOptions(`Adding ${this.namePipe.transform(contact)} as a new manufacturer`))
     const contactIndex = this.contactList.findIndex(x => x.id === contact.id)
     this.inventoryService.CreateNewManufacturer(contact.id).pipe(take(1)).subscribe(
       {
@@ -605,7 +606,7 @@ export class ListContactsComponent {
 
   createNewVendor(contact:Contact_DTO)
   {
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new vendor`)
+    this.appState.openSpinner(new SpinnerOptions(`Adding ${this.namePipe.transform(contact)} as a new vendor`))
     const contactIndex = this.contactList.findIndex(x => x.id === contact.id)
     this.inventoryService.CreateNewVendor(contact.id).pipe(take(1)).subscribe(
       {
@@ -631,7 +632,7 @@ export class ListContactsComponent {
 
   createNewVenue(contact:Contact_DTO)
   {
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a new Venue`)
+    this.appState.openSpinner(new SpinnerOptions(`Adding ${this.namePipe.transform(contact)} as a new Venue`))
     const contactIndex = this.contactList.findIndex(x => x.id === contact.id)
     this.eventService.CreateNewVenue(contact.id).pipe(take(1)).subscribe(
       {

@@ -7,6 +7,7 @@ import { MessageType } from 'src/app/services/message-type.interface';
 import { Message } from 'src/app/services/message';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 import { take } from 'rxjs';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
     selector: 'app-customer-contacts',
@@ -141,7 +142,7 @@ export class CustomerContactsComponent implements  OnChanges {
       return
     }
 
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} as a customer contact`)
+    this.appState.openSpinner(new SpinnerOptions(`Adding ${this.namePipe.transform(event.item.data)} as a customer contact`))
     if(this.customerId > 0)
     {
     this.service.AddCustomerContact(this.customerId, contact.id).pipe(take(1)).subscribe(
@@ -186,7 +187,7 @@ export class CustomerContactsComponent implements  OnChanges {
 
   deleteContact(contact: CustomerContact_DTO)
   {
-    this.appState.openSpinner(`Deleteing ${this.namePipe.transform(contact.contact!)} as a customer contact`)
+    this.appState.openSpinner(new SpinnerOptions(`Deleteing ${this.namePipe.transform(contact.contact!)} as a customer contact`))
     this.service.DeleteCustomerContact(contact).pipe(take(1)).subscribe({
       next: () =>
       {

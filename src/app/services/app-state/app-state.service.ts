@@ -11,6 +11,8 @@ import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/co
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { MessageType } from '../message-type.interface';
 import { Constants } from 'src/app/constants';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +27,7 @@ export class AppStateService {
   leftSideNavMenuItems: Subject<MenuItems> = new Subject<MenuItems>();
   rightSideText: Subject<TemplateRef<any>> = new Subject<TemplateRef<any>>()
   toolTipText: Subject<TemplateRef<any>> = new Subject<TemplateRef<any>>();
+  spinnerOptions: Subject<SpinnerOptions | null> = new Subject<SpinnerOptions | null>();
 
   setLeftSideMenuItems(items: SideBarNavLinks)
   {
@@ -41,20 +44,14 @@ export class AppStateService {
     this.toolTipText.next(text);
   }
 
-  openSpinner(message: string = "Spinning the Spinner", disableClose: boolean = true)
+  openSpinner(options: SpinnerOptions)
   {
-    const options = new MatDialogConfig()
-    options.data =
-    {
-      message: message
-    }
-    options.disableClose = disableClose
-    this.dialog.open(SpinnerComponent, options);
+    this.spinnerOptions.next(options)
   }
 
   closeSpinner()
   {
-    this.dialog.closeAll()
+    this.spinnerOptions.next(null)
   }
 
   sendAlert(message: Message)

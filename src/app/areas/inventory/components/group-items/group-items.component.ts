@@ -7,6 +7,7 @@ import { InventoryItemCategory_DTO, InventoryItemSubType_DTO, InventoryItemType_
 import { InventoryService } from '../../inventory.service';
 import { CurrencyFormatterPipe } from 'src/app/shared/pipes/currency-formatter.pipe';
 import { DragDropService } from 'src/app/services/dragDrop/drag-drop.service';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
     selector: 'app-group-items',
@@ -81,7 +82,7 @@ export class GroupItemsComponent {
 
   getInventoryItems()
   {
-    this.appStateService.openSpinner("Getting Inventory");
+    this.appStateService.openSpinner(new SpinnerOptions("Getting Inventory"));
     const sub = this.api.ListInventoryItems(this.category, undefined, this.subType).subscribe({
       next: (data) =>
       {

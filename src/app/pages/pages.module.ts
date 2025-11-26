@@ -7,6 +7,10 @@ import { SharedModule } from '../shared/shared.module';
 import { RightSideBarTextComponent } from './demo/right-side-bar-text/right-side-bar-text.component';
 import { SwatchComponent } from './demo/swatch/swatch.component';
 import { ServicesModule } from "src/app/services/services.module";
+import { SpinnerDemoComponent } from "./demo/spinner-demo/spinner-demo.component";
+import { ConfirmationDemoComponent } from "./demo/confirmation-demo/confirmation-demo.component";
+import { AlertDemoComponent } from './demo/alert-demo/alert-demo.component';
+import { NotificationDemoComponent } from './demo/notification-demo/notification-demo.component';
 
 
 
@@ -17,6 +21,10 @@ import { ServicesModule } from "src/app/services/services.module";
     DemoComponent,
     RightSideBarTextComponent,
     SwatchComponent,
+    SpinnerDemoComponent,
+    ConfirmationDemoComponent,
+    AlertDemoComponent,
+    NotificationDemoComponent
   ],
   imports: [
     SharedModule,
@@ -24,7 +32,7 @@ import { ServicesModule } from "src/app/services/services.module";
         { path: 'welcome', component: WelcomeComponent },
         { path: 'demo', component: DemoComponent },
     ]),
-    ServicesModule
+    ServicesModule,
 ]
 })
 export class PagesModule { }

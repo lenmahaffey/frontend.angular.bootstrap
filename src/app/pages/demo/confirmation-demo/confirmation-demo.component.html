@@ -1,0 +1,29 @@
+<div class="card h-100">
+  <div class="card-body">
+    <form #confirmation class="h-100 d-flex flex-column">
+      <div>
+        <input #confirmationTitle type="text" class="form-control" id="confirmationTitle"/>
+        <div class="form-text">Title</div>
+      </div>
+      <div>
+        <input #confirmationText type="text" class="form-control" id="confirmationText"/>
+        <div class="form-text">Text</div>
+      </div>
+      <div class="row mt-1">
+        <div class="col">
+          <input #confirmationOkText type="text" class="form-control" id="okText"/>
+          <div class="form-text">Ok text</div>
+        </div>
+        <div class="col">
+            <input #confirmationCancelText type="text" class="form-control" id="cancelText"/>
+            <div class="form-text">Cancel text</div>
+        </div>
+      </div>
+      <div class="row mt-auto">
+        <div class="col text-center mt-2">
+          <button type="submit" class="btn btn-primary">Open Confirmation</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

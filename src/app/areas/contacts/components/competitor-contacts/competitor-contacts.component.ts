@@ -7,6 +7,7 @@ import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 import { take } from 'rxjs';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
     selector: 'app-competitor-contacts',
@@ -143,7 +144,7 @@ export class CompetitorContactsComponent implements OnChanges{
       this.appState.sendAlert(message);
       return
     }
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(contact)} as a competitor contact.`)
+    this.appState.openSpinner(new SpinnerOptions(`Adding ${this.namePipe.transform(contact)} as a competitor contact.`))
     if(this.competitorId > 0)
     {
       this.service.AddCompetitorContact(this.competitorId, contact.id).pipe(take(1)).subscribe(
@@ -189,7 +190,7 @@ export class CompetitorContactsComponent implements OnChanges{
 
   deleteContact(contact: CompetitorContact_DTO)
   {
-    this.appState.openSpinner(`Deleteing ${this.namePipe.transform(contact.contact!)} as a competitor contact`)
+    this.appState.openSpinner(new SpinnerOptions(`Deleteing ${this.namePipe.transform(contact.contact!)} as a competitor contact`))
     this.service.DeleteCompetitorContact(contact).pipe(take(1)).subscribe(
       {
         next: () =>

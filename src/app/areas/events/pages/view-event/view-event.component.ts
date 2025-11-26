@@ -5,6 +5,7 @@ import { EventsService } from '../../events.service';
 import { take } from 'rxjs';
 import { Conference_DTO } from 'src/app/shared/api/api.models';
 import { Message } from 'src/app/services/message';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
   selector: 'app-view-event',
@@ -29,7 +30,7 @@ export class ViewEventComponent implements OnInit {
 
   getConference()
   {
-    this.appState.openSpinner("Getting Conference")
+    this.appState.openSpinner(new SpinnerOptions("Getting Conference"))
 
     if(this.conferenceId != undefined && this.conferenceId != 0)
       {

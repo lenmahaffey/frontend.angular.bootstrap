@@ -7,6 +7,7 @@ import { ContactNamePipe } from 'src/app/shared/pipes/contact-name.pipe';
 import { ContactService } from '../../contact.service';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 import { take } from 'rxjs';
+import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 
 @Component({
     selector: 'app-vendor-contacts',
@@ -140,7 +141,7 @@ export class VendorContactsComponent implements OnChanges{
       this.appState.sendAlert(message);
       return
     }
-    this.appState.openSpinner(`Adding ${this.namePipe.transform(event.item.data)} as a vendor contact.`)
+    this.appState.openSpinner(new SpinnerOptions(`Adding ${this.namePipe.transform(event.item.data)} as a vendor contact.`))
     if(this.vendorId > 0)
     {
     this.service.AddVendorContact(this.vendorId, contact.id).pipe(take(1)).subscribe(
@@ -190,7 +191,7 @@ export class VendorContactsComponent implements OnChanges{
 
   deleteContact(contact: VendorContact_DTO)
   {
-    this.appState.openSpinner(`Deleteing ${this.namePipe.transform(contact.contact!)} as a vendor contact.`)
+    this.appState.openSpinner(new SpinnerOptions(`Deleteing ${this.namePipe.transform(contact.contact!)} as a vendor contact.`))
     this.service.DeleteVendorContact(contact).pipe(take(1)).subscribe(
       {
         next: () =>
