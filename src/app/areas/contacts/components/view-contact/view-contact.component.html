@@ -6,7 +6,9 @@
           <img class="image" src="../../../../assets/No-Image-Placeholder.svg">
           <div class="flexColumn flexItem">
             <div class="name">
-              <h1 *ngIf="this.contact">{{ this.contact | contactName }}</h1>
+              @if (this.contact) {
+                <h1>{{ this.contact | contactName }}</h1>
+              }
             </div>
             <div class="title">
               <h3>{{ this.contact.title !== null ? this.contact.title : "" }}</h3>
@@ -19,97 +21,119 @@
         <mat-tab-group class="fullHeight flexRow">
           <mat-tab label="Phone Numbers">
             <div class="hideOverflow flexColumn phoneNumberList">
-              <div *ngIf="this.contact !== null && this.contact.phoneNumbers !== null">
-                <mat-list>
-                  <mat-list-item class="phoneNumberListItem flexItem"
-                    *ngFor="let number of this.contact.phoneNumbers; index as i">
-                    <div class="phoneNumberContainer">
-                      <div class="phoneNumber flexItem">{{number.label}} : {{number | phoneNumberToString}}</div>
-                      <div class="edit" (click)="openAddOrEditPhoneNumberDialog(number)"><i class="fa-solid fa-pen fa-xl"></i>
+              @if (this.contact !== null && this.contact.phoneNumbers !== null) {
+                <div>
+                  <mat-list>
+                    @for (number of this.contact.phoneNumbers; track number; let i = $index) {
+                      <mat-list-item class="phoneNumberListItem flexItem"
+                        >
+                        <div class="phoneNumberContainer">
+                          <div class="phoneNumber flexItem">{{number.label}} : {{number | phoneNumberToString}}</div>
+                          <div class="edit" (click)="openAddOrEditPhoneNumberDialog(number)"><i class="fa-solid fa-pen fa-xl"></i>
+                        </div>
+                        <div class="delete" (click)="openDeletePhoneNumberDialog(number)"><i
+                        class="fa-solid fa-xmark fa-2xl"></i></div>
                       </div>
-                      <div class="delete" (click)="openDeletePhoneNumberDialog(number)"><i
-                          class="fa-solid fa-xmark fa-2xl"></i></div>
-                    </div>
-                  </mat-list-item>
+                    </mat-list-item>
+                  }
                 </mat-list>
               </div>
-              <div class="flexItem flexColumn">
-                <div class="flexItem autoMargin">
-                  <button mat-raised-button color="primary" (click)="openAddOrEditPhoneNumberDialog()">
-                    Add New Number
-                  </button>
-                </div>
+            }
+            <div class="flexItem flexColumn">
+              <div class="flexItem autoMargin">
+                <button mat-raised-button color="primary" (click)="openAddOrEditPhoneNumberDialog()">
+                  Add New Number
+                </button>
               </div>
             </div>
-          </mat-tab>
-          <mat-tab label="Addresses">
-            <mat-tab-group>
-              <mat-tab label="Mailing">
-                <div class="addressContainer">
-                  <div class="address">
-                    <app-address-form [(address)]="currentMailingAddress" [contact]="contact"></app-address-form>
-                  </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Addresses">
+          <mat-tab-group>
+            <mat-tab label="Mailing">
+              <div class="addressContainer">
+                <div class="address">
+                  <app-address-form [(address)]="currentMailingAddress" [contact]="contact"></app-address-form>
                 </div>
-              </mat-tab>
-              <mat-tab label="Billing">
-                <div class="addressContainer">
-                  <div class="address">
-                    <app-address-form [(address)]="currentBillingAddress" [contact]="contact"></app-address-form>
-                  </div>
+              </div>
+            </mat-tab>
+            <mat-tab label="Billing">
+              <div class="addressContainer">
+                <div class="address">
+                  <app-address-form [(address)]="currentBillingAddress" [contact]="contact"></app-address-form>
                 </div>
-              </mat-tab>
-              <mat-tab label="Shipping">
-                <div class="addressContainer">
-                  <div class="address">
-                    <app-address-form [(address)]="currentShippingAddress" [contact]="contact"></app-address-form>
-                  </div>
+              </div>
+            </mat-tab>
+            <mat-tab label="Shipping">
+              <div class="addressContainer">
+                <div class="address">
+                  <app-address-form [(address)]="currentShippingAddress" [contact]="contact"></app-address-form>
                 </div>
-              </mat-tab>
-            </mat-tab-group>
-          </mat-tab>
-          <mat-tab label="Email">
-            <div class="hideOverflow flexColumn phoneNumberList">
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-tab>
+        <mat-tab label="Email">
+          <div class="hideOverflow flexColumn phoneNumberList">
+            @if (this.contact !== null && this.contact.emailAddresses !== null) {
               <div class="phoneNumberList flexItem"
-                *ngIf="this.contact !== null && this.contact.emailAddresses !== null">
+                >
                 <mat-list>
-                  <mat-list-item class="phoneNumberListItem flexItem"
-                    *ngFor="let email of this.contact.emailAddresses; index as i">
-                    <div class="phoneNumberContainer">
-                      <div class="phoneNumber flexItem">{{email.address}}</div>
-                      <div class="edit" (click)="openAddOrEditEmailAddressDialog(email)"><i class="fa-solid fa-pen fa-xl"></i></div>
-                      <div class="delete" (click)="openDeleteEmailAddressDialog(email)"><i class="fa-solid fa-xmark fa-2xl"></i></div>
-                    </div>
-                  </mat-list-item>
+                  @for (email of this.contact.emailAddresses; track email; let i = $index) {
+                    <mat-list-item class="phoneNumberListItem flexItem"
+                      >
+                      <div class="phoneNumberContainer">
+                        <div class="phoneNumber flexItem">{{email.address}}</div>
+                        <div class="edit" (click)="openAddOrEditEmailAddressDialog(email)"><i class="fa-solid fa-pen fa-xl"></i></div>
+                        <div class="delete" (click)="openDeleteEmailAddressDialog(email)"><i class="fa-solid fa-xmark fa-2xl"></i></div>
+                      </div>
+                    </mat-list-item>
+                  }
                 </mat-list>
               </div>
-              <div class="flexItem flexColumn">
-                <div class="flexItem autoMargin">
-                  <button mat-raised-button color="primary" (click)="openAddOrEditEmailAddressDialog()">Add New Email Address</button>
-                </div>
+            }
+            <div class="flexItem flexColumn">
+              <div class="flexItem autoMargin">
+                <button mat-raised-button color="primary" (click)="openAddOrEditEmailAddressDialog()">Add New Email Address</button>
               </div>
             </div>
-          </mat-tab>
-          <mat-tab label="{{contact.isBusiness ? 'Contacts' : 'Companies'}}">
-            <div class="h-100">
-              <div *ngIf="!contact.isBusiness">
-                <app-customer-contacts *ngIf="contact.hasCustomerContacts" [contactId]="contact.id"></app-customer-contacts>
-                <app-competitor-contacts *ngIf="contact.hasCompetitorContacts" [contact]="contact"></app-competitor-contacts>
-                <app-manufacturer-contacts *ngIf="contact.hasManufacturerContacts" [contactId]="contact.id"></app-manufacturer-contacts>
-                <app-vendor-contacts *ngIf="contact.hasVendorContacts" [contactId]="contact.id"></app-vendor-contacts>
-                <app-venue-contacts *ngIf="contact.hasVenueContacts" [contactId]="contact.id"></app-venue-contacts>
+          </div>
+        </mat-tab>
+        <mat-tab label="{{contact.isBusiness ? 'Contacts' : 'Companies'}}">
+          <div class="h-100">
+            @if (!contact.isBusiness) {
+              <div>
+                @if (contact.hasCustomerContacts) {
+                  <app-customer-contacts [contactId]="contact.id"></app-customer-contacts>
+                }
+                @if (contact.hasCompetitorContacts) {
+                  <app-competitor-contacts [contact]="contact"></app-competitor-contacts>
+                }
+                @if (contact.hasManufacturerContacts) {
+                  <app-manufacturer-contacts [contactId]="contact.id"></app-manufacturer-contacts>
+                }
+                @if (contact.hasVendorContacts) {
+                  <app-vendor-contacts [contactId]="contact.id"></app-vendor-contacts>
+                }
+                @if (contact.hasVenueContacts) {
+                  <app-venue-contacts [contactId]="contact.id"></app-venue-contacts>
+                }
               </div>
+            }
 
-              <div *ngIf="contact.isBusiness">
+            @if (contact.isBusiness) {
+              <div>
                 <app-customer-contacts [customerId]="contact.customerId!" (update)="emitUpdatedContact()"></app-customer-contacts>
                 <app-competitor-contacts [competitorId]="contact.competitorId!" (update)="emitUpdatedContact()"></app-competitor-contacts>
                 <app-manufacturer-contacts [manufacturerId]="contact.manufacturerId!" (update)="emitUpdatedContact()"></app-manufacturer-contacts>
                 <app-vendor-contacts [vendorId]="contact.vendorId!" (update)="emitUpdatedContact()"></app-vendor-contacts>
                 <app-venue-contacts [venueId]="contact.venueId!" (update)="emitUpdatedContact()"></app-venue-contacts>
               </div>
-            </div>
-          </mat-tab>
-        </mat-tab-group>
-      </mat-card-content>
-    </mat-card>
-  </div>
+            }
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</div>
 </div>

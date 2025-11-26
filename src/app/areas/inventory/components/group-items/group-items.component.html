@@ -1,12 +1,14 @@
 <div class="flexContainer">
   <mat-card>
     <mat-card-content>
-      <div *ngFor="let group of groupedInventory | keyvalue">
-        <ng-container
-          [ngTemplateOutlet]="group.value[0].isAssetTracked ? assetTracked : nonAssetTracked"
-          [ngTemplateOutletContext]="{group:group}">
-        </ng-container>
-      </div>
+      @for (group of groupedInventory | keyvalue; track group) {
+        <div>
+          <ng-container
+            [ngTemplateOutlet]="group.value[0].isAssetTracked ? assetTracked : nonAssetTracked"
+            [ngTemplateOutletContext]="{group:group}">
+          </ng-container>
+        </div>
+      }
     </mat-card-content>
   </mat-card>
 </div>
@@ -31,26 +33,28 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of group.value">
-          <td>{{ item.assetId }}</td>
-          <td>{{ item.purchasePrice | currencyFormatter }}</td>
-        </tr>
+        @for (item of group.value; track item) {
+          <tr>
+            <td>{{ item.assetId }}</td>
+            <td>{{ item.purchasePrice | currencyFormatter }}</td>
+          </tr>
+        }
       </tbody>
     </table>
   </mat-expansion-panel>
 </ng-template>
 
 <ng-template #nonAssetTracked let-group="group">
-    <mat-expansion-panel hideToggle disabled cdkDrag (cdkDragDropped)="dragEnded($event)" [cdkDragDisabled]="dragDisabled">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <input value="{{ group.value[0] | json }}" hidden/>
-          <span>{{ group.value[0].assetId }}</span>
-        </mat-panel-title>
-        <mat-panel-description>
-          <span id="groupName">{{ group.key }}</span>
-          <span id="price">{{ group.value[0].dailyRentalRate | currencyFormatter }}</span>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-    </mat-expansion-panel>
+  <mat-expansion-panel hideToggle disabled cdkDrag (cdkDragDropped)="dragEnded($event)" [cdkDragDisabled]="dragDisabled">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <input value="{{ group.value[0] | json }}" hidden/>
+        <span>{{ group.value[0].assetId }}</span>
+      </mat-panel-title>
+      <mat-panel-description>
+        <span id="groupName">{{ group.key }}</span>
+        <span id="price">{{ group.value[0].dailyRentalRate | currencyFormatter }}</span>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
 </ng-template>

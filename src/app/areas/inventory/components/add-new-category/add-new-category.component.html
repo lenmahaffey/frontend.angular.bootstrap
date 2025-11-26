@@ -1,14 +1,16 @@
 <form [formGroup]="newCategoryForm" (ngSubmit)="addNewCategory()">
   <h1 mat-dialog-title>Create New Category</h1>
   <div mat-dialog-content>
-      <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput required type="text" name="name" formControlName="name" [value]=""/>
-      </mat-form-field>
-      <div class="validationError" *ngIf="newCategoryForm.controls['name'].invalid &&
-                  (newCategoryForm.controls['name'].dirty || newCategoryForm.controls['name'].touched)">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput required type="text" name="name" formControlName="name" [value]=""/>
+    </mat-form-field>
+    @if (newCategoryForm.controls['name'].invalid &&
+      (newCategoryForm.controls['name'].dirty || newCategoryForm.controls['name'].touched)) {
+      <div class="validationError">
         A category name is required.
       </div>
+    }
   </div>
   <div mat-dialog-actions>
     <button mat-raised-button mat-dialog-close color="warn">Cancel</button>

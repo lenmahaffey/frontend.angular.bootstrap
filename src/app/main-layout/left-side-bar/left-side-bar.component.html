@@ -1,16 +1,21 @@
 <div id="leftSideBarContainer" class="row align-items-center justify-content-center me-3">
-    <div class="h-100 w-100 bg-primary text-light">
-        <div *ngFor="let group of menuItems?.itemGroups" class="sidenav mt-4">
-          <a *ngIf="group.items.length === 1; else elseBlock" href="{{ group.items[0].href }}" class="">{{ group.title }}</a>
-          <ng-template #elseBlock>
-            <button #button class="dropdown-btn" (click)="toggleDislay(button)">
-              {{ group.title }}
-              <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-container">
-              <a *ngFor="let link of group.items" href="{{ link.href }}" class="ms-3">{{ link.text }}</a>
-            </div>
-          </ng-template>
-        </div>
-    </div>
+  <div class="h-100 w-100 bg-primary text-light">
+    @for (group of menuItems?.itemGroups; track group) {
+      <div class="sidenav mt-4">
+        @if (group.items.length === 1) {
+          <a href="{{ group.items[0].href }}" class="">{{ group.title }}</a>
+        } @else {
+          <button #button class="dropdown-btn" (click)="toggleDislay(button)">
+            {{ group.title }}
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container">
+            @for (link of group.items; track link) {
+              <a href="{{ link.href }}" class="ms-3">{{ link.text }}</a>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
 </div>

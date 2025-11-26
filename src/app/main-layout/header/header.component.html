@@ -1,16 +1,16 @@
 <!-- <mat-toolbar color="primary">
-  <a id="logo" href="/">Meeting <br> Manager</a>
-  <ng-container
-    *ngFor="let item of links.links.itemGroups"
-    [ngTemplateOutlet]="item.items.length == 1 ? singleLink : dropDown"
-    [ngTemplateOutletContext]="{ $implicit: true ? item : item }">
-  </ng-container>
+<a id="logo" href="/">Meeting <br> Manager</a>
+<ng-container
+  *ngFor="let item of links.links.itemGroups"
+  [ngTemplateOutlet]="item.items.length == 1 ? singleLink : dropDown"
+  [ngTemplateOutletContext]="{ $implicit: true ? item : item }">
+</ng-container>
 </mat-toolbar>
 
 <ng-template #singleLink let-item>
   <a href="{{item.items[0].href}}">
     <button mat-button>
-        <div class="linkText">{{ item.items[0].text }}</div>
+      <div class="linkText">{{ item.items[0].text }}</div>
     </button>
   </a>
 </ng-template>
@@ -25,35 +25,40 @@
     <div *ngFor="let item of item.items">
       <a href="{{item.href}}">
         <button class="" mat-menu-item>
-         {{ item.text }}
+          {{ item.text }}
         </button>
       </a>
     </div>
   </mat-menu>
 </ng-template> -->
 <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <div *ngFor="let group of links.links.itemGroups">
-                <li *ngIf="group.items.length === 1; else multi" class="nav-item">
-                    <a class="nav-link active" href="{{ group.items[0].href }}">{{ group.title }}</a>
-                </li>
-                <ng-template #multi>
-                  <li class="nav-item dropdown">
-                      <div class="dropdown show">
-                          <a class="nav-link " href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              {{ group }}
-                          </a>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a *ngFor="let link of group.items" class="dropdown-item text-dark" href="">{{ link.text }}</a>
-                          </div>
-                      </div>
-                  </li>
-                </ng-template>
-              </div>
-            </ul>
-        </div>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        @for (group of links.links.itemGroups; track group) {
+          <div>
+            @if (group.items.length === 1) {
+              <li class="nav-item">
+                <a class="nav-link active" href="{{ group.items[0].href }}">{{ group.title }}</a>
+              </li>
+            } @else {
+              <li class="nav-item dropdown">
+                <div class="dropdown show">
+                  <a class="nav-link " href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ group }}
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    @for (link of group.items; track link) {
+                      <a class="dropdown-item text-dark" href="">{{ link.text }}</a>
+                    }
+                  </div>
+                </div>
+              </li>
+            }
+          </div>
+        }
+      </ul>
     </div>
+  </div>
 </nav>

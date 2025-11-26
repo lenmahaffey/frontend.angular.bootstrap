@@ -54,33 +54,61 @@
       <button mat-raised-button color="primary" (click)="openAddContactDialog()">Add New</button>
     </div>
     <div class="list">
-      <div *ngFor="let contact of filteredList" class="pointer listItem flexRow" (click)="contactClicked(contact)" cdkDragList cdkDrag [cdkDragData]="contact">
-        <div class="flexColumn flexItem">
-          <span class="flexItem">
-            {{ contact | contactName }}
-          </span>
-          <div class="badges flexItem">
-            <span class="badge user" *ngIf="contact.userId">User</span>
-            <span class="badge employee" *ngIf="contact.employeeId">Employee</span>
-            <span class="badge freelancer" *ngIf="contact.freelancerId">Freelancer</span>
-            <span class="badge customer" *ngIf="contact.customerId">Customer</span>
-            <span class="badge competitor" *ngIf="contact.competitorId">Competitor</span>
-            <span class="badge manufacturer" *ngIf="contact.manufacturerId">Manufacturer</span>
-            <span class="badge venue" *ngIf="contact.venueId">Venue</span>
-            <span class="badge vendor" *ngIf="contact.vendorId">Vendor</span>
-            <span class="badge customer" *ngIf="contact.hasCustomerContacts && !contact.customerId">CustomerContact</span>
-            <span class="badge competitor" *ngIf="contact.hasCompetitorContacts && !contact.competitorId">CompetitorContact</span>
-            <span class="badge manufacturer" *ngIf="contact.hasManufacturerContacts && !contact.manufacturerId">ManufacturerContact</span>
-            <span class="badge venue" *ngIf="contact.hasVenueContacts && !contact.venueId">VenueContact</span>
-            <span class="badge vendor" *ngIf="contact.hasVendorContacts && !contact.vendorId">VendorContact</span>
+      @for (contact of filteredList; track contact) {
+        <div class="pointer listItem flexRow" (click)="contactClicked(contact)" cdkDragList cdkDrag [cdkDragData]="contact">
+          <div class="flexColumn flexItem">
+            <span class="flexItem">
+              {{ contact | contactName }}
+            </span>
+            <div class="badges flexItem">
+              @if (contact.userId) {
+                <span class="badge user">User</span>
+              }
+              @if (contact.employeeId) {
+                <span class="badge employee">Employee</span>
+              }
+              @if (contact.freelancerId) {
+                <span class="badge freelancer">Freelancer</span>
+              }
+              @if (contact.customerId) {
+                <span class="badge customer">Customer</span>
+              }
+              @if (contact.competitorId) {
+                <span class="badge competitor">Competitor</span>
+              }
+              @if (contact.manufacturerId) {
+                <span class="badge manufacturer">Manufacturer</span>
+              }
+              @if (contact.venueId) {
+                <span class="badge venue">Venue</span>
+              }
+              @if (contact.vendorId) {
+                <span class="badge vendor">Vendor</span>
+              }
+              @if (contact.hasCustomerContacts && !contact.customerId) {
+                <span class="badge customer">CustomerContact</span>
+              }
+              @if (contact.hasCompetitorContacts && !contact.competitorId) {
+                <span class="badge competitor">CompetitorContact</span>
+              }
+              @if (contact.hasManufacturerContacts && !contact.manufacturerId) {
+                <span class="badge manufacturer">ManufacturerContact</span>
+              }
+              @if (contact.hasVenueContacts && !contact.venueId) {
+                <span class="badge venue">VenueContact</span>
+              }
+              @if (contact.hasVendorContacts && !contact.vendorId) {
+                <span class="badge vendor">VendorContact</span>
+              }
+            </div>
+          </div>
+          <div class="contactButtons flexRow" (click)="$event.stopPropagation()">
+            <span class="up" (click)="openAddContactAsDialog(contact)"><i class="fa-solid fa-arrow-up fa-xl"></i></span>
+            <span class="edit" (click)="openEditContactDialog(contact)"><i class="fa-solid fa-pen fa-xl"></i></span>
+            <span class="delete" (click)="openDeleteContactDialog(contact)"><i class="fa-solid fa-xmark fa-xl"></i></span>
           </div>
         </div>
-        <div class="contactButtons flexRow" (click)="$event.stopPropagation()">
-          <span class="up" (click)="openAddContactAsDialog(contact)"><i class="fa-solid fa-arrow-up fa-xl"></i></span>
-          <span class="edit" (click)="openEditContactDialog(contact)"><i class="fa-solid fa-pen fa-xl"></i></span>
-          <span class="delete" (click)="openDeleteContactDialog(contact)"><i class="fa-solid fa-xmark fa-xl"></i></span>
-        </div>
-      </div>
+      }
     </div>
   </div>
 </div>

@@ -1,83 +1,87 @@
 <div class="border border-2 border-black ms-2 me-2 mt-4 card">
-    <div class="h1 text-center">Component Demo</div>
-    <div class="card-body row">
-      <div class="col">
-        <app-spinner-demo></app-spinner-demo>
+  <div class="h1 text-center">Component Demo</div>
+  <div class="card-body row">
+    <div class="col">
+      <app-spinner-demo></app-spinner-demo>
+    </div>
+    <div class="col">
+      <app-confirmation-demo></app-confirmation-demo>
+    </div>
+    <div class="col">
+      <div class="card h-100">
+        <div class="card-body">
+          <form #notification class="d-flex flex-column h-100">
+            <div>
+              <select class="form-select" id="notificationType">
+                @for (t of keys; track t) {
+                  <option>{{ t }}</option>
+                }
+              </select>
+              <div class="form-text">Type</div>
+            </div>
+            <div>
+              <input type="text" class="form-control" id="spinnerText"/>
+              <div class="form-text">Text</div>
+            </div>
+            <div class="row mt-1">
+              <div class="col">
+                <input type="text" class="form-control" id="spinnerText"/>
+                <div class="form-text">Ok text</div>
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" id="spinnerText"/>
+                <div class="form-text">Cancel text</div>
+              </div>
+            </div>
+            <div class="row mt-auto">
+              <div class="col text-center">
+                <button (click)="sendNotification()" type="submit" class="btn btn-primary">Open Notification</button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="col">
-        <app-confirmation-demo></app-confirmation-demo>
-      </div>
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-body">
-            <form #notification class="d-flex flex-column h-100">
+    </div>
+    <div class="col">
+      <div class="card h-100">
+        <div class="card-body">
+          <form #alert class="d-flex flex-column h-100">
+            <div>
               <div>
-                <select class="form-select" id="notificationType">
-                  <option *ngFor="let t of keys">{{ t }}</option>
+                <select class="form-select" id="alertType">
+                  @for (t of keys; track t) {
+                    <option>{{ t }}</option>
+                  }
                 </select>
                 <div class="form-text">Type</div>
               </div>
               <div>
-                <input type="text" class="form-control" id="spinnerText"/>
-                <div class="form-text">Text</div>
+                <input type="text" class="form-control" id="alertText"/>
+                <div class="form-text">Message to display</div>
               </div>
               <div class="row mt-1">
                 <div class="col">
-                  <input type="text" class="form-control" id="spinnerText"/>
-                  <div class="form-text">Ok text</div>
+                  <div class="form-check form-switch">
+                    <input type="checkbox" class="form-check-input" id="alertDismiss"/>
+                    <div class="form-text">Auto-dismiss</div>
+                  </div>
                 </div>
                 <div class="col">
-                  <input type="text" class="form-control" id="spinnerText"/>
-                  <div class="form-text">Cancel text</div>
+                  <input type="number" class="form-control" id="alertDisplay"/>
+                  <div class="form-text">Display Time</div>
                 </div>
               </div>
-              <div class="row mt-auto">
-                <div class="col text-center">
-                  <button (click)="sendNotification()" type="submit" class="btn btn-primary">Open Notification</button>
-                </div>
+            </div>
+            <div class="row mt-auto">
+              <div class="col text-center">
+                <button (click)="sendAlert()" type="submit" class="btn btn-primary">Open Alert</button>
               </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-body">
-            <form #alert class="d-flex flex-column h-100">
-              <div>
-                <div>
-                  <select class="form-select" id="alertType">
-                    <option *ngFor="let t of keys">{{ t }}</option>
-                  </select>
-                  <div class="form-text">Type</div>
-                </div>
-                <div>
-                  <input type="text" class="form-control" id="alertText"/>
-                  <div class="form-text">Message to display</div>
-                </div>
-                <div class="row mt-1">
-                  <div class="col">
-                    <div class="form-check form-switch">
-                      <input type="checkbox" class="form-check-input" id="alertDismiss"/>
-                      <div class="form-text">Auto-dismiss</div>
-                    </div>
-                  </div>
-                  <div class="col">
-                      <input type="number" class="form-control" id="alertDisplay"/>
-                      <div class="form-text">Display Time</div>
-                  </div>
-                </div>
-              </div>
-              <div class="row mt-auto">
-                <div class="col text-center">
-                  <button (click)="sendAlert()" type="submit" class="btn btn-primary">Open Alert</button>
-                </div>
-              </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
+  </div>
 </div>
 <hr />
 <div class="card border border-2 border-black me-2 ms-2">

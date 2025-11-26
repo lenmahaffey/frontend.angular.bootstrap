@@ -2,30 +2,42 @@
 <h1 mat-dialog-title>Add New Email Address</h1>
 <form [formGroup]="addressFormGroup" (ngSubmit)="onSubmit(this.addressFormGroup)">
   <div mat-dialog-content>
-      <div class="topRow">
-        <mat-form-field appearance="outline">
-          <mat-label>Label</mat-label>
-          <input matInput type="text" formControlName="label">
-        </mat-form-field>
-        <div *ngIf="labelInput.invalid && (labelInput.dirty || labelInput.touched)" class="alert">
-          <div *ngIf="labelInput.errors?.['required']">A label is required.</div>
-          <div *ngIf="labelInput.errors?.['maxlength']">
-            The label must be 10 characters or less.
-          </div>
+    <div class="topRow">
+      <mat-form-field appearance="outline">
+        <mat-label>Label</mat-label>
+        <input matInput type="text" formControlName="label">
+      </mat-form-field>
+      @if (labelInput.invalid && (labelInput.dirty || labelInput.touched)) {
+        <div class="alert">
+          @if (labelInput.errors?.['required']) {
+            <div>A label is required.</div>
+          }
+          @if (labelInput.errors?.['maxlength']) {
+            <div>
+              The label must be 10 characters or less.
+            </div>
+          }
         </div>
-      </div>
-      <div >
-        <mat-form-field appearance="outline">
-          <mat-label>Address</mat-label>
-          <input matInput formControlName="address" type="email" name="number">
-        </mat-form-field>
-        <div *ngIf="addressInput.invalid && (addressInput.dirty || addressInput.touched)" class="alert">
-          <div *ngIf="addressInput.errors?.['required']">An email address is required.</div>
-          <div *ngIf="addressInput.errors?.['email']">
-            Please provide an email address in the format of username&#64;domain
-          </div>
+      }
+    </div>
+    <div >
+      <mat-form-field appearance="outline">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address" type="email" name="number">
+      </mat-form-field>
+      @if (addressInput.invalid && (addressInput.dirty || addressInput.touched)) {
+        <div class="alert">
+          @if (addressInput.errors?.['required']) {
+            <div>An email address is required.</div>
+          }
+          @if (addressInput.errors?.['email']) {
+            <div>
+              Please provide an email address in the format of username&#64;domain
+            </div>
+          }
         </div>
-      </div>
+      }
+    </div>
   </div>
   <div mat-dialog-actions>
     <button mat-raised-button color="primary" (click)="onSubmit(undefined)" type="button" >Cancel</button>

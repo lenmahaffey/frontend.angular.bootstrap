@@ -1,5 +1,5 @@
 <div id="alerts">
-    <ng-container *ngFor="let message of messages">
+  @for (message of messages; track message) {
     <app-alert [message]="message" (dismissed)="deleteMessage($event)"></app-alert>
-  </ng-container>
+  }
 </div>

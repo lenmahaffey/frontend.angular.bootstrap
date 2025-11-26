@@ -2,36 +2,54 @@
   <mat-form-field class="input topLine" appearance="outline">
     <mat-label class="label">Line 1</mat-label>
     <input matInput type="text" name="line1" formControlName="line1" required>
-    <mat-error class="label" *ngIf="line1.errors?.['required']">Required</mat-error>
-    <mat-error class="label" *ngIf="line1.errors?.['maxlength']">Must be 75 characters or less.</mat-error>
+    @if (line1.errors?.['required']) {
+      <mat-error class="label">Required</mat-error>
+    }
+    @if (line1.errors?.['maxlength']) {
+      <mat-error class="label">Must be 75 characters or less.</mat-error>
+    }
   </mat-form-field>
 
   <mat-form-field class="input" appearance="outline">
     <mat-label class="label">Line 2</mat-label>
     <input matInput type="text" name="line2" formControlName="line2">
-    <mat-error class="label" *ngIf="line2.errors?.['maxlength']">Must be 75 characters or less.</mat-error>
+    @if (line2.errors?.['maxlength']) {
+      <mat-error class="label">Must be 75 characters or less.</mat-error>
+    }
   </mat-form-field>
 
   <div id="combo">
     <mat-form-field class="input" appearance="outline">
       <mat-label class="label">City</mat-label>
       <input matInput type="text" name="city" formControlName="city">
-      <mat-error class="label" *ngIf="line1.errors?.['required']">Required</mat-error>
-      <mat-error class="label" *ngIf="line1.errors?.['maxlength']">Must be 50 characters or less.</mat-error>
+      @if (line1.errors?.['required']) {
+        <mat-error class="label">Required</mat-error>
+      }
+      @if (line1.errors?.['maxlength']) {
+        <mat-error class="label">Must be 50 characters or less.</mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field class="input" id="state" appearance="outline">
       <mat-label class="label">State</mat-label>
       <input matInput type="text" name="state" formControlName="state">
-      <mat-error class="label" *ngIf="line1.errors?.['required']">Required</mat-error>
-      <mat-error class="label" *ngIf="line1.errors?.['maxlength']">Must be 50 characters or less.</mat-error>
+      @if (line1.errors?.['required']) {
+        <mat-error class="label">Required</mat-error>
+      }
+      @if (line1.errors?.['maxlength']) {
+        <mat-error class="label">Must be 50 characters or less.</mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field class="input" appearance="outline">
       <mat-label class="label">Zip</mat-label>
       <input matInput type="text" name="zip" formControlName="zip">
-      <mat-error class="label" *ngIf="line1.errors?.['required']">Required</mat-error>
-      <mat-error class="label" *ngIf="line1.errors?.['maxlength']">Must be 10 characters or less.</mat-error>
+      @if (line1.errors?.['required']) {
+        <mat-error class="label">Required</mat-error>
+      }
+      @if (line1.errors?.['maxlength']) {
+        <mat-error class="label">Must be 10 characters or less.</mat-error>
+      }
     </mat-form-field>
   </div>
   <div class="flexRow buttons">

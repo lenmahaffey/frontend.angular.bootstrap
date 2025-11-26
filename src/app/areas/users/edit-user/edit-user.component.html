@@ -48,26 +48,32 @@
     <div class="title">
       <div>Address</div>
       <div id="addressButtons">
-        <button *ngIf="!this.mailingAddress"
-          mat-raised-button color="primary"
-          (click)="addNewAddress('mailing')"
-          [disabled]="this.mailingAddress">
+        @if (!this.mailingAddress) {
+          <button
+            mat-raised-button color="primary"
+            (click)="addNewAddress('mailing')"
+            [disabled]="this.mailingAddress">
             Add Mailing Address
-        </button>
-        <button *ngIf="!this.billingAddress"
-          mat-raised-button color="primary"
-          (click)="addNewAddress('billing')"
-          [disabled]="this.billingAddress">
+          </button>
+        }
+        @if (!this.billingAddress) {
+          <button
+            mat-raised-button color="primary"
+            (click)="addNewAddress('billing')"
+            [disabled]="this.billingAddress">
             Add Billing Address
-        </button>
-        <button *ngIf="!this.shippingAddress"
-          mat-raised-button color="primary"
-          (click)="addNewAddress('shipping')"
-          [disabled]="this.shippingAddress">
+          </button>
+        }
+        @if (!this.shippingAddress) {
+          <button
+            mat-raised-button color="primary"
+            (click)="addNewAddress('shipping')"
+            [disabled]="this.shippingAddress">
             Add Shipping Address
           </button>
-        </div>
+        }
       </div>
+    </div>
     <div id="addressForms">
       <!-- <app-address-form *ngIf="this.mailingAddress" [title]="'Mailing Address'" [address]="mailingAddress" (addressUpdate)="receiveNewMailingAddress($event)"></app-address-form>
       <app-address-form *ngIf="this.billingAddress" [title]="'Billing Address'" [address]="billingAddress" (addressUpdate)="receiveNewBillingAddress($event)"></app-address-form>
@@ -80,13 +86,13 @@
     <div class="content">
       <form [formGroup]="phoneNumberForm">
         <!-- <mat-form-field *ngFor="let number of user.contact!.contactInformation!.phoneNumbers" class="input"  appearance="outline">
-          <mat-label class="label">PhoneNumber 1</mat-label>
-          <input matInput type="text" formControlName="{{number.priority}}">
-        </mat-form-field> -->
-      </form>
-    </div>
+        <mat-label class="label">PhoneNumber 1</mat-label>
+        <input matInput type="text" formControlName="{{number.priority}}">
+      </mat-form-field> -->
+    </form>
   </div>
-  <div>
-    <button mat-raised-button color="primary" type="submit" (click)="updateUser()">Update</button>
-  </div>
+</div>
+<div>
+  <button mat-raised-button color="primary" type="submit" (click)="updateUser()">Update</button>
+</div>
 </div>

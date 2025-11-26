@@ -2,30 +2,42 @@
 <h1 mat-dialog-title>Add New Number</h1>
 <form [formGroup]="phoneNumberInput" (ngSubmit)="sendResponse(phoneNumberInput.value)">
   <div mat-dialog-content>
-      <div class="topRow">
-        <mat-form-field appearance="outline">
-          <mat-label>Label</mat-label>
-          <input matInput type="text" formControlName="label">
-        </mat-form-field>
-        <div *ngIf="label.invalid && (label.dirty || label.touched)" class="alert">
-          <div *ngIf="label.errors?.['required']">A label is required.</div>
-          <div *ngIf="label.errors?.['maxlength']">
-            The label must be 10 characters or less.
-          </div>
+    <div class="topRow">
+      <mat-form-field appearance="outline">
+        <mat-label>Label</mat-label>
+        <input matInput type="text" formControlName="label">
+      </mat-form-field>
+      @if (label.invalid && (label.dirty || label.touched)) {
+        <div class="alert">
+          @if (label.errors?.['required']) {
+            <div>A label is required.</div>
+          }
+          @if (label.errors?.['maxlength']) {
+            <div>
+              The label must be 10 characters or less.
+            </div>
+          }
         </div>
-      </div>
-      <div >
-        <mat-form-field appearance="outline">
-          <mat-label>Number</mat-label>
-          <input matInput formControlName="number" type="text" name="number">
-        </mat-form-field>
-        <div *ngIf="number.invalid && (number.dirty || number.touched)" class="alert">
-          <div *ngIf="number.errors?.['required']">A 10 digit phone number is required.</div>
-          <div *ngIf="number.errors?.['minlength']">
-            A phone number must be at least 10 characters long.
-          </div>
+      }
+    </div>
+    <div >
+      <mat-form-field appearance="outline">
+        <mat-label>Number</mat-label>
+        <input matInput formControlName="number" type="text" name="number">
+      </mat-form-field>
+      @if (number.invalid && (number.dirty || number.touched)) {
+        <div class="alert">
+          @if (number.errors?.['required']) {
+            <div>A 10 digit phone number is required.</div>
+          }
+          @if (number.errors?.['minlength']) {
+            <div>
+              A phone number must be at least 10 characters long.
+            </div>
+          }
         </div>
-      </div>
+      }
+    </div>
   </div>
   <div mat-dialog-actions>
     <button mat-raised-button color="warn" type="button" (click)="sendResponse(undefined)">Cancel</button>
