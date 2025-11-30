@@ -4,7 +4,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { DemoComponent } from './demo/demo.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
-import { RightSideBarTextComponent } from './demo/right-side-bar-text/right-side-bar-text.component';
+import { RightSideBarTextDemoComponent } from './demo/right-side-bar-text-demo/right-side-bar-text-demo.component';
 import { SwatchComponent } from './demo/swatch/swatch.component';
 import { ServicesModule } from "src/app/services/services.module";
 import { SpinnerDemoComponent } from "./demo/spinner-demo/spinner-demo.component";
@@ -19,7 +19,7 @@ import { NotificationDemoComponent } from './demo/notification-demo/notification
     WelcomeComponent,
     PageNotFoundComponent,
     DemoComponent,
-    RightSideBarTextComponent,
+    RightSideBarTextDemoComponent,
     SwatchComponent,
     SpinnerDemoComponent,
     ConfirmationDemoComponent,

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RightSideBarTextComponent } from './right-side-bar-text.component';
+import { RightSideBarTextComponent } from './right-side-bar-text-demo.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('RightSideBarTextComponent', () => {
