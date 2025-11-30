@@ -30,11 +30,9 @@ export class NotificationDemoComponent {
   sendNotification() {
       var message = new Message()
       message.type =  Number(this.notificationFormData.value.type)
-      // message.title = "" //Unused with alerts
+      message.title = this.notificationFormData.value.title
       message.text = this.notificationFormData.value.text
-      message.autoDismiss = this.notificationFormData.value.dismiss
-      message.duration = this.notificationFormData.value.duration
       console.log("Demo", message)
-      this.appStateService.sendAlert(message);
+      this.appStateService.sendNotification(message);
     }
 }

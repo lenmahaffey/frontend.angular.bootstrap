@@ -22,7 +22,6 @@ export class AppStateService {
   currentDialogRef: MatDialogRef<any, any> | undefined
   confirmationOptions = new ConfirmationDialogOptions()
   confirmationResponse: Subject<boolean | undefined> = new Subject()
-  notificationMessage = new Message()
   leftSideNavMenuItems: Subject<MenuItems> = new Subject<MenuItems>();
   rightSideText: Subject<TemplateRef<any>> = new Subject<TemplateRef<any>>()
   toolTipText: Subject<TemplateRef<any>> = new Subject<TemplateRef<any>>();
@@ -58,9 +57,9 @@ export class AppStateService {
     this.alertService.sendAlert(message)
   }
 
-  sendNotification()
+  sendNotification(message: Message)
   {
-    this.notificationService.sendNotification(this.notificationMessage)
+    this.notificationService.sendNotification(message)
   }
 
   openDialog(component: any, data: any, options?: MatDialogConfig) : Observable<any>

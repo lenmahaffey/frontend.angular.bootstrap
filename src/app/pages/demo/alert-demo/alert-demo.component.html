@@ -3,7 +3,7 @@
     <form [formGroup]="alertMessageFormData" (ngSubmit)="sendAlert()" class="d-flex flex-column h-100">
       <div>
         <div>
-          <select formControlName="type" class="form-select" id="alertType">
+          <select formControlName="type" class="form-select">
             @for (t of values; track t) {
               <option [value]="t">{{ keys[t] }}</option>
             }
@@ -11,18 +11,18 @@
           <div class="form-text">Type</div>
         </div>
         <div>
-          <input formControlName="text" type="text" class="form-control" id="alertText"/>
+          <input formControlName="text" type="text" class="form-control"/>
           <div class="form-text">Message to display</div>
         </div>
         <div class="row mt-1">
           <div class="col">
             <div class="form-check form-switch">
-              <input formControlName="dismiss" type="checkbox" class="form-check-input" id="alertDismiss"/>
+              <input formControlName="dismiss" type="checkbox" class="form-check-input"/>
               <div class="form-text">Auto-dismiss</div>
             </div>
           </div>
           <div class="col">
-            <input formControlName="duration" type="number" class="form-control" id="alertDisplay"/>
+            <input formControlName="duration" type="number" class="form-control"/>
             <div class="form-text">Display Time</div>
           </div>
         </div>

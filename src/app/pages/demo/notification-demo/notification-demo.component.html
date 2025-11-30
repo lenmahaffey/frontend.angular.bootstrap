@@ -1,1 +1,29 @@
-<p>notification-demo works!</p>
+<div class="card h-100">
+  <div class="card-body">
+    <form [formGroup]="notificationFormData" (ngSubmit)="sendNotification()" class="d-flex flex-column h-100">
+      <div>
+          <select formControlName="type" class="form-select">
+            @for (t of values; track t) {
+              <option [value]="t">{{ keys[t] }}</option>
+            }
+          </select>
+        <div class="form-text">Type</div>
+      </div>
+      <div>
+        <input formControlName="title" type="text" class="form-control"/>
+        <div class="form-text">Title</div>
+      </div>
+      <div class="row mt-1">
+        <div class="col">
+          <input formControlName="text" type="text" class="form-control"/>
+          <div class="form-text">Text</div>
+        </div>
+      </div>
+      <div class="row mt-auto">
+        <div class="col text-center">
+          <button type="submit" class="btn btn-primary">Open Notification</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
