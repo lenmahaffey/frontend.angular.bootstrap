@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RightSideBarTextComponent } from './right-side-bar-text-demo.component';
+import { RightSideBarTextDemoComponent } from './right-side-bar-text-demo.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('RightSideBarTextComponent', () => {
-  let component: RightSideBarTextComponent;
-  let fixture: ComponentFixture<RightSideBarTextComponent>;
+  let component: RightSideBarTextDemoComponent;
+  let fixture: ComponentFixture<RightSideBarTextDemoComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -12,7 +12,7 @@ describe('RightSideBarTextComponent', () => {
       imports:[ SharedModule ],
       providers:[]
     }).compileComponents()
-    fixture = TestBed.createComponent(RightSideBarTextComponent);
+    fixture = TestBed.createComponent(RightSideBarTextDemoComponent);
     component = fixture.componentInstance;
   });
 
