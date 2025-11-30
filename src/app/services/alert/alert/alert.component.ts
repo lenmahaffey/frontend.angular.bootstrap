@@ -23,15 +23,16 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     ],
     standalone: false
 })
-export class AlertComponent implements AfterViewInit{
+export class AlertComponent implements AfterViewInit {
 
   @Input() message: Message = new Message(MessageType.Success)
   @Output() dismissed: EventEmitter<Message> = new EventEmitter<Message>();
   animation: string = "showAlert"
   isVisible= 'hidden'
-
+  backgroundClass: string = ""
   constructor(private cdr: ChangeDetectorRef){}
   ngAfterViewInit(): void {
+    this.getBackgroundClass();
     if(this.message.autoDismiss)
     {
       this.dismissAlertInTime(this.message.duration * 1000)
@@ -42,16 +43,23 @@ export class AlertComponent implements AfterViewInit{
 
   getBackgroundClass()
   {
+    console.log("Alert Type: ", this.message.type)
     switch(this.message.type)
     {
-      case MessageType.Error:
-        return "alert-danger"
-      case MessageType.Success:
-        return "alert-success";
-      case MessageType.Warning:
-        return "alert-warning";
+      case MessageType.Success || 0:
+        console.log("Class: alert-success")
+        this.backgroundClass = "alert-success"
+        return
+      case MessageType.Warning || 1:
+        console.log("Class: alert-warning")
+        this.backgroundClass = "alert-warning";
+        return
+      case MessageType.Error || 2:
+        console.log("Class: alert-danger")
+        this.backgroundClass = "alert-danger";
+        return
       default:
-        return "";
+        this.backgroundClass = "";
     }
   }
 

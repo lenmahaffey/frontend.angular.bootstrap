@@ -9,17 +9,16 @@ import { Message } from '../message';
 import { NotificationService } from '../notification/notification.service';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
-import { MessageType } from '../message-type.interface';
 import { Constants } from 'src/app/constants';
-import { bootstrapApplication } from '@angular/platform-browser';
 import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppStateService {
 
-  constructor(private dialog: MatDialog, private alertService: AlertService, private notificationService: NotificationService){}
+  constructor(private dialog: MatDialog, private alertService: AlertService, private notificationService: NotificationService, private modalService: NgbModal){}
   currentDialogRef: MatDialogRef<any, any> | undefined
   confirmationOptions = new ConfirmationDialogOptions()
   confirmationResponse: Subject<boolean | undefined> = new Subject()

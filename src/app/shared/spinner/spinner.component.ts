@@ -2,8 +2,8 @@ import { Component, ElementRef, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
-import { Modal } from 'bootstrap';
-
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import * as bootstrap from 'bootstrap';
 @Component({
     selector: 'app-spinner',
     templateUrl: './spinner.component.html',
@@ -12,12 +12,12 @@ import { Modal } from 'bootstrap';
 })
 export class SpinnerComponent implements OnDestroy {
 
+  currentModal?: any
   options: SpinnerOptions = new SpinnerOptions()
   sub: Subscription
-  constructor(private elementRef: ElementRef, private appStateService: AppStateService) {
+  constructor(private elementRef: ElementRef, private appStateService: AppStateService, private modalService: NgbModal) {
     this.sub = appStateService.spinnerOptions.subscribe(data =>
       {
-        console.log("Data:", data ===null)
         console.log("Received at spinner:", data)
         if(data === null){
           this.closeDialog()
@@ -34,13 +34,12 @@ export class SpinnerComponent implements OnDestroy {
 
   openDialog(): void{
     console.log("Opening Modal")
-    let temp = new Modal(this.elementRef.nativeElement.children[0])
-    temp.show()
+    // this.currentModal = this.modalService.open(SpinnerComponent)
+    this.currentModal = new bootstrap.Modal(this.elementRef.nativeElement)
+    this.currentModal.show()
   }
 
   closeDialog(): void {
-    let temp = new Modal(this.elementRef.nativeElement.children[0])
-    temp.hide()
-
+    this.currentModal?.close()
   }
 }

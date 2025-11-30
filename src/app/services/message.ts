@@ -12,9 +12,9 @@ export interface Message{
 
 export class Message implements Message {
 
-  constructor(type?: MessageType, message?: string, autoDismiss: boolean = true) {
-    this.type = type ?? MessageType.Error
-    this.autoDismiss = autoDismiss
+  constructor(type?: MessageType, message?: string, autoDismiss?: boolean) {
+    this.type = type ?? MessageType.Success
+    this.autoDismiss = autoDismiss ?? true
     this.time = new Date()
     this.text = message ?? "There was an error"
     this.duration = 3
