@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { Message } from 'src/app/services/message';
@@ -10,7 +10,7 @@ import { MessageType } from 'src/app/services/message-type.interface';
   styleUrl: './alert-demo.component.scss',
   standalone: false
 })
-export class AlertDemoComponent {
+export class AlertDemoComponent implements OnInit{
 
   keys: any[] = []
   values: any[] = []
@@ -30,6 +30,17 @@ export class AlertDemoComponent {
     })
   }
 
+  ngOnInit(): void {
+    this.alertMessageFormData.get('dismiss')?.valueChanges.subscribe(value =>
+    {
+      if(value){
+        this.alertMessageFormData.get('duration')?.enable()
+      } else {
+        this.alertMessageFormData.get('duration')?.disable()
+      }
+    })
+  }
+
   sendAlert() {
     var message = new Message()
     message.type =  Number(this.alertMessageFormData.value.type)
@@ -37,7 +48,6 @@ export class AlertDemoComponent {
     message.text = this.alertMessageFormData.value.text
     message.autoDismiss = this.alertMessageFormData.value.dismiss
     message.duration = this.alertMessageFormData.value.duration
-    console.log("Demo", message)
     this.appStateService.sendAlert(message);
   }
 }
