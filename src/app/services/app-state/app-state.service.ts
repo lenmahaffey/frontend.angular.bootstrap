@@ -22,14 +22,20 @@ export class AppStateService {
   currentDialogRef: MatDialogRef<any, any> | undefined
   confirmationOptions = new ConfirmationDialogOptions()
   confirmationResponse: Subject<boolean | undefined> = new Subject()
-  leftSideNavMenuItems: Subject<MenuItems> = new Subject<MenuItems>();
+  leftSideNavMenuItems: Subject<MenuItems | undefined> = new Subject<MenuItems | undefined>();
   rightSideText: Subject<TemplateRef<any>> = new Subject<TemplateRef<any>>()
   toolTipText: Subject<TemplateRef<any>> = new Subject<TemplateRef<any>>();
   spinnerOptions: Subject<SpinnerOptions | null> = new Subject<SpinnerOptions | null>();
 
-  setLeftSideMenuItems(items: SideBarNavLinks)
+  setLeftSideMenuItems(items?: SideBarNavLinks)
   {
-    this.leftSideNavMenuItems.next(items.links);
+    if(items)
+    {
+      this.leftSideNavMenuItems.next(items.links);
+    }
+    else{
+      this.leftSideNavMenuItems.next(undefined);
+    }
   }
 
   setRightSideNav(text: TemplateRef<any>)
