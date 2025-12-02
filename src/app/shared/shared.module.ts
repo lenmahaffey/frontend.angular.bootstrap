@@ -17,7 +17,7 @@ import { MonthNameFromDatePipe } from './pipes/month-name-from-date.pipe';
 import { StringToFormattedPhoneNumberStringPipe } from './pipes/string-to-formatted-phone-number-string.pipe';
 import { ContactNamePipe } from './pipes/contact-name.pipe';
 import { UtcToLocalPipe } from './pipes/utc-to-local.pipe';
-import { NgbAccordionBody, NgbActiveModal, NgbModal, NgbModalConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [

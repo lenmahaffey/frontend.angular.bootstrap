@@ -11,7 +11,7 @@ import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/co
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { Constants } from 'src/app/constants';
 import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable({
   providedIn: 'root'
@@ -50,11 +50,21 @@ export class AppStateService {
 
   openSpinner(options: SpinnerOptions)
   {
+    const modalOptions: NgbModalOptions = {
+      backdrop: (options.disableClose ? 'static' : true ),
+      keyboard: !options.disableClose,
+      centered: true,
+      animation: true,
+      size: 'sm'
+
+    };
+    this.modalService.open(SpinnerComponent, modalOptions)
     this.spinnerOptions.next(options)
   }
 
   closeSpinner()
   {
+    this.modalService.dismissAll()
     this.spinnerOptions.next(null)
   }
 

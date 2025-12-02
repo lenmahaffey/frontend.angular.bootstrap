@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnIni
 import { Message } from '../../message';
 import { MessageType } from '../../message-type.interface';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Constants } from 'src/app/constants';
 
 @Component({
     selector: 'app-alert',
@@ -35,7 +36,7 @@ export class AlertComponent implements AfterViewInit {
     this.getBackgroundClass();
     if(this.message.autoDismiss)
     {
-      this.dismissAlertInTime(this.message.duration * 1000)
+      this.dismissAlertInTime(this.message.duration)
     }
     this.isVisible = 'visible'
     this.cdr.detectChanges();
@@ -76,14 +77,8 @@ export class AlertComponent implements AfterViewInit {
     this.message.isDismissed = true
   }
 
-  async dismissAlertInTime(timeToWait: number ) {
-    await this.sleep(timeToWait);
+  async dismissAlertInTime(timeToWaitInSeconds: number) {
+    await Constants.wait(timeToWaitInSeconds);
     this.dismissAlert()
   }
-
-  sleep = async (milliseconds: number) => {
-    await new Promise(resolve => {
-        return setTimeout(resolve, milliseconds)
-    });
-};
 }

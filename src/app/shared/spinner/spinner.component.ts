@@ -18,12 +18,8 @@ export class SpinnerComponent implements OnDestroy {
   constructor(private elementRef: ElementRef, private appStateService: AppStateService, private modalService: NgbModal) {
     this.sub = appStateService.spinnerOptions.subscribe(data =>
       {
-        console.log("Received at spinner:", data)
-        if(data === null){
-          this.closeDialog()
-        } else {
+        if(data){
           this.options = data
-          this.openDialog()
         }
       })
   }
@@ -32,14 +28,17 @@ export class SpinnerComponent implements OnDestroy {
     this.sub.unsubscribe()
   }
 
-  openDialog(): void{
-    console.log("Opening Modal")
-    // this.currentModal = this.modalService.open(SpinnerComponent)
-    this.currentModal = new bootstrap.Modal(this.elementRef.nativeElement)
-    this.currentModal.show()
-  }
+  // openDialog(): void{
+  //   console.log("Opening Modal")
+  //   // this.currentModal = this.modalService.open(SpinnerComponent)
+  //   this.currentModal = new bootstrap.Modal(this.elementRef.nativeElement)
+  //   this.currentModal
+  //   console.log(this.elementRef)
+  //   console.log(this.currentModal)
+  //   this.currentModal.show()
+  // }
 
-  closeDialog(): void {
-    this.currentModal?.close()
-  }
+  // closeDialog(): void {
+  //   this.currentModal?.close()
+  // }
 }
