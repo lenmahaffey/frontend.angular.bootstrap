@@ -17,7 +17,7 @@ import { MonthNameFromDatePipe } from './pipes/month-name-from-date.pipe';
 import { StringToFormattedPhoneNumberStringPipe } from './pipes/string-to-formatted-phone-number-string.pipe';
 import { ContactNamePipe } from './pipes/contact-name.pipe';
 import { UtcToLocalPipe } from './pipes/utc-to-local.pipe';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -53,7 +53,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MaterialModule,
     BrowserAnimationsModule,
     SpinnerComponent,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule,
   ],
   providers:[
     UtcToLocalPipe,
@@ -63,7 +64,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     StringToPhoneNumberPipe,
     CurrencyFormatterPipe,
     StringToFormattedPhoneNumberStringPipe,
-    ContactNamePipe
+    ContactNamePipe,
+    NgbActiveModal,
   ]
 })
 export class SharedModule { }

@@ -97,9 +97,10 @@ export class ListContactsComponent {
               })
             }
           },
-        error: () =>
+        error: (err) =>
         {
-          this.appState.sendAlert(new Message())
+          // return err
+          this.appState.sendAlert(new Message(MessageType.Error, err))
         }
       })
       .add(() =>
@@ -287,7 +288,7 @@ export class ListContactsComponent {
       top: '7%'
     }
     config.minWidth = undefined
-    const dialogRef = this.appState.openDialog(AddOrEditContactComponent, dto, config);
+    const dialogRef = this.appState.openDialog(AddOrEditContactComponent, dto);
     dialogRef.pipe(take(1)).subscribe(
       {
         next: (data) =>
@@ -380,7 +381,7 @@ export class ListContactsComponent {
       top: '7%'
     }
     config.minWidth = undefined
-    const dialogRef = this.appState.openDialog(AddOrEditContactComponent, contact, config);
+    const dialogRef = this.appState.openDialog(AddOrEditContactComponent, contact);
     dialogRef.pipe(take(1)).subscribe(
       {
         next: (data) =>

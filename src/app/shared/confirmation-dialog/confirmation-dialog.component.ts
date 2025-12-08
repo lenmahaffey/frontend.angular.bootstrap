@@ -1,7 +1,9 @@
-import { Component, Inject, OnInit, Output } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { ConfirmationDialogOptions } from './confirmation-dialog-options';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AppStateService } from 'src/app/services/app-state/app-state.service';
 
 @Component({
     selector: 'app-confirmation-dialog',
@@ -9,53 +11,53 @@ import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/materia
     styleUrls: ['./confirmation-dialog.component.scss'],
     standalone: false
 })
-export class ConfirmationDialogComponent implements OnInit {
+export class ConfirmationDialogComponent implements OnDestroy {
 
+  sub:Subscription
   options: ConfirmationDialogOptions = new ConfirmationDialogOptions()
   @Output() response: Subject<boolean | null> = new Subject()
 
-  constructor(private dialogRef: MatDialogRef<ConfirmationDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: {options: ConfirmationDialogOptions})
+  constructor(private appStateService: AppStateService, public modal: NgbActiveModal)
   {
-    this.options = data.options
+    this.sub = this.appStateService.confirmationOptions.subscribe(
+      {
+        next: (data) =>{
+          this.options = data
+        },
+        error: (error)=>{
+
+        },
+        complete: () =>{
+
+        }
+      })
   }
-
-  ngOnInit(): void {
-    const bodyRect = document.body.getBoundingClientRect();
-    const config: MatDialogConfig = new MatDialogConfig();
-    config.minWidth = 400
-    config.position =
-    {
-      right: ((bodyRect.width / 2) - ( config.minWidth / 2) ).toString() + "px",
-      top: '7%' }
-
-    this.dialogRef.updatePosition(config.position)
-    this.dialogRef.updateSize(`${config.minWidth.toString()}px`)
-    this.dialogRef.disableClose = true;
+  ngOnDestroy(): void {
+    this.sub.unsubscribe()
   }
 
   onKeyDown(event: any)
   {
     if (event.key === "Escape") {
       this.response.next(null)
-      this.dialogRef.close()
+      this.modal.close()
     }
   }
   yes(){
     this.response.next(true);
     this.response.complete();
-    this.dialogRef.close()
+    this.modal.close()
   }
 
   no(){
     this.response.next(false);
     this.response.complete();
-    this.dialogRef.close()
+    this.modal.close()
   }
 
   dismiss(){
     this.response.next(null);
     this.response.complete();
-    this.dialogRef.close()
+    this.modal.close()
   }
 }

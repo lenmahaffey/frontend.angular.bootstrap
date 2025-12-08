@@ -4,6 +4,7 @@ import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { Message } from 'src/app/services/message';
 import { MessageType } from 'src/app/services/message-type.interface';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
+import { ToolTipOptions } from 'src/app/shared/tooltip/tooltip-options';
 
 @Component({
   selector: 'app-confirmation-demo',
@@ -13,27 +14,51 @@ import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/co
 })
 export class ConfirmationDemoComponent {
 
-  notificationFormData: FormGroup
-  confirmationResponseMessage: string = "Please open the confimation dialog and make a selection"
+  confirmationFormData: FormGroup
+  confirmationResponseMessage: string | undefined
+  private _confirmationResponse: boolean | undefined
 
+  get confirmationResponse(): boolean | undefined {
+    return this._confirmationResponse
+  }
+  set confirmationResponse(value: boolean | undefined) {
+    this._confirmationResponse = value
+    if(value == undefined)
+    {
+      this.confirmationResponseMessage = "You did not make a selection"
+    }
+    else if(value)
+    {
+      this.confirmationResponseMessage = "You clicked yes"
+    }
+    else
+    {
+      this.confirmationResponseMessage = this.confirmationResponseMessage = "You clicked no"
+    }
+  }
   constructor(private appStateService: AppStateService) {
-    this.notificationFormData = new FormGroup({
-      type: new FormControl(MessageType.Success),
-      title: new FormControl("Enter Title text"),
-      text: new FormControl("Enter alert text"),
+    this.confirmationFormData = new FormGroup({
+      title: new FormControl("Enter title text"),
+      text: new FormControl("Enter message text"),
+      okText: new FormControl("Ok"),
+      cancelText: new FormControl("Cancel"),
     });
   }
+
   openConfirmationDialog()
   {
     const options = new ConfirmationDialogOptions()
-    options.text = "This is a dialog"
-    options.title = "Confirmation Dialog"
+    options.text = this.confirmationFormData.value.text
+    options.title = this.confirmationFormData.value.title
+    options.yesButtonText = this.confirmationFormData.value.okText
+    options.noButtonText = this.confirmationFormData.value.cancelText
     let sub = this.appStateService.openConfirmationDialog(options).subscribe(
       {
         next: (data) =>
         {
-          this.setConfirmationResponseMessage(data)
-          this.appStateService.closeDialog()
+          this.confirmationResponse = data
+          console.log(this.confirmationResponseMessage)
+          // this.appStateService.closeDialog()
           sub.unsubscribe()
         },
         error: () =>
@@ -48,30 +73,11 @@ export class ConfirmationDemoComponent {
         }
       })
   }
-
-  setConfirmationResponseMessage(data: boolean | null)
-  {
-    if(data == null)
-    {
-      this.confirmationResponseMessage = "You did not make a selection"
-    }
-    else if(data)
-    {
-      this.confirmationResponseMessage = "You clicked yes"
-    }
-    else
-    {
-      this.confirmationResponseMessage = this.confirmationResponseMessage = "You clicked no"
-    }
+  reset(){
+    this.confirmationResponseMessage = undefined
   }
-  openConfirmation() {
-      var message = new Message()
-      message.type =  Number(this.notificationFormData.value.type)
-      // message.title = "" //Unused with alerts
-      message.text = this.notificationFormData.value.text
-      message.autoDismiss = this.notificationFormData.value.dismiss
-      message.duration = this.notificationFormData.value.duration
-      console.log("Demo", message)
-      this.appStateService.sendAlert(message);
-    }
+  onMouseOver(event: MouseEvent, text: string){
+    const options = new ToolTipOptions(event, text)
+    this.appStateService.toolTipText.next(options)
+  }
 }

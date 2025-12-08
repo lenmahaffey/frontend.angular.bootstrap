@@ -1,11 +1,11 @@
-export interface ConfirmationDialogOptions {
+export interface IConfirmationDialogOptions {
   title:string
   text: string
   noButtonText: string
   yesButtonText:string
 }
 
-export class ConfirmationDialogOptions implements ConfirmationDialogOptions
+export class ConfirmationDialogOptions implements IConfirmationDialogOptions
 {
   title: string = "Confirm"
   text: string = "Are you sure?"

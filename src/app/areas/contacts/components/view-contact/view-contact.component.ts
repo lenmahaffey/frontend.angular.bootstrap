@@ -63,38 +63,15 @@ export class ViewContactComponent implements OnChanges {
             this.contact = data
             this.setAddressInputs()
           },
-          error: () =>
+          error: (err) =>
           {
-            const message = new Message()
+            console.log(err)
+            const message = new Message(MessageType.Error)
             message.text = `There was an error getting the contact for Contact#: ${this.contactInputId}`
             this.appState.sendAlert(message)
           }
         })
   }
-
-  // getContactInformation()
-  // {
-  //   this.service.getContactInformation(this.contactInputId)
-  //     .pipe(take(1))
-  //     .subscribe(
-  //     {
-  //       next: (data) =>
-  //       {
-  //         this.contactInformation = data
-  //         this.setAddressInputs()
-  //       },
-  //       error: () =>
-  //       {
-  //         let message = new Message()
-  //         message.text = `There was an error getting the contactInformation for Contact#: ${this.contactInputId}`
-  //         this.appState.sendAlert(message)
-  //       }
-  //     })
-  //     .add(() =>
-  //     {
-  //       this.appState.closeSpinner()
-  //     })
-  // }
 
   setAddressInputs()
   {

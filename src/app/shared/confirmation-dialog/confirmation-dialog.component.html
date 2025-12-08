@@ -1,4 +1,18 @@
-<div id="container" (keydown)="onKeyDown($event)">
+  <div class="modal-content p-2" (keydown)="onKeyDown($event)">
+    <div class="modal-header border-0">
+        <div class="modal-title">
+          {{ options.title }}
+        </div>
+      </div>
+      <div class="modal-body text-center">
+          <p class="">{{ options.text }}</p>
+        <div id="buttons" class="modal-footer border-0">
+          <button type="button" class="btn btn-danger" (click)="no()">{{ options.noButtonText }}</button>
+          <button type="button" class="btn btn-primary" (click)="yes()">{{ options.yesButtonText }}</button>
+        </div>
+      </div>
+  </div>
+<!-- <div id="container" (keydown)="onKeyDown($event)">
   <div id="dialog">
     <div mat-dialog-title>{{ options.title }}</div>
     <mat-dialog-content>
@@ -9,4 +23,4 @@
       <button mat-raised-button color="primary" type="button" class="" (click)="yes()">{{ options.yesButtonText }}</button>
     </div>
   </div>
-</div>
+</div> -->

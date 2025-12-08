@@ -1,29 +1,60 @@
 <div class="card h-100">
   <div class="card-body">
-    <form #confirmation class="h-100 d-flex flex-column">
-      <div>
-        <input #confirmationTitle type="text" class="form-control" id="confirmationTitle"/>
-        <div class="form-text">Title</div>
-      </div>
-      <div>
-        <input #confirmationText type="text" class="form-control" id="confirmationText"/>
-        <div class="form-text">Text</div>
-      </div>
-      <div class="row mt-1">
-        <div class="col">
-          <input #confirmationOkText type="text" class="form-control" id="okText"/>
-          <div class="form-text">Ok text</div>
+      @if(!confirmationResponseMessage){
+        <form [formGroup]="confirmationFormData" (ngSubmit)="openConfirmationDialog()" class="h-100 d-flex flex-column">
+          <div>
+            <input formControlName="title" type="text" class="form-control" id="confirmationTitle" (mouseover)="onMouseOver($event, 'Title of the modal')"/>
+            <div class="form-text">Title</div>
+          </div>
+          <div>
+            <input formControlName="text" type="text" class="form-control" id="confirmationText"/>
+            <div class="form-text">Text</div>
+          </div>
+          <div class="row mt-1">
+            <div class="col">
+              <input formControlName="okText" type="text" class="form-control" id="okText"/>
+              <div class="form-text">Ok Button Text</div>
+            </div>
+            <div class="col">
+                <input formControlName="cancelText" type="text" class="form-control" id="cancelText"/>
+                <div class="form-text">Cancel Button Text</div>
+            </div>
+          </div>
+          <div class="row mt-auto">
+            <div class="col text-center mt-2">
+              <button type="submit" class="btn btn-primary">Open Confirmation</button>
+            </div>
+          </div>
+        </form>
+      }
+      @else {
+        <div class="row text-center h-100">
+        <div>
+          <p>{{ confirmationResponseMessage }}</p>
         </div>
-        <div class="col">
-            <input #confirmationCancelText type="text" class="form-control" id="cancelText"/>
-            <div class="form-text">Cancel text</div>
+        <div id="responseIcon">
+          @if (confirmationResponse == undefined){
+            <i class="fa-regular fa-circle-question text-warning"></i>
+          }
+          @else {
+            <div>
+              @if (confirmationResponse) {
+                <i class="fa-regular fa-circle-check text-success"></i>
+              }
+              @else {
+                <i class="fa-regular fa-circle-xmark text-danger"></i>
+              }
+            </div>
+          }
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="align-bottom align-self-end">
+                <button (click)="reset()" class="btn btn-primary">
+                    Reset
+                </button>
+            </div>
         </div>
       </div>
-      <div class="row mt-auto">
-        <div class="col text-center mt-2">
-          <button type="submit" class="btn btn-primary">Open Confirmation</button>
-        </div>
-      </div>
-    </form>
+      }
   </div>
 </div>
