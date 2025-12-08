@@ -21,7 +21,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+// import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule} from '@angular/material/checkbox';
@@ -54,7 +54,7 @@ import {MatRadioModule} from '@angular/material/radio';
     MatTableModule,
     MatTreeModule,
     MatIconModule,
-    DragDropModule,
+    // DragDropModule,
     MatListModule,
     // MatChipsModule,
     MatTabsModule,

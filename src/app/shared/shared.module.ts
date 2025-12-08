@@ -19,6 +19,7 @@ import { ContactNamePipe } from './pipes/contact-name.pipe';
 import { UtcToLocalPipe } from './pipes/utc-to-local.pipe';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TooltipDirective } from './tooltip/tooltip.directive';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { TooltipDirective } from './tooltip/tooltip.directive';
     SpinnerComponent,
     HttpClientModule,
     NgbModule,
-    TooltipDirective
+    TooltipDirective,
+    DragDropModule,
   ],
   providers:[
     UtcToLocalPipe,
