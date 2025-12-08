@@ -24,4 +24,8 @@ export class DemoComponent implements OnDestroy, OnInit {
   ngOnDestroy(): void {
     this.appState.setLeftSideMenuItems()
   }
+
+  // openToolTip(message:string){
+  //   this.appState.toolTipText.next(message)
+  // }
 }

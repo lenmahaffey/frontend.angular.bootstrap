@@ -9,22 +9,22 @@ import { Message } from '../message';
 import { NotificationService } from '../notification/notification.service';
 import { ConfirmationDialogOptions } from 'src/app/shared/confirmation-dialog/confirmation-dialog-options';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
-import { Constants } from 'src/app/constants';
 import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { ToolTipOptions } from 'src/app/shared/tooltip/tooltip-options';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppStateService {
 
-  constructor(private dialog: MatDialog, private alertService: AlertService, private notificationService: NotificationService, private modalService: NgbModal){}
-  currentDialogRef: MatDialogRef<any, any> | undefined
-  confirmationOptions = new ConfirmationDialogOptions()
+  constructor(private alertService: AlertService, private notificationService: NotificationService, private modalService: NgbModal){}
+  // currentDialogRef: MatDialogRef<any, any> | undefined
+  confirmationOptions:Subject<ConfirmationDialogOptions> = new Subject()
   confirmationResponse: Subject<boolean | undefined> = new Subject()
   leftSideNavMenuItems: Subject<MenuItems | undefined> = new Subject<MenuItems | undefined>();
   rightSideText: Subject<TemplateRef<any>> = new Subject<TemplateRef<any>>()
-  toolTipText: Subject<TemplateRef<any>> = new Subject<TemplateRef<any>>();
+  toolTipText: Subject<ToolTipOptions> = new Subject<ToolTipOptions>();
   spinnerOptions: Subject<SpinnerOptions | null> = new Subject<SpinnerOptions | null>();
 
   setLeftSideMenuItems(items?: SideBarNavLinks)
@@ -43,9 +43,9 @@ export class AppStateService {
     this.rightSideText.next(text)
   }
 
-  setToolTip(text: TemplateRef<any>)
+  setToolTip(options: ToolTipOptions)
   {
-    this.toolTipText.next(text);
+    this.toolTipText.next(options);
   }
 
   openSpinner(options: SpinnerOptions)
@@ -78,27 +78,48 @@ export class AppStateService {
     this.notificationService.sendNotification(message)
   }
 
-  openDialog(component: any, data: any, options?: MatDialogConfig) : Observable<any>
+  openDialog(component: any, data: any, options?: ConfirmationDialogOptions) : Observable<any>
   {
-    const config: MatDialogConfig = (options != null)  ? options : Constants.GetDialogConfig()
-    this.currentDialogRef = this.dialog.open(component, {data});
-    this.currentDialogRef.updatePosition(config.position)
-    config.minWidth != undefined ? this.currentDialogRef.updateSize(`${config.minWidth.toString()}px`) : null
-    this.currentDialogRef.disableClose = false;
-    return this.currentDialogRef.componentInstance.response
+    const modalOptions: NgbModalOptions = {
+      // backdrop: 'static',
+      // keyboard: true,
+      centered: false,
+      animation: true,
+      size: 'lg'
+    };
+    let modal = this.modalService.open(component, modalOptions)
+    if(options){
+      this.confirmationOptions.next(options)
+    }
+    return modal.componentInstance.response
+    // const config: MatDialogConfig = (options != null)  ? options : Constants.GetDialogConfig()
+    // this.currentDialogRef = this.dialog.open(component, {data});
+    // this.currentDialogRef.updatePosition(config.position)
+    // config.minWidth != undefined ? this.currentDialogRef.updateSize(`${config.minWidth.toString()}px`) : null
+    // this.currentDialogRef.disableClose = false;
+    // return this.currentDialogRef.componentInstance.response
   }
 
   closeDialog()
   {
-    if(this.currentDialogRef != undefined)
-    {
-      this.currentDialogRef.close()
-    }
+    this.modalService.dismissAll()
+    // if(this.currentDialogRef != undefined)
+    // {
+    //   this.currentDialogRef.close()
+    // }
   }
 
-  openConfirmationDialog(options?: ConfirmationDialogOptions) : Observable<boolean | null>
+  openConfirmationDialog(options?: ConfirmationDialogOptions) : Observable<boolean | undefined>
   {
-    this.currentDialogRef = this.dialog.open(ConfirmationDialogComponent, {data: {options}});
-    return this.currentDialogRef.componentInstance.response
+    const modalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      centered: false,
+      animation: true,
+    };
+    let modal = this.modalService.open(ConfirmationDialogComponent, modalOptions)
+    if(options){
+      this.confirmationOptions.next(options)
+    }
+    return modal.componentInstance.response
   }
 }
