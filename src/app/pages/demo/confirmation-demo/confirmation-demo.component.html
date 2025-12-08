@@ -3,7 +3,7 @@
       @if(!confirmationResponseMessage){
         <form [formGroup]="confirmationFormData" (ngSubmit)="openConfirmationDialog()" class="h-100 d-flex flex-column">
           <div>
-            <input formControlName="title" type="text" class="form-control" id="confirmationTitle" (mouseover)="onMouseOver($event, 'Title of the modal')"/>
+            <input tooltip [text]="'This is a tooltip'" formControlName="title" type="text" class="form-control" id="confirmationTitle" />
             <div class="form-text">Title</div>
           </div>
           <div>

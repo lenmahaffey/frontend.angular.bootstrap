@@ -18,6 +18,7 @@ import { StringToFormattedPhoneNumberStringPipe } from './pipes/string-to-format
 import { ContactNamePipe } from './pipes/contact-name.pipe';
 import { UtcToLocalPipe } from './pipes/utc-to-local.pipe';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TooltipDirective } from './tooltip/tooltip.directive';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MonthNameFromDatePipe,
     StringToFormattedPhoneNumberStringPipe,
     ContactNamePipe,
+    TooltipDirective
   ],
   imports: [
     MaterialModule,
@@ -55,6 +57,7 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SpinnerComponent,
     HttpClientModule,
     NgbModule,
+    TooltipDirective
   ],
   providers:[
     UtcToLocalPipe,

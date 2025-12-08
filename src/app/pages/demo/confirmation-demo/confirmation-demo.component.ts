@@ -15,9 +15,12 @@ import { ToolTipOptions } from 'src/app/shared/tooltip/tooltip-options';
 export class ConfirmationDemoComponent {
 
   confirmationFormData: FormGroup
-  confirmationResponseMessage: string | undefined
-  private _confirmationResponse: boolean | undefined
+  private _confirmationResponseMessage: string | undefined
+  get confirmationResponseMessage(){
+    return this._confirmationResponseMessage
+  }
 
+  private _confirmationResponse: boolean | undefined
   get confirmationResponse(): boolean | undefined {
     return this._confirmationResponse
   }
@@ -25,15 +28,15 @@ export class ConfirmationDemoComponent {
     this._confirmationResponse = value
     if(value == undefined)
     {
-      this.confirmationResponseMessage = "You did not make a selection"
+      this._confirmationResponseMessage = "You did not make a selection"
     }
     else if(value)
     {
-      this.confirmationResponseMessage = "You clicked yes"
+      this._confirmationResponseMessage = "You clicked yes"
     }
     else
     {
-      this.confirmationResponseMessage = this.confirmationResponseMessage = "You clicked no"
+      this._confirmationResponseMessage = this._confirmationResponseMessage = "You clicked no"
     }
   }
   constructor(private appStateService: AppStateService) {
@@ -74,10 +77,16 @@ export class ConfirmationDemoComponent {
       })
   }
   reset(){
-    this.confirmationResponseMessage = undefined
+    this._confirmationResponseMessage = undefined
   }
-  onMouseOver(event: MouseEvent, text: string){
+
+
+  openToolTip(event: MouseEvent, text: string){
     const options = new ToolTipOptions(event, text)
-    this.appStateService.toolTipText.next(options)
+    this.appStateService.toolTipOptions.next(options)
+  }
+
+  closeToolTip(event: MouseEvent){
+    this.appStateService.toolTipOptions.next(null);
   }
 }

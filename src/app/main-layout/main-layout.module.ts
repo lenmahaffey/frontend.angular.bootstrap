@@ -8,6 +8,7 @@ import { MainLayoutComponent } from './main-layout.component';
 import { RouterModule } from '@angular/router';
 import { ServicesModule } from '../services/services.module';
 import { SharedModule } from '../shared/shared.module';
+import { TooltipComponent } from "../shared/tooltip/tooltip.component";
 
 
 
@@ -22,8 +23,9 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     ServicesModule,
     RouterModule,
-    SharedModule
-  ],
+    SharedModule,
+    TooltipComponent
+],
   exports:[
     MainLayoutComponent
   ]

@@ -24,7 +24,7 @@ export class AppStateService {
   confirmationResponse: Subject<boolean | undefined> = new Subject()
   leftSideNavMenuItems: Subject<MenuItems | undefined> = new Subject<MenuItems | undefined>();
   rightSideText: Subject<TemplateRef<any>> = new Subject<TemplateRef<any>>()
-  toolTipText: Subject<ToolTipOptions> = new Subject<ToolTipOptions>();
+  toolTipOptions: Subject<ToolTipOptions | null> = new Subject<ToolTipOptions | null>();
   spinnerOptions: Subject<SpinnerOptions | null> = new Subject<SpinnerOptions | null>();
 
   setLeftSideMenuItems(items?: SideBarNavLinks)
@@ -45,7 +45,7 @@ export class AppStateService {
 
   setToolTip(options: ToolTipOptions)
   {
-    this.toolTipText.next(options);
+    this.toolTipOptions.next(options);
   }
 
   openSpinner(options: SpinnerOptions)
