@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
 import { AreasModule } from './areas/areas.module';
 import { PagesModule } from './pages/pages.module';

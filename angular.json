@@ -32,7 +32,6 @@
             ],
             "styles": [
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
-              "node_modules/material-design-icons/iconfont/material-icons.css",
               "src/styles/index.scss",
               "src/styles/bootstrap.scss"
             ],

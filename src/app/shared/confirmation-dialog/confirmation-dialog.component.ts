@@ -1,7 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { ConfirmationDialogOptions } from './confirmation-dialog-options';
 import { Subject, Subscription } from 'rxjs';
-import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppStateService } from 'src/app/services/app-state/app-state.service';
 

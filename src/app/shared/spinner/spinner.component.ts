@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { AppStateService } from 'src/app/services/app-state/app-state.service';
 import { SpinnerOptions } from 'src/app/shared/spinner/SpinnerOptions';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import * as bootstrap from 'bootstrap';
+
 @Component({
     selector: 'app-spinner',
     templateUrl: './spinner.component.html',

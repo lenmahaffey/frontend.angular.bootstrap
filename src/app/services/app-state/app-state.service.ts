@@ -1,5 +1,4 @@
 import { Injectable, TemplateRef } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Observable, Subject } from 'rxjs';
 import { SideBarNavLinks } from 'src/app/pages/demo/left-side-bar-nav-links';
 import { MenuItems } from 'src/app/shared/menu-items';

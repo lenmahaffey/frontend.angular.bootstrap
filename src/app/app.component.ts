@@ -1,4 +1,4 @@
-import { Component, OnInit, isDevMode } from '@angular/core';
+import { Component } from '@angular/core';
 
 
 @Component({
@@ -8,7 +8,5 @@ import { Component, OnInit, isDevMode } from '@angular/core';
     standalone: false
 })
 export class AppComponent {
-
-
   title = 'MeetingManager.Frontend.Angular';
 }
