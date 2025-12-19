@@ -13,5 +13,4 @@ export class ToShortTimeStringPipe implements PipeTransform {
     result = temp.split('').reverse().join('')
     return result
   }
-
 }

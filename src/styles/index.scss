@@ -1,15 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-@use '@angular/material' as mat;
-@use "./appTheme.scss" as *;
-// @use "@angular/material/theming";
-@include mat.elevation-classes();
-@include mat.app-background();
-@include mat.all-component-themes($app-theme);
 
 html, body {
   height: 100%;
   // font-family: "Roboto";
-  background-color: $white;
+  background-color: var(--bg-light);
   overflow: hidden;
 }
 
@@ -18,7 +12,7 @@ html, body {
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: $white
+  background: var(--bg-light)
 }
 
 /* Handle */
@@ -28,5 +22,5 @@ html, body {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: $black;
+  background: var(--bg-dark);
 }

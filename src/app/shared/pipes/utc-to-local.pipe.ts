@@ -7,8 +7,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class UtcToLocalPipe implements PipeTransform {
 
   transform(value:Date): Date {
-    console.log(value)
     return new Date(value)
   }
-
 }

@@ -9,31 +9,30 @@ export class HeaderNavLinks implements SideBarNavLinks
     this.links = {
       itemGroups: [
         // {
-        //   title:"Users",
+        //   title:"",
         //   items:[
-        //   { href:"users/listusers", text:"Users" },
+        //   { href:"", text:"" },
         // ]},
-        {
-          title:"Inventory",
-          items:[
-          { href:"inventory/dashboard", text:"Inventory" },
-        ]},
-        {
-          title:"Events",
-          items:[
-          { href:"events/", text:"Events" },
-        ]},
         // {
-        //   title:"Sales",
+        //   title:"",
         //   items:[
-        //   { href:"sales/createitem", text:"Create Sales Item" },
-        //   { href:"", text:"Add Users" }
+        //   { href:"", text:"" },
         // ]},
-        {
-          title:"Contacts",
-          items:[
-          { href:"contacts/", text:"Contacts" },
-        ]},
+        // {
+        //   title:"",
+        //   items:[
+        //   { href:"", text:"" },
+        // ]},
+        // {
+        //   title:"",
+        //   items:[
+        //   { href:"", text:"" },
+        // ]},
+        // {
+        //   title:"",
+        //   items:[
+        //   { href:"", text:"" },
+        // ]},
       ]
     }
   }

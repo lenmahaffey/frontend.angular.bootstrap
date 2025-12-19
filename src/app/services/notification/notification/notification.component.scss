@@ -1,4 +1,3 @@
-@use '/src/styles/appTheme.scss' as *;
 
 #notification{
   box-shadow: 5px 10px 25px black;
@@ -14,13 +13,13 @@
 }
 
 .errorBorder {
-  border-color: $red;
+  border-color: var(--bg-danger);
 }
 
 .successBorder {
-  border-color: $green;
+  border-color: var(--bg-success);
 }
 
 .warningBorder {
-  border-color: $yellow;
+  border-color: var(--bg-warning);
 }

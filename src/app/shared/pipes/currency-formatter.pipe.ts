@@ -15,6 +15,5 @@ export class CurrencyFormatterPipe implements PipeTransform {
 
     let result = formatter.format(value);
     return result;
-}
-
+  }
 }

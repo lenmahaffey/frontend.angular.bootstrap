@@ -1,7 +1,7 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Message } from '../../message';
 import { MessageType } from '../../message-type.interface';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import * as animations from '@angular/animations';
 import { Constants } from 'src/app/constants';
 
 @Component({
@@ -9,17 +9,17 @@ import { Constants } from 'src/app/constants';
     templateUrl: './alert.component.html',
     styleUrls: ['./alert.component.scss'],
     animations: [
-        trigger('visible', [
-            state('visible', style({
+        animations.trigger('visible', [
+            animations.state('visible', animations.style({
                 transform: 'translateY(-0%)',
                 opacity: 1
             })),
-            state('void, hidden', style({
+            animations.state('void, hidden', animations.style({
                 transform: 'translateY(-20%)',
                 opacity: 0,
             })),
-            transition('* => visible', animate('500ms')),
-            transition('* => void, * => hidden', animate('500ms'))
+            animations.transition('* => visible', animations.animate('500ms')),
+            animations.transition('* => void, * => hidden', animations.animate('500ms'))
         ])
     ],
     standalone: false

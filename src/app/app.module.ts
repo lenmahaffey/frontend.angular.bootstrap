@@ -25,7 +25,7 @@ import { DragDropService } from './services/dragDrop/drag-drop.service';
     RouterModule.forRoot([
       { path: '', component: DemoComponent },
       { path: 'demo', component: DemoComponent },
-      { path: '**', component: PageNotFoundComponent }
+      { path: '**', pathMatch: 'full', component: PageNotFoundComponent }
     ], {bindToComponentInputs: true}),
   ],
   providers: [AlertService, NotificationService, AppStateService, DragDropService],

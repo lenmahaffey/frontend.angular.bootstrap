@@ -1,7 +1,0 @@
-<div class="page flexRow" cdkDropListGroup>
-  <app-list-contacts cdkDropList (contact)="onContactSelected($event.id)"></app-list-contacts>
-  <div class="info flexColumn">
-    <app-view-contact class="details" [contactInputId]="selectedContactId" (updateContact)="onContactUpdated()"></app-view-contact>
-  </div>
-</div>
-

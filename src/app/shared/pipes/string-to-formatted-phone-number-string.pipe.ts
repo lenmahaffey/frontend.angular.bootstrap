@@ -39,5 +39,4 @@ export class StringToFormattedPhoneNumberStringPipe implements PipeTransform {
     }
     return resultChars.join("");
   }
-
 }
